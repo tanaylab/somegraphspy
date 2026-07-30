@@ -1,0 +1,7480 @@
+
+
+
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en" data-content_root="./">
+
+<head>
+  
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+<title>heatmaps &mdash; SomeGraphs 0.2.0 documentation
+</title>
+      
+<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      
+<link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      
+<script src="_static/jquery.js?v=5d32c60e">
+</script>
+      
+<script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c">
+</script>
+      
+<script src="_static/documentation_options.js?v=938c9ccc">
+</script>
+      
+<script src="_static/doctools.js?v=fd6eb6e6">
+</script>
+      
+<script src="_static/sphinx_highlight.js?v=6ffebe34">
+</script>
+    
+<script src="_static/js/theme.js">
+</script>
+    
+<link rel="index" title="Index" href="genindex.html" />
+    
+<link rel="search" title="Search" href="search.html" />
+    
+<link rel="next" title="enums" href="enums.html" />
+    
+<link rel="prev" title="bars" href="bars.html" /> 
+
+</head>
+
+
+<body class="wy-body-for-nav"> 
+  
+<div class="wy-grid-for-nav">
+    
+<nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      
+<div class="wy-side-scroll">
+        
+<div class="wy-side-nav-search" >
+
+          
+          
+          
+<a href="index.html" class="icon icon-home">
+            SomeGraphs
+          
+</a>
+
+<div role="search">
+  
+<form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    
+<input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    
+<input type="hidden" name="check_keywords" value="yes" />
+    
+<input type="hidden" name="area" value="default" />
+  
+</form>
+
+</div>
+        
+</div>
+<div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              
+<ul>
+
+<li class="toctree-l1">
+<a class="reference internal" href="readme.html">README
+</a>
+</li>
+
+</ul>
+
+<ul class="current">
+
+<li class="toctree-l1 current">
+<a class="reference internal" href="API.html">API
+</a>
+<ul class="current">
+
+<li class="toctree-l2">
+<a class="reference internal" href="julia_import.html">julia_import
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html">common
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html">distributions
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html">scatters
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html">bars
+</a>
+</li>
+
+<li class="toctree-l2 current">
+<a class="current reference internal" href="#">heatmaps
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraph
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph.data">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraph.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraph.configuration
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.figure">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.figure
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.x_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.x_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.y_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.y_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.entries_colors">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.entries_colors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_annotations">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_annotations
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_annotations">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_annotations
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_reorder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_reorder
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_reorder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_reorder
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_linkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_linkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_linkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_linkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_metric">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_metric
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_metric">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_metric
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_groups_gap">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_groups_gap
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_groups_gap">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_groups_gap
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_dendogram_size">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_dendogram_size
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_dendogram_size">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_dendogram_size
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_dendogram_line">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_dendogram_line
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_dendogram_line">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_dendogram_line
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.origin">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.origin
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.final_order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.final_order
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.figure_title">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.figure_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.x_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.x_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.y_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.y_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.entries_colors_title">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.entries_colors_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.entries_values">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.entries_values
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_names">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_names
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_names">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_names
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.entries_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.entries_hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_annotations">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_annotations
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_annotations">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_annotations
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_arrange_by">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_arrange_by
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_arrange_by">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_arrange_by
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_groups">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_groups
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_groups">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_groups
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder.rows_order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder.rows_order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder.rows_hclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder.rows_hclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder.columns_order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder.columns_order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder.columns_hclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder.columns_hclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder.reordered_values">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder.reordered_values
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapLinkage.SingleLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.SingleLinkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapLinkage.AverageLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.AverageLinkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapLinkage.CompleteLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.CompleteLinkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapLinkage.WardLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.WardLinkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapLinkage.WardPreSquaredLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.WardPreSquaredLinkage
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapOrigin">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapTopLeft">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin.HeatmapTopLeft
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapTopRight">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin.HeatmapTopRight
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapBottomLeft">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin.HeatmapBottomLeft
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapBottomRight">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin.HeatmapBottomRight
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder.RCompatibleHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.RCompatibleHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder.OptimalHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.OptimalHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder.ReorderHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.ReorderHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SlantedHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedPreSquaredHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SlantedPreSquaredHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedOrder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SlantedOrder
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedPreSquaredOrder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SlantedPreSquaredOrder
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder.SameOrder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SameOrder
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.heatmaps.Order">
+<code class="docutils literal notranslate">
+<span class="pre">Order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.heatmaps.heatmap_graph">
+<code class="docutils literal notranslate">
+<span class="pre">heatmap_graph()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html">enums
+</a>
+</li>
+
+</ul>
+
+</li>
+
+</ul>
+
+        
+</div>
+      
+</div>
+    
+</nav>
+
+    
+<section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+<nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          
+<i data-toggle="wy-nav-top" class="fa fa-bars">
+</i>
+          
+<a href="index.html">SomeGraphs
+</a>
+      
+</nav>
+
+      
+<div class="wy-nav-content">
+        
+<div class="rst-content">
+          
+<div role="navigation" aria-label="Page navigation">
+  
+<ul class="wy-breadcrumbs">
+      
+<li>
+<a href="index.html" class="icon icon-home" aria-label="Home">
+</a>
+</li>
+          
+<li class="breadcrumb-item">
+<a href="API.html">API
+</a>
+</li>
+      
+<li class="breadcrumb-item active">heatmaps
+</li>
+      
+<li class="wy-breadcrumbs-aside">
+            
+<a href="_sources/heatmaps.rst.txt" rel="nofollow"> View page source
+</a>
+      
+</li>
+  
+</ul>
+  
+<hr/>
+
+</div>
+          
+<div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           
+<div itemprop="articleBody">
+             
+  
+<section id="module-somegraphspy.heatmaps">
+
+<span id="heatmaps">
+</span>
+<h1>heatmaps
+<a class="headerlink" href="#module-somegraphspy.heatmaps" title="Link to this heading">¶
+</a>
+</h1>
+
+<p>Graphs showing a matrix of values as a heatmap. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html">documentation
+</a> for details.
+</p>
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraph">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.heatmaps.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">HeatmapGraph
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">data
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData" title="somegraphspy.heatmaps.HeatmapGraphData">
+<span class="pre">HeatmapGraphData
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">configuration
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration" title="somegraphspy.heatmaps.HeatmapGraphConfiguration">
+<span class="pre">HeatmapGraphConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/heatmaps.html#HeatmapGraph">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A graph visualizing a matrix of values as a heatmap. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraph">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraph.data">
+
+<span class="sig-name descname">
+<span class="pre">data
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData" title="somegraphspy.heatmaps.HeatmapGraphData">
+<span class="pre">HeatmapGraphData
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph.data" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>What to display.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraph.configuration">
+
+<span class="sig-name descname">
+<span class="pre">configuration
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration" title="somegraphspy.heatmaps.HeatmapGraphConfiguration">
+<span class="pre">HeatmapGraphConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph.configuration" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to display it.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.heatmaps.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">HeatmapGraphConfiguration
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">figure
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration" title="somegraphspy.common.FigureConfiguration">
+<span class="pre">FigureConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">x_axis_title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">y_axis_title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">entries_colors
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
+<span class="pre">ColorsConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_annotations
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationSize" title="somegraphspy.common.AnnotationSize">
+<span class="pre">AnnotationSize
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_annotations
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationSize" title="somegraphspy.common.AnnotationSize">
+<span class="pre">AnnotationSize
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_reorder
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder" title="somegraphspy.heatmaps.HeatmapReorder">
+<span class="pre">HeatmapReorder
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_reorder
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder" title="somegraphspy.heatmaps.HeatmapReorder">
+<span class="pre">HeatmapReorder
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_linkage
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapLinkage" title="somegraphspy.heatmaps.HeatmapLinkage">
+<span class="pre">HeatmapLinkage
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_linkage
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapLinkage" title="somegraphspy.heatmaps.HeatmapLinkage">
+<span class="pre">HeatmapLinkage
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_metric
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_metric
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_groups_gap
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_groups_gap
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_dendogram_size
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_dendogram_size
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_dendogram_line
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration" title="somegraphspy.common.LineConfiguration">
+<span class="pre">LineConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_dendogram_line
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration" title="somegraphspy.common.LineConfiguration">
+<span class="pre">LineConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">origin
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapOrigin" title="somegraphspy.heatmaps.HeatmapOrigin">
+<span class="pre">HeatmapOrigin
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">final_order
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder" title="somegraphspy.heatmaps.HeatmapGraphOrder">
+<span class="pre">HeatmapGraphOrder
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/heatmaps.html#HeatmapGraphConfiguration">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Configure a graph showing a matrix of values as a heatmap. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphConfiguration">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.figure">
+
+<span class="sig-name descname">
+<span class="pre">figure
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration" title="somegraphspy.common.FigureConfiguration">
+<span class="pre">FigureConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.figure" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to size the overall figure.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.x_axis_title">
+
+<span class="sig-name descname">
+<span class="pre">x_axis_title
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.x_axis_title" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The title of the horizontal axis.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.y_axis_title">
+
+<span class="sig-name descname">
+<span class="pre">y_axis_title
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.y_axis_title" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The title of the vertical axis.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.entries_colors">
+
+<span class="sig-name descname">
+<span class="pre">entries_colors
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
+<span class="pre">ColorsConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.entries_colors" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to color the entries.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_annotations">
+
+<span class="sig-name descname">
+<span class="pre">rows_annotations
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationSize" title="somegraphspy.common.AnnotationSize">
+<span class="pre">AnnotationSize
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_annotations" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The size of the annotations shown next to the rows.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_annotations">
+
+<span class="sig-name descname">
+<span class="pre">columns_annotations
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationSize" title="somegraphspy.common.AnnotationSize">
+<span class="pre">AnnotationSize
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_annotations" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The size of the annotations shown next to the columns.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_reorder">
+
+<span class="sig-name descname">
+<span class="pre">rows_reorder
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder" title="somegraphspy.heatmaps.HeatmapReorder">
+<span class="pre">HeatmapReorder
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_reorder" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to reorder the rows.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_reorder">
+
+<span class="sig-name descname">
+<span class="pre">columns_reorder
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapReorder" title="somegraphspy.heatmaps.HeatmapReorder">
+<span class="pre">HeatmapReorder
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_reorder" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to reorder the columns.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_linkage">
+
+<span class="sig-name descname">
+<span class="pre">rows_linkage
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapLinkage" title="somegraphspy.heatmaps.HeatmapLinkage">
+<span class="pre">HeatmapLinkage
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_linkage" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The linkage used when clustering the rows.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_linkage">
+
+<span class="sig-name descname">
+<span class="pre">columns_linkage
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapLinkage" title="somegraphspy.heatmaps.HeatmapLinkage">
+<span class="pre">HeatmapLinkage
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_linkage" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The linkage used when clustering the columns.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_metric">
+
+<span class="sig-name descname">
+<span class="pre">rows_metric
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_metric" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The distance metric used when clustering the rows, a Julia 
+<code class="docutils literal notranslate">
+<span class="pre">Distances.PreMetric
+</span>
+</code>.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_metric">
+
+<span class="sig-name descname">
+<span class="pre">columns_metric
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_metric" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The distance metric used when clustering the columns, a Julia 
+<code class="docutils literal notranslate">
+<span class="pre">Distances.PreMetric
+</span>
+</code>.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_groups_gap">
+
+<span class="sig-name descname">
+<span class="pre">rows_groups_gap
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_groups_gap" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The gap between groups of rows, in entries.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_groups_gap">
+
+<span class="sig-name descname">
+<span class="pre">columns_groups_gap
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_groups_gap" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The gap between groups of columns, in entries.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_dendogram_size">
+
+<span class="sig-name descname">
+<span class="pre">rows_dendogram_size
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_dendogram_size" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The size of the rows dendogram, as a fraction of the graph size.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_dendogram_size">
+
+<span class="sig-name descname">
+<span class="pre">columns_dendogram_size
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_dendogram_size" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The size of the columns dendogram, as a fraction of the graph size.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_dendogram_line">
+
+<span class="sig-name descname">
+<span class="pre">rows_dendogram_line
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration" title="somegraphspy.common.LineConfiguration">
+<span class="pre">LineConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_dendogram_line" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to draw the rows dendogram.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_dendogram_line">
+
+<span class="sig-name descname">
+<span class="pre">columns_dendogram_line
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration" title="somegraphspy.common.LineConfiguration">
+<span class="pre">LineConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_dendogram_line" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to draw the columns dendogram.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.origin">
+
+<span class="sig-name descname">
+<span class="pre">origin
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapOrigin" title="somegraphspy.heatmaps.HeatmapOrigin">
+<span class="pre">HeatmapOrigin
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.origin" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Where the first entry of the matrix is shown.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.final_order">
+
+<span class="sig-name descname">
+<span class="pre">final_order
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder" title="somegraphspy.heatmaps.HeatmapGraphOrder">
+<span class="pre">HeatmapGraphOrder
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.final_order" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Filled in with the final order whenever the figure is generated.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.heatmaps.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">HeatmapGraphData
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">figure_title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">x_axis_title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">y_axis_title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">entries_colors_title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">entries_values
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_names
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_names
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">entries_hovers
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_hovers
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_hovers
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_annotations
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData" title="somegraphspy.common.AnnotationData">
+<span class="pre">AnnotationData
+</span>
+</a>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_annotations
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData" title="somegraphspy.common.AnnotationData">
+<span class="pre">AnnotationData
+</span>
+</a>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_arrange_by
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_arrange_by
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_order
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_order
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_groups
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_groups
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/heatmaps.html#HeatmapGraphData">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The data of a graph showing a matrix of values as a heatmap. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphData">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.figure_title">
+
+<span class="sig-name descname">
+<span class="pre">figure_title
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.figure_title" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The title of the figure.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.x_axis_title">
+
+<span class="sig-name descname">
+<span class="pre">x_axis_title
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.x_axis_title" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The title of the horizontal axis.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.y_axis_title">
+
+<span class="sig-name descname">
+<span class="pre">y_axis_title
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.y_axis_title" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The title of the vertical axis.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.entries_colors_title">
+
+<span class="sig-name descname">
+<span class="pre">entries_colors_title
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.entries_colors_title" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The title of the entries colors legend.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.entries_values">
+
+<span class="sig-name descname">
+<span class="pre">entries_values
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.entries_values" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The value of each entry, a row per row and a column per column.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.rows_names">
+
+<span class="sig-name descname">
+<span class="pre">rows_names
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_names" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The name of each row.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.columns_names">
+
+<span class="sig-name descname">
+<span class="pre">columns_names
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_names" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The name of each column.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.entries_hovers">
+
+<span class="sig-name descname">
+<span class="pre">entries_hovers
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.entries_hovers" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The hover text of each entry.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.rows_hovers">
+
+<span class="sig-name descname">
+<span class="pre">rows_hovers
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_hovers" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The hover text of each row.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.columns_hovers">
+
+<span class="sig-name descname">
+<span class="pre">columns_hovers
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_hovers" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The hover text of each column.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.rows_annotations">
+
+<span class="sig-name descname">
+<span class="pre">rows_annotations
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData" title="somegraphspy.common.AnnotationData">
+<span class="pre">AnnotationData
+</span>
+</a>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_annotations" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Annotations shown next to the rows.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.columns_annotations">
+
+<span class="sig-name descname">
+<span class="pre">columns_annotations
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData" title="somegraphspy.common.AnnotationData">
+<span class="pre">AnnotationData
+</span>
+</a>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_annotations" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Annotations shown next to the columns.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.rows_arrange_by">
+
+<span class="sig-name descname">
+<span class="pre">rows_arrange_by
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_arrange_by" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The features to cluster the rows by, instead of the entries values.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.columns_arrange_by">
+
+<span class="sig-name descname">
+<span class="pre">columns_arrange_by
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_arrange_by" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The features to cluster the columns by, instead of the entries values.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.rows_order">
+
+<span class="sig-name descname">
+<span class="pre">rows_order
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_order" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Force this order of the rows.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.columns_order">
+
+<span class="sig-name descname">
+<span class="pre">columns_order
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_order" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Force this order of the columns.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.rows_groups">
+
+<span class="sig-name descname">
+<span class="pre">rows_groups
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_groups" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The group of each row.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.columns_groups">
+
+<span class="sig-name descname">
+<span class="pre">columns_groups
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_groups" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The group of each column.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphOrder">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.heatmaps.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">HeatmapGraphOrder
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/heatmaps.html#HeatmapGraphOrder">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The final order, clustering and reordered data of a heatmap graph, filled in whenever the figure is generated. See
+the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphOrder">documentation
+</a>
+for details.
+</p>
+
+<p>The 
+<code class="docutils literal notranslate">
+<span class="pre">rows_hclust
+</span>
+</code> and 
+<code class="docutils literal notranslate">
+<span class="pre">columns_hclust
+</span>
+</code> are Julia 
+<code class="docutils literal notranslate">
+<span class="pre">Hclust
+</span>
+</code> objects. There is no Python model for these, but
+they can be fed back into the 
+<code class="docutils literal notranslate">
+<span class="pre">rows_order
+</span>
+</code> and 
+<code class="docutils literal notranslate">
+<span class="pre">columns_order
+</span>
+</code> of a 
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData" title="somegraphspy.heatmaps.HeatmapGraphData">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">HeatmapGraphData
+</span>
+</code>
+</a> to reuse the
+same clustering.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphOrder.rows_order">
+
+<span class="sig-name descname">
+<span class="pre">rows_order
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.rows_order" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The final (1-based) order of the rows.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphOrder.rows_hclust">
+
+<span class="sig-name descname">
+<span class="pre">rows_hclust
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.rows_hclust" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The clustering of the rows, if one was computed.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphOrder.columns_order">
+
+<span class="sig-name descname">
+<span class="pre">columns_order
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.columns_order" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The final (1-based) order of the columns.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphOrder.columns_hclust">
+
+<span class="sig-name descname">
+<span class="pre">columns_hclust
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.columns_hclust" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The clustering of the columns, if one was computed.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphOrder.reordered_values">
+
+<span class="sig-name descname">
+<span class="pre">reordered_values
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.reordered_values" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The values, reordered.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapLinkage">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.heatmaps.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">HeatmapLinkage
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">value
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/heatmaps.html#HeatmapLinkage">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The linkage used when clustering the rows or columns of a heatmap. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapLinkage">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapLinkage.SingleLinkage">
+
+<span class="sig-name descname">
+<span class="pre">SingleLinkage
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'SingleLinkage'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.SingleLinkage" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Use the minimal distance between the clusters.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapLinkage.AverageLinkage">
+
+<span class="sig-name descname">
+<span class="pre">AverageLinkage
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'AverageLinkage'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.AverageLinkage" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Use the average distance between the clusters.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapLinkage.CompleteLinkage">
+
+<span class="sig-name descname">
+<span class="pre">CompleteLinkage
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'CompleteLinkage'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.CompleteLinkage" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Use the maximal distance between the clusters.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapLinkage.WardLinkage">
+
+<span class="sig-name descname">
+<span class="pre">WardLinkage
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'WardLinkage'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.WardLinkage" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Use Ward’s minimal variance.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapLinkage.WardPreSquaredLinkage">
+
+<span class="sig-name descname">
+<span class="pre">WardPreSquaredLinkage
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'WardPreSquaredLinkage'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.WardPreSquaredLinkage" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Use Ward’s minimal variance on the pre-squared data.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapOrigin">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.heatmaps.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">HeatmapOrigin
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">value
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/heatmaps.html#HeatmapOrigin">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Where the first entry of the heatmap matrix is shown. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapOrigin">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapOrigin.HeatmapTopLeft">
+
+<span class="sig-name descname">
+<span class="pre">HeatmapTopLeft
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'HeatmapTopLeft'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapTopLeft" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Show the first entry at the top left.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapOrigin.HeatmapTopRight">
+
+<span class="sig-name descname">
+<span class="pre">HeatmapTopRight
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'HeatmapTopRight'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapTopRight" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Show the first entry at the top right.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapOrigin.HeatmapBottomLeft">
+
+<span class="sig-name descname">
+<span class="pre">HeatmapBottomLeft
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'HeatmapBottomLeft'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapBottomLeft" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Show the first entry at the bottom left.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapOrigin.HeatmapBottomRight">
+
+<span class="sig-name descname">
+<span class="pre">HeatmapBottomRight
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'HeatmapBottomRight'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapBottomRight" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Show the first entry at the bottom right.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapReorder">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.heatmaps.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">HeatmapReorder
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">value
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/heatmaps.html#HeatmapReorder">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to reorder the rows or columns of a heatmap. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapReorder">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapReorder.RCompatibleHclust">
+
+<span class="sig-name descname">
+<span class="pre">RCompatibleHclust
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'RCompatibleHclust'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.RCompatibleHclust" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Cluster the data the same way R does.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapReorder.OptimalHclust">
+
+<span class="sig-name descname">
+<span class="pre">OptimalHclust
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'OptimalHclust'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.OptimalHclust" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Cluster the data using an optimal ordering of the tree.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapReorder.ReorderHclust">
+
+<span class="sig-name descname">
+<span class="pre">ReorderHclust
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'ReorderHclust'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.ReorderHclust" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Cluster the data and reorder the tree.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapReorder.SlantedHclust">
+
+<span class="sig-name descname">
+<span class="pre">SlantedHclust
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'SlantedHclust'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedHclust" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Cluster the data and slant the tree.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapReorder.SlantedPreSquaredHclust">
+
+<span class="sig-name descname">
+<span class="pre">SlantedPreSquaredHclust
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'SlantedPreSquaredHclust'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedPreSquaredHclust" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Cluster the pre-squared data and slant the tree.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapReorder.SlantedOrder">
+
+<span class="sig-name descname">
+<span class="pre">SlantedOrder
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'SlantedOrder'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedOrder" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Slant the data without computing a clustering tree.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapReorder.SlantedPreSquaredOrder">
+
+<span class="sig-name descname">
+<span class="pre">SlantedPreSquaredOrder
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'SlantedPreSquaredOrder'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedPreSquaredOrder" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Slant the pre-squared data without computing a clustering tree.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapReorder.SameOrder">
+
+<span class="sig-name descname">
+<span class="pre">SameOrder
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'SameOrder'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SameOrder" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Use the same order as the other dimension.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py data">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.Order">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.heatmaps.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">Order
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.Order" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>An explicit order of the rows or columns. This is either a vector of (1-based) indices, or an opaque 
+<code class="docutils literal notranslate">
+<span class="pre">Hclust
+</span>
+</code>
+clustering taken from the 
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder" title="somegraphspy.heatmaps.HeatmapGraphOrder">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder
+</span>
+</code>
+</a> of a previously generated graph.
+</p>
+
+<p>alias of 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">ndarray
+</span>
+</code> | 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">Sequence
+</span>
+</code>[
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">int
+</span>
+</code>] | 
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">Any
+</span>
+</code>
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py function">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.heatmap_graph">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.heatmaps.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">heatmap_graph
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">figure_title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">x_axis_title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">y_axis_title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">entries_colors_title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">entries_values
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_names
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_names
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">entries_hovers
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_hovers
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_hovers
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_annotations
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData" title="somegraphspy.common.AnnotationData">
+<span class="pre">AnnotationData
+</span>
+</a>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_annotations
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData" title="somegraphspy.common.AnnotationData">
+<span class="pre">AnnotationData
+</span>
+</a>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_arrange_by
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_arrange_by
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_order
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_order
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_groups
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_groups
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">configuration
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration" title="somegraphspy.heatmaps.HeatmapGraphConfiguration">
+<span class="pre">HeatmapGraphConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph" title="somegraphspy.heatmaps.HeatmapGraph">
+<span class="pre">HeatmapGraph
+</span>
+</a>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/heatmaps.html#heatmap_graph">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.heatmaps.heatmap_graph" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Create a 
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph" title="somegraphspy.heatmaps.HeatmapGraph">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">HeatmapGraph
+</span>
+</code>
+</a> by specifying only the 
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData" title="somegraphspy.heatmaps.HeatmapGraphData">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">HeatmapGraphData
+</span>
+</code>
+</a> fields (with an optional
+
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration" title="somegraphspy.heatmaps.HeatmapGraphConfiguration">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration
+</span>
+</code>
+</a>). See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.heatmap_graph">documentation
+</a>
+for details.
+</p>
+
+</dd>
+</dl>
+
+
+</section>
+
+
+           
+</div>
+          
+</div>
+          
+<footer>
+<div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        
+<a href="bars.html" class="btn btn-neutral float-left" title="bars" accesskey="p" rel="prev">
+<span class="fa fa-arrow-circle-left" aria-hidden="true">
+</span> Previous
+</a>
+        
+<a href="enums.html" class="btn btn-neutral float-right" title="enums" accesskey="n" rel="next">Next 
+<span class="fa fa-arrow-circle-right" aria-hidden="true">
+</span>
+</a>
+    
+</div>
+
+  
+<hr/>
+
+  
+<div role="contentinfo">
+    
+<p>&#169; Copyright 2025 Weizmann Institute of Science.
+</p>
+  
+</div>
+
+  Built with 
+<a href="https://www.sphinx-doc.org/">Sphinx
+</a> using a
+    
+<a href="https://github.com/readthedocs/sphinx_rtd_theme">theme
+</a>
+    provided by 
+<a href="https://readthedocs.org">Read the Docs
+</a>.
+   
+
+
+</footer>
+        
+</div>
+      
+</div>
+    
+</section>
+  
+</div>
+  
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  
+</script> 
+
+
+</body>
+
+</html>

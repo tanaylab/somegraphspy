@@ -1,0 +1,5 @@
+{
+    "packages": {
+        "SomeGraphs": { "uuid": "eb091223-14cb-4747-ac22-0b59a9f2afeb", "url": "https://github.com:/tanaylab/SomeGraphs.jl.git" }
+    }
+}

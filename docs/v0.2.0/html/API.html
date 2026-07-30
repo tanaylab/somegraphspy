@@ -1,0 +1,4615 @@
+
+
+
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en" data-content_root="./">
+
+<head>
+  
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+<title>API &mdash; SomeGraphs 0.2.0 documentation
+</title>
+      
+<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      
+<link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      
+<script src="_static/jquery.js?v=5d32c60e">
+</script>
+      
+<script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c">
+</script>
+      
+<script src="_static/documentation_options.js?v=938c9ccc">
+</script>
+      
+<script src="_static/doctools.js?v=fd6eb6e6">
+</script>
+      
+<script src="_static/sphinx_highlight.js?v=6ffebe34">
+</script>
+    
+<script src="_static/js/theme.js">
+</script>
+    
+<link rel="index" title="Index" href="genindex.html" />
+    
+<link rel="search" title="Search" href="search.html" />
+    
+<link rel="next" title="julia_import" href="julia_import.html" />
+    
+<link rel="prev" title="somegraphspy 0.2.0 - Generate graphs (using Plotly)" href="readme.html" /> 
+
+</head>
+
+
+<body class="wy-body-for-nav"> 
+  
+<div class="wy-grid-for-nav">
+    
+<nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      
+<div class="wy-side-scroll">
+        
+<div class="wy-side-nav-search" >
+
+          
+          
+          
+<a href="index.html" class="icon icon-home">
+            SomeGraphs
+          
+</a>
+
+<div role="search">
+  
+<form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    
+<input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    
+<input type="hidden" name="check_keywords" value="yes" />
+    
+<input type="hidden" name="area" value="default" />
+  
+</form>
+
+</div>
+        
+</div>
+<div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              
+<ul>
+
+<li class="toctree-l1">
+<a class="reference internal" href="readme.html">README
+</a>
+</li>
+
+</ul>
+
+<ul class="current">
+
+<li class="toctree-l1 current">
+<a class="current reference internal" href="#">API
+</a>
+<ul>
+
+<li class="toctree-l2">
+<a class="reference internal" href="julia_import.html">julia_import
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html">common
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html">distributions
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html">scatters
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html">bars
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html">heatmaps
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html">enums
+</a>
+</li>
+
+</ul>
+
+</li>
+
+</ul>
+
+        
+</div>
+      
+</div>
+    
+</nav>
+
+    
+<section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+<nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          
+<i data-toggle="wy-nav-top" class="fa fa-bars">
+</i>
+          
+<a href="index.html">SomeGraphs
+</a>
+      
+</nav>
+
+      
+<div class="wy-nav-content">
+        
+<div class="rst-content">
+          
+<div role="navigation" aria-label="Page navigation">
+  
+<ul class="wy-breadcrumbs">
+      
+<li>
+<a href="index.html" class="icon icon-home" aria-label="Home">
+</a>
+</li>
+      
+<li class="breadcrumb-item active">API
+</li>
+      
+<li class="wy-breadcrumbs-aside">
+            
+<a href="_sources/API.rst.txt" rel="nofollow"> View page source
+</a>
+      
+</li>
+  
+</ul>
+  
+<hr/>
+
+</div>
+          
+<div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           
+<div itemprop="articleBody">
+             
+  
+<section id="module-somegraphspy">
+
+<span id="api">
+</span>
+<h1>API
+<a class="headerlink" href="#module-somegraphspy" title="Link to this heading">¶
+</a>
+</h1>
+
+<p>Generate graphs (using Plotly).
+</p>
+
+<p>This is a thin wrapper for the 
+<code class="docutils literal notranslate">
+<span class="pre">SomeGraphs.jl
+</span>
+</code> Julia package, with the following adaptations:
+</p>
+
+<ul class="simple">
+
+<li>
+<p>Each Julia data or configuration structure is wrapped by a Python class of the same name, whose fields are the same
+as the Julia fields. Since the fields are declared (with their types), auto-completion in Jupyter notebook (or any
+IDE) will guide you through the nested structures, which is the point of the strongly typed API.
+</p>
+</li>
+
+<li>
+<p>The Python classes hold no data of their own; they delegate to the Julia object. Reading a field returns the current
+Julia value and writing a field writes through to Julia, which validates it immediately. In particular, nested
+objects are shared rather than copied, exactly as they are in Julia; use 
+<code class="docutils literal notranslate">
+<span class="pre">copy
+</span>
+</code> if you need an independent one.
+</p>
+</li>
+
+<li>
+<p>Constructor parameters default to 
+<code class="docutils literal notranslate">
+<span class="pre">DEFAULT
+</span>
+</code> rather than to 
+<code class="docutils literal notranslate">
+<span class="pre">None
+</span>
+</code>, so that 
+<code class="docutils literal notranslate">
+<span class="pre">None
+</span>
+</code> can be passed to explicitly
+mean Julia’s 
+<code class="docutils literal notranslate">
+<span class="pre">nothing
+</span>
+</code>. This matters because some fields have a default which isn’t 
+<code class="docutils literal notranslate">
+<span class="pre">nothing
+</span>
+</code> (e.g., the
+
+<code class="docutils literal notranslate">
+<span class="pre">rows_groups_gap
+</span>
+</code> of 
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration
+</span>
+</code> is 
+<code class="docutils literal notranslate">
+<span class="pre">1
+</span>
+</code>), so 
+<code class="docutils literal notranslate">
+<span class="pre">rows_groups_gap
+</span> 
+<span class="pre">=
+</span> 
+<span class="pre">None
+</span>
+</code> is the only way to ask
+for no gap at all.
+</p>
+</li>
+
+<li>
+<p>In Julia, the API is defined as a set of functions which take the graph as the 1st parameter. In Python, these are
+member functions of the graph classes (e.g., Julia’s 
+<code class="docutils literal notranslate">
+<span class="pre">save_graph(graph,
+</span> 
+<span class="pre">&quot;foo.png&quot;)
+</span>
+</code> becomes Python’s
+
+<code class="docutils literal notranslate">
+<span class="pre">graph.save(&quot;foo.png&quot;)
+</span>
+</code>). Python doesn’t support the 
+<code class="docutils literal notranslate">
+<span class="pre">!
+</span>
+</code> trailing character in function names (to indicate
+modifying the object), so Julia’s 
+<code class="docutils literal notranslate">
+<span class="pre">flip_axes!(graph)
+</span>
+</code> becomes Python’s 
+<code class="docutils literal notranslate">
+<span class="pre">graph.flip_axes_in_place()
+</span>
+</code>.
+</p>
+</li>
+
+<li>
+<p>Matrices are passed as 
+<code class="docutils literal notranslate">
+<span class="pre">numpy
+</span>
+</code> arrays, and need no transposing: 
+<code class="docutils literal notranslate">
+<span class="pre">matrix[row,
+</span> 
+<span class="pre">column]
+</span>
+</code> in Python is the same entry
+as 
+<code class="docutils literal notranslate">
+<span class="pre">matrix[row,
+</span> 
+<span class="pre">column]
+</span>
+</code> in Julia, whatever the memory layout of the array is. The layout only affects efficiency,
+never the results.
+</p>
+</li>
+
+<li>
+<p>Accessing 
+<code class="docutils literal notranslate">
+<span class="pre">graph.figure
+</span>
+</code> returns a 
+<code class="docutils literal notranslate">
+<span class="pre">plotly.graph_objects.Figure
+</span>
+</code>, which Jupyter notebook knows how to display.
+Simply evaluating the graph in a cell will display it. Outside a notebook, call 
+<code class="docutils literal notranslate">
+<span class="pre">graph.show()
+</span>
+</code> to open the graph in
+a browser, or 
+<code class="docutils literal notranslate">
+<span class="pre">graph.save(path)
+</span>
+</code> to write it to a file.
+</p>
+</li>
+
+</ul>
+
+<p>Otherwise, the API works “just the same” :-) The documentation therefore mostly just links to the relevant entry in the
+Julia 
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/index.html">documentation
+</a>.
+</p>
+
+<div class="toctree-wrapper compound">
+
+<ul>
+
+<li class="toctree-l1">
+<a class="reference internal" href="julia_import.html">julia_import
+</a>
+<ul>
+
+<li class="toctree-l2">
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.jl">
+<code class="docutils literal notranslate">
+<span class="pre">jl
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.jl_version">
+<code class="docutils literal notranslate">
+<span class="pre">jl_version
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue">
+<code class="docutils literal notranslate">
+<span class="pre">DefaultValue
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DEFAULT">
+<code class="docutils literal notranslate">
+<span class="pre">DEFAULT
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.JlEnum">
+<code class="docutils literal notranslate">
+<span class="pre">JlEnum
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.JlObject">
+<code class="docutils literal notranslate">
+<span class="pre">JlObject
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.JlObject.copy">
+<code class="docutils literal notranslate">
+<span class="pre">JlObject.copy()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.JlObject.wrap_jl_object">
+<code class="docutils literal notranslate">
+<span class="pre">JlObject.wrap_jl_object()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.use_default_julia_environment">
+<code class="docutils literal notranslate">
+<span class="pre">use_default_julia_environment()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l1">
+<a class="reference internal" href="common.html">common
+</a>
+<ul>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.AbstractGraphConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">AbstractGraphConfiguration
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.AbstractGraphData">
+<code class="docutils literal notranslate">
+<span class="pre">AbstractGraphData
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData.title">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationData.title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData.values">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationData.values
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData.hovers">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationData.hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData.colors">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationData.colors
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationSize">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationSize
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationSize.size">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationSize.size
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationSize.gap">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationSize.gap
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.AutomaticColors">
+<code class="docutils literal notranslate">
+<span class="pre">AutomaticColors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.minimum">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.minimum
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.maximum">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.maximum
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.expand_fraction">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.expand_fraction
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.log_scale">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.log_scale
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.log_regularization">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.log_regularization
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.percent">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.percent
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.show_ticks">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.show_ticks
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.ticks_angle">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.ticks_angle
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.show_grid">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.show_grid
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.grid_color">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.grid_color
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.title">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.title
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.BandConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">BandConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.BandConfiguration.offset">
+<code class="docutils literal notranslate">
+<span class="pre">BandConfiguration.offset
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.BandConfiguration.line">
+<code class="docutils literal notranslate">
+<span class="pre">BandConfiguration.line
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">BandsConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration.low">
+<code class="docutils literal notranslate">
+<span class="pre">BandsConfiguration.low
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration.middle">
+<code class="docutils literal notranslate">
+<span class="pre">BandsConfiguration.middle
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration.high">
+<code class="docutils literal notranslate">
+<span class="pre">BandsConfiguration.high
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData">
+<code class="docutils literal notranslate">
+<span class="pre">BandsData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData.low_offset">
+<code class="docutils literal notranslate">
+<span class="pre">BandsData.low_offset
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData.middle_offset">
+<code class="docutils literal notranslate">
+<span class="pre">BandsData.middle_offset
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData.high_offset">
+<code class="docutils literal notranslate">
+<span class="pre">BandsData.high_offset
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.BoolsVector">
+<code class="docutils literal notranslate">
+<span class="pre">BoolsVector
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.CategoricalColors">
+<code class="docutils literal notranslate">
+<span class="pre">CategoricalColors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration.palette">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfiguration.palette
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration.fixed">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfiguration.fixed
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration.axis">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfiguration.axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration.show_legend">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfiguration.show_legend
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration.title">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfiguration.title
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.ContinuousColors">
+<code class="docutils literal notranslate">
+<span class="pre">ContinuousColors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration.margins">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.margins
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration.width">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.width
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration.height">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.height
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration.template">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.template
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration.background_color">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.background_color
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration.paper_color">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.paper_color
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration.colors_scale_offsets">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.colors_scale_offsets
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.Graph">
+<code class="docutils literal notranslate">
+<span class="pre">Graph
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Graph.data">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Graph.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.configuration
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Graph.json">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.json
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Graph.figure">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.figure
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Graph.show">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.show()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Graph.save">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.save()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Graph.flip_axes">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.flip_axes()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Graph.flip_axes_in_place">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.flip_axes_in_place()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Graph.validate">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.validate()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.IntegersVector">
+<code class="docutils literal notranslate">
+<span class="pre">IntegersVector
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">LineConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration.width">
+<code class="docutils literal notranslate">
+<span class="pre">LineConfiguration.width
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration.style">
+<code class="docutils literal notranslate">
+<span class="pre">LineConfiguration.style
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration.is_filled">
+<code class="docutils literal notranslate">
+<span class="pre">LineConfiguration.is_filled
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration.color">
+<code class="docutils literal notranslate">
+<span class="pre">LineConfiguration.color
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.LineStyle">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.LineStyle.SolidLine">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle.SolidLine
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.LineStyle.DashLine">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle.DashLine
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.LineStyle.DotLine">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle.DotLine
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.LineStyle.DashDotLine">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle.DashDotLine
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.LogScale">
+<code class="docutils literal notranslate">
+<span class="pre">LogScale
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.LogScale.Log10Scale">
+<code class="docutils literal notranslate">
+<span class="pre">LogScale.Log10Scale
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.LogScale.Log2Scale">
+<code class="docutils literal notranslate">
+<span class="pre">LogScale.Log2Scale
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.MarginsConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">MarginsConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.MarginsConfiguration.left">
+<code class="docutils literal notranslate">
+<span class="pre">MarginsConfiguration.left
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.MarginsConfiguration.bottom">
+<code class="docutils literal notranslate">
+<span class="pre">MarginsConfiguration.bottom
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.MarginsConfiguration.right">
+<code class="docutils literal notranslate">
+<span class="pre">MarginsConfiguration.right
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.MarginsConfiguration.top">
+<code class="docutils literal notranslate">
+<span class="pre">MarginsConfiguration.top
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.NAMED_COLOR_SCALES">
+<code class="docutils literal notranslate">
+<span class="pre">NAMED_COLOR_SCALES
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.NumbersMatrix">
+<code class="docutils literal notranslate">
+<span class="pre">NumbersMatrix
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.NumbersVector">
+<code class="docutils literal notranslate">
+<span class="pre">NumbersVector
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.Palette">
+<code class="docutils literal notranslate">
+<span class="pre">Palette
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration.fixed">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.fixed
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration.minimum">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.minimum
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration.maximum">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.maximum
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration.log_scale">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.log_scale
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration.log_regularization">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.log_regularization
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration.smallest">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.smallest
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration.span">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.span
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.Stacking">
+<code class="docutils literal notranslate">
+<span class="pre">Stacking
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Stacking.StackValues">
+<code class="docutils literal notranslate">
+<span class="pre">Stacking.StackValues
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Stacking.StackFractions">
+<code class="docutils literal notranslate">
+<span class="pre">Stacking.StackFractions
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.StringsMatrix">
+<code class="docutils literal notranslate">
+<span class="pre">StringsMatrix
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.StringsVector">
+<code class="docutils literal notranslate">
+<span class="pre">StringsVector
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.Validated">
+<code class="docutils literal notranslate">
+<span class="pre">Validated
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Validated.validate">
+<code class="docutils literal notranslate">
+<span class="pre">Validated.validate()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.ValuesOrientation">
+<code class="docutils literal notranslate">
+<span class="pre">ValuesOrientation
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ValuesOrientation.HorizontalValues">
+<code class="docutils literal notranslate">
+<span class="pre">ValuesOrientation.HorizontalValues
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ValuesOrientation.VerticalValues">
+<code class="docutils literal notranslate">
+<span class="pre">ValuesOrientation.VerticalValues
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.categorical_palette">
+<code class="docutils literal notranslate">
+<span class="pre">categorical_palette()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l1">
+<a class="reference internal" href="distributions.html">distributions
+</a>
+<ul>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionConfiguration.values_orientation">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionConfiguration.values_orientation
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionConfiguration.style">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionConfiguration.style
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionConfiguration.line">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionConfiguration.line
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionConfiguration.normalize">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionConfiguration.normalize
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionConfiguration.cumulative_descending">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionConfiguration.cumulative_descending
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraph">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraph
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraph.data">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraph.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraph.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraph.configuration
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphConfiguration.figure">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphConfiguration.figure
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphConfiguration.distribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphConfiguration.distribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphConfiguration.value_axis">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphConfiguration.value_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphConfiguration.value_bands">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphConfiguration.value_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphConfiguration.density_axis">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphConfiguration.density_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphConfiguration.cumulative_bands">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphConfiguration.cumulative_bands
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphData">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphData.figure_title">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphData.figure_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphData.value_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphData.value_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphData.distribution_values">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphData.distribution_values
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphData.distribution_name">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphData.distribution_name
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphData.distribution_color">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphData.distribution_color
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphData.value_bands">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphData.value_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraphData.cumulative_bands">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraphData.cumulative_bands
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionStyle">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionStyle.CurveDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.CurveDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionStyle.ViolinDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.ViolinDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionStyle.BoxDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.BoxDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionStyle.BoxOutliersDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.BoxOutliersDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionStyle.CurveBoxDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.CurveBoxDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionStyle.ViolinBoxDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.ViolinBoxDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionStyle.HistogramDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.HistogramDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionStyle.CumulativeDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.CumulativeDistribution
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraph">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraph
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraph.data">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraph.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraph.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraph.configuration
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphConfiguration.figure">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphConfiguration.figure
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphConfiguration.distribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphConfiguration.distribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphConfiguration.value_axis">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphConfiguration.value_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphConfiguration.density_axis">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphConfiguration.density_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphConfiguration.series_axis">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphConfiguration.series_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphConfiguration.distributions_gap">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphConfiguration.distributions_gap
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphData">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphData.figure_title">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphData.figure_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphData.value_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphData.value_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphData.density_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphData.density_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphData.series_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphData.series_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphData.distributions_values">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphData.distributions_values
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphData.distributions_names">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphData.distributions_names
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphData.distributions_colors">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphData.distributions_colors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraphData.distributions_order">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionsGraphData.distributions_order
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.distribution_graph">
+<code class="docutils literal notranslate">
+<span class="pre">distribution_graph()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.distributions_graph">
+<code class="docutils literal notranslate">
+<span class="pre">distributions_graph()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l1">
+<a class="reference internal" href="scatters.html">scatters
+</a>
+<ul>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraph">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraph
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraph.data">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraph.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraph.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraph.configuration
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphConfiguration.figure">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphConfiguration.figure
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphConfiguration.x_axis">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphConfiguration.x_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphConfiguration.y_axis">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphConfiguration.y_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphConfiguration.line">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphConfiguration.line
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphConfiguration.show_points">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphConfiguration.show_points
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphConfiguration.points_size">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphConfiguration.points_size
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphConfiguration.points_color">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphConfiguration.points_color
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphConfiguration.vertical_bands">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphConfiguration.vertical_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphConfiguration.horizontal_bands">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphConfiguration.horizontal_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphConfiguration.diagonal_bands">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphConfiguration.diagonal_bands
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphData">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphData.figure_title">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphData.figure_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphData.x_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphData.x_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphData.y_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphData.y_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphData.points_xs">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphData.points_xs
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphData.points_ys">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphData.points_ys
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphData.points_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphData.points_hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphData.vertical_bands">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphData.vertical_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphData.horizontal_bands">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphData.horizontal_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraphData.diagonal_bands">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraphData.diagonal_bands
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraph">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraph
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraph.data">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraph.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraph.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraph.configuration
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration.figure">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration.figure
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration.x_axis">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration.x_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration.y_axis">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration.y_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration.line">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration.line
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration.show_points">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration.show_points
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration.points_size">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration.points_size
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration.points_color">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration.points_color
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration.vertical_bands">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration.vertical_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration.horizontal_bands">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration.horizontal_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration.diagonal_bands">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration.diagonal_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration.show_legend">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration.show_legend
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphConfiguration.stacking">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphConfiguration.stacking
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.figure_title">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.figure_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.x_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.x_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.y_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.y_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.lines_titles">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.lines_titles
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.lines_points_xs">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.lines_points_xs
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.lines_points_ys">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.lines_points_ys
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.lines_points_sizes">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.lines_points_sizes
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.lines_points_colors">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.lines_points_colors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.lines_widths">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.lines_widths
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.lines_colors">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.lines_colors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.lines_styles">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.lines_styles
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.lines_order">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.lines_order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.vertical_bands">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.vertical_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.horizontal_bands">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.horizontal_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraphData.diagonal_bands">
+<code class="docutils literal notranslate">
+<span class="pre">LinesGraphData.diagonal_bands
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraph
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.data">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraph.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraph.configuration
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphConfiguration.figure">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphConfiguration.figure
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphConfiguration.x_axis">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphConfiguration.x_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphConfiguration.y_axis">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphConfiguration.y_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphConfiguration.points">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphConfiguration.points
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphConfiguration.borders">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphConfiguration.borders
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphConfiguration.edges">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphConfiguration.edges
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphConfiguration.edges_style">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphConfiguration.edges_style
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphConfiguration.edges_over_points">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphConfiguration.edges_over_points
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphConfiguration.vertical_bands">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphConfiguration.vertical_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphConfiguration.horizontal_bands">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphConfiguration.horizontal_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphConfiguration.diagonal_bands">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphConfiguration.diagonal_bands
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.figure_title">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.figure_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.x_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.x_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.y_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.y_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.points_colors_title">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.points_colors_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.borders_colors_title">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.borders_colors_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.edges_colors_title">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.edges_colors_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.points_xs">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.points_xs
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.points_ys">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.points_ys
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.points_sizes">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.points_sizes
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.points_colors">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.points_colors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.points_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.points_hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.points_mask">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.points_mask
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.points_order">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.points_order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.borders_colors">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.borders_colors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.borders_sizes">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.borders_sizes
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.borders_mask">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.borders_mask
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.edges_points">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.edges_points
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.edges_colors">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.edges_colors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.edges_sizes">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.edges_sizes
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.edges_styles">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.edges_styles
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.edges_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.edges_hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.edges_mask">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.edges_mask
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.edges_order">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.edges_order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.vertical_bands">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.vertical_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.horizontal_bands">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.horizontal_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraphData.diagonal_bands">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.diagonal_bands
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.ScattersConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">ScattersConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.ScattersConfiguration.colors">
+<code class="docutils literal notranslate">
+<span class="pre">ScattersConfiguration.colors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.ScattersConfiguration.sizes">
+<code class="docutils literal notranslate">
+<span class="pre">ScattersConfiguration.sizes
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.line_graph">
+<code class="docutils literal notranslate">
+<span class="pre">line_graph()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.lines_graph">
+<code class="docutils literal notranslate">
+<span class="pre">lines_graph()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.points_density">
+<code class="docutils literal notranslate">
+<span class="pre">points_density()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.points_graph">
+<code class="docutils literal notranslate">
+<span class="pre">points_graph()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l1">
+<a class="reference internal" href="bars.html">bars
+</a>
+<ul>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraph">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraph
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraph.data">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraph.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraph.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraph.configuration
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphConfiguration.figure">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphConfiguration.figure
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphConfiguration.value_axis">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphConfiguration.value_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphConfiguration.value_bands">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphConfiguration.value_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphConfiguration.values_orientation">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphConfiguration.values_orientation
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphConfiguration.bars_colors">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphConfiguration.bars_colors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphConfiguration.bars_gap">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphConfiguration.bars_gap
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphConfiguration.bars_annotations">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphConfiguration.bars_annotations
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.figure_title">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphData.figure_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.bar_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphData.bar_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.value_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphData.value_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.bars_colors_title">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphData.bars_colors_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.bars_values">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphData.bars_values
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.bars_names">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphData.bars_names
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.bars_colors">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphData.bars_colors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.bars_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphData.bars_hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.value_bands">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphData.value_bands
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.bars_annotations">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphData.bars_annotations
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraph">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraph
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraph.data">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraph.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraph.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraph.configuration
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphConfiguration.figure">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphConfiguration.figure
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphConfiguration.value_axis">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphConfiguration.value_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphConfiguration.values_orientation">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphConfiguration.values_orientation
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphConfiguration.bars_gap">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphConfiguration.bars_gap
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphConfiguration.bars_annotations">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphConfiguration.bars_annotations
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphConfiguration.series_gap">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphConfiguration.series_gap
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphConfiguration.stacking">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphConfiguration.stacking
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.figure_title">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphData.figure_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.bar_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphData.bar_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.value_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphData.value_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.series_bars_values">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphData.series_bars_values
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.bars_names">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphData.bars_names
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.bars_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphData.bars_hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.bars_annotations">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphData.bars_annotations
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.series_names">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphData.series_names
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.series_colors">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphData.series_colors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.series_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphData.series_hovers
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html#somegraphspy.bars.bars_graph">
+<code class="docutils literal notranslate">
+<span class="pre">bars_graph()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html#somegraphspy.bars.series_bars_graph">
+<code class="docutils literal notranslate">
+<span class="pre">series_bars_graph()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l1">
+<a class="reference internal" href="heatmaps.html">heatmaps
+</a>
+<ul>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraph
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.data">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraph.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraph.configuration
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.figure">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.figure
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.x_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.x_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.y_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.y_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.entries_colors">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.entries_colors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_annotations">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_annotations
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_annotations">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_annotations
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_reorder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_reorder
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_reorder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_reorder
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_linkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_linkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_linkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_linkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_metric">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_metric
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_metric">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_metric
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_groups_gap">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_groups_gap
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_groups_gap">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_groups_gap
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_dendogram_size">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_dendogram_size
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_dendogram_size">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_dendogram_size
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_dendogram_line">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_dendogram_line
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_dendogram_line">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_dendogram_line
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.origin">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.origin
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphConfiguration.final_order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.final_order
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.figure_title">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.figure_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.x_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.x_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.y_axis_title">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.y_axis_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.entries_colors_title">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.entries_colors_title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.entries_values">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.entries_values
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.rows_names">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_names
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.columns_names">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_names
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.entries_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.entries_hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.rows_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.columns_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.rows_annotations">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_annotations
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.columns_annotations">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_annotations
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.rows_arrange_by">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_arrange_by
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.columns_arrange_by">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_arrange_by
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.rows_order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.columns_order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.rows_groups">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_groups
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphData.columns_groups">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_groups
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphOrder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphOrder.rows_order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder.rows_order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphOrder.rows_hclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder.rows_hclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphOrder.columns_order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder.columns_order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphOrder.columns_hclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder.columns_hclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraphOrder.reordered_values">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder.reordered_values
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapLinkage.SingleLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.SingleLinkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapLinkage.AverageLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.AverageLinkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapLinkage.CompleteLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.CompleteLinkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapLinkage.WardLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.WardLinkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapLinkage.WardPreSquaredLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.WardPreSquaredLinkage
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapOrigin">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapOrigin.HeatmapTopLeft">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin.HeatmapTopLeft
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapOrigin.HeatmapTopRight">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin.HeatmapTopRight
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapOrigin.HeatmapBottomLeft">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin.HeatmapBottomLeft
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapOrigin.HeatmapBottomRight">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin.HeatmapBottomRight
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapReorder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapReorder.RCompatibleHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.RCompatibleHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapReorder.OptimalHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.OptimalHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapReorder.ReorderHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.ReorderHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapReorder.SlantedHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SlantedHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapReorder.SlantedPreSquaredHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SlantedPreSquaredHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapReorder.SlantedOrder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SlantedOrder
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapReorder.SlantedPreSquaredOrder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SlantedPreSquaredOrder
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapReorder.SameOrder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SameOrder
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.Order">
+<code class="docutils literal notranslate">
+<span class="pre">Order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.heatmap_graph">
+<code class="docutils literal notranslate">
+<span class="pre">heatmap_graph()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l1">
+<a class="reference internal" href="enums.html">enums
+</a>
+<ul>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html#somegraphspy.enums.DistributionStyle">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.DistributionStyle.CurveDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.CurveDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.DistributionStyle.ViolinDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.ViolinDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.DistributionStyle.BoxDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.BoxDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.DistributionStyle.BoxOutliersDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.BoxOutliersDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.DistributionStyle.CurveBoxDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.CurveBoxDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.DistributionStyle.ViolinBoxDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.ViolinBoxDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.DistributionStyle.HistogramDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.HistogramDistribution
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.DistributionStyle.CumulativeDistribution">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionStyle.CumulativeDistribution
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapLinkage.SingleLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.SingleLinkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapLinkage.AverageLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.AverageLinkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapLinkage.CompleteLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.CompleteLinkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapLinkage.WardLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.WardLinkage
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapLinkage.WardPreSquaredLinkage">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapLinkage.WardPreSquaredLinkage
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapOrigin">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapOrigin.HeatmapTopLeft">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin.HeatmapTopLeft
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapOrigin.HeatmapTopRight">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin.HeatmapTopRight
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapOrigin.HeatmapBottomLeft">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin.HeatmapBottomLeft
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapOrigin.HeatmapBottomRight">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapOrigin.HeatmapBottomRight
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapReorder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapReorder.RCompatibleHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.RCompatibleHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapReorder.OptimalHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.OptimalHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapReorder.ReorderHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.ReorderHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapReorder.SlantedHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SlantedHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapReorder.SlantedPreSquaredHclust">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SlantedPreSquaredHclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapReorder.SlantedOrder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SlantedOrder
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapReorder.SlantedPreSquaredOrder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SlantedPreSquaredOrder
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.HeatmapReorder.SameOrder">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapReorder.SameOrder
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html#somegraphspy.enums.LineStyle">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.LineStyle.SolidLine">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle.SolidLine
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.LineStyle.DashLine">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle.DashLine
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.LineStyle.DotLine">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle.DotLine
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.LineStyle.DashDotLine">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle.DashDotLine
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html#somegraphspy.enums.LogScale">
+<code class="docutils literal notranslate">
+<span class="pre">LogScale
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.LogScale.Log10Scale">
+<code class="docutils literal notranslate">
+<span class="pre">LogScale.Log10Scale
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.LogScale.Log2Scale">
+<code class="docutils literal notranslate">
+<span class="pre">LogScale.Log2Scale
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html#somegraphspy.enums.Stacking">
+<code class="docutils literal notranslate">
+<span class="pre">Stacking
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.Stacking.StackValues">
+<code class="docutils literal notranslate">
+<span class="pre">Stacking.StackValues
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.Stacking.StackFractions">
+<code class="docutils literal notranslate">
+<span class="pre">Stacking.StackFractions
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html#somegraphspy.enums.ValuesOrientation">
+<code class="docutils literal notranslate">
+<span class="pre">ValuesOrientation
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.ValuesOrientation.HorizontalValues">
+<code class="docutils literal notranslate">
+<span class="pre">ValuesOrientation.HorizontalValues
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="enums.html#somegraphspy.enums.ValuesOrientation.VerticalValues">
+<code class="docutils literal notranslate">
+<span class="pre">ValuesOrientation.VerticalValues
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+</ul>
+
+</li>
+
+</ul>
+
+</div>
+
+</section>
+
+
+           
+</div>
+          
+</div>
+          
+<footer>
+<div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        
+<a href="readme.html" class="btn btn-neutral float-left" title="somegraphspy 0.2.0 - Generate graphs (using Plotly)" accesskey="p" rel="prev">
+<span class="fa fa-arrow-circle-left" aria-hidden="true">
+</span> Previous
+</a>
+        
+<a href="julia_import.html" class="btn btn-neutral float-right" title="julia_import" accesskey="n" rel="next">Next 
+<span class="fa fa-arrow-circle-right" aria-hidden="true">
+</span>
+</a>
+    
+</div>
+
+  
+<hr/>
+
+  
+<div role="contentinfo">
+    
+<p>&#169; Copyright 2025 Weizmann Institute of Science.
+</p>
+  
+</div>
+
+  Built with 
+<a href="https://www.sphinx-doc.org/">Sphinx
+</a> using a
+    
+<a href="https://github.com/readthedocs/sphinx_rtd_theme">theme
+</a>
+    provided by 
+<a href="https://readthedocs.org">Read the Docs
+</a>.
+   
+
+
+</footer>
+        
+</div>
+      
+</div>
+    
+</section>
+  
+</div>
+  
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  
+</script> 
+
+
+</body>
+
+</html>

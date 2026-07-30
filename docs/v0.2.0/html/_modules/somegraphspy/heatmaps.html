@@ -1,0 +1,544 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>somegraphspy.heatmaps &mdash; SomeGraphs 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SomeGraphs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">README</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../API.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SomeGraphs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">somegraphspy.heatmaps</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for somegraphspy.heatmaps</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Graphs showing a matrix of values as a heatmap. See the Julia</span>
+<span class="sd">`documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html&gt;`__ for details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># The enum values are named exactly as they are in Julia, so they are not UPPER_CASE.</span>
+<span class="c1"># pylint: disable=invalid-name</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractGraphConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractGraphData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotationData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotationSize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorsConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">FigureConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Graph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntegersVector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">LineConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">NumbersMatrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringsMatrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringsVector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultValue</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlObject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_given</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">jl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;HeatmapGraph&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HeatmapGraphConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HeatmapGraphData&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HeatmapGraphOrder&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HeatmapLinkage&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HeatmapOrigin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HeatmapReorder&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Order&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;heatmap_graph&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1">#: An explicit order of the rows or columns. This is either a vector of (1-based) indices, or an opaque ``Hclust``</span>
+<span class="c1">#: clustering taken from the :py:obj:`HeatmapGraphOrder` of a previously generated graph.</span>
+<span class="n">Order</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="HeatmapReorder">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapReorder">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HeatmapReorder</span><span class="p">(</span><span class="n">JlEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    How to reorder the rows or columns of a heatmap. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapReorder&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Cluster the data the same way R does.</span>
+    <span class="n">RCompatibleHclust</span> <span class="o">=</span> <span class="s2">&quot;RCompatibleHclust&quot;</span>
+    <span class="c1">#: Cluster the data using an optimal ordering of the tree.</span>
+    <span class="n">OptimalHclust</span> <span class="o">=</span> <span class="s2">&quot;OptimalHclust&quot;</span>
+    <span class="c1">#: Cluster the data and reorder the tree.</span>
+    <span class="n">ReorderHclust</span> <span class="o">=</span> <span class="s2">&quot;ReorderHclust&quot;</span>
+    <span class="c1">#: Cluster the data and slant the tree.</span>
+    <span class="n">SlantedHclust</span> <span class="o">=</span> <span class="s2">&quot;SlantedHclust&quot;</span>
+    <span class="c1">#: Cluster the pre-squared data and slant the tree.</span>
+    <span class="n">SlantedPreSquaredHclust</span> <span class="o">=</span> <span class="s2">&quot;SlantedPreSquaredHclust&quot;</span>
+    <span class="c1">#: Slant the data without computing a clustering tree.</span>
+    <span class="n">SlantedOrder</span> <span class="o">=</span> <span class="s2">&quot;SlantedOrder&quot;</span>
+    <span class="c1">#: Slant the pre-squared data without computing a clustering tree.</span>
+    <span class="n">SlantedPreSquaredOrder</span> <span class="o">=</span> <span class="s2">&quot;SlantedPreSquaredOrder&quot;</span>
+    <span class="c1">#: Use the same order as the other dimension.</span>
+    <span class="n">SameOrder</span> <span class="o">=</span> <span class="s2">&quot;SameOrder&quot;</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapReorder&quot;</span><span class="p">,</span> <span class="n">HeatmapReorder</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HeatmapLinkage">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapLinkage">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HeatmapLinkage</span><span class="p">(</span><span class="n">JlEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The linkage used when clustering the rows or columns of a heatmap. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapLinkage&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Use the minimal distance between the clusters.</span>
+    <span class="n">SingleLinkage</span> <span class="o">=</span> <span class="s2">&quot;SingleLinkage&quot;</span>
+    <span class="c1">#: Use the average distance between the clusters.</span>
+    <span class="n">AverageLinkage</span> <span class="o">=</span> <span class="s2">&quot;AverageLinkage&quot;</span>
+    <span class="c1">#: Use the maximal distance between the clusters.</span>
+    <span class="n">CompleteLinkage</span> <span class="o">=</span> <span class="s2">&quot;CompleteLinkage&quot;</span>
+    <span class="c1">#: Use Ward&#39;s minimal variance.</span>
+    <span class="n">WardLinkage</span> <span class="o">=</span> <span class="s2">&quot;WardLinkage&quot;</span>
+    <span class="c1">#: Use Ward&#39;s minimal variance on the pre-squared data.</span>
+    <span class="n">WardPreSquaredLinkage</span> <span class="o">=</span> <span class="s2">&quot;WardPreSquaredLinkage&quot;</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapLinkage&quot;</span><span class="p">,</span> <span class="n">HeatmapLinkage</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HeatmapOrigin">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapOrigin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HeatmapOrigin</span><span class="p">(</span><span class="n">JlEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Where the first entry of the heatmap matrix is shown. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapOrigin&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Show the first entry at the top left.</span>
+    <span class="n">HeatmapTopLeft</span> <span class="o">=</span> <span class="s2">&quot;HeatmapTopLeft&quot;</span>
+    <span class="c1">#: Show the first entry at the top right.</span>
+    <span class="n">HeatmapTopRight</span> <span class="o">=</span> <span class="s2">&quot;HeatmapTopRight&quot;</span>
+    <span class="c1">#: Show the first entry at the bottom left.</span>
+    <span class="n">HeatmapBottomLeft</span> <span class="o">=</span> <span class="s2">&quot;HeatmapBottomLeft&quot;</span>
+    <span class="c1">#: Show the first entry at the bottom right.</span>
+    <span class="n">HeatmapBottomRight</span> <span class="o">=</span> <span class="s2">&quot;HeatmapBottomRight&quot;</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapOrigin&quot;</span><span class="p">,</span> <span class="n">HeatmapOrigin</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HeatmapGraphOrder">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraphOrder">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HeatmapGraphOrder</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The final order, clustering and reordered data of a heatmap graph, filled in whenever the figure is generated. See</span>
+<span class="sd">    the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphOrder&gt;`__</span>
+<span class="sd">    for details.</span>
+
+<span class="sd">    The ``rows_hclust`` and ``columns_hclust`` are Julia ``Hclust`` objects. There is no Python model for these, but</span>
+<span class="sd">    they can be fed back into the ``rows_order`` and ``columns_order`` of a :py:obj:`HeatmapGraphData` to reuse the</span>
+<span class="sd">    same clustering.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The final (1-based) order of the rows.</span>
+    <span class="n">rows_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
+    <span class="c1">#: The clustering of the rows, if one was computed.</span>
+    <span class="n">rows_hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+    <span class="c1">#: The final (1-based) order of the columns.</span>
+    <span class="n">columns_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
+    <span class="c1">#: The clustering of the columns, if one was computed.</span>
+    <span class="n">columns_hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+    <span class="c1">#: The values, reordered.</span>
+    <span class="n">reordered_values</span><span class="p">:</span> <span class="n">NumbersMatrix</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapGraphOrder&quot;</span><span class="p">,</span> <span class="n">HeatmapGraphOrder</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HeatmapGraphConfiguration">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraphConfiguration">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HeatmapGraphConfiguration</span><span class="p">(</span><span class="n">AbstractGraphConfiguration</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure a graph showing a matrix of values as a heatmap. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphConfiguration&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: How to size the overall figure.</span>
+    <span class="n">figure</span><span class="p">:</span> <span class="n">FigureConfiguration</span>
+    <span class="c1">#: The title of the horizontal axis.</span>
+    <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: The title of the vertical axis.</span>
+    <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: How to color the entries.</span>
+    <span class="n">entries_colors</span><span class="p">:</span> <span class="n">ColorsConfiguration</span>
+    <span class="c1">#: The size of the annotations shown next to the rows.</span>
+    <span class="n">rows_annotations</span><span class="p">:</span> <span class="n">AnnotationSize</span>
+    <span class="c1">#: The size of the annotations shown next to the columns.</span>
+    <span class="n">columns_annotations</span><span class="p">:</span> <span class="n">AnnotationSize</span>
+    <span class="c1">#: How to reorder the rows.</span>
+    <span class="n">rows_reorder</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapReorder</span><span class="p">]</span>
+    <span class="c1">#: How to reorder the columns.</span>
+    <span class="n">columns_reorder</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapReorder</span><span class="p">]</span>
+    <span class="c1">#: The linkage used when clustering the rows.</span>
+    <span class="n">rows_linkage</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapLinkage</span><span class="p">]</span>
+    <span class="c1">#: The linkage used when clustering the columns.</span>
+    <span class="n">columns_linkage</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapLinkage</span><span class="p">]</span>
+    <span class="c1">#: The distance metric used when clustering the rows, a Julia ``Distances.PreMetric``.</span>
+    <span class="n">rows_metric</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+    <span class="c1">#: The distance metric used when clustering the columns, a Julia ``Distances.PreMetric``.</span>
+    <span class="n">columns_metric</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+    <span class="c1">#: The gap between groups of rows, in entries.</span>
+    <span class="n">rows_groups_gap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="c1">#: The gap between groups of columns, in entries.</span>
+    <span class="n">columns_groups_gap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="c1">#: The size of the rows dendogram, as a fraction of the graph size.</span>
+    <span class="n">rows_dendogram_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: The size of the columns dendogram, as a fraction of the graph size.</span>
+    <span class="n">columns_dendogram_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: How to draw the rows dendogram.</span>
+    <span class="n">rows_dendogram_line</span><span class="p">:</span> <span class="n">LineConfiguration</span>
+    <span class="c1">#: How to draw the columns dendogram.</span>
+    <span class="n">columns_dendogram_line</span><span class="p">:</span> <span class="n">LineConfiguration</span>
+    <span class="c1">#: Where the first entry of the matrix is shown.</span>
+    <span class="n">origin</span><span class="p">:</span> <span class="n">HeatmapOrigin</span>
+    <span class="c1">#: Filled in with the final order whenever the figure is generated.</span>
+    <span class="n">final_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapGraphOrder</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">figure</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">FigureConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">entries_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ColorsConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnnotationSize</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnnotationSize</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_reorder</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapReorder</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_reorder</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapReorder</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_linkage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapLinkage</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_linkage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapLinkage</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_metric</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_metric</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_groups_gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_groups_gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_dendogram_size</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_dendogram_size</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_dendogram_line</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">LineConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_dendogram_line</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">LineConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">origin</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapOrigin</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">final_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapGraphOrder</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">HeatmapGraphConfiguration</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
+                    <span class="n">figure</span><span class="o">=</span><span class="n">figure</span><span class="p">,</span>
+                    <span class="n">x_axis_title</span><span class="o">=</span><span class="n">x_axis_title</span><span class="p">,</span>
+                    <span class="n">y_axis_title</span><span class="o">=</span><span class="n">y_axis_title</span><span class="p">,</span>
+                    <span class="n">entries_colors</span><span class="o">=</span><span class="n">entries_colors</span><span class="p">,</span>
+                    <span class="n">rows_annotations</span><span class="o">=</span><span class="n">rows_annotations</span><span class="p">,</span>
+                    <span class="n">columns_annotations</span><span class="o">=</span><span class="n">columns_annotations</span><span class="p">,</span>
+                    <span class="n">rows_reorder</span><span class="o">=</span><span class="n">rows_reorder</span><span class="p">,</span>
+                    <span class="n">columns_reorder</span><span class="o">=</span><span class="n">columns_reorder</span><span class="p">,</span>
+                    <span class="n">rows_linkage</span><span class="o">=</span><span class="n">rows_linkage</span><span class="p">,</span>
+                    <span class="n">columns_linkage</span><span class="o">=</span><span class="n">columns_linkage</span><span class="p">,</span>
+                    <span class="n">rows_metric</span><span class="o">=</span><span class="n">rows_metric</span><span class="p">,</span>
+                    <span class="n">columns_metric</span><span class="o">=</span><span class="n">columns_metric</span><span class="p">,</span>
+                    <span class="n">rows_groups_gap</span><span class="o">=</span><span class="n">rows_groups_gap</span><span class="p">,</span>
+                    <span class="n">columns_groups_gap</span><span class="o">=</span><span class="n">columns_groups_gap</span><span class="p">,</span>
+                    <span class="n">rows_dendogram_size</span><span class="o">=</span><span class="n">rows_dendogram_size</span><span class="p">,</span>
+                    <span class="n">columns_dendogram_size</span><span class="o">=</span><span class="n">columns_dendogram_size</span><span class="p">,</span>
+                    <span class="n">rows_dendogram_line</span><span class="o">=</span><span class="n">rows_dendogram_line</span><span class="p">,</span>
+                    <span class="n">columns_dendogram_line</span><span class="o">=</span><span class="n">columns_dendogram_line</span><span class="p">,</span>
+                    <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span>
+                    <span class="n">final_order</span><span class="o">=</span><span class="n">final_order</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapGraphConfiguration&quot;</span><span class="p">,</span> <span class="n">HeatmapGraphConfiguration</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HeatmapGraphData">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraphData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HeatmapGraphData</span><span class="p">(</span><span class="n">AbstractGraphData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The data of a graph showing a matrix of values as a heatmap. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The title of the figure.</span>
+    <span class="n">figure_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: The title of the horizontal axis.</span>
+    <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: The title of the vertical axis.</span>
+    <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: The title of the entries colors legend.</span>
+    <span class="n">entries_colors_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: The value of each entry, a row per row and a column per column.</span>
+    <span class="n">entries_values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">]</span>
+    <span class="c1">#: The name of each row.</span>
+    <span class="n">rows_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
+    <span class="c1">#: The name of each column.</span>
+    <span class="n">columns_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
+    <span class="c1">#: The hover text of each entry.</span>
+    <span class="n">entries_hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsMatrix</span><span class="p">]</span>
+    <span class="c1">#: The hover text of each row.</span>
+    <span class="n">rows_hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
+    <span class="c1">#: The hover text of each column.</span>
+    <span class="n">columns_hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
+    <span class="c1">#: Annotations shown next to the rows.</span>
+    <span class="n">rows_annotations</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span>
+    <span class="c1">#: Annotations shown next to the columns.</span>
+    <span class="n">columns_annotations</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span>
+    <span class="c1">#: The features to cluster the rows by, instead of the entries values.</span>
+    <span class="n">rows_arrange_by</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">]</span>
+    <span class="c1">#: The features to cluster the columns by, instead of the entries values.</span>
+    <span class="n">columns_arrange_by</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">]</span>
+    <span class="c1">#: Force this order of the rows.</span>
+    <span class="n">rows_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Order</span><span class="p">]</span>
+    <span class="c1">#: Force this order of the columns.</span>
+    <span class="n">columns_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Order</span><span class="p">]</span>
+    <span class="c1">#: The group of each row.</span>
+    <span class="n">rows_groups</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]]</span>
+    <span class="c1">#: The group of each column.</span>
+    <span class="n">columns_groups</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">entries_colors_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">entries_values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">entries_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_arrange_by</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_arrange_by</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Order</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Order</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_groups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_groups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">HeatmapGraphData</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
+                    <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
+                    <span class="n">x_axis_title</span><span class="o">=</span><span class="n">x_axis_title</span><span class="p">,</span>
+                    <span class="n">y_axis_title</span><span class="o">=</span><span class="n">y_axis_title</span><span class="p">,</span>
+                    <span class="n">entries_colors_title</span><span class="o">=</span><span class="n">entries_colors_title</span><span class="p">,</span>
+                    <span class="n">entries_values</span><span class="o">=</span><span class="n">entries_values</span><span class="p">,</span>
+                    <span class="n">rows_names</span><span class="o">=</span><span class="n">rows_names</span><span class="p">,</span>
+                    <span class="n">columns_names</span><span class="o">=</span><span class="n">columns_names</span><span class="p">,</span>
+                    <span class="n">entries_hovers</span><span class="o">=</span><span class="n">entries_hovers</span><span class="p">,</span>
+                    <span class="n">rows_hovers</span><span class="o">=</span><span class="n">rows_hovers</span><span class="p">,</span>
+                    <span class="n">columns_hovers</span><span class="o">=</span><span class="n">columns_hovers</span><span class="p">,</span>
+                    <span class="n">rows_annotations</span><span class="o">=</span><span class="n">rows_annotations</span><span class="p">,</span>
+                    <span class="n">columns_annotations</span><span class="o">=</span><span class="n">columns_annotations</span><span class="p">,</span>
+                    <span class="n">rows_arrange_by</span><span class="o">=</span><span class="n">rows_arrange_by</span><span class="p">,</span>
+                    <span class="n">columns_arrange_by</span><span class="o">=</span><span class="n">columns_arrange_by</span><span class="p">,</span>
+                    <span class="n">rows_order</span><span class="o">=</span><span class="n">rows_order</span><span class="p">,</span>
+                    <span class="n">columns_order</span><span class="o">=</span><span class="n">columns_order</span><span class="p">,</span>
+                    <span class="n">rows_groups</span><span class="o">=</span><span class="n">rows_groups</span><span class="p">,</span>
+                    <span class="n">columns_groups</span><span class="o">=</span><span class="n">columns_groups</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapGraphData&quot;</span><span class="p">,</span> <span class="n">HeatmapGraphData</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HeatmapGraph">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HeatmapGraph</span><span class="p">(</span><span class="n">Graph</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A graph visualizing a matrix of values as a heatmap. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraph&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: What to display.</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">HeatmapGraphData</span>
+    <span class="c1">#: How to display it.</span>
+    <span class="n">configuration</span><span class="p">:</span> <span class="n">HeatmapGraphConfiguration</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapGraphData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">HeatmapGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span></div>
+
+
+
+<div class="viewcode-block" id="heatmap_graph">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.heatmap_graph">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">heatmap_graph</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">entries_colors_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">entries_values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">rows_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">columns_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">entries_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">rows_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">columns_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">rows_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">columns_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">rows_arrange_by</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">columns_arrange_by</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">rows_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Order</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">columns_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Order</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">rows_groups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">columns_groups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HeatmapGraph</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a :py:obj:`HeatmapGraph` by specifying only the :py:obj:`HeatmapGraphData` fields (with an optional</span>
+<span class="sd">    :py:obj:`HeatmapGraphConfiguration`). See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.heatmap_graph&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">HeatmapGraph</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">HeatmapGraphData</span><span class="p">(</span>
+            <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
+            <span class="n">x_axis_title</span><span class="o">=</span><span class="n">x_axis_title</span><span class="p">,</span>
+            <span class="n">y_axis_title</span><span class="o">=</span><span class="n">y_axis_title</span><span class="p">,</span>
+            <span class="n">entries_colors_title</span><span class="o">=</span><span class="n">entries_colors_title</span><span class="p">,</span>
+            <span class="n">entries_values</span><span class="o">=</span><span class="n">entries_values</span><span class="p">,</span>
+            <span class="n">rows_names</span><span class="o">=</span><span class="n">rows_names</span><span class="p">,</span>
+            <span class="n">columns_names</span><span class="o">=</span><span class="n">columns_names</span><span class="p">,</span>
+            <span class="n">entries_hovers</span><span class="o">=</span><span class="n">entries_hovers</span><span class="p">,</span>
+            <span class="n">rows_hovers</span><span class="o">=</span><span class="n">rows_hovers</span><span class="p">,</span>
+            <span class="n">columns_hovers</span><span class="o">=</span><span class="n">columns_hovers</span><span class="p">,</span>
+            <span class="n">rows_annotations</span><span class="o">=</span><span class="n">rows_annotations</span><span class="p">,</span>
+            <span class="n">columns_annotations</span><span class="o">=</span><span class="n">columns_annotations</span><span class="p">,</span>
+            <span class="n">rows_arrange_by</span><span class="o">=</span><span class="n">rows_arrange_by</span><span class="p">,</span>
+            <span class="n">columns_arrange_by</span><span class="o">=</span><span class="n">columns_arrange_by</span><span class="p">,</span>
+            <span class="n">rows_order</span><span class="o">=</span><span class="n">rows_order</span><span class="p">,</span>
+            <span class="n">columns_order</span><span class="o">=</span><span class="n">columns_order</span><span class="p">,</span>
+            <span class="n">rows_groups</span><span class="o">=</span><span class="n">rows_groups</span><span class="p">,</span>
+            <span class="n">columns_groups</span><span class="o">=</span><span class="n">columns_groups</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Weizmann Institute of Science.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

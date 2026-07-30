@@ -1,0 +1,8333 @@
+
+
+
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en" data-content_root="./">
+
+<head>
+  
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+<title>common &mdash; SomeGraphs 0.2.0 documentation
+</title>
+      
+<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      
+<link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      
+<script src="_static/jquery.js?v=5d32c60e">
+</script>
+      
+<script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c">
+</script>
+      
+<script src="_static/documentation_options.js?v=938c9ccc">
+</script>
+      
+<script src="_static/doctools.js?v=fd6eb6e6">
+</script>
+      
+<script src="_static/sphinx_highlight.js?v=6ffebe34">
+</script>
+    
+<script src="_static/js/theme.js">
+</script>
+    
+<link rel="index" title="Index" href="genindex.html" />
+    
+<link rel="search" title="Search" href="search.html" />
+    
+<link rel="next" title="distributions" href="distributions.html" />
+    
+<link rel="prev" title="julia_import" href="julia_import.html" /> 
+
+</head>
+
+
+<body class="wy-body-for-nav"> 
+  
+<div class="wy-grid-for-nav">
+    
+<nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      
+<div class="wy-side-scroll">
+        
+<div class="wy-side-nav-search" >
+
+          
+          
+          
+<a href="index.html" class="icon icon-home">
+            SomeGraphs
+          
+</a>
+
+<div role="search">
+  
+<form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    
+<input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    
+<input type="hidden" name="check_keywords" value="yes" />
+    
+<input type="hidden" name="area" value="default" />
+  
+</form>
+
+</div>
+        
+</div>
+<div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              
+<ul>
+
+<li class="toctree-l1">
+<a class="reference internal" href="readme.html">README
+</a>
+</li>
+
+</ul>
+
+<ul class="current">
+
+<li class="toctree-l1 current">
+<a class="reference internal" href="API.html">API
+</a>
+<ul class="current">
+
+<li class="toctree-l2">
+<a class="reference internal" href="julia_import.html">julia_import
+</a>
+</li>
+
+<li class="toctree-l2 current">
+<a class="current reference internal" href="#">common
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.AbstractGraphConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">AbstractGraphConfiguration
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.AbstractGraphData">
+<code class="docutils literal notranslate">
+<span class="pre">AbstractGraphData
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.AnnotationData">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AnnotationData.title">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationData.title
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AnnotationData.values">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationData.values
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AnnotationData.hovers">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationData.hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AnnotationData.colors">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationData.colors
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.AnnotationSize">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationSize
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AnnotationSize.size">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationSize.size
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AnnotationSize.gap">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationSize.gap
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.AutomaticColors">
+<code class="docutils literal notranslate">
+<span class="pre">AutomaticColors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration.minimum">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.minimum
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration.maximum">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.maximum
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration.expand_fraction">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.expand_fraction
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration.log_scale">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.log_scale
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration.log_regularization">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.log_regularization
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration.percent">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.percent
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration.show_ticks">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.show_ticks
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration.ticks_angle">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.ticks_angle
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration.show_grid">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.show_grid
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration.grid_color">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.grid_color
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration.title">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfiguration.title
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.BandConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">BandConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.BandConfiguration.offset">
+<code class="docutils literal notranslate">
+<span class="pre">BandConfiguration.offset
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.BandConfiguration.line">
+<code class="docutils literal notranslate">
+<span class="pre">BandConfiguration.line
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.BandsConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">BandsConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.BandsConfiguration.low">
+<code class="docutils literal notranslate">
+<span class="pre">BandsConfiguration.low
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.BandsConfiguration.middle">
+<code class="docutils literal notranslate">
+<span class="pre">BandsConfiguration.middle
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.BandsConfiguration.high">
+<code class="docutils literal notranslate">
+<span class="pre">BandsConfiguration.high
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.BandsData">
+<code class="docutils literal notranslate">
+<span class="pre">BandsData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.BandsData.low_offset">
+<code class="docutils literal notranslate">
+<span class="pre">BandsData.low_offset
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.BandsData.middle_offset">
+<code class="docutils literal notranslate">
+<span class="pre">BandsData.middle_offset
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.BandsData.high_offset">
+<code class="docutils literal notranslate">
+<span class="pre">BandsData.high_offset
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.BoolsVector">
+<code class="docutils literal notranslate">
+<span class="pre">BoolsVector
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.CategoricalColors">
+<code class="docutils literal notranslate">
+<span class="pre">CategoricalColors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.ColorsConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.ColorsConfiguration.palette">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfiguration.palette
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.ColorsConfiguration.fixed">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfiguration.fixed
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.ColorsConfiguration.axis">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfiguration.axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.ColorsConfiguration.show_legend">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfiguration.show_legend
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.ColorsConfiguration.title">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfiguration.title
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.ContinuousColors">
+<code class="docutils literal notranslate">
+<span class="pre">ContinuousColors
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.FigureConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.FigureConfiguration.margins">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.margins
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.FigureConfiguration.width">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.width
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.FigureConfiguration.height">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.height
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.FigureConfiguration.template">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.template
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.FigureConfiguration.background_color">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.background_color
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.FigureConfiguration.paper_color">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.paper_color
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.FigureConfiguration.colors_scale_offsets">
+<code class="docutils literal notranslate">
+<span class="pre">FigureConfiguration.colors_scale_offsets
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.Graph">
+<code class="docutils literal notranslate">
+<span class="pre">Graph
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Graph.data">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Graph.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.configuration
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Graph.json">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.json
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Graph.figure">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.figure
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Graph.show">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.show()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Graph.save">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.save()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Graph.flip_axes">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.flip_axes()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Graph.flip_axes_in_place">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.flip_axes_in_place()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Graph.validate">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.validate()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.IntegersVector">
+<code class="docutils literal notranslate">
+<span class="pre">IntegersVector
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.LineConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">LineConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LineConfiguration.width">
+<code class="docutils literal notranslate">
+<span class="pre">LineConfiguration.width
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LineConfiguration.style">
+<code class="docutils literal notranslate">
+<span class="pre">LineConfiguration.style
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LineConfiguration.is_filled">
+<code class="docutils literal notranslate">
+<span class="pre">LineConfiguration.is_filled
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LineConfiguration.color">
+<code class="docutils literal notranslate">
+<span class="pre">LineConfiguration.color
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.LineStyle">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LineStyle.SolidLine">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle.SolidLine
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LineStyle.DashLine">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle.DashLine
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LineStyle.DotLine">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle.DotLine
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LineStyle.DashDotLine">
+<code class="docutils literal notranslate">
+<span class="pre">LineStyle.DashDotLine
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.LogScale">
+<code class="docutils literal notranslate">
+<span class="pre">LogScale
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LogScale.Log10Scale">
+<code class="docutils literal notranslate">
+<span class="pre">LogScale.Log10Scale
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LogScale.Log2Scale">
+<code class="docutils literal notranslate">
+<span class="pre">LogScale.Log2Scale
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.MarginsConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">MarginsConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.MarginsConfiguration.left">
+<code class="docutils literal notranslate">
+<span class="pre">MarginsConfiguration.left
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.MarginsConfiguration.bottom">
+<code class="docutils literal notranslate">
+<span class="pre">MarginsConfiguration.bottom
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.MarginsConfiguration.right">
+<code class="docutils literal notranslate">
+<span class="pre">MarginsConfiguration.right
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.MarginsConfiguration.top">
+<code class="docutils literal notranslate">
+<span class="pre">MarginsConfiguration.top
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.NAMED_COLOR_SCALES">
+<code class="docutils literal notranslate">
+<span class="pre">NAMED_COLOR_SCALES
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.NumbersMatrix">
+<code class="docutils literal notranslate">
+<span class="pre">NumbersMatrix
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.NumbersVector">
+<code class="docutils literal notranslate">
+<span class="pre">NumbersVector
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.Palette">
+<code class="docutils literal notranslate">
+<span class="pre">Palette
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.SizesConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.SizesConfiguration.fixed">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.fixed
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.SizesConfiguration.minimum">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.minimum
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.SizesConfiguration.maximum">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.maximum
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.SizesConfiguration.log_scale">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.log_scale
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.SizesConfiguration.log_regularization">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.log_regularization
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.SizesConfiguration.smallest">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.smallest
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.SizesConfiguration.span">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfiguration.span
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.Stacking">
+<code class="docutils literal notranslate">
+<span class="pre">Stacking
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Stacking.StackValues">
+<code class="docutils literal notranslate">
+<span class="pre">Stacking.StackValues
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Stacking.StackFractions">
+<code class="docutils literal notranslate">
+<span class="pre">Stacking.StackFractions
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.StringsMatrix">
+<code class="docutils literal notranslate">
+<span class="pre">StringsMatrix
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.StringsVector">
+<code class="docutils literal notranslate">
+<span class="pre">StringsVector
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.Validated">
+<code class="docutils literal notranslate">
+<span class="pre">Validated
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Validated.validate">
+<code class="docutils literal notranslate">
+<span class="pre">Validated.validate()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.ValuesOrientation">
+<code class="docutils literal notranslate">
+<span class="pre">ValuesOrientation
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.ValuesOrientation.HorizontalValues">
+<code class="docutils literal notranslate">
+<span class="pre">ValuesOrientation.HorizontalValues
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.ValuesOrientation.VerticalValues">
+<code class="docutils literal notranslate">
+<span class="pre">ValuesOrientation.VerticalValues
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.categorical_palette">
+<code class="docutils literal notranslate">
+<span class="pre">categorical_palette()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html">distributions
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html">scatters
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html">bars
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html">heatmaps
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html">enums
+</a>
+</li>
+
+</ul>
+
+</li>
+
+</ul>
+
+        
+</div>
+      
+</div>
+    
+</nav>
+
+    
+<section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+<nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          
+<i data-toggle="wy-nav-top" class="fa fa-bars">
+</i>
+          
+<a href="index.html">SomeGraphs
+</a>
+      
+</nav>
+
+      
+<div class="wy-nav-content">
+        
+<div class="rst-content">
+          
+<div role="navigation" aria-label="Page navigation">
+  
+<ul class="wy-breadcrumbs">
+      
+<li>
+<a href="index.html" class="icon icon-home" aria-label="Home">
+</a>
+</li>
+          
+<li class="breadcrumb-item">
+<a href="API.html">API
+</a>
+</li>
+      
+<li class="breadcrumb-item active">common
+</li>
+      
+<li class="wy-breadcrumbs-aside">
+            
+<a href="_sources/common.rst.txt" rel="nofollow"> View page source
+</a>
+      
+</li>
+  
+</ul>
+  
+<hr/>
+
+</div>
+          
+<div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           
+<div itemprop="articleBody">
+             
+  
+<section id="module-somegraphspy.common">
+
+<span id="common">
+</span>
+<h1>common
+<a class="headerlink" href="#module-somegraphspy.common" title="Link to this heading">¶
+</a>
+</h1>
+
+<p>Common data types for specifying graphs. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html">documentation
+</a> for details.
+</p>
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AbstractGraphConfiguration">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">AbstractGraphConfiguration
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#AbstractGraphConfiguration">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.AbstractGraphConfiguration" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Specify how to display a graph, as much as possible independently of the data itself. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AbstractGraphConfiguration">documentation
+</a>
+for details.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AbstractGraphData">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">AbstractGraphData
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#AbstractGraphData">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.AbstractGraphData" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Specify what to display in a graph, as much as possible independently of how to display it. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AbstractGraphData">documentation
+</a>
+for details.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AnnotationData">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">AnnotationData
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">values
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">float
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">hovers
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">colors
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
+<span class="pre">ColorsConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#AnnotationData">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.AnnotationData" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The data of a single annotation shown next to a graph. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AnnotationData">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AnnotationData.title">
+
+<span class="sig-name descname">
+<span class="pre">title
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AnnotationData.title" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The title of the annotation.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AnnotationData.values">
+
+<span class="sig-name descname">
+<span class="pre">values
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">float
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AnnotationData.values" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A value per annotated entity, either numbers or category names.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AnnotationData.hovers">
+
+<span class="sig-name descname">
+<span class="pre">hovers
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AnnotationData.hovers" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The hover text per annotated entity.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AnnotationData.colors">
+
+<span class="sig-name descname">
+<span class="pre">colors
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
+<span class="pre">ColorsConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AnnotationData.colors" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to color the annotation values.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AnnotationSize">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">AnnotationSize
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">size
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">gap
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#AnnotationSize">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.AnnotationSize" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Configure the size of the annotations shown next to a graph. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AnnotationSize">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AnnotationSize.size">
+
+<span class="sig-name descname">
+<span class="pre">size
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AnnotationSize.size" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The size of each annotation, as a fraction of the graph size.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AnnotationSize.gap">
+
+<span class="sig-name descname">
+<span class="pre">gap
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AnnotationSize.gap" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The gap between annotations, as a fraction of the graph size.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AutomaticColors">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">AutomaticColors
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#AutomaticColors">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.AutomaticColors" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A marker for the 
+<code class="docutils literal notranslate">
+<span class="pre">palette
+</span>
+</code> of a 
+<a class="reference internal" href="#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">ColorsConfiguration
+</span>
+</code>
+</a>, specifying that string color values are
+categorical keys whose colors are picked automatically. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AutomaticColors">documentation
+</a>
+for details.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AxisConfiguration">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">AxisConfiguration
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">minimum
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">maximum
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">expand_fraction
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">log_scale
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.common.LogScale" title="somegraphspy.common.LogScale">
+<span class="pre">LogScale
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">log_regularization
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">percent
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">bool
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">show_ticks
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">bool
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">ticks_angle
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">show_grid
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">bool
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">grid_color
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#AxisConfiguration">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.AxisConfiguration" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Configure an axis of a graph. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AxisConfiguration">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AxisConfiguration.minimum">
+
+<span class="sig-name descname">
+<span class="pre">minimum
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AxisConfiguration.minimum" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The minimal value shown in the axis.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AxisConfiguration.maximum">
+
+<span class="sig-name descname">
+<span class="pre">maximum
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AxisConfiguration.maximum" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The maximal value shown in the axis.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AxisConfiguration.expand_fraction">
+
+<span class="sig-name descname">
+<span class="pre">expand_fraction
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AxisConfiguration.expand_fraction" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Expand the axis range by this fraction of the data range.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AxisConfiguration.log_scale">
+
+<span class="sig-name descname">
+<span class="pre">log_scale
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.LogScale" title="somegraphspy.common.LogScale">
+<span class="pre">LogScale
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AxisConfiguration.log_scale" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Scale the axis by a logarithm of this base.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AxisConfiguration.log_regularization">
+
+<span class="sig-name descname">
+<span class="pre">log_regularization
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AxisConfiguration.log_regularization" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Added to the values before taking their logarithm.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AxisConfiguration.percent">
+
+<span class="sig-name descname">
+<span class="pre">percent
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">bool
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AxisConfiguration.percent" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Show the values as percents.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AxisConfiguration.show_ticks">
+
+<span class="sig-name descname">
+<span class="pre">show_ticks
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">bool
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AxisConfiguration.show_ticks" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Show the tick labels.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AxisConfiguration.ticks_angle">
+
+<span class="sig-name descname">
+<span class="pre">ticks_angle
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AxisConfiguration.ticks_angle" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Rotate the tick labels by this angle, in degrees.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AxisConfiguration.show_grid">
+
+<span class="sig-name descname">
+<span class="pre">show_grid
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">bool
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AxisConfiguration.show_grid" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Show the grid lines.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AxisConfiguration.grid_color">
+
+<span class="sig-name descname">
+<span class="pre">grid_color
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AxisConfiguration.grid_color" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The color of the grid lines.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.AxisConfiguration.title">
+
+<span class="sig-name descname">
+<span class="pre">title
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.AxisConfiguration.title" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The title of the axis.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.BandConfiguration">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">BandConfiguration
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">offset
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">line
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.common.LineConfiguration" title="somegraphspy.common.LineConfiguration">
+<span class="pre">LineConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#BandConfiguration">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.BandConfiguration" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Configure a single band in a graph. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.BandConfiguration">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.BandConfiguration.offset">
+
+<span class="sig-name descname">
+<span class="pre">offset
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.BandConfiguration.offset" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The offset of the band, or 
+<code class="docutils literal notranslate">
+<span class="pre">None
+</span>
+</code> not to show it at all.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.BandConfiguration.line">
+
+<span class="sig-name descname">
+<span class="pre">line
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.LineConfiguration" title="somegraphspy.common.LineConfiguration">
+<span class="pre">LineConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.common.BandConfiguration.line" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to draw the boundary line of the band.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.BandsConfiguration">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">BandsConfiguration
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">low
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.common.BandConfiguration" title="somegraphspy.common.BandConfiguration">
+<span class="pre">BandConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">middle
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.common.BandConfiguration" title="somegraphspy.common.BandConfiguration">
+<span class="pre">BandConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">high
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.common.BandConfiguration" title="somegraphspy.common.BandConfiguration">
+<span class="pre">BandConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#BandsConfiguration">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.BandsConfiguration" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Configure the partition of a graph into low, middle and high regions. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.BandsConfiguration">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.BandsConfiguration.low">
+
+<span class="sig-name descname">
+<span class="pre">low
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.BandConfiguration" title="somegraphspy.common.BandConfiguration">
+<span class="pre">BandConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.common.BandsConfiguration.low" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The band separating the low region.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.BandsConfiguration.middle">
+
+<span class="sig-name descname">
+<span class="pre">middle
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.BandConfiguration" title="somegraphspy.common.BandConfiguration">
+<span class="pre">BandConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.common.BandsConfiguration.middle" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The band in the middle region.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.BandsConfiguration.high">
+
+<span class="sig-name descname">
+<span class="pre">high
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.BandConfiguration" title="somegraphspy.common.BandConfiguration">
+<span class="pre">BandConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.common.BandsConfiguration.high" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The band separating the high region.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.BandsData">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">BandsData
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">low_offset
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">middle_offset
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">high_offset
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#BandsData">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.BandsData" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Override the band offsets specified in the configuration, when they depend on the data. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.BandsData">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.BandsData.low_offset">
+
+<span class="sig-name descname">
+<span class="pre">low_offset
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.BandsData.low_offset" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The offset of the band separating the low region.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.BandsData.middle_offset">
+
+<span class="sig-name descname">
+<span class="pre">middle_offset
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.BandsData.middle_offset" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The offset of the band in the middle region.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.BandsData.high_offset">
+
+<span class="sig-name descname">
+<span class="pre">high_offset
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.BandsData.high_offset" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The offset of the band separating the high region.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py data">
+
+<dt class="sig sig-object py" id="somegraphspy.common.BoolsVector">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">BoolsVector
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.BoolsVector" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A vector of booleans, used as a mask.
+</p>
+
+<p>alias of 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">ndarray
+</span>
+</code> | 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">Sequence
+</span>
+</code>[
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">bool
+</span>
+</code>]
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py data">
+
+<dt class="sig sig-object py" id="somegraphspy.common.CategoricalColors">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">CategoricalColors
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.CategoricalColors" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A categorical colors palette, mapping string values to colors. An empty color means the entity will not be shown.
+See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.CategoricalColors">documentation
+</a>
+for details.
+</p>
+
+<p>alias of 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">Mapping
+</span>
+</code>[
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">str
+</span>
+</code>, 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">str
+</span>
+</code>]
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ColorsConfiguration">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">ColorsConfiguration
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">palette
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span> 
+<span class="pre">|
+</span> 
+<span class="pre">~typing.Sequence[~typing.Tuple[float
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">str]]
+</span> 
+<span class="pre">|
+</span> 
+<span class="pre">~typing.Mapping[str
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">str]
+</span> 
+<span class="pre">|
+</span> 
+<span class="pre">~somegraphspy.common.AutomaticColors
+</span> 
+<span class="pre">|
+</span> 
+<span class="pre">None
+</span> 
+<span class="pre">|
+</span> 
+<span class="pre">~somegraphspy.julia_import.DefaultValue
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">fixed
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">axis
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<span class="pre">AxisConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">show_legend
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">bool
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">title
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#ColorsConfiguration">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.ColorsConfiguration" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Configure how to color some data. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ColorsConfiguration">documentation
+</a>
+for the (many) supported combinations of configuration and data.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ColorsConfiguration.palette">
+
+<span class="sig-name descname">
+<span class="pre">palette
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">Tuple
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">float
+</span>
+<span class="p">
+<span class="pre">,
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Mapping
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">,
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.AutomaticColors" title="somegraphspy.common.AutomaticColors">
+<span class="pre">AutomaticColors
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.ColorsConfiguration.palette" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to map the colors data to actual colors.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ColorsConfiguration.fixed">
+
+<span class="sig-name descname">
+<span class="pre">fixed
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.ColorsConfiguration.fixed" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Give all the entities this same color.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ColorsConfiguration.axis">
+
+<span class="sig-name descname">
+<span class="pre">axis
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<span class="pre">AxisConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.common.ColorsConfiguration.axis" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to scale the (numeric) colors data.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ColorsConfiguration.show_legend">
+
+<span class="sig-name descname">
+<span class="pre">show_legend
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">bool
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.ColorsConfiguration.show_legend" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Show a legend (or a color scale) for the colors.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ColorsConfiguration.title">
+
+<span class="sig-name descname">
+<span class="pre">title
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.ColorsConfiguration.title" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The title to use when showing the legend.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py data">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ContinuousColors">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">ContinuousColors
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.ContinuousColors" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A continuous colors palette, mapping numbers to colors. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ContinuousColors">documentation
+</a>
+for details.
+</p>
+
+<p>alias of 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">Sequence
+</span>
+</code>[
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">Tuple
+</span>
+</code>[
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">float
+</span>
+</code>, 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">str
+</span>
+</code>]]
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.FigureConfiguration">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">FigureConfiguration
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">margins
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.common.MarginsConfiguration" title="somegraphspy.common.MarginsConfiguration">
+<span class="pre">MarginsConfiguration
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">width
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">height
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">template
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">background_color
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">paper_color
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">colors_scale_offsets
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">float
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#FigureConfiguration">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.FigureConfiguration" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Configure the overall figure. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.FigureConfiguration">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.FigureConfiguration.margins">
+
+<span class="sig-name descname">
+<span class="pre">margins
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.MarginsConfiguration" title="somegraphspy.common.MarginsConfiguration">
+<span class="pre">MarginsConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.common.FigureConfiguration.margins" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The margins around the graph.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.FigureConfiguration.width">
+
+<span class="sig-name descname">
+<span class="pre">width
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.FigureConfiguration.width" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The width of the figure in pixels.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.FigureConfiguration.height">
+
+<span class="sig-name descname">
+<span class="pre">height
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.FigureConfiguration.height" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The height of the figure in pixels.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.FigureConfiguration.template">
+
+<span class="sig-name descname">
+<span class="pre">template
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.FigureConfiguration.template" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The name of the Plotly template to use.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.FigureConfiguration.background_color">
+
+<span class="sig-name descname">
+<span class="pre">background_color
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.FigureConfiguration.background_color" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The color of the area behind the graph itself.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.FigureConfiguration.paper_color">
+
+<span class="sig-name descname">
+<span class="pre">paper_color
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.FigureConfiguration.paper_color" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The color of the area around the graph.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.FigureConfiguration.colors_scale_offsets">
+
+<span class="sig-name descname">
+<span class="pre">colors_scale_offsets
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">float
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.FigureConfiguration.colors_scale_offsets" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The horizontal offsets of the color scales, as fractions of the graph width.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Graph">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">Graph
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#Graph">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.Graph" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A combination of some 
+<a class="reference internal" href="#somegraphspy.common.AbstractGraphData" title="somegraphspy.common.AbstractGraphData">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">AbstractGraphData
+</span>
+</code>
+</a> and some 
+<a class="reference internal" href="#somegraphspy.common.AbstractGraphConfiguration" title="somegraphspy.common.AbstractGraphConfiguration">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">AbstractGraphConfiguration
+</span>
+</code>
+</a>. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.Graph">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Graph.data">
+
+<span class="sig-name descname">
+<span class="pre">data
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.AbstractGraphData" title="somegraphspy.common.AbstractGraphData">
+<span class="pre">AbstractGraphData
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.common.Graph.data" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>What to display.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Graph.configuration">
+
+<span class="sig-name descname">
+<span class="pre">configuration
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.AbstractGraphConfiguration" title="somegraphspy.common.AbstractGraphConfiguration">
+<span class="pre">AbstractGraphConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.common.Graph.configuration" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to display it.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py property">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Graph.json">
+
+<span class="property">
+<span class="k">
+<span class="pre">property
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">json
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.Graph.json" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Render the graph as a JSON string describing the Plotly figure. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_json">documentation
+</a>
+for details.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py property">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Graph.figure">
+
+<span class="property">
+<span class="k">
+<span class="pre">property
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">figure
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Figure
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.Graph.figure" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Render the graph as a 
+<code class="docutils literal notranslate">
+<span class="pre">plotly
+</span>
+</code> figure, which can be displayed and further manipulated using the normal
+
+<code class="docutils literal notranslate">
+<span class="pre">plotly
+</span>
+</code> API.
+</p>
+
+<p>Simply evaluating the graph in a Jupyter notebook cell displays it, so this is only needed if you want the
+figure itself.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py method">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Graph.show">
+
+<span class="sig-name descname">
+<span class="pre">show
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<span class="pre">None
+</span>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#Graph.show">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.Graph.show" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Display the graph, opening it in a browser when not running in a notebook.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py method">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Graph.save">
+
+<span class="sig-name descname">
+<span class="pre">save
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">output_file
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<span class="pre">None
+</span>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#Graph.save">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.Graph.save" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Save the graph to a file. The format is deduced from the suffix of the file name. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.save_graph">documentation
+</a>
+for details.
+</p>
+
+<p>Unlike the Plotly 
+<code class="docutils literal notranslate">
+<span class="pre">savefig
+</span>
+</code> function, this obeys the 
+<code class="docutils literal notranslate">
+<span class="pre">width
+</span>
+</code> and 
+<code class="docutils literal notranslate">
+<span class="pre">height
+</span>
+</code> of the figure configuration.
+Writing anything other than an 
+<code class="docutils literal notranslate">
+<span class="pre">html
+</span>
+</code> file starts a Kaleido process, which is slow the first time.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py method">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Graph.flip_axes">
+
+<span class="sig-name descname">
+<span class="pre">flip_axes
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<a class="reference internal" href="#somegraphspy.common.Graph" title="somegraphspy.common.Graph">
+<span class="pre">Graph
+</span>
+</a>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#Graph.flip_axes">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.Graph.flip_axes" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Return a new graph with the axes flipped. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.flip_axes">documentation
+</a>
+for details.
+</p>
+
+<p>The returned graph shares storage with the original where possible.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py method">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Graph.flip_axes_in_place">
+
+<span class="sig-name descname">
+<span class="pre">flip_axes_in_place
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<a class="reference internal" href="#somegraphspy.common.Graph" title="somegraphspy.common.Graph">
+<span class="pre">Graph
+</span>
+</a>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#Graph.flip_axes_in_place">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.Graph.flip_axes_in_place" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Flip the axes of the graph in-place and return it. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.flip_axes!">documentation
+</a>
+for details.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py method">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Graph.validate">
+
+<span class="sig-name descname">
+<span class="pre">validate
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">name
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">'graph'
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<span class="pre">None
+</span>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#Graph.validate">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.Graph.validate" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Validate the graph, raising an exception describing the problem if it isn’t valid.
+</p>
+
+<p>The 
+<code class="docutils literal notranslate">
+<span class="pre">name
+</span>
+</code> is used as the prefix of the path reported in the error message.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py data">
+
+<dt class="sig sig-object py" id="somegraphspy.common.IntegersVector">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">IntegersVector
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.IntegersVector" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A vector of integers.
+</p>
+
+<p>alias of 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">ndarray
+</span>
+</code> | 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">Sequence
+</span>
+</code>[
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">int
+</span>
+</code>]
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LineConfiguration">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">LineConfiguration
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">width
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">style
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.common.LineStyle" title="somegraphspy.common.LineStyle">
+<span class="pre">LineStyle
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">is_filled
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">bool
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">color
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#LineConfiguration">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.LineConfiguration" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Configure a line in a graph. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.LineConfiguration">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LineConfiguration.width">
+
+<span class="sig-name descname">
+<span class="pre">width
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LineConfiguration.width" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The width of the line in pixels.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LineConfiguration.style">
+
+<span class="sig-name descname">
+<span class="pre">style
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.LineStyle" title="somegraphspy.common.LineStyle">
+<span class="pre">LineStyle
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LineConfiguration.style" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The style of the line, or 
+<code class="docutils literal notranslate">
+<span class="pre">None
+</span>
+</code> not to show it at all.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LineConfiguration.is_filled">
+
+<span class="sig-name descname">
+<span class="pre">is_filled
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">bool
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LineConfiguration.is_filled" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Fill the area below (or to the left of) the line.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LineConfiguration.color">
+
+<span class="sig-name descname">
+<span class="pre">color
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LineConfiguration.color" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The color of the line.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LineStyle">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">LineStyle
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">value
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#LineStyle">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.LineStyle" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The style of a line. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.LineStyle">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LineStyle.SolidLine">
+
+<span class="sig-name descname">
+<span class="pre">SolidLine
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'SolidLine'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LineStyle.SolidLine" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Draw a solid line.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LineStyle.DashLine">
+
+<span class="sig-name descname">
+<span class="pre">DashLine
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'DashLine'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LineStyle.DashLine" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Draw a dashed line.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LineStyle.DotLine">
+
+<span class="sig-name descname">
+<span class="pre">DotLine
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'DotLine'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LineStyle.DotLine" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Draw a dotted line.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LineStyle.DashDotLine">
+
+<span class="sig-name descname">
+<span class="pre">DashDotLine
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'DashDotLine'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LineStyle.DashDotLine" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Draw a dash-dotted line.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LogScale">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">LogScale
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">value
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#LogScale">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.LogScale" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The base of the logarithm used to scale an axis. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.LogScale">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LogScale.Log10Scale">
+
+<span class="sig-name descname">
+<span class="pre">Log10Scale
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'Log10Scale'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LogScale.Log10Scale" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Scale the axis using a base 10 logarithm.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LogScale.Log2Scale">
+
+<span class="sig-name descname">
+<span class="pre">Log2Scale
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'Log2Scale'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LogScale.Log2Scale" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Scale the axis using a base 2 logarithm.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.MarginsConfiguration">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">MarginsConfiguration
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">left
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">bottom
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">right
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">top
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#MarginsConfiguration">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.MarginsConfiguration" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Configure the margins of the graph, in pixels. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.MarginsConfiguration">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.MarginsConfiguration.left">
+
+<span class="sig-name descname">
+<span class="pre">left
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">int
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.MarginsConfiguration.left" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The left margin.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.MarginsConfiguration.bottom">
+
+<span class="sig-name descname">
+<span class="pre">bottom
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">int
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.MarginsConfiguration.bottom" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The bottom margin.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.MarginsConfiguration.right">
+
+<span class="sig-name descname">
+<span class="pre">right
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">int
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.MarginsConfiguration.right" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The right margin.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.MarginsConfiguration.top">
+
+<span class="sig-name descname">
+<span class="pre">top
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">int
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.MarginsConfiguration.top" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The top margin.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py data">
+
+<dt class="sig sig-object py" id="somegraphspy.common.NAMED_COLOR_SCALES">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">NAMED_COLOR_SCALES
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">['Blackbody',
+</span> 
+<span class="pre">'Bluered',
+</span> 
+<span class="pre">'Blues',
+</span> 
+<span class="pre">'BuWtRd',
+</span> 
+<span class="pre">'Cividis',
+</span> 
+<span class="pre">'Earth',
+</span> 
+<span class="pre">'Edge',
+</span> 
+<span class="pre">'Electric',
+</span> 
+<span class="pre">'Greens',
+</span> 
+<span class="pre">'Greys',
+</span> 
+<span class="pre">'HSV',
+</span> 
+<span class="pre">'Hot',
+</span> 
+<span class="pre">'IceFire',
+</span> 
+<span class="pre">'Jet',
+</span> 
+<span class="pre">'Phase',
+</span> 
+<span class="pre">'Picnic',
+</span> 
+<span class="pre">'Portland',
+</span> 
+<span class="pre">'Rainbow',
+</span> 
+<span class="pre">'RdBu',
+</span> 
+<span class="pre">'Reds',
+</span> 
+<span class="pre">'Twilight',
+</span> 
+<span class="pre">'Viridis',
+</span> 
+<span class="pre">'WtYlOrRdDm',
+</span> 
+<span class="pre">'YlGnBu',
+</span> 
+<span class="pre">'YlOrRd',
+</span> 
+<span class="pre">'mrybm',
+</span> 
+<span class="pre">'mygbm']
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.NAMED_COLOR_SCALES" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The names of the standard Plotly color scales that can be used as a 
+<code class="docutils literal notranslate">
+<span class="pre">palette
+</span>
+</code>. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.NAMED_COLOR_SCALES">documentation
+</a>
+for details.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.NumbersMatrix">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">NumbersMatrix
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.NumbersMatrix" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A matrix of numbers. Entry 
+<code class="docutils literal notranslate">
+<span class="pre">matrix[row,
+</span> 
+<span class="pre">column]
+</span>
+</code> is the same entry in Python and in Julia, whatever the memory
+layout of the array is.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py data">
+
+<dt class="sig sig-object py" id="somegraphspy.common.NumbersVector">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">NumbersVector
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.NumbersVector" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A vector of numbers.
+</p>
+
+<p>alias of 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">ndarray
+</span>
+</code> | 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">Sequence
+</span>
+</code>[
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">float
+</span>
+</code>]
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py data">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Palette">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">Palette
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.Palette" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The ways to specify how to color data: a named Plotly color scale, an explicit continuous or categorical palette, or
+
+<a class="reference internal" href="#somegraphspy.common.AutomaticColors" title="somegraphspy.common.AutomaticColors">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">AutomaticColors
+</span>
+</code>
+</a>.
+</p>
+
+<p>alias of 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">str
+</span>
+</code> | 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">Sequence
+</span>
+</code>[
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">Tuple
+</span>
+</code>[
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">float
+</span>
+</code>, 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">str
+</span>
+</code>]] | 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">Mapping
+</span>
+</code>[
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">str
+</span>
+</code>, 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">str
+</span>
+</code>] | 
+<a class="reference internal" href="#somegraphspy.common.AutomaticColors" title="somegraphspy.common.AutomaticColors">
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">AutomaticColors
+</span>
+</code>
+</a>
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.SizesConfiguration">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">SizesConfiguration
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">fixed
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">minimum
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">maximum
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">log_scale
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">bool
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">log_regularization
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">smallest
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">span
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#SizesConfiguration">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.SizesConfiguration" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Configure how to scale data values into sizes (in pixels). See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.SizesConfiguration">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.SizesConfiguration.fixed">
+
+<span class="sig-name descname">
+<span class="pre">fixed
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.SizesConfiguration.fixed" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Use this fixed size for everything, instead of scaling the data.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.SizesConfiguration.minimum">
+
+<span class="sig-name descname">
+<span class="pre">minimum
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.SizesConfiguration.minimum" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The minimal data value to show.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.SizesConfiguration.maximum">
+
+<span class="sig-name descname">
+<span class="pre">maximum
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.SizesConfiguration.maximum" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The maximal data value to show.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.SizesConfiguration.log_scale">
+
+<span class="sig-name descname">
+<span class="pre">log_scale
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">bool
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.SizesConfiguration.log_scale" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Scale the data values by their logarithm.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.SizesConfiguration.log_regularization">
+
+<span class="sig-name descname">
+<span class="pre">log_regularization
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.SizesConfiguration.log_regularization" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Added to the data values before taking their logarithm.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.SizesConfiguration.smallest">
+
+<span class="sig-name descname">
+<span class="pre">smallest
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.SizesConfiguration.smallest" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The size of the smallest data value.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.SizesConfiguration.span">
+
+<span class="sig-name descname">
+<span class="pre">span
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.SizesConfiguration.span" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Added to the 
+<code class="docutils literal notranslate">
+<span class="pre">smallest
+</span>
+</code> size for the largest data value.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Stacking">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">Stacking
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">value
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#Stacking">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.Stacking" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>How to stack multiple series on top of each other. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.Stacking">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Stacking.StackValues">
+
+<span class="sig-name descname">
+<span class="pre">StackValues
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'StackValues'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.Stacking.StackValues" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Stack the actual values.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Stacking.StackFractions">
+
+<span class="sig-name descname">
+<span class="pre">StackFractions
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'StackFractions'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.Stacking.StackFractions" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Stack the fractions of the values out of the total.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.StringsMatrix">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">StringsMatrix
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.StringsMatrix" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A matrix of strings. Entry 
+<code class="docutils literal notranslate">
+<span class="pre">matrix[row,
+</span> 
+<span class="pre">column]
+</span>
+</code> is the same entry in Python and in Julia, whatever the memory
+layout of the array is.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py data">
+
+<dt class="sig sig-object py" id="somegraphspy.common.StringsVector">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">StringsVector
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.StringsVector" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A vector of strings.
+</p>
+
+<p>alias of 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">ndarray
+</span>
+</code> | 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">Sequence
+</span>
+</code>[
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">str
+</span>
+</code>]
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Validated">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">Validated
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#Validated">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.Validated" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A common type for objects that support validation. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/validations.html#SomeGraphs.Validations.Validated">documentation
+</a>
+for details.
+</p>
+
+<dl class="py method">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Validated.validate">
+
+<span class="sig-name descname">
+<span class="pre">validate
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">name
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">'value'
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<span class="pre">None
+</span>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#Validated.validate">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.Validated.validate" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Validate the object, raising an exception describing the problem if it isn’t valid.
+</p>
+
+<p>The 
+<code class="docutils literal notranslate">
+<span class="pre">name
+</span>
+</code> is used as the prefix of the path reported in the error message.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ValuesOrientation">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">ValuesOrientation
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">value
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#ValuesOrientation">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.ValuesOrientation" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The orientation of the values axis. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ValuesOrientation">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ValuesOrientation.HorizontalValues">
+
+<span class="sig-name descname">
+<span class="pre">HorizontalValues
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'HorizontalValues'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.ValuesOrientation.HorizontalValues" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Show the values in the horizontal (X) axis.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ValuesOrientation.VerticalValues">
+
+<span class="sig-name descname">
+<span class="pre">VerticalValues
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">'VerticalValues'
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.ValuesOrientation.VerticalValues" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Show the values in the vertical (Y) axis.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py function">
+
+<dt class="sig sig-object py" id="somegraphspy.common.categorical_palette">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">categorical_palette
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">values
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Any
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">palette
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">str
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">None
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<span class="pre">Mapping
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">,
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#categorical_palette">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.categorical_palette" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Create a categorical colors palette assigning a distinct color to each of the 
+<code class="docutils literal notranslate">
+<span class="pre">values
+</span>
+</code>. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.categorical_palette">documentation
+</a>
+for details.
+</p>
+
+</dd>
+</dl>
+
+
+</section>
+
+
+           
+</div>
+          
+</div>
+          
+<footer>
+<div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        
+<a href="julia_import.html" class="btn btn-neutral float-left" title="julia_import" accesskey="p" rel="prev">
+<span class="fa fa-arrow-circle-left" aria-hidden="true">
+</span> Previous
+</a>
+        
+<a href="distributions.html" class="btn btn-neutral float-right" title="distributions" accesskey="n" rel="next">Next 
+<span class="fa fa-arrow-circle-right" aria-hidden="true">
+</span>
+</a>
+    
+</div>
+
+  
+<hr/>
+
+  
+<div role="contentinfo">
+    
+<p>&#169; Copyright 2025 Weizmann Institute of Science.
+</p>
+  
+</div>
+
+  Built with 
+<a href="https://www.sphinx-doc.org/">Sphinx
+</a> using a
+    
+<a href="https://github.com/readthedocs/sphinx_rtd_theme">theme
+</a>
+    provided by 
+<a href="https://readthedocs.org">Read the Docs
+</a>.
+   
+
+
+</footer>
+        
+</div>
+      
+</div>
+    
+</section>
+  
+</div>
+  
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  
+</script> 
+
+
+</body>
+
+</html>

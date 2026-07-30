@@ -1,0 +1,944 @@
+
+
+
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en" data-content_root="./">
+
+<head>
+  
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+<title>julia_import &mdash; SomeGraphs 0.2.0 documentation
+</title>
+      
+<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      
+<link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      
+<script src="_static/jquery.js?v=5d32c60e">
+</script>
+      
+<script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c">
+</script>
+      
+<script src="_static/documentation_options.js?v=938c9ccc">
+</script>
+      
+<script src="_static/doctools.js?v=fd6eb6e6">
+</script>
+      
+<script src="_static/sphinx_highlight.js?v=6ffebe34">
+</script>
+    
+<script src="_static/js/theme.js">
+</script>
+    
+<link rel="index" title="Index" href="genindex.html" />
+    
+<link rel="search" title="Search" href="search.html" />
+    
+<link rel="next" title="common" href="common.html" />
+    
+<link rel="prev" title="API" href="API.html" /> 
+
+</head>
+
+
+<body class="wy-body-for-nav"> 
+  
+<div class="wy-grid-for-nav">
+    
+<nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      
+<div class="wy-side-scroll">
+        
+<div class="wy-side-nav-search" >
+
+          
+          
+          
+<a href="index.html" class="icon icon-home">
+            SomeGraphs
+          
+</a>
+
+<div role="search">
+  
+<form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    
+<input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    
+<input type="hidden" name="check_keywords" value="yes" />
+    
+<input type="hidden" name="area" value="default" />
+  
+</form>
+
+</div>
+        
+</div>
+<div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              
+<ul>
+
+<li class="toctree-l1">
+<a class="reference internal" href="readme.html">README
+</a>
+</li>
+
+</ul>
+
+<ul class="current">
+
+<li class="toctree-l1 current">
+<a class="reference internal" href="API.html">API
+</a>
+<ul class="current">
+
+<li class="toctree-l2 current">
+<a class="current reference internal" href="#">julia_import
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.julia_import.jl">
+<code class="docutils literal notranslate">
+<span class="pre">jl
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.julia_import.jl_version">
+<code class="docutils literal notranslate">
+<span class="pre">jl_version
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.julia_import.DefaultValue">
+<code class="docutils literal notranslate">
+<span class="pre">DefaultValue
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.julia_import.DEFAULT">
+<code class="docutils literal notranslate">
+<span class="pre">DEFAULT
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.julia_import.JlEnum">
+<code class="docutils literal notranslate">
+<span class="pre">JlEnum
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.julia_import.JlObject">
+<code class="docutils literal notranslate">
+<span class="pre">JlObject
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.julia_import.JlObject.copy">
+<code class="docutils literal notranslate">
+<span class="pre">JlObject.copy()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.julia_import.JlObject.wrap_jl_object">
+<code class="docutils literal notranslate">
+<span class="pre">JlObject.wrap_jl_object()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.julia_import.use_default_julia_environment">
+<code class="docutils literal notranslate">
+<span class="pre">use_default_julia_environment()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html">common
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html">distributions
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html">scatters
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html">bars
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html">heatmaps
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html">enums
+</a>
+</li>
+
+</ul>
+
+</li>
+
+</ul>
+
+        
+</div>
+      
+</div>
+    
+</nav>
+
+    
+<section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+<nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          
+<i data-toggle="wy-nav-top" class="fa fa-bars">
+</i>
+          
+<a href="index.html">SomeGraphs
+</a>
+      
+</nav>
+
+      
+<div class="wy-nav-content">
+        
+<div class="rst-content">
+          
+<div role="navigation" aria-label="Page navigation">
+  
+<ul class="wy-breadcrumbs">
+      
+<li>
+<a href="index.html" class="icon icon-home" aria-label="Home">
+</a>
+</li>
+          
+<li class="breadcrumb-item">
+<a href="API.html">API
+</a>
+</li>
+      
+<li class="breadcrumb-item active">julia_import
+</li>
+      
+<li class="wy-breadcrumbs-aside">
+            
+<a href="_sources/julia_import.rst.txt" rel="nofollow"> View page source
+</a>
+      
+</li>
+  
+</ul>
+  
+<hr/>
+
+</div>
+          
+<div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           
+<div itemprop="articleBody">
+             
+  
+<section id="module-somegraphspy.julia_import">
+
+<span id="julia-import">
+</span>
+<h1>julia_import
+<a class="headerlink" href="#module-somegraphspy.julia_import" title="Link to this heading">¶
+</a>
+</h1>
+
+<p>Import the Julia environment.
+</p>
+
+<p>This provides additional functionality on top of 
+<code class="docutils literal notranslate">
+<span class="pre">juliapkg
+</span>
+</code> (which automatically downloads Julia packages for us). It
+will import the 
+<code class="docutils literal notranslate">
+<span class="pre">juliacall
+</span>
+</code> module to create a Julia environment (as 
+<code class="docutils literal notranslate">
+<span class="pre">jl
+</span>
+</code>), and uses it to import the
+
+<code class="docutils literal notranslate">
+<span class="pre">SomeGraphs.jl
+</span>
+</code> Julia package.
+</p>
+
+<p>You can control the behavior using the following environment variables:
+</p>
+
+<ul class="simple">
+
+<li>
+<p>
+<code class="docutils literal notranslate">
+<span class="pre">PYTHON_JULIACALL_HANDLE_SIGNALS
+</span>
+</code> (by default, 
+<code class="docutils literal notranslate">
+<span class="pre">yes
+</span>
+</code>). This is needed to avoid segfaults when calling
+Julia from Python.
+</p>
+</li>
+
+<li>
+<p>
+<code class="docutils literal notranslate">
+<span class="pre">PYTHON_JULIACALL_THREADS
+</span>
+</code> (by default, 
+<code class="docutils literal notranslate">
+<span class="pre">auto
+</span>
+</code>). By default Julia will use all the threads available
+in the machine. On machines with hyper-threading you may want to specify only half the number of threads (that is,
+just have one thread per physical core) as that should provide better performance for compute-intensive (as opposed to
+IO-intensive) code.
+</p>
+</li>
+
+<li>
+<p>
+<code class="docutils literal notranslate">
+<span class="pre">PYTHON_JULIACALL_OPTLEVEL
+</span>
+</code> (by default, 
+<code class="docutils literal notranslate">
+<span class="pre">3
+</span>
+</code>).
+</p>
+</li>
+
+</ul>
+
+<p>This code is based on the code from the 
+<code class="docutils literal notranslate">
+<span class="pre">pysr
+</span>
+</code> Python package, adapted to our needs. TODO: Much of this is replicated
+in all our Python packages that invoke Julia.
+</p>
+
+<dl class="py data">
+
+<dt class="sig sig-object py" id="somegraphspy.julia_import.jl">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.julia_import.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">jl
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Julia:
+</span> 
+<span class="pre">Main
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.julia_import.jl" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The interface to the Julia run-time.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py data">
+
+<dt class="sig sig-object py" id="somegraphspy.julia_import.jl_version">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.julia_import.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">jl_version
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">(1,
+</span> 
+<span class="pre">12,
+</span> 
+<span class="pre">6)
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.julia_import.jl_version" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>The version of Julia being used.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.julia_import.DefaultValue">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.julia_import.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">DefaultValue
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/julia_import.html#DefaultValue">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.julia_import.DefaultValue" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A Python class for the value of a constructor parameter that was not specified.
+</p>
+
+<p>We can’t use 
+<code class="docutils literal notranslate">
+<span class="pre">None
+</span>
+</code> for this because 
+<code class="docutils literal notranslate">
+<span class="pre">None
+</span>
+</code> is how one specifies Julia’s 
+<code class="docutils literal notranslate">
+<span class="pre">nothing
+</span>
+</code>, and not every field
+defaults to 
+<code class="docutils literal notranslate">
+<span class="pre">nothing
+</span>
+</code> (e.g., the 
+<code class="docutils literal notranslate">
+<span class="pre">rows_groups_gap
+</span>
+</code> of 
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration
+</span>
+</code> defaults to 
+<code class="docutils literal notranslate">
+<span class="pre">1
+</span>
+</code>).
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py data">
+
+<dt class="sig sig-object py" id="somegraphspy.julia_import.DEFAULT">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.julia_import.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">DEFAULT
+</span>
+</span>
+<span class="property">
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.julia_import.DEFAULT" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A Python value for a constructor parameter that was not specified, so the Julia default should be used instead.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.julia_import.JlEnum">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.julia_import.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">JlEnum
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">value
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/julia_import.html#JlEnum">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.julia_import.JlEnum" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A Python base class for wrapping a Julia 
+<code class="docutils literal notranslate">
+<span class="pre">&#64;enum
+</span>
+</code> type.
+</p>
+
+<p>The members are named exactly as the Julia values are, and their value is that name. Grouping them in a class (as
+opposed to listing them as separate constants) is what allows auto-completion to list the valid values of a field.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.julia_import.JlObject">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.julia_import.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">JlObject
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/julia_import.html#JlObject">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.julia_import.JlObject" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>A Python base class for wrapping a Julia object.
+</p>
+
+<p>Reading a field returns the matching Julia field, wrapping it in the Python class of its type (if there is one) and
+converting Julia arrays to 
+<code class="docutils literal notranslate">
+<span class="pre">numpy
+</span>
+</code> arrays. Writing a field writes through to the Julia object, so Julia validates
+the value immediately. Nested objects are shared rather than copied, exactly as they are in Julia; that is, after
+
+<code class="docutils literal notranslate">
+<span class="pre">configuration.figure
+</span> 
+<span class="pre">=
+</span> 
+<span class="pre">other.figure
+</span>
+</code> both configurations refer to the same figure configuration. Use 
+<code class="docutils literal notranslate">
+<span class="pre">copy
+</span>
+</code> if
+you need an independent one.
+</p>
+
+<dl class="py method">
+
+<dt class="sig sig-object py" id="somegraphspy.julia_import.JlObject.copy">
+
+<span class="sig-name descname">
+<span class="pre">copy
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<span class="pre">Any
+</span>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/julia_import.html#JlObject.copy">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.julia_import.JlObject.copy" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Return an independent copy of the object, which shares nothing with the original.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py method">
+
+<dt class="sig sig-object py" id="somegraphspy.julia_import.JlObject.wrap_jl_object">
+
+<span class="property">
+<span class="k">
+<span class="pre">classmethod
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">wrap_jl_object
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<span class="pre">Any
+</span>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/julia_import.html#JlObject.wrap_jl_object">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.julia_import.JlObject.wrap_jl_object" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Wrap a Julia object (for internal use).
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py function">
+
+<dt class="sig sig-object py" id="somegraphspy.julia_import.use_default_julia_environment">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.julia_import.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">use_default_julia_environment
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<span class="pre">None
+</span>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/julia_import.html#use_default_julia_environment">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.julia_import.use_default_julia_environment" title="Link to this definition">¶
+</a>
+</dt>
+
+<dd>
+<p>Force JuliaCall to use your default environment (whatever that is). By default JuliaCall creates its own separate
+independent environment, which means that it re-downloads and re-installs all the dependency packages there.
+This is nice if you don’t otherwise use Julia and/or don’t care about the wasted disk space and initial installation
+time and manual control over package versions. It sucks if you do otherwise use Julia, and/or you want manual
+control over the version of some of the packages (e.g., if you are actively developing them). You would think
+there would a built-in method for doing this in JuliaCall, right?
+</p>
+
+<p>To make this easier (and trigger it before actually importing packages), you can set the
+
+<code class="docutils literal notranslate">
+<span class="pre">PYTHON_JULIACALL_USE_DEFAULT_ENVIRONMENT
+</span>
+</code> environment variable to 
+<code class="docutils literal notranslate">
+<span class="pre">yes
+</span>
+</code>, and then 
+<code class="docutils literal notranslate">
+<span class="pre">import
+</span> 
+<span class="pre">somegraphspy
+</span>
+</code> will
+call 
+<code class="docutils literal notranslate">
+<span class="pre">use_default_julia_environment
+</span>
+</code> for you. Sigh.
+</p>
+
+</dd>
+</dl>
+
+
+</section>
+
+
+           
+</div>
+          
+</div>
+          
+<footer>
+<div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        
+<a href="API.html" class="btn btn-neutral float-left" title="API" accesskey="p" rel="prev">
+<span class="fa fa-arrow-circle-left" aria-hidden="true">
+</span> Previous
+</a>
+        
+<a href="common.html" class="btn btn-neutral float-right" title="common" accesskey="n" rel="next">Next 
+<span class="fa fa-arrow-circle-right" aria-hidden="true">
+</span>
+</a>
+    
+</div>
+
+  
+<hr/>
+
+  
+<div role="contentinfo">
+    
+<p>&#169; Copyright 2025 Weizmann Institute of Science.
+</p>
+  
+</div>
+
+  Built with 
+<a href="https://www.sphinx-doc.org/">Sphinx
+</a> using a
+    
+<a href="https://github.com/readthedocs/sphinx_rtd_theme">theme
+</a>
+    provided by 
+<a href="https://readthedocs.org">Read the Docs
+</a>.
+   
+
+
+</footer>
+        
+</div>
+      
+</div>
+    
+</section>
+  
+</div>
+  
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  
+</script> 
+
+
+</body>
+
+</html>

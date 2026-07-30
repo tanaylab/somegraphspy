@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=77.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "somegraphspy"
+version = "0.2.0"
+description = "Generate graphs (using Plotly)"
+authors = [
+    { name = "Oren Ben-Kiki", email = "oren@ben-kiki.org" },
+]
+readme = "README.rst"
+license = "MIT"
+license-files = ["LICENSE.rst"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+requires-python = ">= 3.10"
+dependencies = [
+    "juliacall",
+    "numpy",
+    "plotly",
+]
+
+[tool.setuptool]
+data_files = ["juliapkg.json"]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "bumpversion",
+    "flake8",
+    "isort",
+    "jedi",
+    "mypy",
+    "mypy_extensions",
+    "pylint",
+    "pytest",
+    "pytest-cov",
+    "sphinx",
+    "sphinx_rtd_theme",
+    "twine",
+]
+test = [
+    "jedi",
+    "pytest",
+    "pytest-cov",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/tanaylab/somegraphspy"
+"Bug Tracker" = "https://github.com/tanaylab/somegraphspy/issues"
+
+[tool.setuptools.packages.find]
+exclude = ["htmlcov"]

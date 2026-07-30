@@ -1,0 +1,901 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>somegraphspy.common &mdash; SomeGraphs 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SomeGraphs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">README</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../API.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SomeGraphs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">somegraphspy.common</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for somegraphspy.common</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Common data types for specifying graphs. See the Julia</span>
+<span class="sd">`documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html&gt;`__ for details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># The enum values are named exactly as they are in Julia, so they are not UPPER_CASE.</span>
+<span class="c1"># pylint: disable=invalid-name</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="kn">import</span> <span class="n">Figure</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">plotly.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">from_json</span>  <span class="c1"># type: ignore</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultValue</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlObject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_given</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">jl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;AbstractGraphConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AbstractGraphData&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AnnotationData&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AnnotationSize&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AutomaticColors&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AxisConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BandConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BandsConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BandsData&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BoolsVector&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CategoricalColors&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ColorsConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ContinuousColors&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FigureConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Graph&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;IntegersVector&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LineConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LineStyle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LogScale&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MarginsConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NAMED_COLOR_SCALES&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NumbersMatrix&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NumbersVector&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Palette&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SizesConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Stacking&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;StringsMatrix&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;StringsVector&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Validated&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ValuesOrientation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;categorical_palette&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1">#: A vector of numbers.</span>
+<span class="n">NumbersVector</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span>
+
+<span class="c1">#: A vector of integers.</span>
+<span class="n">IntegersVector</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
+
+<span class="c1">#: A vector of strings.</span>
+<span class="n">StringsVector</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+
+<span class="c1">#: A vector of booleans, used as a mask.</span>
+<span class="n">BoolsVector</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">bool</span><span class="p">]]</span>
+
+<span class="c1">#: A matrix of numbers. Entry ``matrix[row, column]`` is the same entry in Python and in Julia, whatever the memory</span>
+<span class="c1">#: layout of the array is.</span>
+<span class="n">NumbersMatrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+
+<span class="c1">#: A matrix of strings. Entry ``matrix[row, column]`` is the same entry in Python and in Julia, whatever the memory</span>
+<span class="c1">#: layout of the array is.</span>
+<span class="n">StringsMatrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+
+<span class="c1">#: A continuous colors palette, mapping numbers to colors. See the Julia</span>
+<span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ContinuousColors&gt;`__</span>
+<span class="c1">#: for details.</span>
+<span class="n">ContinuousColors</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
+
+<span class="c1">#: A categorical colors palette, mapping string values to colors. An empty color means the entity will not be shown.</span>
+<span class="c1">#: See the Julia</span>
+<span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.CategoricalColors&gt;`__</span>
+<span class="c1">#: for details.</span>
+<span class="n">CategoricalColors</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+
+<span class="c1">#: The names of the standard Plotly color scales that can be used as a ``palette``. See the Julia</span>
+<span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.NAMED_COLOR_SCALES&gt;`__</span>
+<span class="c1">#: for details.</span>
+<span class="n">NAMED_COLOR_SCALES</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">jl</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">NAMED_COLOR_SCALES</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="Validated">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.Validated">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Validated</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A common type for objects that support validation. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/validations.html#SomeGraphs.Validations.Validated&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Validated.validate">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.Validated.validate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate the object, raising an exception describing the problem if it isn&#39;t valid.</span>
+
+<span class="sd">        The ``name`` is used as the prefix of the path reported in the error message.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">ValidationContext</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">Vector</span><span class="p">([</span><span class="n">name</span><span class="p">])),</span> <span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ValuesOrientation">
+<a class="viewcode-back" href="../../enums.html#somegraphspy.common.ValuesOrientation">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ValuesOrientation</span><span class="p">(</span><span class="n">JlEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The orientation of the values axis. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ValuesOrientation&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Show the values in the horizontal (X) axis.</span>
+    <span class="n">HorizontalValues</span> <span class="o">=</span> <span class="s2">&quot;HorizontalValues&quot;</span>
+    <span class="c1">#: Show the values in the vertical (Y) axis.</span>
+    <span class="n">VerticalValues</span> <span class="o">=</span> <span class="s2">&quot;VerticalValues&quot;</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;ValuesOrientation&quot;</span><span class="p">,</span> <span class="n">ValuesOrientation</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="LogScale">
+<a class="viewcode-back" href="../../enums.html#somegraphspy.common.LogScale">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LogScale</span><span class="p">(</span><span class="n">JlEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The base of the logarithm used to scale an axis. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.LogScale&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Scale the axis using a base 10 logarithm.</span>
+    <span class="n">Log10Scale</span> <span class="o">=</span> <span class="s2">&quot;Log10Scale&quot;</span>
+    <span class="c1">#: Scale the axis using a base 2 logarithm.</span>
+    <span class="n">Log2Scale</span> <span class="o">=</span> <span class="s2">&quot;Log2Scale&quot;</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;LogScale&quot;</span><span class="p">,</span> <span class="n">LogScale</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="LineStyle">
+<a class="viewcode-back" href="../../enums.html#somegraphspy.common.LineStyle">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LineStyle</span><span class="p">(</span><span class="n">JlEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The style of a line. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.LineStyle&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Draw a solid line.</span>
+    <span class="n">SolidLine</span> <span class="o">=</span> <span class="s2">&quot;SolidLine&quot;</span>
+    <span class="c1">#: Draw a dashed line.</span>
+    <span class="n">DashLine</span> <span class="o">=</span> <span class="s2">&quot;DashLine&quot;</span>
+    <span class="c1">#: Draw a dotted line.</span>
+    <span class="n">DotLine</span> <span class="o">=</span> <span class="s2">&quot;DotLine&quot;</span>
+    <span class="c1">#: Draw a dash-dotted line.</span>
+    <span class="n">DashDotLine</span> <span class="o">=</span> <span class="s2">&quot;DashDotLine&quot;</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;LineStyle&quot;</span><span class="p">,</span> <span class="n">LineStyle</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Stacking">
+<a class="viewcode-back" href="../../enums.html#somegraphspy.common.Stacking">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Stacking</span><span class="p">(</span><span class="n">JlEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    How to stack multiple series on top of each other. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.Stacking&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Stack the actual values.</span>
+    <span class="n">StackValues</span> <span class="o">=</span> <span class="s2">&quot;StackValues&quot;</span>
+    <span class="c1">#: Stack the fractions of the values out of the total.</span>
+    <span class="n">StackFractions</span> <span class="o">=</span> <span class="s2">&quot;StackFractions&quot;</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;Stacking&quot;</span><span class="p">,</span> <span class="n">Stacking</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AutomaticColors">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.AutomaticColors">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AutomaticColors</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A marker for the ``palette`` of a :py:obj:`ColorsConfiguration`, specifying that string color values are</span>
+<span class="sd">    categorical keys whose colors are picked automatically. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AutomaticColors&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">AutomaticColors</span><span class="p">())</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;AutomaticColors&quot;</span><span class="p">,</span> <span class="n">AutomaticColors</span><span class="p">)</span>
+
+<span class="c1">#: The ways to specify how to color data: a named Plotly color scale, an explicit continuous or categorical palette, or</span>
+<span class="c1">#: :py:obj:`AutomaticColors`.</span>
+<span class="n">Palette</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ContinuousColors</span><span class="p">,</span> <span class="n">CategoricalColors</span><span class="p">,</span> <span class="n">AutomaticColors</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="MarginsConfiguration">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.MarginsConfiguration">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MarginsConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure the margins of the graph, in pixels. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.MarginsConfiguration&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The left margin.</span>
+    <span class="n">left</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="c1">#: The bottom margin.</span>
+    <span class="n">bottom</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="c1">#: The right margin.</span>
+    <span class="n">right</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="c1">#: The top margin.</span>
+    <span class="n">top</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">left</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">bottom</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">right</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">top</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">MarginsConfiguration</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">bottom</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="n">top</span><span class="p">)))</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;MarginsConfiguration&quot;</span><span class="p">,</span> <span class="n">MarginsConfiguration</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="FigureConfiguration">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.FigureConfiguration">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FigureConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure the overall figure. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.FigureConfiguration&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The margins around the graph.</span>
+    <span class="n">margins</span><span class="p">:</span> <span class="n">MarginsConfiguration</span>
+    <span class="c1">#: The width of the figure in pixels.</span>
+    <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="c1">#: The height of the figure in pixels.</span>
+    <span class="n">height</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="c1">#: The name of the Plotly template to use.</span>
+    <span class="n">template</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: The color of the area behind the graph itself.</span>
+    <span class="n">background_color</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="c1">#: The color of the area around the graph.</span>
+    <span class="n">paper_color</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="c1">#: The horizontal offsets of the color scales, as fractions of the graph width.</span>
+    <span class="n">colors_scale_offsets</span><span class="p">:</span> <span class="n">NumbersVector</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">margins</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">MarginsConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">template</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">background_color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">paper_color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">colors_scale_offsets</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">FigureConfiguration</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
+                    <span class="n">margins</span><span class="o">=</span><span class="n">margins</span><span class="p">,</span>
+                    <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+                    <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+                    <span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">,</span>
+                    <span class="n">background_color</span><span class="o">=</span><span class="n">background_color</span><span class="p">,</span>
+                    <span class="n">paper_color</span><span class="o">=</span><span class="n">paper_color</span><span class="p">,</span>
+                    <span class="n">colors_scale_offsets</span><span class="o">=</span><span class="n">colors_scale_offsets</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;FigureConfiguration&quot;</span><span class="p">,</span> <span class="n">FigureConfiguration</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SizesConfiguration">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.SizesConfiguration">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SizesConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure how to scale data values into sizes (in pixels). See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.SizesConfiguration&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Use this fixed size for everything, instead of scaling the data.</span>
+    <span class="n">fixed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: The minimal data value to show.</span>
+    <span class="n">minimum</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: The maximal data value to show.</span>
+    <span class="n">maximum</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: Scale the data values by their logarithm.</span>
+    <span class="n">log_scale</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="c1">#: Added to the data values before taking their logarithm.</span>
+    <span class="n">log_regularization</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="c1">#: The size of the smallest data value.</span>
+    <span class="n">smallest</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="c1">#: Added to the ``smallest`` size for the largest data value.</span>
+    <span class="n">span</span><span class="p">:</span> <span class="nb">float</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">fixed</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">minimum</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">maximum</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">log_scale</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">log_regularization</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">smallest</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">span</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">SizesConfiguration</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
+                    <span class="n">fixed</span><span class="o">=</span><span class="n">fixed</span><span class="p">,</span>
+                    <span class="n">minimum</span><span class="o">=</span><span class="n">minimum</span><span class="p">,</span>
+                    <span class="n">maximum</span><span class="o">=</span><span class="n">maximum</span><span class="p">,</span>
+                    <span class="n">log_scale</span><span class="o">=</span><span class="n">log_scale</span><span class="p">,</span>
+                    <span class="n">log_regularization</span><span class="o">=</span><span class="n">log_regularization</span><span class="p">,</span>
+                    <span class="n">smallest</span><span class="o">=</span><span class="n">smallest</span><span class="p">,</span>
+                    <span class="n">span</span><span class="o">=</span><span class="n">span</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;SizesConfiguration&quot;</span><span class="p">,</span> <span class="n">SizesConfiguration</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AxisConfiguration">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.AxisConfiguration">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AxisConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure an axis of a graph. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AxisConfiguration&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The minimal value shown in the axis.</span>
+    <span class="n">minimum</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: The maximal value shown in the axis.</span>
+    <span class="n">maximum</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: Expand the axis range by this fraction of the data range.</span>
+    <span class="n">expand_fraction</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="c1">#: Scale the axis by a logarithm of this base.</span>
+    <span class="n">log_scale</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LogScale</span><span class="p">]</span>
+    <span class="c1">#: Added to the values before taking their logarithm.</span>
+    <span class="n">log_regularization</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="c1">#: Show the values as percents.</span>
+    <span class="n">percent</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="c1">#: Show the tick labels.</span>
+    <span class="n">show_ticks</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="c1">#: Rotate the tick labels by this angle, in degrees.</span>
+    <span class="n">ticks_angle</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: Show the grid lines.</span>
+    <span class="n">show_grid</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="c1">#: The color of the grid lines.</span>
+    <span class="n">grid_color</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="c1">#: The title of the axis.</span>
+    <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">minimum</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">maximum</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">expand_fraction</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">log_scale</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">LogScale</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">log_regularization</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">percent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">show_ticks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">ticks_angle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">show_grid</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">grid_color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">AxisConfiguration</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
+                    <span class="n">minimum</span><span class="o">=</span><span class="n">minimum</span><span class="p">,</span>
+                    <span class="n">maximum</span><span class="o">=</span><span class="n">maximum</span><span class="p">,</span>
+                    <span class="n">expand_fraction</span><span class="o">=</span><span class="n">expand_fraction</span><span class="p">,</span>
+                    <span class="n">log_scale</span><span class="o">=</span><span class="n">log_scale</span><span class="p">,</span>
+                    <span class="n">log_regularization</span><span class="o">=</span><span class="n">log_regularization</span><span class="p">,</span>
+                    <span class="n">percent</span><span class="o">=</span><span class="n">percent</span><span class="p">,</span>
+                    <span class="n">show_ticks</span><span class="o">=</span><span class="n">show_ticks</span><span class="p">,</span>
+                    <span class="n">ticks_angle</span><span class="o">=</span><span class="n">ticks_angle</span><span class="p">,</span>
+                    <span class="n">show_grid</span><span class="o">=</span><span class="n">show_grid</span><span class="p">,</span>
+                    <span class="n">grid_color</span><span class="o">=</span><span class="n">grid_color</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;AxisConfiguration&quot;</span><span class="p">,</span> <span class="n">AxisConfiguration</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="LineConfiguration">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.LineConfiguration">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LineConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure a line in a graph. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.LineConfiguration&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The width of the line in pixels.</span>
+    <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: The style of the line, or ``None`` not to show it at all.</span>
+    <span class="n">style</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">]</span>
+    <span class="c1">#: Fill the area below (or to the left of) the line.</span>
+    <span class="n">is_filled</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="c1">#: The color of the line.</span>
+    <span class="n">color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">style</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">is_filled</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">LineConfiguration</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">is_filled</span><span class="o">=</span><span class="n">is_filled</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">))</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;LineConfiguration&quot;</span><span class="p">,</span> <span class="n">LineConfiguration</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="BandConfiguration">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.BandConfiguration">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BandConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure a single band in a graph. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.BandConfiguration&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The offset of the band, or ``None`` not to show it at all.</span>
+    <span class="n">offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: How to draw the boundary line of the band.</span>
+    <span class="n">line</span><span class="p">:</span> <span class="n">LineConfiguration</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">offset</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">line</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">LineConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">BandConfiguration</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">)))</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;BandConfiguration&quot;</span><span class="p">,</span> <span class="n">BandConfiguration</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="BandsConfiguration">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.BandsConfiguration">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BandsConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure the partition of a graph into low, middle and high regions. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.BandsConfiguration&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The band separating the low region.</span>
+    <span class="n">low</span><span class="p">:</span> <span class="n">BandConfiguration</span>
+    <span class="c1">#: The band in the middle region.</span>
+    <span class="n">middle</span><span class="p">:</span> <span class="n">BandConfiguration</span>
+    <span class="c1">#: The band separating the high region.</span>
+    <span class="n">high</span><span class="p">:</span> <span class="n">BandConfiguration</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">low</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">middle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">high</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">BandsConfiguration</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="n">low</span><span class="p">,</span> <span class="n">middle</span><span class="o">=</span><span class="n">middle</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">high</span><span class="p">)))</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;BandsConfiguration&quot;</span><span class="p">,</span> <span class="n">BandsConfiguration</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="BandsData">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.BandsData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BandsData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Override the band offsets specified in the configuration, when they depend on the data. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.BandsData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The offset of the band separating the low region.</span>
+    <span class="n">low_offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: The offset of the band in the middle region.</span>
+    <span class="n">middle_offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: The offset of the band separating the high region.</span>
+    <span class="n">high_offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">low_offset</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">middle_offset</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">high_offset</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">BandsData</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">low_offset</span><span class="o">=</span><span class="n">low_offset</span><span class="p">,</span> <span class="n">middle_offset</span><span class="o">=</span><span class="n">middle_offset</span><span class="p">,</span> <span class="n">high_offset</span><span class="o">=</span><span class="n">high_offset</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;BandsData&quot;</span><span class="p">,</span> <span class="n">BandsData</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ColorsConfiguration">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.ColorsConfiguration">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ColorsConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure how to color some data. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ColorsConfiguration&gt;`__</span>
+<span class="sd">    for the (many) supported combinations of configuration and data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: How to map the colors data to actual colors.</span>
+    <span class="n">palette</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Palette</span><span class="p">]</span>
+    <span class="c1">#: Give all the entities this same color.</span>
+    <span class="n">fixed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: How to scale the (numeric) colors data.</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="n">AxisConfiguration</span>
+    <span class="c1">#: Show a legend (or a color scale) for the colors.</span>
+    <span class="n">show_legend</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="c1">#: The title to use when showing the legend.</span>
+    <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">palette</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Palette</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">fixed</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">axis</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AxisConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">show_legend</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">ColorsConfiguration</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span> <span class="n">fixed</span><span class="o">=</span><span class="n">fixed</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">show_legend</span><span class="o">=</span><span class="n">show_legend</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;ColorsConfiguration&quot;</span><span class="p">,</span> <span class="n">ColorsConfiguration</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AnnotationSize">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.AnnotationSize">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AnnotationSize</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure the size of the annotations shown next to a graph. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AnnotationSize&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The size of each annotation, as a fraction of the graph size.</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="c1">#: The gap between annotations, as a fraction of the graph size.</span>
+    <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">AnnotationSize</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">gap</span><span class="o">=</span><span class="n">gap</span><span class="p">)))</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;AnnotationSize&quot;</span><span class="p">,</span> <span class="n">AnnotationSize</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AnnotationData">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.AnnotationData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AnnotationData</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The data of a single annotation shown next to a graph. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AnnotationData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The title of the annotation.</span>
+    <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: A value per annotated entity, either numbers or category names.</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">StringsVector</span><span class="p">]</span>
+    <span class="c1">#: The hover text per annotated entity.</span>
+    <span class="n">hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
+    <span class="c1">#: How to color the annotation values.</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">ColorsConfiguration</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">StringsVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ColorsConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">AnnotationData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">hovers</span><span class="o">=</span><span class="n">hovers</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">))</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;AnnotationData&quot;</span><span class="p">,</span> <span class="n">AnnotationData</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AbstractGraphConfiguration">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.AbstractGraphConfiguration">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AbstractGraphConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specify how to display a graph, as much as possible independently of the data itself. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AbstractGraphConfiguration&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="AbstractGraphData">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.AbstractGraphData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AbstractGraphData</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specify what to display in a graph, as much as possible independently of how to display it. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AbstractGraphData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Graph">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.Graph">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Graph</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A combination of some :py:obj:`AbstractGraphData` and some :py:obj:`AbstractGraphConfiguration`. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.Graph&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: What to display.</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">AbstractGraphData</span>
+    <span class="c1">#: How to display it.</span>
+    <span class="n">configuration</span><span class="p">:</span> <span class="n">AbstractGraphConfiguration</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Render the graph as a JSON string describing the Plotly figure. See the Julia</span>
+<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_json&gt;`__</span>
+<span class="sd">        for details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">graph_to_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">figure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Render the graph as a ``plotly`` figure, which can be displayed and further manipulated using the normal</span>
+<span class="sd">        ``plotly`` API.</span>
+
+<span class="sd">        Simply evaluating the graph in a Jupyter notebook cell displays it, so this is only needed if you want the</span>
+<span class="sd">        figure itself.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">from_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Graph.show">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.Graph.show">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display the graph, opening it in a browser when not running in a notebook.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_repr_mimebundle_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="c1"># This is how Jupyter notebook displays the graph when it is the value of a cell. Deliberately delegated to</span>
+        <span class="c1"># ``plotly`` rather than implemented here, and deliberately not importing ``IPython``, so that nothing about</span>
+        <span class="c1"># this costs anything (or even runs) outside a notebook.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">_repr_mimebundle_</span><span class="p">(</span><span class="n">include</span><span class="p">,</span> <span class="n">exclude</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Graph.save">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.Graph.save">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the graph to a file. The format is deduced from the suffix of the file name. See the Julia</span>
+<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.save_graph&gt;`__</span>
+<span class="sd">        for details.</span>
+
+<span class="sd">        Unlike the Plotly ``savefig`` function, this obeys the ``width`` and ``height`` of the figure configuration.</span>
+<span class="sd">        Writing anything other than an ``html`` file starts a Kaleido process, which is slow the first time.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">save_graph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Graph.flip_axes">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.Graph.flip_axes">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">flip_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Graph&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a new graph with the axes flipped. See the Julia</span>
+<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.flip_axes&gt;`__</span>
+<span class="sd">        for details.</span>
+
+<span class="sd">        The returned graph shares storage with the original where possible.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">wrap_jl_object</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">flip_axes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Graph.flip_axes_in_place">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.Graph.flip_axes_in_place">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">flip_axes_in_place</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Graph&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Flip the axes of the graph in-place and return it. See the Julia</span>
+<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.flip_axes!&gt;`__</span>
+<span class="sd">        for details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">wrap_jl_object</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">flip_axes_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Graph.validate">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.Graph.validate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;graph&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate the graph, raising an exception describing the problem if it isn&#39;t valid.</span>
+
+<span class="sd">        The ``name`` is used as the prefix of the path reported in the error message.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="categorical_palette">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.categorical_palette">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">categorical_palette</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">palette</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CategoricalColors</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a categorical colors palette assigning a distinct color to each of the ``values``. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.categorical_palette&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">jl_values</span> <span class="o">=</span> <span class="n">jl</span><span class="o">.</span><span class="n">Vector</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">palette</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">jl_palette</span> <span class="o">=</span> <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">categorical_palette</span><span class="p">(</span><span class="n">jl_values</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">jl_palette</span> <span class="o">=</span> <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">categorical_palette</span><span class="p">(</span><span class="n">jl_values</span><span class="p">,</span> <span class="n">palette</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="nb">str</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">getindex</span><span class="p">(</span><span class="n">jl_palette</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">jl</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span><span class="n">jl_palette</span><span class="p">)}</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Weizmann Institute of Science.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

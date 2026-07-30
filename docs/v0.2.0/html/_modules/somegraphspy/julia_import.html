@@ -1,0 +1,484 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>somegraphspy.julia_import &mdash; SomeGraphs 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SomeGraphs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">README</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../API.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SomeGraphs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">somegraphspy.julia_import</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for somegraphspy.julia_import</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Import the Julia environment.</span>
+
+<span class="sd">This provides additional functionality on top of ``juliapkg`` (which automatically downloads Julia packages for us). It</span>
+<span class="sd">will import the ``juliacall`` module to create a Julia environment (as ``jl``), and uses it to import the</span>
+<span class="sd">``SomeGraphs.jl`` Julia package.</span>
+
+<span class="sd">You can control the behavior using the following environment variables:</span>
+
+<span class="sd">* ``PYTHON_JULIACALL_HANDLE_SIGNALS`` (by default, ``yes``). This is needed to avoid segfaults when calling</span>
+<span class="sd">  Julia from Python.</span>
+
+<span class="sd">* ``PYTHON_JULIACALL_THREADS`` (by default, ``auto``). By default Julia will use all the threads available</span>
+<span class="sd">  in the machine. On machines with hyper-threading you may want to specify only half the number of threads (that is,</span>
+<span class="sd">  just have one thread per physical core) as that should provide better performance for compute-intensive (as opposed to</span>
+<span class="sd">  IO-intensive) code.</span>
+
+<span class="sd">* ``PYTHON_JULIACALL_OPTLEVEL`` (by default, ``3``).</span>
+
+<span class="sd">This code is based on the code from the ``pysr`` Python package, adapted to our needs. TODO: Much of this is replicated</span>
+<span class="sd">in all our Python packages that invoke Julia.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MutableMapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;jl&quot;</span><span class="p">,</span> <span class="s2">&quot;jl_version&quot;</span><span class="p">,</span> <span class="s2">&quot;DefaultValue&quot;</span><span class="p">,</span> <span class="s2">&quot;DEFAULT&quot;</span><span class="p">,</span> <span class="s2">&quot;JlEnum&quot;</span><span class="p">,</span> <span class="s2">&quot;JlObject&quot;</span><span class="p">,</span> <span class="s2">&quot;use_default_julia_environment&quot;</span><span class="p">]</span>
+
+<span class="c1"># Check if JuliaCall is already loaded. If not, setup sensible defaults. If it was loaded manually, warn the user about</span>
+<span class="c1"># the relevant environment variables.</span>
+<span class="k">if</span> <span class="s2">&quot;juliacall&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="c1"># TODO: Remove these when juliapkg lets you specify this.</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">default</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s2">&quot;PYTHON_JULIACALL_HANDLE_SIGNALS&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;PYTHON_JULIACALL_THREADS&quot;</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;PYTHON_JULIACALL_OPTLEVEL&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">),</span>
+    <span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+
+    <span class="c1"># When using the default Julia environment (the default), point juliacall directly at the default Julia binary and</span>
+    <span class="c1"># its global package environment, bypassing juliapkg. Otherwise juliapkg populates its own isolated project and</span>
+    <span class="c1"># re-installs everything, which fails for locally-developed packages (e.g., SomeGraphs) that aren&#39;t in the</span>
+    <span class="c1"># General registry. juliacall honors ``PYTHON_JULIACALL_EXE`` and ``PYTHON_JULIACALL_PROJECT`` only when both are</span>
+    <span class="c1"># set, so we compute both and set them together.</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PYTHON_JULIACALL_USE_DEFAULT_ENVIRONMENT&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;yes&quot;</span> <span class="ow">and</span> <span class="p">(</span>
+        <span class="s2">&quot;PYTHON_JULIACALL_EXE&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span> <span class="ow">and</span> <span class="s2">&quot;PYTHON_JULIACALL_PROJECT&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
+    <span class="p">):</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>  <span class="c1"># pylint: disable=import-outside-toplevel</span>
+
+        <span class="c1"># Resolve the juliaup shim to the real binary; juliacall derives the system image location from the executable</span>
+        <span class="c1"># path, and the shim directory has no ``lib/julia``.</span>
+        <span class="n">julia_exe</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;julia&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">julia_exe</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">julia_exe</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">julia_exe</span><span class="p">)</span>
+
+            <span class="c1"># The default environment path is ``~/.julia/environments/v&lt;MAJOR&gt;.&lt;MINOR&gt;``, so we query the Julia binary</span>
+            <span class="c1"># for its version to construct the path.</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">julia_version_output</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">julia_exe</span><span class="p">,</span> <span class="s2">&quot;--version&quot;</span><span class="p">],</span>
+                    <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">stdout</span>
+                <span class="c1"># Output looks like: &quot;julia version 1.12.5&quot;</span>
+                <span class="n">julia_ver_tokens</span> <span class="o">=</span> <span class="n">julia_version_output</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">julia_semver</span> <span class="o">=</span> <span class="n">julia_ver_tokens</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+                <span class="n">julia_minor_env</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;v</span><span class="si">{</span><span class="n">julia_semver</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">julia_semver</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># pylint: disable=invalid-name</span>
+                <span class="n">julia_depot</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;JULIA_DEPOT_PATH&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.julia&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">pathsep</span>
+                <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYTHON_JULIACALL_EXE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">julia_exe</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYTHON_JULIACALL_PROJECT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">julia_depot</span><span class="p">,</span> <span class="s2">&quot;environments&quot;</span><span class="p">,</span> <span class="n">julia_minor_env</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+                <span class="k">pass</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PYTHON_JULIACALL_PROPER_IMPORT&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+    <span class="c1"># Required to avoid segfaults (https://juliapy.github.io/PythonCall.jl/dev/faq/)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PYTHON_JULIACALL_HANDLE_SIGNALS&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;yes&quot;</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;PYTHON_JULIACALL_HANDLE_SIGNALS environment variable is set to something other than &#39;yes&#39;. &quot;</span>
+            <span class="s2">&quot;You will experience segfaults if running with multithreading.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PYTHON_JULIACALL_THREADS&quot;</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;PYTHON_JULIACALL_THREADS environment variable is set to something other than &#39;auto&#39;, &quot;</span>
+            <span class="s2">&quot;You may wish to set it to &#39;auto&#39; for full use of your CPU.&quot;</span>
+        <span class="p">)</span>
+
+<span class="c1"># Only the first Python package to import Julia records itself here, so importing several of them (in any order) does</span>
+<span class="c1"># not lose the marker that the environment variables above were already dealt with.</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PYTHON_JULIACALL_PROPER_IMPORT&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYTHON_JULIACALL_PROPER_IMPORT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;somegraphspy&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">juliacall</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyValue</span>  <span class="c1"># type: ignore # isort: skip</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">juliacall</span><span class="w"> </span><span class="kn">import</span> <span class="n">Main</span>  <span class="c1"># type: ignore # isort: skip</span>
+
+<span class="c1">#: The interface to the Julia run-time.</span>
+<span class="n">jl</span> <span class="o">=</span> <span class="n">Main</span>
+
+
+<div class="viewcode-block" id="use_default_julia_environment">
+<a class="viewcode-back" href="../../julia_import.html#somegraphspy.julia_import.use_default_julia_environment">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">use_default_julia_environment</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Force JuliaCall to use your default environment (whatever that is). By default JuliaCall creates its own separate</span>
+<span class="sd">    independent environment, which means that it re-downloads and re-installs all the dependency packages there.</span>
+<span class="sd">    This is nice if you don&#39;t otherwise use Julia and/or don&#39;t care about the wasted disk space and initial installation</span>
+<span class="sd">    time and manual control over package versions. It sucks if you do otherwise use Julia, and/or you want manual</span>
+<span class="sd">    control over the version of some of the packages (e.g., if you are actively developing them). You would think</span>
+<span class="sd">    there would a built-in method for doing this in JuliaCall, right?</span>
+
+<span class="sd">    To make this easier (and trigger it before actually importing packages), you can set the</span>
+<span class="sd">    ``PYTHON_JULIACALL_USE_DEFAULT_ENVIRONMENT`` environment variable to ``yes``, and then ``import somegraphspy`` will</span>
+<span class="sd">    call ``use_default_julia_environment`` for you. Sigh.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">default_env</span> <span class="o">=</span> <span class="n">jl</span><span class="o">.</span><span class="n">seval</span><span class="p">(</span><span class="s1">&#39;joinpath(DEPOT_PATH[1], &quot;environments&quot;, &quot;v$(VERSION.major).$(VERSION.minor)&quot;)&#39;</span><span class="p">)</span>
+    <span class="n">jl</span><span class="o">.</span><span class="n">seval</span><span class="p">(</span><span class="s1">&#39;using Pkg; Pkg.activate(&quot;&#39;</span> <span class="o">+</span> <span class="n">default_env</span> <span class="o">+</span> <span class="s1">&#39;&quot;)&#39;</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PYTHON_JULIACALL_USE_DEFAULT_ENVIRONMENT&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;yes&quot;</span><span class="p">:</span>
+    <span class="n">use_default_julia_environment</span><span class="p">()</span>
+
+<span class="c1">#: The version of Julia being used.</span>
+<span class="n">jl_version</span> <span class="o">=</span> <span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">VERSION</span><span class="o">.</span><span class="n">major</span><span class="p">,</span> <span class="n">jl</span><span class="o">.</span><span class="n">VERSION</span><span class="o">.</span><span class="n">minor</span><span class="p">,</span> <span class="n">jl</span><span class="o">.</span><span class="n">VERSION</span><span class="o">.</span><span class="n">patch</span><span class="p">)</span>
+
+<span class="n">jl</span><span class="o">.</span><span class="n">seval</span><span class="p">(</span><span class="s2">&quot;using Pkg&quot;</span><span class="p">)</span>
+
+<span class="c1"># Everything is imported rather than ``using``, so no package&#39;s exports leak into Julia&#39;s ``Main``. This keeps</span>
+<span class="c1"># ``Main`` clear for other Python packages that wrap Julia packages and are used in the same session.</span>
+<span class="k">for</span> <span class="n">package</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PythonCall&quot;</span><span class="p">,</span> <span class="s2">&quot;SomeGraphs&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">jl</span><span class="o">.</span><span class="n">seval</span><span class="p">(</span><span class="s1">&#39;Base.find_package(&quot;&#39;</span> <span class="o">+</span> <span class="n">package</span> <span class="o">+</span> <span class="s1">&#39;&quot;)&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">jl</span><span class="o">.</span><span class="n">seval</span><span class="p">(</span><span class="s1">&#39;Pkg.add(&quot;&#39;</span> <span class="o">+</span> <span class="n">package</span> <span class="o">+</span> <span class="s1">&#39;&quot;)&#39;</span><span class="p">)</span>
+    <span class="n">jl</span><span class="o">.</span><span class="n">seval</span><span class="p">(</span><span class="s2">&quot;import &quot;</span> <span class="o">+</span> <span class="n">package</span><span class="p">)</span>
+
+<span class="c1"># Our own Julia code lives in a module of its own, for the same reason.</span>
+<span class="n">jl</span><span class="o">.</span><span class="n">seval</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    module SomeGraphsPy</span>
+
+<span class="s2">    using PythonCall</span>
+
+<span class="s2">    function pyconvert_rule_jl_object(::Type</span><span class="si">{T}</span><span class="s2">, x::Py) where </span><span class="si">{T}</span>
+<span class="s2">        return PythonCall.pyconvert_return(pyconvert(T, x.jl_obj))</span>
+<span class="s2">    end</span>
+
+<span class="s2">    PythonCall.pyconvert_add_rule(&quot;somegraphspy.julia_import:JlObject&quot;, Any, pyconvert_rule_jl_object)</span>
+
+<span class="s2">    # Build a vector of pairs of values, whose element type Julia infers from the (already converted) vectors. A list</span>
+<span class="s2">    # of Python tuples would arrive as a ``PyList</span><span class="si">{Any}</span><span class="s2">``, which Julia can&#39;t convert to a vector of tuples.</span>
+<span class="s2">    function _tuples_vector(firsts::AbstractVector, seconds::AbstractVector)::AbstractVector</span>
+<span class="s2">        return [(first, second) for (first, second) in zip(firsts, seconds)]</span>
+<span class="s2">    end</span>
+
+<span class="s2">    # Re-infer the element type of a vector whose entries are already Julia values. This turns the ``Vector</span><span class="si">{Any}</span><span class="s2">`` we</span>
+<span class="s2">    # get for a list of arrays or of objects into a properly typed vector.</span>
+<span class="s2">    function _typed_vector(items::AbstractVector)::AbstractVector</span>
+<span class="s2">        return [item for item in items]</span>
+<span class="s2">    end</span>
+
+<span class="s2">    # Classify an array by what its entries are, to pick the matching Python representation.</span>
+<span class="s2">    function _array_kind(array::AbstractArray)::String</span>
+<span class="s2">        element_type = eltype(array)</span>
+<span class="s2">        if element_type &lt;: Real</span>
+<span class="s2">            return &quot;numbers&quot;</span>
+<span class="s2">        elseif element_type &lt;: AbstractString</span>
+<span class="s2">            return &quot;strings&quot;</span>
+<span class="s2">        else</span>
+<span class="s2">            return &quot;other&quot;</span>
+<span class="s2">        end</span>
+<span class="s2">    end</span>
+
+<span class="s2">    end  # module SomeGraphsPy</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="JlEnum">
+<a class="viewcode-back" href="../../julia_import.html#somegraphspy.julia_import.JlEnum">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">JlEnum</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Python base class for wrapping a Julia ``@enum`` type.</span>
+
+<span class="sd">    The members are named exactly as the Julia values are, and their value is that name. Grouping them in a class (as</span>
+<span class="sd">    opposed to listing them as separate constants) is what allows auto-completion to list the valid values of a field.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+
+
+
+<div class="viewcode-block" id="DefaultValue">
+<a class="viewcode-back" href="../../julia_import.html#somegraphspy.julia_import.DefaultValue">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DefaultValue</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Python class for the value of a constructor parameter that was not specified.</span>
+
+<span class="sd">    We can&#39;t use ``None`` for this because ``None`` is how one specifies Julia&#39;s ``nothing``, and not every field</span>
+<span class="sd">    defaults to ``nothing`` (e.g., the ``rows_groups_gap`` of ``HeatmapGraphConfiguration`` defaults to ``1``).</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<span class="c1">#: A Python value for a constructor parameter that was not specified, so the Julia default should be used instead.</span>
+<span class="n">DEFAULT</span> <span class="o">=</span> <span class="n">DefaultValue</span><span class="p">()</span>
+
+<span class="c1">#: The Python class wrapping each of the Julia types, filled in by ``register_jl_type`` as the modules are imported.</span>
+<span class="n">PYTHON_CLASS_OF_JULIA_TYPE</span><span class="p">:</span> <span class="n">MutableMapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;Type[JlObject]&quot;</span><span class="p">,</span> <span class="s2">&quot;Type[JlEnum]&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_to_julia</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-return-statements</span>
+    <span class="c1"># Anything not handled here is left to PythonCall, which converts it as needed for the (typed) Julia field.</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">JlObject</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">jl_obj</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">JlEnum</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jl</span><span class="o">.</span><span class="n">getproperty</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="p">,</span> <span class="n">jl</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+
+    <span class="c1"># Strings have to go through ``numpy``; a plain Python list of them would arrive as a ``PyList{Any}``, which isn&#39;t</span>
+    <span class="c1"># an ``AbstractVector{&lt;:AbstractString}`` so Julia would reject it.</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">str_</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jl</span><span class="o">.</span><span class="n">Vector</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jl</span><span class="o">.</span><span class="n">Vector</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jl</span><span class="o">.</span><span class="n">Dict</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">Vector</span><span class="p">([</span><span class="n">jl</span><span class="o">.</span><span class="n">Pair</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">entry</span><span class="p">))</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">()]))</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">_is_pair</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphsPy</span><span class="o">.</span><span class="n">_tuples_vector</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">Vector</span><span class="p">([</span><span class="n">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">value</span><span class="p">]),</span> <span class="n">jl</span><span class="o">.</span><span class="n">Vector</span><span class="p">([</span><span class="n">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">value</span><span class="p">])</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># A ``PyList{Any}`` is not an ``AbstractVector`` of anything specific, so Julia rejects it for a typed field.</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">value</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphsPy</span><span class="o">.</span><span class="n">_typed_vector</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">Vector</span><span class="p">([</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">value</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_pair</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_from_julia</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-return-statements</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">AnyValue</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="n">python_class</span> <span class="o">=</span> <span class="n">PYTHON_CLASS_OF_JULIA_TYPE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">nameof</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">typeof</span><span class="p">(</span><span class="n">value</span><span class="p">))))</span>
+    <span class="k">if</span> <span class="n">python_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">python_class</span><span class="p">,</span> <span class="n">JlEnum</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">python_class</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">string</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">python_class</span><span class="o">.</span><span class="n">wrap_jl_object</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">isa</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">jl</span><span class="o">.</span><span class="n">AbstractDict</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">getindex</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">jl</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span><span class="n">value</span><span class="p">)}</span>
+
+    <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">isa</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">jl</span><span class="o">.</span><span class="n">AbstractArray</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">_from_julia_array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">isa</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">jl</span><span class="o">.</span><span class="n">Tuple</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_from_julia</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_from_julia_array</span><span class="p">(</span><span class="n">julia_array</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="c1"># Only arrays of numbers and of strings become ``numpy`` arrays; anything else (a vector of vectors, of tuples, or</span>
+    <span class="c1"># of wrapped objects) becomes a list, whose entries are converted individually.</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphsPy</span><span class="o">.</span><span class="n">_array_kind</span><span class="p">(</span><span class="n">julia_array</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;numbers&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">julia_array</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;strings&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">julia_array</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">_from_julia</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">julia_array</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_given</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Collect the keyword arguments that were actually specified (for internal use).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">DEFAULT</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="JlObject">
+<a class="viewcode-back" href="../../julia_import.html#somegraphspy.julia_import.JlObject">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">JlObject</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Python base class for wrapping a Julia object.</span>
+
+<span class="sd">    Reading a field returns the matching Julia field, wrapping it in the Python class of its type (if there is one) and</span>
+<span class="sd">    converting Julia arrays to ``numpy`` arrays. Writing a field writes through to the Julia object, so Julia validates</span>
+<span class="sd">    the value immediately. Nested objects are shared rather than copied, exactly as they are in Julia; that is, after</span>
+<span class="sd">    ``configuration.figure = other.figure`` both configurations refer to the same figure configuration. Use ``copy`` if</span>
+<span class="sd">    you need an independent one.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jl_obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;jl_obj&quot;</span><span class="p">,</span> <span class="n">jl_obj</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="c1"># Only called for names that aren&#39;t real Python attributes, that is, for the (annotated) Julia fields. No Julia</span>
+        <span class="c1"># field starts with an underscore, and Python (and IPython, when deciding how to display something) probes for</span>
+        <span class="c1"># such names all the time, expecting an ``AttributeError`` rather than an error from Julia.</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">getproperty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">jl</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">name</span><span class="p">)))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-exception-caught</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">exception</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;jl_obj&quot;</span><span class="p">:</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># The Julia error is re-raised as a plain Python one holding just its text. Keeping the original would</span>
+            <span class="c1"># keep the Julia exception object (and through it the Python value that caused it) alive in the traceback,</span>
+            <span class="c1"># to be finalized only when the process exits, which crashes it.</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">jl</span><span class="o">.</span><span class="n">setproperty_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">jl</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-exception-caught</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">exception</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__dir__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__dir__</span><span class="p">())</span> <span class="o">|</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">field</span><span class="p">)</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">jl</span><span class="o">.</span><span class="n">fieldnames</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">typeof</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))})</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="JlObject.copy">
+<a class="viewcode-back" href="../../julia_import.html#somegraphspy.julia_import.JlObject.copy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return an independent copy of the object, which shares nothing with the original.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">wrap_jl_object</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="JlObject.wrap_jl_object">
+<a class="viewcode-back" href="../../julia_import.html#somegraphspy.julia_import.JlObject.wrap_jl_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrap_jl_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">jl_obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wrap a Julia object (for internal use).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="n">JlObject</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">jl_obj</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">register_jl_type</span><span class="p">(</span><span class="n">julia_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">python_class</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">JlObject</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">JlEnum</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Associate a Julia type with the Python class that wraps it (for internal use).</span>
+
+<span class="sd">    This is what allows reading a field of a wrapped object to return a wrapped object of the right class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PYTHON_CLASS_OF_JULIA_TYPE</span><span class="p">[</span><span class="n">julia_type_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">python_class</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Weizmann Institute of Science.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
