@@ -278,6 +278,8 @@ class DistributionsGraphConfiguration(AbstractGraphConfiguration):
     distribution: DistributionConfiguration
     #: The axis showing the values.
     value_axis: AxisConfiguration
+    #: Bands partitioning the graph by the value axis.
+    value_bands: BandsConfiguration
     #: The axis showing the density.
     density_axis: AxisConfiguration
     #: The axis listing the distributions.
@@ -291,6 +293,7 @@ class DistributionsGraphConfiguration(AbstractGraphConfiguration):
         figure: Union[FigureConfiguration, DefaultValue] = DEFAULT,
         distribution: Union[DistributionConfiguration, DefaultValue] = DEFAULT,
         value_axis: Union[AxisConfiguration, DefaultValue] = DEFAULT,
+        value_bands: Union[BandsConfiguration, DefaultValue] = DEFAULT,
         density_axis: Union[AxisConfiguration, DefaultValue] = DEFAULT,
         series_axis: Union[AxisConfiguration, DefaultValue] = DEFAULT,
         distributions_gap: Union[Optional[float], DefaultValue] = DEFAULT,
@@ -301,6 +304,7 @@ class DistributionsGraphConfiguration(AbstractGraphConfiguration):
                     figure=figure,
                     distribution=distribution,
                     value_axis=value_axis,
+                    value_bands=value_bands,
                     density_axis=density_axis,
                     series_axis=series_axis,
                     distributions_gap=distributions_gap,
@@ -335,6 +339,8 @@ class DistributionsGraphData(AbstractGraphData):
     distributions_colors: Optional[StringsVector]
     #: The order to show the distributions in.
     distributions_order: Optional[IntegersVector]
+    #: Bands partitioning the graph by the value axis.
+    value_bands: BandsData
 
     def __init__(
         self,
@@ -347,6 +353,7 @@ class DistributionsGraphData(AbstractGraphData):
         distributions_names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
         distributions_colors: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
         distributions_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
+        value_bands: Union[BandsData, DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.DistributionsGraphData(
@@ -359,6 +366,7 @@ class DistributionsGraphData(AbstractGraphData):
                     distributions_names=distributions_names,
                     distributions_colors=distributions_colors,
                     distributions_order=distributions_order,
+                    value_bands=value_bands,
                 )
             )
         )
@@ -398,6 +406,7 @@ def distributions_graph(
     distributions_names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
     distributions_colors: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
     distributions_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
+    value_bands: Union[BandsData, DefaultValue] = DEFAULT,
     configuration: Union[DistributionsGraphConfiguration, DefaultValue] = DEFAULT,
 ) -> DistributionsGraph:
     """
@@ -416,6 +425,7 @@ def distributions_graph(
             distributions_names=distributions_names,
             distributions_colors=distributions_colors,
             distributions_order=distributions_order,
+            value_bands=value_bands,
         ),
         configuration=configuration,
     )
