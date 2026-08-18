@@ -38,8 +38,8 @@ The Python package provides the same API as the Julia package, with the followin
 - Accessing ``graph.figure`` returns a ``plotly.graph_objects.Figure``. Simply evaluating the graph in a Jupyter
   notebook cell will display it. Outside a notebook, call ``graph.show()`` to open it in a browser.
 
-See the `Python v0.2.0 documentation <https://tanaylab.github.io/somegraphspy/v0.2.0>`_ and the
-`Julia v0.2.0 documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0>`_ for details.
+See the `Python v0.2.0 documentation <https://tanaylab.github.io/somegraphspy/v0.2.0/html/index.html>`_ and the
+`Julia v0.2.0 documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/index.html>`_ for details.
 
 Status
 ------
