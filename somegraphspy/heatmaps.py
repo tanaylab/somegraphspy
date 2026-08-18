@@ -27,6 +27,7 @@ from .julia_import import DEFAULT
 from .julia_import import DefaultValue
 from .julia_import import JlEnum
 from .julia_import import JlObject
+from .julia_import import _from_julia
 from .julia_import import _given
 from .julia_import import jl
 from .julia_import import register_jl_type
@@ -120,26 +121,30 @@ register_jl_type("HeatmapOrigin", HeatmapOrigin)
 
 class HeatmapGraphOrder(JlObject):
     """
-    The final order, clustering and reordered data of a heatmap graph, filled in whenever the figure is generated. See
-    the Julia
+    The final order and clustering of the rows and the columns of a heatmap graph, as returned by the graph's
+    ``order``. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphOrder>`__
     for details.
 
+    The orders are always a permutation of the entries, so they can be fed as-is into the ``rows_order`` and
+    ``columns_order`` of a :py:obj:`HeatmapGraphData` to show another graph in the same order.
+
     The ``rows_hclust`` and ``columns_hclust`` are Julia ``Hclust`` objects. There is no Python model for these, but
-    they can be fed back into the ``rows_order`` and ``columns_order`` of a :py:obj:`HeatmapGraphData` to reuse the
-    same clustering.
+    they too can be fed back into the ``rows_order`` and ``columns_order`` of a :py:obj:`HeatmapGraphData`, which
+    reuses both the order and the tree, so the other graph also shows the same dendogram.
+
+    These describe the order of the data, not the order it is displayed in; applying the ``origin`` is up to whoever
+    shows the graph.
     """
 
-    #: The final (1-based) order of the rows.
-    rows_order: Optional[IntegersVector]
+    #: The final (1-based) order of the rows; the identity if they weren't reordered at all.
+    rows_order: IntegersVector
     #: The clustering of the rows, if one was computed.
     rows_hclust: Optional[Any]
-    #: The final (1-based) order of the columns.
-    columns_order: Optional[IntegersVector]
+    #: The final (1-based) order of the columns; the identity if they weren't reordered at all.
+    columns_order: IntegersVector
     #: The clustering of the columns, if one was computed.
     columns_hclust: Optional[Any]
-    #: The values, reordered.
-    reordered_values: NumbersMatrix
 
 
 register_jl_type("HeatmapGraphOrder", HeatmapGraphOrder)
@@ -150,6 +155,11 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
     Configure a graph showing a matrix of values as a heatmap. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphConfiguration>`__
     for details.
+
+    Groups (and subgroups) constrain the clustering, and are separated by a gap. Each level is placed independently: a
+    level specified by numbers is laid out in the order of these numbers, and a level specified by names is laid out by
+    the clustering. The ``..._subgroups_gap`` defaults to ``None`` because the usual reason to specify subgroups is to
+    constrain the clustering rather than to show gaps.
     """
 
     #: How to size the overall figure.
@@ -180,6 +190,10 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
     rows_groups_gap: Optional[int]
     #: The gap between groups of columns, in entries.
     columns_groups_gap: Optional[int]
+    #: The gap between subgroups of rows, in entries.
+    rows_subgroups_gap: Optional[int]
+    #: The gap between subgroups of columns, in entries.
+    columns_subgroups_gap: Optional[int]
     #: The size of the rows dendogram, as a fraction of the graph size.
     rows_dendogram_size: Optional[float]
     #: The size of the columns dendogram, as a fraction of the graph size.
@@ -190,7 +204,8 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
     columns_dendogram_line: LineConfiguration
     #: Where the first entry of the matrix is shown.
     origin: HeatmapOrigin
-    #: Filled in with the final order whenever the figure is generated.
+    #: Caches the computed order of the rows and the columns; access it through the graph's ``order``, and reset it
+    #: with the graph's ``reset_order`` if anything it was computed from is changed after it was computed.
     final_order: Optional[HeatmapGraphOrder]
 
     def __init__(
@@ -210,6 +225,8 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
         columns_metric: Union[Optional[Any], DefaultValue] = DEFAULT,
         rows_groups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
         columns_groups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
+        rows_subgroups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
+        columns_subgroups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
         rows_dendogram_size: Union[Optional[float], DefaultValue] = DEFAULT,
         columns_dendogram_size: Union[Optional[float], DefaultValue] = DEFAULT,
         rows_dendogram_line: Union[LineConfiguration, DefaultValue] = DEFAULT,
@@ -234,6 +251,8 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
                     columns_metric=columns_metric,
                     rows_groups_gap=rows_groups_gap,
                     columns_groups_gap=columns_groups_gap,
+                    rows_subgroups_gap=rows_subgroups_gap,
+                    columns_subgroups_gap=columns_subgroups_gap,
                     rows_dendogram_size=rows_dendogram_size,
                     columns_dendogram_size=columns_dendogram_size,
                     rows_dendogram_line=rows_dendogram_line,
@@ -291,6 +310,12 @@ class HeatmapGraphData(AbstractGraphData):
     rows_groups: Optional[Union[StringsVector, IntegersVector]]
     #: The group of each column.
     columns_groups: Optional[Union[StringsVector, IntegersVector]]
+    #: The subgroup of each row, nested in its group. A subgroup of one group is unrelated to the same subgroup of
+    #: another group, so the subgroups need not be unique.
+    rows_subgroups: Optional[Union[StringsVector, IntegersVector]]
+    #: The subgroup of each column, nested in its group. A subgroup of one group is unrelated to the same subgroup of
+    #: another group, so the subgroups need not be unique.
+    columns_subgroups: Optional[Union[StringsVector, IntegersVector]]
 
     def __init__(
         self,
@@ -313,6 +338,8 @@ class HeatmapGraphData(AbstractGraphData):
         columns_order: Union[Optional[Order], DefaultValue] = DEFAULT,
         rows_groups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
         columns_groups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
+        rows_subgroups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
+        columns_subgroups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.HeatmapGraphData(
@@ -335,6 +362,8 @@ class HeatmapGraphData(AbstractGraphData):
                     columns_order=columns_order,
                     rows_groups=rows_groups,
                     columns_groups=columns_groups,
+                    rows_subgroups=rows_subgroups,
+                    columns_subgroups=columns_subgroups,
                 )
             )
         )
@@ -363,6 +392,38 @@ class HeatmapGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.HeatmapGraph(**_given(data=data, configuration=configuration)))
 
+    @property
+    def order(self) -> HeatmapGraphOrder:
+        """
+        The final order of the rows and the columns, and the trees they were clustered by, without rendering the graph.
+        See the Julia
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.heatmap_order>`__
+        for details.
+
+        Use this to list the entries in the order they are shown, or to show several graphs in the same order by
+        feeding it into the ``rows_order`` and ``columns_order`` of their data. The order is only computed
+        once; showing the graph will reuse it, and vice versa.
+
+        .. note::
+
+            Nothing detects that the cached order went stale. Call :py:obj:`reset_order` if anything it was computed
+            from is changed after it was computed - that is, the ``..._reorder``, ``..._linkage`` and ``..._metric``
+            configuration, and the ``entries_values``, ``..._order``, ``..._arrange_by`` and ``..._groups`` data. The
+            groups are easy to forget: they constrain the clustering, so saving the same graph twice, grouped
+            differently each time, silently reuses the order of the first grouping unless the cache is reset in
+            between.
+        """
+        return _from_julia(jl.SomeGraphs.heatmap_order(self.jl_obj))
+
+    def reset_order(self) -> None:
+        """
+        Forget the cached :py:obj:`HeatmapGraphOrder`, so that asking for the graph's :py:obj:`order` (or showing it)
+        will compute it again. Call this after changing anything the order was computed from. See the Julia
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.reset_order!>`__
+        for details.
+        """
+        jl.SomeGraphs.reset_order_b(self.jl_obj)
+
 
 def heatmap_graph(
     *,
@@ -384,6 +445,8 @@ def heatmap_graph(
     columns_order: Union[Optional[Order], DefaultValue] = DEFAULT,
     rows_groups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
     columns_groups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
+    rows_subgroups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
+    columns_subgroups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
     configuration: Union[HeatmapGraphConfiguration, DefaultValue] = DEFAULT,
 ) -> HeatmapGraph:
     """
@@ -412,6 +475,8 @@ def heatmap_graph(
             columns_order=columns_order,
             rows_groups=rows_groups,
             columns_groups=columns_groups,
+            rows_subgroups=rows_subgroups,
+            columns_subgroups=columns_subgroups,
         ),
         configuration=configuration,
     )

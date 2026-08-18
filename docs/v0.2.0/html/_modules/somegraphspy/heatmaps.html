@@ -100,6 +100,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultValue</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlEnum</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlObject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_from_julia</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_given</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">jl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
@@ -204,26 +205,30 @@
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraphOrder">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HeatmapGraphOrder</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The final order, clustering and reordered data of a heatmap graph, filled in whenever the figure is generated. See</span>
-<span class="sd">    the Julia</span>
+<span class="sd">    The final order and clustering of the rows and the columns of a heatmap graph, as returned by the graph&#39;s</span>
+<span class="sd">    ``order``. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphOrder&gt;`__</span>
 <span class="sd">    for details.</span>
 
+<span class="sd">    The orders are always a permutation of the entries, so they can be fed as-is into the ``rows_order`` and</span>
+<span class="sd">    ``columns_order`` of a :py:obj:`HeatmapGraphData` to show another graph in the same order.</span>
+
 <span class="sd">    The ``rows_hclust`` and ``columns_hclust`` are Julia ``Hclust`` objects. There is no Python model for these, but</span>
-<span class="sd">    they can be fed back into the ``rows_order`` and ``columns_order`` of a :py:obj:`HeatmapGraphData` to reuse the</span>
-<span class="sd">    same clustering.</span>
+<span class="sd">    they too can be fed back into the ``rows_order`` and ``columns_order`` of a :py:obj:`HeatmapGraphData`, which</span>
+<span class="sd">    reuses both the order and the tree, so the other graph also shows the same dendogram.</span>
+
+<span class="sd">    These describe the order of the data, not the order it is displayed in; applying the ``origin`` is up to whoever</span>
+<span class="sd">    shows the graph.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1">#: The final (1-based) order of the rows.</span>
-    <span class="n">rows_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
+    <span class="c1">#: The final (1-based) order of the rows; the identity if they weren&#39;t reordered at all.</span>
+    <span class="n">rows_order</span><span class="p">:</span> <span class="n">IntegersVector</span>
     <span class="c1">#: The clustering of the rows, if one was computed.</span>
     <span class="n">rows_hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
-    <span class="c1">#: The final (1-based) order of the columns.</span>
-    <span class="n">columns_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
+    <span class="c1">#: The final (1-based) order of the columns; the identity if they weren&#39;t reordered at all.</span>
+    <span class="n">columns_order</span><span class="p">:</span> <span class="n">IntegersVector</span>
     <span class="c1">#: The clustering of the columns, if one was computed.</span>
-    <span class="n">columns_hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
-    <span class="c1">#: The values, reordered.</span>
-    <span class="n">reordered_values</span><span class="p">:</span> <span class="n">NumbersMatrix</span></div>
+    <span class="n">columns_hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span></div>
 
 
 
@@ -237,6 +242,11 @@
 <span class="sd">    Configure a graph showing a matrix of values as a heatmap. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphConfiguration&gt;`__</span>
 <span class="sd">    for details.</span>
+
+<span class="sd">    Groups (and subgroups) constrain the clustering, and are separated by a gap. Each level is placed independently: a</span>
+<span class="sd">    level specified by numbers is laid out in the order of these numbers, and a level specified by names is laid out by</span>
+<span class="sd">    the clustering. The ``..._subgroups_gap`` defaults to ``None`` because the usual reason to specify subgroups is to</span>
+<span class="sd">    constrain the clustering rather than to show gaps.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1">#: How to size the overall figure.</span>
@@ -267,6 +277,10 @@
     <span class="n">rows_groups_gap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
     <span class="c1">#: The gap between groups of columns, in entries.</span>
     <span class="n">columns_groups_gap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="c1">#: The gap between subgroups of rows, in entries.</span>
+    <span class="n">rows_subgroups_gap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="c1">#: The gap between subgroups of columns, in entries.</span>
+    <span class="n">columns_subgroups_gap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
     <span class="c1">#: The size of the rows dendogram, as a fraction of the graph size.</span>
     <span class="n">rows_dendogram_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="c1">#: The size of the columns dendogram, as a fraction of the graph size.</span>
@@ -277,7 +291,8 @@
     <span class="n">columns_dendogram_line</span><span class="p">:</span> <span class="n">LineConfiguration</span>
     <span class="c1">#: Where the first entry of the matrix is shown.</span>
     <span class="n">origin</span><span class="p">:</span> <span class="n">HeatmapOrigin</span>
-    <span class="c1">#: Filled in with the final order whenever the figure is generated.</span>
+    <span class="c1">#: Caches the computed order of the rows and the columns; access it through the graph&#39;s ``order``, and reset it</span>
+    <span class="c1">#: with the graph&#39;s ``reset_order`` if anything it was computed from is changed after it was computed.</span>
     <span class="n">final_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapGraphOrder</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -297,6 +312,8 @@
         <span class="n">columns_metric</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">rows_groups_gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">columns_groups_gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_subgroups_gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_subgroups_gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">rows_dendogram_size</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">columns_dendogram_size</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">rows_dendogram_line</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">LineConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
@@ -321,6 +338,8 @@
                     <span class="n">columns_metric</span><span class="o">=</span><span class="n">columns_metric</span><span class="p">,</span>
                     <span class="n">rows_groups_gap</span><span class="o">=</span><span class="n">rows_groups_gap</span><span class="p">,</span>
                     <span class="n">columns_groups_gap</span><span class="o">=</span><span class="n">columns_groups_gap</span><span class="p">,</span>
+                    <span class="n">rows_subgroups_gap</span><span class="o">=</span><span class="n">rows_subgroups_gap</span><span class="p">,</span>
+                    <span class="n">columns_subgroups_gap</span><span class="o">=</span><span class="n">columns_subgroups_gap</span><span class="p">,</span>
                     <span class="n">rows_dendogram_size</span><span class="o">=</span><span class="n">rows_dendogram_size</span><span class="p">,</span>
                     <span class="n">columns_dendogram_size</span><span class="o">=</span><span class="n">columns_dendogram_size</span><span class="p">,</span>
                     <span class="n">rows_dendogram_line</span><span class="o">=</span><span class="n">rows_dendogram_line</span><span class="p">,</span>
@@ -381,6 +400,12 @@
     <span class="n">rows_groups</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]]</span>
     <span class="c1">#: The group of each column.</span>
     <span class="n">columns_groups</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]]</span>
+    <span class="c1">#: The subgroup of each row, nested in its group. A subgroup of one group is unrelated to the same subgroup of</span>
+    <span class="c1">#: another group, so the subgroups need not be unique.</span>
+    <span class="n">rows_subgroups</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]]</span>
+    <span class="c1">#: The subgroup of each column, nested in its group. A subgroup of one group is unrelated to the same subgroup of</span>
+    <span class="c1">#: another group, so the subgroups need not be unique.</span>
+    <span class="n">columns_subgroups</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -403,6 +428,8 @@
         <span class="n">columns_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Order</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">rows_groups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">columns_groups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">rows_subgroups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">columns_subgroups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">HeatmapGraphData</span><span class="p">(</span>
@@ -425,6 +452,8 @@
                     <span class="n">columns_order</span><span class="o">=</span><span class="n">columns_order</span><span class="p">,</span>
                     <span class="n">rows_groups</span><span class="o">=</span><span class="n">rows_groups</span><span class="p">,</span>
                     <span class="n">columns_groups</span><span class="o">=</span><span class="n">columns_groups</span><span class="p">,</span>
+                    <span class="n">rows_subgroups</span><span class="o">=</span><span class="n">rows_subgroups</span><span class="p">,</span>
+                    <span class="n">columns_subgroups</span><span class="o">=</span><span class="n">columns_subgroups</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
@@ -454,7 +483,42 @@
         <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapGraphData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">HeatmapGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">HeatmapGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">order</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HeatmapGraphOrder</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The final order of the rows and the columns, and the trees they were clustered by, without rendering the graph.</span>
+<span class="sd">        See the Julia</span>
+<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.heatmap_order&gt;`__</span>
+<span class="sd">        for details.</span>
+
+<span class="sd">        Use this to list the entries in the order they are shown, or to show several graphs in the same order by</span>
+<span class="sd">        feeding it into the ``rows_order`` and ``columns_order`` of their data. The order is only computed</span>
+<span class="sd">        once; showing the graph will reuse it, and vice versa.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            Nothing detects that the cached order went stale. Call :py:obj:`reset_order` if anything it was computed</span>
+<span class="sd">            from is changed after it was computed - that is, the ``..._reorder``, ``..._linkage`` and ``..._metric``</span>
+<span class="sd">            configuration, and the ``entries_values``, ``..._order``, ``..._arrange_by`` and ``..._groups`` data. The</span>
+<span class="sd">            groups are easy to forget: they constrain the clustering, so saving the same graph twice, grouped</span>
+<span class="sd">            differently each time, silently reuses the order of the first grouping unless the cache is reset in</span>
+<span class="sd">            between.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">heatmap_order</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span>
+
+<div class="viewcode-block" id="HeatmapGraph.reset_order">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.reset_order">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset_order</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Forget the cached :py:obj:`HeatmapGraphOrder`, so that asking for the graph&#39;s :py:obj:`order` (or showing it)</span>
+<span class="sd">        will compute it again. Call this after changing anything the order was computed from. See the Julia</span>
+<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.reset_order!&gt;`__</span>
+<span class="sd">        for details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">reset_order_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">)</span></div>
+</div>
 
 
 
@@ -480,6 +544,8 @@
     <span class="n">columns_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Order</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">rows_groups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">columns_groups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">rows_subgroups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">columns_subgroups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">,</span> <span class="n">IntegersVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HeatmapGraph</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -508,6 +574,8 @@
             <span class="n">columns_order</span><span class="o">=</span><span class="n">columns_order</span><span class="p">,</span>
             <span class="n">rows_groups</span><span class="o">=</span><span class="n">rows_groups</span><span class="p">,</span>
             <span class="n">columns_groups</span><span class="o">=</span><span class="n">columns_groups</span><span class="p">,</span>
+            <span class="n">rows_subgroups</span><span class="o">=</span><span class="n">rows_subgroups</span><span class="p">,</span>
+            <span class="n">columns_subgroups</span><span class="o">=</span><span class="n">columns_subgroups</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">,</span>
     <span class="p">)</span></div>

@@ -79,9 +79,9 @@ pygments_style = 'sphinx'
 # -- Options for HTML output -------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.
-import sphinx_rtd_theme
+# Setting ``html_theme_path`` from ``sphinx_rtd_theme.get_html_theme_path`` is deprecated and warns,
+# and the theme is found without it.
 html_theme = 'sphinx_rtd_theme'
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 
 # -- Options for HTMLHelp output ---------------------------------------

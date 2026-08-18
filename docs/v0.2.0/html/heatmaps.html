@@ -159,6 +159,24 @@
 </a>
 </li>
 
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph.order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraph.order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph.reset_order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraph.reset_order()
+</span>
+</code>
+</a>
+</li>
+
 </ul>
 
 </li>
@@ -293,6 +311,24 @@
 <a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_groups_gap">
 <code class="docutils literal notranslate">
 <span class="pre">HeatmapGraphConfiguration.columns_groups_gap
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_subgroups_gap">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.rows_subgroups_gap
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_subgroups_gap">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphConfiguration.columns_subgroups_gap
 </span>
 </code>
 </a>
@@ -527,6 +563,24 @@
 </a>
 </li>
 
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_subgroups">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.rows_subgroups
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_subgroups">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraphData.columns_subgroups
+</span>
+</code>
+</a>
+</li>
+
 </ul>
 
 </li>
@@ -571,15 +625,6 @@
 <a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder.columns_hclust">
 <code class="docutils literal notranslate">
 <span class="pre">HeatmapGraphOrder.columns_hclust
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l4">
-<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder.reordered_values">
-<code class="docutils literal notranslate">
-<span class="pre">HeatmapGraphOrder.reordered_values
 </span>
 </code>
 </a>
@@ -878,7 +923,7 @@
 <span id="heatmaps">
 </span>
 <h1>heatmaps
-<a class="headerlink" href="#module-somegraphspy.heatmaps" title="Link to this heading">¶
+<a class="headerlink" href="#module-somegraphspy.heatmaps" title="Link to this heading">
 </a>
 </h1>
 
@@ -1012,7 +1057,7 @@
 </span>
 </span>
 </a>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph" title="Link to this definition">
 </a>
 </dt>
 
@@ -1044,7 +1089,7 @@ for details.
 </span>
 </a>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph.data" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph.data" title="Link to this definition">
 </a>
 </dt>
 
@@ -1076,12 +1121,174 @@ for details.
 </span>
 </a>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph.configuration" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph.configuration" title="Link to this definition">
 </a>
 </dt>
 
 <dd>
 <p>How to display it.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py property">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraph.order">
+
+<span class="property">
+<span class="k">
+<span class="pre">property
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">order
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder" title="somegraphspy.heatmaps.HeatmapGraphOrder">
+<span class="pre">HeatmapGraphOrder
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph.order" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The final order of the rows and the columns, and the trees they were clustered by, without rendering the graph.
+See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.heatmap_order">documentation
+</a>
+for details.
+</p>
+
+<p>Use this to list the entries in the order they are shown, or to show several graphs in the same order by
+feeding it into the 
+<code class="docutils literal notranslate">
+<span class="pre">rows_order
+</span>
+</code> and 
+<code class="docutils literal notranslate">
+<span class="pre">columns_order
+</span>
+</code> of their data. The order is only computed
+once; showing the graph will reuse it, and vice versa.
+</p>
+
+<div class="admonition note">
+
+<p class="admonition-title">Note
+</p>
+
+<p>Nothing detects that the cached order went stale. Call 
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph.reset_order" title="somegraphspy.heatmaps.HeatmapGraph.reset_order">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">reset_order
+</span>
+</code>
+</a> if anything it was computed
+from is changed after it was computed - that is, the 
+<code class="docutils literal notranslate">
+<span class="pre">..._reorder
+</span>
+</code>, 
+<code class="docutils literal notranslate">
+<span class="pre">..._linkage
+</span>
+</code> and 
+<code class="docutils literal notranslate">
+<span class="pre">..._metric
+</span>
+</code>
+configuration, and the 
+<code class="docutils literal notranslate">
+<span class="pre">entries_values
+</span>
+</code>, 
+<code class="docutils literal notranslate">
+<span class="pre">..._order
+</span>
+</code>, 
+<code class="docutils literal notranslate">
+<span class="pre">..._arrange_by
+</span>
+</code> and 
+<code class="docutils literal notranslate">
+<span class="pre">..._groups
+</span>
+</code> data. The
+groups are easy to forget: they constrain the clustering, so saving the same graph twice, grouped
+differently each time, silently reuses the order of the first grouping unless the cache is reset in
+between.
+</p>
+
+</div>
+
+</dd>
+</dl>
+
+
+<dl class="py method">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraph.reset_order">
+
+<span class="sig-name descname">
+<span class="pre">reset_order
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<span class="pre">None
+</span>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/heatmaps.html#HeatmapGraph.reset_order">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph.reset_order" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>Forget the cached 
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphOrder" title="somegraphspy.heatmaps.HeatmapGraphOrder">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">HeatmapGraphOrder
+</span>
+</code>
+</a>, so that asking for the graph’s 
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph.order" title="somegraphspy.heatmaps.HeatmapGraph.order">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">order
+</span>
+</code>
+</a> (or showing it)
+will compute it again. Call this after changing anything the order was computed from. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.reset_order!">documentation
+</a>
+for details.
 </p>
 
 </dd>
@@ -1826,6 +2033,110 @@ for details.
 </em>, 
 <em class="sig-param">
 <span class="n">
+<span class="pre">rows_subgroups_gap
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_subgroups_gap
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
 <span class="pre">rows_dendogram_size
 </span>
 </span>
@@ -2122,7 +2433,7 @@ for details.
 </span>
 </span>
 </a>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration" title="Link to this definition">
 </a>
 </dt>
 
@@ -2132,6 +2443,20 @@ for details.
 <a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphConfiguration">documentation
 </a>
 for details.
+</p>
+
+<p>Groups (and subgroups) constrain the clustering, and are separated by a gap. Each level is placed independently: a
+level specified by numbers is laid out in the order of these numbers, and a level specified by names is laid out by
+the clustering. The 
+<code class="docutils literal notranslate">
+<span class="pre">..._subgroups_gap
+</span>
+</code> defaults to 
+<code class="docutils literal notranslate">
+<span class="pre">None
+</span>
+</code> because the usual reason to specify subgroups is to
+constrain the clustering rather than to show gaps.
 </p>
 
 <dl class="py attribute">
@@ -2154,7 +2479,7 @@ for details.
 </span>
 </a>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.figure" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.figure" title="Link to this definition">
 </a>
 </dt>
 
@@ -2194,7 +2519,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.x_axis_title" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.x_axis_title" title="Link to this definition">
 </a>
 </dt>
 
@@ -2234,7 +2559,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.y_axis_title" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.y_axis_title" title="Link to this definition">
 </a>
 </dt>
 
@@ -2266,7 +2591,7 @@ for details.
 </span>
 </a>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.entries_colors" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.entries_colors" title="Link to this definition">
 </a>
 </dt>
 
@@ -2298,7 +2623,7 @@ for details.
 </span>
 </a>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_annotations" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_annotations" title="Link to this definition">
 </a>
 </dt>
 
@@ -2330,7 +2655,7 @@ for details.
 </span>
 </a>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_annotations" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_annotations" title="Link to this definition">
 </a>
 </dt>
 
@@ -2372,7 +2697,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_reorder" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_reorder" title="Link to this definition">
 </a>
 </dt>
 
@@ -2414,7 +2739,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_reorder" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_reorder" title="Link to this definition">
 </a>
 </dt>
 
@@ -2456,7 +2781,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_linkage" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_linkage" title="Link to this definition">
 </a>
 </dt>
 
@@ -2498,7 +2823,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_linkage" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_linkage" title="Link to this definition">
 </a>
 </dt>
 
@@ -2538,7 +2863,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_metric" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_metric" title="Link to this definition">
 </a>
 </dt>
 
@@ -2582,7 +2907,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_metric" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_metric" title="Link to this definition">
 </a>
 </dt>
 
@@ -2626,7 +2951,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_groups_gap" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_groups_gap" title="Link to this definition">
 </a>
 </dt>
 
@@ -2666,12 +2991,92 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_groups_gap" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_groups_gap" title="Link to this definition">
 </a>
 </dt>
 
 <dd>
 <p>The gap between groups of columns, in entries.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_subgroups_gap">
+
+<span class="sig-name descname">
+<span class="pre">rows_subgroups_gap
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_subgroups_gap" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The gap between subgroups of rows, in entries.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_subgroups_gap">
+
+<span class="sig-name descname">
+<span class="pre">columns_subgroups_gap
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_subgroups_gap" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The gap between subgroups of columns, in entries.
 </p>
 
 </dd>
@@ -2706,7 +3111,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_dendogram_size" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_dendogram_size" title="Link to this definition">
 </a>
 </dt>
 
@@ -2746,7 +3151,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_dendogram_size" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_dendogram_size" title="Link to this definition">
 </a>
 </dt>
 
@@ -2778,7 +3183,7 @@ for details.
 </span>
 </a>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_dendogram_line" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.rows_dendogram_line" title="Link to this definition">
 </a>
 </dt>
 
@@ -2810,7 +3215,7 @@ for details.
 </span>
 </a>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_dendogram_line" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.columns_dendogram_line" title="Link to this definition">
 </a>
 </dt>
 
@@ -2842,7 +3247,7 @@ for details.
 </span>
 </a>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.origin" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.origin" title="Link to this definition">
 </a>
 </dt>
 
@@ -2884,12 +3289,21 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.final_order" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphConfiguration.final_order" title="Link to this definition">
 </a>
 </dt>
 
 <dd>
-<p>Filled in with the final order whenever the figure is generated.
+<p>Caches the computed order of the rows and the columns; access it through the graph’s 
+<code class="docutils literal notranslate">
+<span class="pre">order
+</span>
+</code>, and reset it
+with the graph’s 
+<code class="docutils literal notranslate">
+<span class="pre">reset_order
+</span>
+</code> if anything it was computed from is changed after it was computed.
 </p>
 
 </dd>
@@ -4087,6 +4501,190 @@ for details.
 <span class="pre">object&gt;
 </span>
 </span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">rows_subgroups
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_subgroups
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
 </em>
 <span class="sig-paren">)
 </span>
@@ -4096,7 +4694,7 @@ for details.
 </span>
 </span>
 </a>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData" title="Link to this definition">
 </a>
 </dt>
 
@@ -4136,7 +4734,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.figure_title" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.figure_title" title="Link to this definition">
 </a>
 </dt>
 
@@ -4176,7 +4774,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.x_axis_title" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.x_axis_title" title="Link to this definition">
 </a>
 </dt>
 
@@ -4216,7 +4814,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.y_axis_title" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.y_axis_title" title="Link to this definition">
 </a>
 </dt>
 
@@ -4256,7 +4854,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.entries_colors_title" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.entries_colors_title" title="Link to this definition">
 </a>
 </dt>
 
@@ -4296,7 +4894,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.entries_values" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.entries_values" title="Link to this definition">
 </a>
 </dt>
 
@@ -4356,7 +4954,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_names" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_names" title="Link to this definition">
 </a>
 </dt>
 
@@ -4416,7 +5014,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_names" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_names" title="Link to this definition">
 </a>
 </dt>
 
@@ -4456,7 +5054,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.entries_hovers" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.entries_hovers" title="Link to this definition">
 </a>
 </dt>
 
@@ -4516,7 +5114,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_hovers" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_hovers" title="Link to this definition">
 </a>
 </dt>
 
@@ -4576,7 +5174,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_hovers" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_hovers" title="Link to this definition">
 </a>
 </dt>
 
@@ -4618,7 +5216,7 @@ for details.
 </span>
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_annotations" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_annotations" title="Link to this definition">
 </a>
 </dt>
 
@@ -4660,7 +5258,7 @@ for details.
 </span>
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_annotations" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_annotations" title="Link to this definition">
 </a>
 </dt>
 
@@ -4700,7 +5298,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_arrange_by" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_arrange_by" title="Link to this definition">
 </a>
 </dt>
 
@@ -4740,7 +5338,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_arrange_by" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_arrange_by" title="Link to this definition">
 </a>
 </dt>
 
@@ -4810,7 +5408,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_order" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_order" title="Link to this definition">
 </a>
 </dt>
 
@@ -4880,7 +5478,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_order" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_order" title="Link to this definition">
 </a>
 </dt>
 
@@ -4960,7 +5558,7 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_groups" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_groups" title="Link to this definition">
 </a>
 </dt>
 
@@ -5040,12 +5638,174 @@ for details.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_groups" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_groups" title="Link to this definition">
 </a>
 </dt>
 
 <dd>
 <p>The group of each column.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.rows_subgroups">
+
+<span class="sig-name descname">
+<span class="pre">rows_subgroups
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.rows_subgroups" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The subgroup of each row, nested in its group. A subgroup of one group is unrelated to the same subgroup of
+another group, so the subgroups need not be unique.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphData.columns_subgroups">
+
+<span class="sig-name descname">
+<span class="pre">columns_subgroups
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphData.columns_subgroups" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The subgroup of each column, nested in its group. A subgroup of one group is unrelated to the same subgroup of
+another group, so the subgroups need not be unique.
 </p>
 
 </dd>
@@ -5102,17 +5862,39 @@ for details.
 </span>
 </span>
 </a>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder" title="Link to this definition">
 </a>
 </dt>
 
 <dd>
-<p>The final order, clustering and reordered data of a heatmap graph, filled in whenever the figure is generated. See
-the Julia
+<p>The final order and clustering of the rows and the columns of a heatmap graph, as returned by the graph’s
+
+<code class="docutils literal notranslate">
+<span class="pre">order
+</span>
+</code>. See the Julia
 
 <a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphOrder">documentation
 </a>
 for details.
+</p>
+
+<p>The orders are always a permutation of the entries, so they can be fed as-is into the 
+<code class="docutils literal notranslate">
+<span class="pre">rows_order
+</span>
+</code> and
+
+<code class="docutils literal notranslate">
+<span class="pre">columns_order
+</span>
+</code> of a 
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData" title="somegraphspy.heatmaps.HeatmapGraphData">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">HeatmapGraphData
+</span>
+</code>
+</a> to show another graph in the same order.
 </p>
 
 <p>The 
@@ -5128,7 +5910,7 @@ for details.
 <span class="pre">Hclust
 </span>
 </code> objects. There is no Python model for these, but
-they can be fed back into the 
+they too can be fed back into the 
 <code class="docutils literal notranslate">
 <span class="pre">rows_order
 </span>
@@ -5142,8 +5924,16 @@ they can be fed back into the
 <span class="pre">HeatmapGraphData
 </span>
 </code>
-</a> to reuse the
-same clustering.
+</a>, which
+reuses both the order and the tree, so the other graph also shows the same dendogram.
+</p>
+
+<p>These describe the order of the data, not the order it is displayed in; applying the 
+<code class="docutils literal notranslate">
+<span class="pre">origin
+</span>
+</code> is up to whoever
+shows the graph.
 </p>
 
 <dl class="py attribute">
@@ -5183,23 +5973,13 @@ same clustering.
 <span class="pre">]
 </span>
 </span>
-<span class="w"> 
 </span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-</span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.rows_order" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.rows_order" title="Link to this definition">
 </a>
 </dt>
 
 <dd>
-<p>The final (1-based) order of the rows.
+<p>The final (1-based) order of the rows; the identity if they weren’t reordered at all.
 </p>
 
 </dd>
@@ -5234,7 +6014,7 @@ same clustering.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.rows_hclust" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.rows_hclust" title="Link to this definition">
 </a>
 </dt>
 
@@ -5283,23 +6063,13 @@ same clustering.
 <span class="pre">]
 </span>
 </span>
-<span class="w"> 
 </span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-</span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.columns_order" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.columns_order" title="Link to this definition">
 </a>
 </dt>
 
 <dd>
-<p>The final (1-based) order of the columns.
+<p>The final (1-based) order of the columns; the identity if they weren’t reordered at all.
 </p>
 
 </dd>
@@ -5334,42 +6104,12 @@ same clustering.
 <span class="pre">None
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.columns_hclust" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.columns_hclust" title="Link to this definition">
 </a>
 </dt>
 
 <dd>
 <p>The clustering of the columns, if one was computed.
-</p>
-
-</dd>
-</dl>
-
-
-<dl class="py attribute">
-
-<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraphOrder.reordered_values">
-
-<span class="sig-name descname">
-<span class="pre">reordered_values
-</span>
-</span>
-<span class="property">
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">ndarray
-</span>
-</span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraphOrder.reordered_values" title="Link to this definition">¶
-</a>
-</dt>
-
-<dd>
-<p>The values, reordered.
 </p>
 
 </dd>
@@ -5416,7 +6156,7 @@ same clustering.
 </span>
 </span>
 </a>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage" title="Link to this definition">
 </a>
 </dt>
 
@@ -5448,7 +6188,7 @@ for details.
 <span class="pre">'SingleLinkage'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.SingleLinkage" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.SingleLinkage" title="Link to this definition">
 </a>
 </dt>
 
@@ -5480,7 +6220,7 @@ for details.
 <span class="pre">'AverageLinkage'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.AverageLinkage" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.AverageLinkage" title="Link to this definition">
 </a>
 </dt>
 
@@ -5512,7 +6252,7 @@ for details.
 <span class="pre">'CompleteLinkage'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.CompleteLinkage" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.CompleteLinkage" title="Link to this definition">
 </a>
 </dt>
 
@@ -5544,7 +6284,7 @@ for details.
 <span class="pre">'WardLinkage'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.WardLinkage" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.WardLinkage" title="Link to this definition">
 </a>
 </dt>
 
@@ -5576,7 +6316,7 @@ for details.
 <span class="pre">'WardPreSquaredLinkage'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.WardPreSquaredLinkage" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapLinkage.WardPreSquaredLinkage" title="Link to this definition">
 </a>
 </dt>
 
@@ -5628,7 +6368,7 @@ for details.
 </span>
 </span>
 </a>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin" title="Link to this definition">
 </a>
 </dt>
 
@@ -5660,7 +6400,7 @@ for details.
 <span class="pre">'HeatmapTopLeft'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapTopLeft" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapTopLeft" title="Link to this definition">
 </a>
 </dt>
 
@@ -5692,7 +6432,7 @@ for details.
 <span class="pre">'HeatmapTopRight'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapTopRight" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapTopRight" title="Link to this definition">
 </a>
 </dt>
 
@@ -5724,7 +6464,7 @@ for details.
 <span class="pre">'HeatmapBottomLeft'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapBottomLeft" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapBottomLeft" title="Link to this definition">
 </a>
 </dt>
 
@@ -5756,7 +6496,7 @@ for details.
 <span class="pre">'HeatmapBottomRight'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapBottomRight" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapOrigin.HeatmapBottomRight" title="Link to this definition">
 </a>
 </dt>
 
@@ -5808,7 +6548,7 @@ for details.
 </span>
 </span>
 </a>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder" title="Link to this definition">
 </a>
 </dt>
 
@@ -5840,7 +6580,7 @@ for details.
 <span class="pre">'RCompatibleHclust'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.RCompatibleHclust" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.RCompatibleHclust" title="Link to this definition">
 </a>
 </dt>
 
@@ -5872,7 +6612,7 @@ for details.
 <span class="pre">'OptimalHclust'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.OptimalHclust" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.OptimalHclust" title="Link to this definition">
 </a>
 </dt>
 
@@ -5904,7 +6644,7 @@ for details.
 <span class="pre">'ReorderHclust'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.ReorderHclust" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.ReorderHclust" title="Link to this definition">
 </a>
 </dt>
 
@@ -5936,7 +6676,7 @@ for details.
 <span class="pre">'SlantedHclust'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedHclust" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedHclust" title="Link to this definition">
 </a>
 </dt>
 
@@ -5968,7 +6708,7 @@ for details.
 <span class="pre">'SlantedPreSquaredHclust'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedPreSquaredHclust" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedPreSquaredHclust" title="Link to this definition">
 </a>
 </dt>
 
@@ -6000,7 +6740,7 @@ for details.
 <span class="pre">'SlantedOrder'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedOrder" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedOrder" title="Link to this definition">
 </a>
 </dt>
 
@@ -6032,7 +6772,7 @@ for details.
 <span class="pre">'SlantedPreSquaredOrder'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedPreSquaredOrder" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SlantedPreSquaredOrder" title="Link to this definition">
 </a>
 </dt>
 
@@ -6064,7 +6804,7 @@ for details.
 <span class="pre">'SameOrder'
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SameOrder" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapReorder.SameOrder" title="Link to this definition">
 </a>
 </dt>
 
@@ -6092,7 +6832,7 @@ for details.
 <span class="pre">Order
 </span>
 </span>
-<a class="headerlink" href="#somegraphspy.heatmaps.Order" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.Order" title="Link to this definition">
 </a>
 </dt>
 
@@ -7316,6 +8056,190 @@ clustering taken from the
 </em>, 
 <em class="sig-param">
 <span class="n">
+<span class="pre">rows_subgroups
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">columns_subgroups
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">str
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
 <span class="pre">configuration
 </span>
 </span>
@@ -7376,7 +8300,7 @@ clustering taken from the
 </span>
 </span>
 </a>
-<a class="headerlink" href="#somegraphspy.heatmaps.heatmap_graph" title="Link to this definition">¶
+<a class="headerlink" href="#somegraphspy.heatmaps.heatmap_graph" title="Link to this definition">
 </a>
 </dt>
 
