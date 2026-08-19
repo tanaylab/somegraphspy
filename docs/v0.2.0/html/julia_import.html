@@ -183,15 +183,6 @@
 
 </li>
 
-<li class="toctree-l3">
-<a class="reference internal" href="#somegraphspy.julia_import.use_default_julia_environment">
-<code class="docutils literal notranslate">
-<span class="pre">use_default_julia_environment()
-</span>
-</code>
-</a>
-</li>
-
 </ul>
 
 </li>
@@ -303,16 +294,11 @@
 <p>Import the Julia environment.
 </p>
 
-<p>This provides additional functionality on top of 
-<code class="docutils literal notranslate">
-<span class="pre">juliapkg
-</span>
-</code> (which automatically downloads Julia packages for us). It
-will import the 
+<p>This imports the 
 <code class="docutils literal notranslate">
 <span class="pre">juliacall
 </span>
-</code> module to create a Julia environment (as 
+</code> module to obtain a Julia run-time (as 
 <code class="docutils literal notranslate">
 <span class="pre">jl
 </span>
@@ -324,55 +310,132 @@ will import the
 </code> Julia package.
 </p>
 
-<p>You can control the behavior using the following environment variables:
+<p>How Julia is run, and which Julia is run, is left to 
+<code class="docutils literal notranslate">
+<span class="pre">juliacall
+</span>
+</code>, and is configured by its own environment variables,
+which must be set before importing anything that reaches Julia. This adds one thing to them: 
+<code class="docutils literal notranslate">
+<span class="pre">&#64;default
+</span>
+</code>.
 </p>
 
-<ul class="simple">
-
-<li>
-<p>
+<p>By default 
 <code class="docutils literal notranslate">
-<span class="pre">PYTHON_JULIACALL_HANDLE_SIGNALS
+<span class="pre">juliacall
 </span>
-</code> (by default, 
+</code> has 
 <code class="docutils literal notranslate">
-<span class="pre">yes
+<span class="pre">juliapkg
 </span>
-</code>). This is needed to avoid segfaults when calling
-Julia from Python.
+</code> install a Julia of its own, and an environment of its own, and populates that
+environment with what each installed Python package declares in its 
+<code class="docutils literal notranslate">
+<span class="pre">juliapkg.json
+</span>
+</code>. That is a reasonable default, and
+it is not always what you want: if you use Julia yourself, it means a second copy of everything, which you cannot see
+from a Julia prompt, and whose versions you do not choose.
 </p>
-</li>
 
-<li>
 <p>
+<code class="docutils literal notranslate">
+<span class="pre">juliacall
+</span>
+</code> can be pointed at a Julia instead, through 
+<code class="docutils literal notranslate">
+<span class="pre">PYTHON_JULIACALL_EXE
+</span>
+</code> and 
+<code class="docutils literal notranslate">
+<span class="pre">PYTHON_JULIACALL_PROJECT
+</span>
+</code>, but
+it has no way to say “the Julia I already have”: the first must be an executable and the second a directory which
+exists. Setting either of them to 
+<code class="docutils literal notranslate">
+<span class="pre">&#64;default
+</span>
+</code> here means exactly that - the 
+<code class="docutils literal notranslate">
+<span class="pre">julia
+</span>
+</code> in the path, and the environment
+that Julia would use by itself, which it is asked for rather than being worked out from the depot and the version.
+They are expanded before 
+<code class="docutils literal notranslate">
+<span class="pre">juliacall
+</span>
+</code> sees them, and are independent, so one may be 
+<code class="docutils literal notranslate">
+<span class="pre">&#64;default
+</span>
+</code> while the other is
+given explicitly.
+</p>
+
+<p>Setting them is a deliberate act, so nothing is assumed if you do not. In particular 
 <code class="docutils literal notranslate">
 <span class="pre">PYTHON_JULIACALL_THREADS
 </span>
-</code> (by default, 
-<code class="docutils literal notranslate">
-<span class="pre">auto
-</span>
-</code>). By default Julia will use all the threads available
-in the machine. On machines with hyper-threading you may want to specify only half the number of threads (that is,
-just have one thread per physical core) as that should provide better performance for compute-intensive (as opposed to
-IO-intensive) code.
-</p>
-</li>
+</code> and
 
-<li>
-<p>
 <code class="docutils literal notranslate">
-<span class="pre">PYTHON_JULIACALL_OPTLEVEL
+<span class="pre">PYTHON_JULIACALL_HANDLE_SIGNALS
 </span>
-</code> (by default, 
+</code> are left exactly as you set them: Julia runs on one thread unless you ask for more,
+and asking for more without also setting the signal handling to 
 <code class="docutils literal notranslate">
-<span class="pre">3
+<span class="pre">yes
 </span>
-</code>).
+</code> is what makes it crash. 
+<code class="docutils literal notranslate">
+<span class="pre">juliacall
+</span>
+</code> warns
+about that combination itself; this warns, once, about the single thread, which nothing else would tell you about.
 </p>
-</li>
 
-</ul>
+<p>Three packages provide this expansion: 
+<code class="docutils literal notranslate">
+<span class="pre">dafpy
+</span>
+</code>, 
+<code class="docutils literal notranslate">
+<span class="pre">somegraphspy
+</span>
+</code>, and 
+<code class="docutils literal notranslate">
+<span class="pre">metacellspy
+</span>
+</code> (transitively, through
+
+<code class="docutils literal notranslate">
+<span class="pre">dafpy
+</span>
+</code>). Importing any of them expands 
+<code class="docutils literal notranslate">
+<span class="pre">&#64;default
+</span>
+</code>, so the order does not matter. If 
+<code class="docutils literal notranslate">
+<span class="pre">juliacall
+</span>
+</code> is imported
+before any of them, it sees 
+<code class="docutils literal notranslate">
+<span class="pre">&#64;default
+</span>
+</code> itself, and rejects it as a path which does not exist, naming the variable it
+could not use. That is why this is a value of a variable 
+<code class="docutils literal notranslate">
+<span class="pre">juliacall
+</span>
+</code> reads, rather than a variable of our own, which
+it would silently ignore.
+</p>
 
 <p>This code is based on the code from the 
 <code class="docutils literal notranslate">
@@ -445,7 +508,7 @@ in all our Python packages that invoke Julia.
 </span> 
 <span class="pre">12,
 </span> 
-<span class="pre">6)
+<span class="pre">7)
 </span>
 </span>
 <a class="headerlink" href="#somegraphspy.julia_import.jl_version" title="Link to this definition">
@@ -800,76 +863,6 @@ you need an independent one.
 </dd>
 </dl>
 
-
-</dd>
-</dl>
-
-
-<dl class="py function">
-
-<dt class="sig sig-object py" id="somegraphspy.julia_import.use_default_julia_environment">
-
-<span class="sig-prename descclassname">
-<span class="pre">somegraphspy.julia_import.
-</span>
-</span>
-<span class="sig-name descname">
-<span class="pre">use_default_julia_environment
-</span>
-</span>
-<span class="sig-paren">(
-</span>
-<span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<span class="pre">None
-</span>
-</span>
-</span>
-<a class="reference internal" href="_modules/somegraphspy/julia_import.html#use_default_julia_environment">
-<span class="viewcode-link">
-<span class="pre">[source]
-</span>
-</span>
-</a>
-<a class="headerlink" href="#somegraphspy.julia_import.use_default_julia_environment" title="Link to this definition">
-</a>
-</dt>
-
-<dd>
-<p>Force JuliaCall to use your default environment (whatever that is). By default JuliaCall creates its own separate
-independent environment, which means that it re-downloads and re-installs all the dependency packages there.
-This is nice if you don’t otherwise use Julia and/or don’t care about the wasted disk space and initial installation
-time and manual control over package versions. It sucks if you do otherwise use Julia, and/or you want manual
-control over the version of some of the packages (e.g., if you are actively developing them). You would think
-there would a built-in method for doing this in JuliaCall, right?
-</p>
-
-<p>To make this easier (and trigger it before actually importing packages), you can set the
-
-<code class="docutils literal notranslate">
-<span class="pre">PYTHON_JULIACALL_USE_DEFAULT_ENVIRONMENT
-</span>
-</code> environment variable to 
-<code class="docutils literal notranslate">
-<span class="pre">yes
-</span>
-</code>, and then 
-<code class="docutils literal notranslate">
-<span class="pre">import
-</span> 
-<span class="pre">somegraphspy
-</span>
-</code> will
-call 
-<code class="docutils literal notranslate">
-<span class="pre">use_default_julia_environment
-</span>
-</code> for you. Sigh.
-</p>
 
 </dd>
 </dl>

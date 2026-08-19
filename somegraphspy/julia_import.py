@@ -1,21 +1,34 @@
 """
 Import the Julia environment.
 
-This provides additional functionality on top of ``juliapkg`` (which automatically downloads Julia packages for us). It
-will import the ``juliacall`` module to create a Julia environment (as ``jl``), and uses it to import the
+This imports the ``juliacall`` module to obtain a Julia run-time (as ``jl``), and uses it to import the
 ``SomeGraphs.jl`` Julia package.
 
-You can control the behavior using the following environment variables:
+How Julia is run, and which Julia is run, is left to ``juliacall``, and is configured by its own environment variables,
+which must be set before importing anything that reaches Julia. This adds one thing to them: ``@default``.
 
-* ``PYTHON_JULIACALL_HANDLE_SIGNALS`` (by default, ``yes``). This is needed to avoid segfaults when calling
-  Julia from Python.
+By default ``juliacall`` has ``juliapkg`` install a Julia of its own, and an environment of its own, and populates that
+environment with what each installed Python package declares in its ``juliapkg.json``. That is a reasonable default, and
+it is not always what you want: if you use Julia yourself, it means a second copy of everything, which you cannot see
+from a Julia prompt, and whose versions you do not choose.
 
-* ``PYTHON_JULIACALL_THREADS`` (by default, ``auto``). By default Julia will use all the threads available
-  in the machine. On machines with hyper-threading you may want to specify only half the number of threads (that is,
-  just have one thread per physical core) as that should provide better performance for compute-intensive (as opposed to
-  IO-intensive) code.
+``juliacall`` can be pointed at a Julia instead, through ``PYTHON_JULIACALL_EXE`` and ``PYTHON_JULIACALL_PROJECT``, but
+it has no way to say "the Julia I already have": the first must be an executable and the second a directory which
+exists. Setting either of them to ``@default`` here means exactly that - the ``julia`` in the path, and the environment
+that Julia would use by itself, which it is asked for rather than being worked out from the depot and the version.
+They are expanded before ``juliacall`` sees them, and are independent, so one may be ``@default`` while the other is
+given explicitly.
 
-* ``PYTHON_JULIACALL_OPTLEVEL`` (by default, ``3``).
+Setting them is a deliberate act, so nothing is assumed if you do not. In particular ``PYTHON_JULIACALL_THREADS`` and
+``PYTHON_JULIACALL_HANDLE_SIGNALS`` are left exactly as you set them: Julia runs on one thread unless you ask for more,
+and asking for more without also setting the signal handling to ``yes`` is what makes it crash. ``juliacall`` warns
+about that combination itself; this warns, once, about the single thread, which nothing else would tell you about.
+
+Three packages provide this expansion: ``dafpy``, ``somegraphspy``, and ``metacellspy`` (transitively, through
+``dafpy``). Importing any of them expands ``@default``, so the order does not matter. If ``juliacall`` is imported
+before any of them, it sees ``@default`` itself, and rejects it as a path which does not exist, naming the variable it
+could not use. That is why this is a value of a variable ``juliacall`` reads, rather than a variable of our own, which
+it would silently ignore.
 
 This code is based on the code from the ``pysr`` Python package, adapted to our needs. TODO: Much of this is replicated
 in all our Python packages that invoke Julia.
@@ -35,75 +48,79 @@ from typing import Union
 
 import numpy as np
 
-__all__ = ["jl", "jl_version", "DefaultValue", "DEFAULT", "JlEnum", "JlObject", "use_default_julia_environment"]
+__all__ = ["jl", "jl_version", "DefaultValue", "DEFAULT", "JlEnum", "JlObject"]
 
-# Check if JuliaCall is already loaded. If not, setup sensible defaults. If it was loaded manually, warn the user about
-# the relevant environment variables.
-if "juliacall" not in sys.modules:
-    # TODO: Remove these when juliapkg lets you specify this.
-    for k, default in (
-        ("PYTHON_JULIACALL_HANDLE_SIGNALS", "yes"),
-        ("PYTHON_JULIACALL_THREADS", "auto"),
-        ("PYTHON_JULIACALL_OPTLEVEL", "3"),
-    ):
-        os.environ[k] = os.environ.get(k, default)
+# The value of ``PYTHON_JULIACALL_EXE`` or ``PYTHON_JULIACALL_PROJECT`` asking for the Julia you already have, rather
+# than the one ``juliapkg`` would install for itself. Not exported: it has to be in the environment before anything
+# which reaches Julia is imported, so by the time it could be read from here it would be too late to use.
+_DEFAULT_JULIA = "@default"
 
-    # When using the default Julia environment (the default), point juliacall directly at the default Julia binary and
-    # its global package environment, bypassing juliapkg. Otherwise juliapkg populates its own isolated project and
-    # re-installs everything, which fails for locally-developed packages (e.g., SomeGraphs) that aren't in the
-    # General registry. juliacall honors ``PYTHON_JULIACALL_EXE`` and ``PYTHON_JULIACALL_PROJECT`` only when both are
-    # set, so we compute both and set them together.
-    if os.environ.get("PYTHON_JULIACALL_USE_DEFAULT_ENVIRONMENT", "yes") == "yes" and (
-        "PYTHON_JULIACALL_EXE" not in os.environ and "PYTHON_JULIACALL_PROJECT" not in os.environ
-    ):
-        import subprocess  # pylint: disable=import-outside-toplevel
 
-        # Resolve the juliaup shim to the real binary; juliacall derives the system image location from the executable
-        # path, and the shim directory has no ``lib/julia``.
-        julia_exe = shutil.which("julia")
-        if julia_exe is not None:
-            julia_exe = os.path.realpath(julia_exe)
+def _default_julia_exe() -> str:
+    """
+    Return the path of the Julia which is in the path (for internal use).
 
-            # The default environment path is ``~/.julia/environments/v<MAJOR>.<MINOR>``, so we query the Julia binary
-            # for its version to construct the path.
-            try:
-                julia_version_output = subprocess.run(
-                    [julia_exe, "--version"],
-                    check=True,
-                    capture_output=True,
-                    text=True,
-                    timeout=30,
-                ).stdout
-                # Output looks like: "julia version 1.12.5"
-                julia_ver_tokens = julia_version_output.strip().split()
-                julia_semver = julia_ver_tokens[-1].split(".")
-                julia_minor_env = f"v{julia_semver[0]}.{julia_semver[1]}"  # pylint: disable=invalid-name
-                julia_depot = os.environ.get("JULIA_DEPOT_PATH", os.path.join(os.path.expanduser("~"), ".julia")).split(
-                    os.pathsep
-                )[0]
-                os.environ["PYTHON_JULIACALL_EXE"] = julia_exe
-                os.environ["PYTHON_JULIACALL_PROJECT"] = os.path.join(julia_depot, "environments", julia_minor_env)
-            except (subprocess.CalledProcessError, subprocess.TimeoutExpired, OSError, IndexError):
-                pass
+    This is resolved to the real binary, because ``juliacall`` works out where Julia's system image is from the path of
+    the executable it is given, and the directory holding ``juliaup``'s shim has no ``lib/julia`` beside it.
+    """
+    julia_exe = shutil.which("julia")
+    if julia_exe is None:
+        raise ValueError(f"PYTHON_JULIACALL_EXE={_DEFAULT_JULIA}: there is no julia in the path")
+    return os.path.realpath(julia_exe)
 
-if os.environ.get("PYTHON_JULIACALL_PROPER_IMPORT", "") == "":
-    # Required to avoid segfaults (https://juliapy.github.io/PythonCall.jl/dev/faq/)
-    if os.environ.get("PYTHON_JULIACALL_HANDLE_SIGNALS", "yes") != "yes":
-        warnings.warn(
-            "PYTHON_JULIACALL_HANDLE_SIGNALS environment variable is set to something other than 'yes'. "
-            "You will experience segfaults if running with multithreading."
-        )
 
-    if os.environ.get("PYTHON_JULIACALL_THREADS", "auto") != "auto":
-        warnings.warn(
-            "PYTHON_JULIACALL_THREADS environment variable is set to something other than 'auto', "
-            "You may wish to set it to 'auto' for full use of your CPU."
-        )
+def _default_julia_project(julia_exe: str) -> str:
+    """
+    Return the path of the default environment of some Julia (for internal use).
 
-# Only the first Python package to import Julia records itself here, so importing several of them (in any order) does
-# not lose the marker that the environment variables above were already dealt with.
-if os.environ.get("PYTHON_JULIACALL_PROPER_IMPORT", "") == "":
-    os.environ["PYTHON_JULIACALL_PROPER_IMPORT"] = "somegraphspy"
+    Which environment that is depends on the depot, on the version, and on ``JULIA_PROJECT``, which conda sets to an
+    environment named after the conda environment. It is therefore asked of that Julia rather than worked out here.
+    """
+    import subprocess  # pylint: disable=import-outside-toplevel
+
+    try:
+        return subprocess.run(
+            [julia_exe, "-e", "print(dirname(Base.active_project()))"],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=60,
+        ).stdout.strip()
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired, OSError) as exception:
+        raise ValueError(
+            f"PYTHON_JULIACALL_PROJECT={_DEFAULT_JULIA}: {julia_exe} did not report its default environment"
+        ) from exception
+
+
+# Expand the ``@default`` we accept in the two variables ``juliacall`` uses to locate Julia. It has no notion of "the
+# Julia I already have": ``PYTHON_JULIACALL_EXE`` must be an executable and ``PYTHON_JULIACALL_PROJECT`` a directory
+# which exists, and if neither is given then ``juliapkg`` installs a Julia and an environment of its own.
+#
+# This has to happen before ``juliacall`` is imported, since that is when it reads them. If something else imported it
+# first, then it has already rejected ``@default`` as a path which does not exist - which is the point of using a value
+# it cannot accept, rather than a variable of our own which it would silently ignore.
+if os.environ.get("PYTHON_JULIACALL_EXE") == _DEFAULT_JULIA:
+    os.environ["PYTHON_JULIACALL_EXE"] = _default_julia_exe()
+
+if os.environ.get("PYTHON_JULIACALL_PROJECT") == _DEFAULT_JULIA:
+    os.environ["PYTHON_JULIACALL_PROJECT"] = _default_julia_project(
+        os.environ.get("PYTHON_JULIACALL_EXE") or _default_julia_exe()
+    )
+
+# How Julia is run is left as you set it. ``juliacall`` warns by itself when signal handling is unset and Julia has more
+# than one thread, which is the combination that crashes; there is nobody to warn you that leaving both unset gives you
+# a single-threaded Julia, so we do.
+#
+# Only when ``juliacall`` has not been imported yet, so this is said once even when several of ``dafpy``,
+# ``somegraphspy`` and ``metacellspy`` are imported: the first of them ends by importing ``juliacall``, so the rest stay
+# quiet. Recording it in the variable instead would not work - ``juliacall`` reads an empty value as an empty value, and
+# refuses it.
+if "juliacall" not in sys.modules and "PYTHON_JULIACALL_THREADS" not in os.environ:
+    warnings.warn(
+        "PYTHON_JULIACALL_THREADS is not set, so Julia will use a single thread. Set it to 'auto' to use the whole "
+        "machine, and set PYTHON_JULIACALL_HANDLE_SIGNALS to 'yes' along with it, or Julia and Python will fight over "
+        "signals and the process will die with a segfault."
+    )
 
 from juliacall import AnyValue  # type: ignore # isort: skip
 from juliacall import Main  # type: ignore # isort: skip
@@ -112,36 +129,12 @@ from juliacall import Main  # type: ignore # isort: skip
 jl = Main
 
 
-def use_default_julia_environment() -> None:
-    """
-    Force JuliaCall to use your default environment (whatever that is). By default JuliaCall creates its own separate
-    independent environment, which means that it re-downloads and re-installs all the dependency packages there.
-    This is nice if you don't otherwise use Julia and/or don't care about the wasted disk space and initial installation
-    time and manual control over package versions. It sucks if you do otherwise use Julia, and/or you want manual
-    control over the version of some of the packages (e.g., if you are actively developing them). You would think
-    there would a built-in method for doing this in JuliaCall, right?
-
-    To make this easier (and trigger it before actually importing packages), you can set the
-    ``PYTHON_JULIACALL_USE_DEFAULT_ENVIRONMENT`` environment variable to ``yes``, and then ``import somegraphspy`` will
-    call ``use_default_julia_environment`` for you. Sigh.
-    """
-    default_env = jl.seval('joinpath(DEPOT_PATH[1], "environments", "v$(VERSION.major).$(VERSION.minor)")')
-    jl.seval('using Pkg; Pkg.activate("' + default_env + '")')
-
-
-if os.environ.get("PYTHON_JULIACALL_USE_DEFAULT_ENVIRONMENT", "yes") == "yes":
-    use_default_julia_environment()
-
 #: The version of Julia being used.
 jl_version = (jl.VERSION.major, jl.VERSION.minor, jl.VERSION.patch)
-
-jl.seval("using Pkg")
 
 # Everything is imported rather than ``using``, so no package's exports leak into Julia's ``Main``. This keeps
 # ``Main`` clear for other Python packages that wrap Julia packages and are used in the same session.
 for package in ("PythonCall", "SomeGraphs"):
-    if jl.seval('Base.find_package("' + package + '")') is None:
-        jl.seval('Pkg.add("' + package + '")')
     jl.seval("import " + package)
 
 # Our own Julia code lives in a module of its own, for the same reason.
