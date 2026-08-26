@@ -1,6 +1,0 @@
-{
-    "packages": {
-        "SomeGraphs": { "uuid": "eb091223-14cb-4747-ac22-0b59a9f2afeb", "url": "https://github.com:/tanaylab/SomeGraphs.jl.git" },
-        "Slanter":    { "uuid": "1cad5224-2ad1-4081-af24-4feffd23c4f4", "url": "https://github.com:/tanaylab/Slanter.jl.git" }
-    }
-}
