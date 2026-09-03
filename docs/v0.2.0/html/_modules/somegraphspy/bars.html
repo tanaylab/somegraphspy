@@ -322,6 +322,8 @@
     <span class="n">series_gap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="c1">#: Stack the series on top of each other.</span>
     <span class="n">stacking</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Stacking</span><span class="p">]</span>
+    <span class="c1">#: Show the series in pairs, the 1st of each pair growing away from the bar axis in the opposite direction.</span>
+    <span class="n">mirrored</span><span class="p">:</span> <span class="nb">bool</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -333,6 +335,7 @@
         <span class="n">bars_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnnotationSize</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">series_gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">stacking</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Stacking</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">mirrored</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">SeriesBarsGraphConfiguration</span><span class="p">(</span>
@@ -344,6 +347,7 @@
                     <span class="n">bars_annotations</span><span class="o">=</span><span class="n">bars_annotations</span><span class="p">,</span>
                     <span class="n">series_gap</span><span class="o">=</span><span class="n">series_gap</span><span class="p">,</span>
                     <span class="n">stacking</span><span class="o">=</span><span class="n">stacking</span><span class="p">,</span>
+                    <span class="n">mirrored</span><span class="o">=</span><span class="n">mirrored</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>

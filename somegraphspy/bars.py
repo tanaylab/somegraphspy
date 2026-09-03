@@ -235,6 +235,8 @@ class SeriesBarsGraphConfiguration(AbstractGraphConfiguration):
     series_gap: Optional[float]
     #: Stack the series on top of each other.
     stacking: Optional[Stacking]
+    #: Show the series in pairs, the 1st of each pair growing away from the bar axis in the opposite direction.
+    mirrored: bool
 
     def __init__(
         self,
@@ -246,6 +248,7 @@ class SeriesBarsGraphConfiguration(AbstractGraphConfiguration):
         bars_annotations: Union[AnnotationSize, DefaultValue] = DEFAULT,
         series_gap: Union[Optional[float], DefaultValue] = DEFAULT,
         stacking: Union[Optional[Stacking], DefaultValue] = DEFAULT,
+        mirrored: Union[bool, DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.SeriesBarsGraphConfiguration(
@@ -257,6 +260,7 @@ class SeriesBarsGraphConfiguration(AbstractGraphConfiguration):
                     bars_annotations=bars_annotations,
                     series_gap=series_gap,
                     stacking=stacking,
+                    mirrored=mirrored,
                 )
             )
         )
