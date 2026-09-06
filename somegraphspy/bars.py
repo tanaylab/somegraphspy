@@ -284,9 +284,11 @@ class SeriesBarsGraphData(AbstractGraphData):
     value_axis_title: Optional[str]
     #: The values of the bars of each series.
     series_bars_values: Sequence[NumbersVector]
+    #: The hover text of each bar of each series, when it differs between the series.
+    series_bars_hovers: Optional[Sequence[StringsVector]]
     #: The name of each bar.
     bars_names: Optional[StringsVector]
-    #: The hover text of each bar.
+    #: The hover text of each bar, when it is the same in every series.
     bars_hovers: Optional[StringsVector]
     #: Annotations shown next to the bars.
     bars_annotations: Sequence[AnnotationData]
@@ -304,6 +306,7 @@ class SeriesBarsGraphData(AbstractGraphData):
         bar_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
         value_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
         series_bars_values: Union[Sequence[NumbersVector], DefaultValue] = DEFAULT,
+        series_bars_hovers: Union[Optional[Sequence[StringsVector]], DefaultValue] = DEFAULT,
         bars_names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
         bars_hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
         bars_annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
@@ -318,6 +321,7 @@ class SeriesBarsGraphData(AbstractGraphData):
                     bar_axis_title=bar_axis_title,
                     value_axis_title=value_axis_title,
                     series_bars_values=series_bars_values,
+                    series_bars_hovers=series_bars_hovers,
                     bars_names=bars_names,
                     bars_hovers=bars_hovers,
                     bars_annotations=bars_annotations,
@@ -359,6 +363,7 @@ def series_bars_graph(
     bar_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
     value_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
     series_bars_values: Union[Sequence[NumbersVector], DefaultValue] = DEFAULT,
+    series_bars_hovers: Union[Optional[Sequence[StringsVector]], DefaultValue] = DEFAULT,
     bars_names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
     bars_hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
     bars_annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
@@ -379,6 +384,7 @@ def series_bars_graph(
             bar_axis_title=bar_axis_title,
             value_axis_title=value_axis_title,
             series_bars_values=series_bars_values,
+            series_bars_hovers=series_bars_hovers,
             bars_names=bars_names,
             bars_hovers=bars_hovers,
             bars_annotations=bars_annotations,

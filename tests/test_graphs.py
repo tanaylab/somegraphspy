@@ -38,6 +38,15 @@ GRAPHS = {
         sg.series_bars_graph(series_bars_values=[[1.0, 2.0], [3.0, 4.0]], bars_names=["a", "b"]),
         'series_bars_graph(; series_bars_values = [[1.0, 2.0], [3.0, 4.0]], bars_names = ["a", "b"])',
     ),
+    "series_bars_hovers": (
+        sg.series_bars_graph(
+            series_bars_values=[[1.0, 2.0], [3.0, 4.0]],
+            series_bars_hovers=[["a1", "b1"], ["a2", "b2"]],
+            bars_names=["a", "b"],
+        ),
+        "series_bars_graph(; series_bars_values = [[1.0, 2.0], [3.0, 4.0]], "
+        'series_bars_hovers = [["a1", "b1"], ["a2", "b2"]], bars_names = ["a", "b"])',
+    ),
     "distribution": (
         sg.distribution_graph(distribution_values=[0.0, 0.0, 1.0, 1.0, 1.0, 3.0]),
         "distribution_graph(; distribution_values = [0.0, 0.0, 1.0, 1.0, 1.0, 3.0])",
