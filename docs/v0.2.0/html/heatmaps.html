@@ -459,6 +459,24 @@
 </a>
 </li>
 
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph.add_rows_annotation">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraph.add_rows_annotation()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph.add_columns_annotation">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapGraph.add_columns_annotation()
+</span>
+</code>
+</a>
+</li>
+
 </ul>
 
 </li>
@@ -3491,6 +3509,184 @@ for details.
 </span>
 </code> annotation of the columns, which shares the entities of the
 columns.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py method">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraph.add_rows_annotation">
+
+<span class="sig-name descname">
+<span class="pre">add_rows_annotation
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">annotation
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData" title="somegraphspy.common.AnnotationData">
+<span class="pre">AnnotationData
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">None
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<span class="pre">int
+</span>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/heatmaps.html#HeatmapGraph.add_rows_annotation">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph.add_rows_annotation" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>Append an 
+<code class="docutils literal notranslate">
+<span class="pre">annotation
+</span>
+</code> of the rows (by default, an empty one) and return its (1-based) index, for
+
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph.rows_annotations_fields" title="somegraphspy.heatmaps.HeatmapGraph.rows_annotations_fields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">rows_annotations_fields
+</span>
+</code>
+</a>.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py method">
+
+<dt class="sig sig-object py" id="somegraphspy.heatmaps.HeatmapGraph.add_columns_annotation">
+
+<span class="sig-name descname">
+<span class="pre">add_columns_annotation
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">annotation
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData" title="somegraphspy.common.AnnotationData">
+<span class="pre">AnnotationData
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">None
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<span class="pre">int
+</span>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/heatmaps.html#HeatmapGraph.add_columns_annotation">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.heatmaps.HeatmapGraph.add_columns_annotation" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>Append an 
+<code class="docutils literal notranslate">
+<span class="pre">annotation
+</span>
+</code> of the columns (by default, an empty one) and return its (1-based) index, for
+
+<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraph.columns_annotations_fields" title="somegraphspy.heatmaps.HeatmapGraph.columns_annotations_fields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">columns_annotations_fields
+</span>
+</code>
+</a>.
 </p>
 
 </dd>

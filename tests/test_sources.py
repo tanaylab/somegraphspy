@@ -28,6 +28,12 @@ def _hovers(entities: sg.EntitiesData) -> List[str]:
     return list(hovers)
 
 
+def _values(values_data: sg.ValuesData) -> List[Any]:
+    values = values_data.values
+    assert values is not None
+    return list(values)
+
+
 def _points_graph() -> sg.PointsGraph:
     return sg.points_graph(x=sg.ValuesData(values=[1.0, 2.0, 3.0]), y=sg.ValuesData(values=[1.0, 4.0, 9.0]))
 
@@ -75,6 +81,44 @@ def test_indexed_and_data_only_views() -> None:
     assert _is_same(entries.data.values, heatmap.data.entries)
     assert _is_same(entries.data.entities, heatmap.data.cells)
     assert _is_same(entries.configuration.colors, heatmap.configuration.entries.colors)
+
+
+def test_add_structs() -> None:
+    bars = sg.series_bars_graph(names=sg.ValuesData(values=["a", "b"]))
+
+    series = sg.SeriesData(name="first", values=sg.ValuesData(values=[1.0, 2.0]))
+    assert bars.add_series(series) == 1
+    assert _is_same(bars.series_values_fields(1).data.values, series.values)
+    assert bars.data.series[0].name == "first"
+
+    assert bars.add_series() == 2
+    bars.series_values_fields(2).data.values.values = [3.0, 4.0]
+    assert _values(bars.data.series[1].values) == [3.0, 4.0]
+
+    assert bars.add_annotation() == 1
+    bars.annotations_fields(1).data.values.values = [1.0, 0.0]
+    assert bars.add_annotation(sg.AnnotationData(values=sg.ValuesData(values=[0.0, 1.0]))) == 2
+    assert len(bars.data.annotations) == 2
+    bars.validate()
+
+    lines = sg.lines_graph()
+    assert lines.add_line(sg.LineData(name="first")) == 1
+    assert lines.add_line() == 2
+    lines.x_fields(2).data.values.values = [1.0, 2.0]
+    assert _values(lines.data.lines[1].x) == [1.0, 2.0]
+
+    distributions = sg.distributions_graph()
+    assert distributions.add_distribution() == 1
+    assert distributions.add_distribution(sg.DistributionData(name="second")) == 2
+    assert distributions.data.distributions[1].name == "second"
+
+    heatmap = sg.heatmap_graph(entries=sg.MatrixData(values=np.array([[1.0, 2.0], [3.0, 4.0]])))
+    assert heatmap.add_rows_annotation() == 1
+    assert heatmap.add_columns_annotation(sg.AnnotationData(values=sg.ValuesData(values=[1.0, 0.0]))) == 1
+    heatmap.rows_annotations_fields(1).data.values.values = [0.0, 1.0]
+    assert len(heatmap.data.rows.annotations) == 1
+    assert len(heatmap.data.columns.annotations) == 1
+    heatmap.validate()
 
 
 def test_add_hovers() -> None:

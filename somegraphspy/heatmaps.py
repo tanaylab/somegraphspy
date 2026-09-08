@@ -32,6 +32,7 @@ from .julia_import import JlEnum
 from .julia_import import JlObject
 from .julia_import import _from_julia
 from .julia_import import _given
+from .julia_import import _optional_jl_obj
 from .julia_import import jl
 from .julia_import import register_jl_type
 from .sources import ColorsFields
@@ -482,6 +483,20 @@ class HeatmapGraph(Graph):
         columns.
         """
         return _from_julia(jl.SomeGraphs.columns_annotations_fields(self.jl_obj, index))
+
+    def add_rows_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
+        """
+        Append an ``annotation`` of the rows (by default, an empty one) and return its (1-based) index, for
+        :py:obj:`rows_annotations_fields`.
+        """
+        return int(jl.SomeGraphs.add_rows_annotation_b(self.jl_obj, *_optional_jl_obj(annotation)))
+
+    def add_columns_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
+        """
+        Append an ``annotation`` of the columns (by default, an empty one) and return its (1-based) index, for
+        :py:obj:`columns_annotations_fields`.
+        """
+        return int(jl.SomeGraphs.add_columns_annotation_b(self.jl_obj, *_optional_jl_obj(annotation)))
 
 
 def heatmap_graph(

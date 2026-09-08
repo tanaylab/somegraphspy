@@ -42,7 +42,9 @@ from enum import Enum
 from typing import Any
 from typing import Mapping
 from typing import MutableMapping
+from typing import Optional
 from typing import Sequence
+from typing import Tuple
 from typing import Type
 from typing import Union
 
@@ -287,6 +289,14 @@ def _given(**kwargs: Any) -> Mapping[str, Any]:
     Collect the keyword arguments that were actually specified (for internal use).
     """
     return {name: _to_julia(value) for name, value in kwargs.items() if value is not DEFAULT}
+
+
+def _optional_jl_obj(value: Optional["JlObject"]) -> Tuple[Any, ...]:
+    """
+    The positional arguments to pass for an optional Julia struct: none when it is ``None``, so that Julia uses its
+    default (for internal use).
+    """
+    return () if value is None else (value.jl_obj,)
 
 
 class JlObject:

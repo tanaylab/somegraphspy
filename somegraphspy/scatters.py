@@ -30,6 +30,7 @@ from .julia_import import DefaultValue
 from .julia_import import JlObject
 from .julia_import import _from_julia
 from .julia_import import _given
+from .julia_import import _optional_jl_obj
 from .julia_import import jl
 from .julia_import import register_jl_type
 from .sources import AxisFields
@@ -818,6 +819,13 @@ class LinesGraph(Graph):
         ``y_axis``.
         """
         return _from_julia(jl.SomeGraphs.y_fields(self.jl_obj, index))
+
+    def add_line(self, line: Optional[LineData] = None) -> int:
+        """
+        Append a ``line`` (by default, an empty one) and return its (1-based) index, for :py:obj:`x_fields` and
+        :py:obj:`y_fields`. Whatever the line leaves at its defaults can be set later, through the views or directly.
+        """
+        return int(jl.SomeGraphs.add_line_b(self.jl_obj, *_optional_jl_obj(line)))
 
 
 def lines_graph(

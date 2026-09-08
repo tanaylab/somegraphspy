@@ -100,6 +100,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlObject</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_from_julia</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_given</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_optional_jl_obj</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">jl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxisFields</span>
@@ -304,6 +305,16 @@
 <span class="sd">        The data source view of the (1-based) ``index`` annotation of the bars, which shares the entities of the bars.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">annotations_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="BarsGraph.add_annotation">
+<a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraph.add_annotation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append an ``annotation`` of the bars (by default, an empty one) and return its (1-based) index, for</span>
+<span class="sd">        :py:obj:`annotations_fields`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_annotation_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">_optional_jl_obj</span><span class="p">(</span><span class="n">annotation</span><span class="p">)))</span></div>
 </div>
 
 
@@ -528,6 +539,27 @@
 <span class="sd">        (the ones shared by all the series).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">annotations_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SeriesBarsGraph.add_series">
+<a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph.add_series">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">series</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SeriesData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append a ``series`` of bars (by default, an empty one) and return its (1-based) index, for</span>
+<span class="sd">        :py:obj:`series_values_fields`. Whatever the series leaves at its defaults can be set later, through the view or</span>
+<span class="sd">        directly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_series_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">_optional_jl_obj</span><span class="p">(</span><span class="n">series</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="SeriesBarsGraph.add_annotation">
+<a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph.add_annotation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append an ``annotation`` of the bars (by default, an empty one) and return its (1-based) index, for</span>
+<span class="sd">        :py:obj:`annotations_fields`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_annotation_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">_optional_jl_obj</span><span class="p">(</span><span class="n">annotation</span><span class="p">)))</span></div>
 </div>
 
 

@@ -27,6 +27,7 @@ from .julia_import import DefaultValue
 from .julia_import import JlObject
 from .julia_import import _from_julia
 from .julia_import import _given
+from .julia_import import _optional_jl_obj
 from .julia_import import jl
 from .julia_import import register_jl_type
 from .sources import AxisFields
@@ -209,6 +210,13 @@ class BarsGraph(Graph):
         The data source view of the (1-based) ``index`` annotation of the bars, which shares the entities of the bars.
         """
         return _from_julia(jl.SomeGraphs.annotations_fields(self.jl_obj, index))
+
+    def add_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
+        """
+        Append an ``annotation`` of the bars (by default, an empty one) and return its (1-based) index, for
+        :py:obj:`annotations_fields`.
+        """
+        return int(jl.SomeGraphs.add_annotation_b(self.jl_obj, *_optional_jl_obj(annotation)))
 
 
 def bars_graph(
@@ -409,6 +417,21 @@ class SeriesBarsGraph(Graph):
         (the ones shared by all the series).
         """
         return _from_julia(jl.SomeGraphs.annotations_fields(self.jl_obj, index))
+
+    def add_series(self, series: Optional[SeriesData] = None) -> int:
+        """
+        Append a ``series`` of bars (by default, an empty one) and return its (1-based) index, for
+        :py:obj:`series_values_fields`. Whatever the series leaves at its defaults can be set later, through the view or
+        directly.
+        """
+        return int(jl.SomeGraphs.add_series_b(self.jl_obj, *_optional_jl_obj(series)))
+
+    def add_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
+        """
+        Append an ``annotation`` of the bars (by default, an empty one) and return its (1-based) index, for
+        :py:obj:`annotations_fields`.
+        """
+        return int(jl.SomeGraphs.add_annotation_b(self.jl_obj, *_optional_jl_obj(annotation)))
 
 
 def series_bars_graph(

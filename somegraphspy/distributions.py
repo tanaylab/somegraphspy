@@ -30,6 +30,7 @@ from .julia_import import JlEnum
 from .julia_import import JlObject
 from .julia_import import _from_julia
 from .julia_import import _given
+from .julia_import import _optional_jl_obj
 from .julia_import import jl
 from .julia_import import register_jl_type
 from .sources import AxisFields
@@ -421,6 +422,14 @@ class DistributionsGraph(Graph):
         The data source view of the values of the (1-based) ``index`` distribution, along the (shared) ``value_axis``.
         """
         return _from_julia(jl.SomeGraphs.distributions_values_fields(self.jl_obj, index))
+
+    def add_distribution(self, distribution: Optional[DistributionData] = None) -> int:
+        """
+        Append a ``distribution`` (by default, an empty one) and return its (1-based) index, for
+        :py:obj:`distributions_values_fields`. Whatever the distribution leaves at its defaults can be set later,
+        through the view or directly.
+        """
+        return int(jl.SomeGraphs.add_distribution_b(self.jl_obj, *_optional_jl_obj(distribution)))
 
 
 def distributions_graph(
