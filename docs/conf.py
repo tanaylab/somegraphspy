@@ -42,6 +42,10 @@ nitpick_ignore = [
     ('py:class', 'numpy.ndarray'),
     ('py:class', 'plotly.graph_objs._figure.Figure'),
 ]
+# Sphinx fails to parse a ``Sequence[Tuple[...]]`` nested inside a documented type alias.
+nitpick_ignore_regex = [
+    (r'py:(class|obj)', r'.*Sequence\[~typing\.Tuple\[.*'),
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

@@ -22,6 +22,7 @@ from .julia_import import DefaultValue
 from .julia_import import JlEnum
 from .julia_import import JlObject
 from .julia_import import _given
+from .julia_import import _to_julia
 from .julia_import import jl
 from .julia_import import register_jl_type
 
@@ -39,6 +40,7 @@ __all__ = [
     "CategoricalColors",
     "ColorsConfiguration",
     "ContinuousColors",
+    "EntitiesData",
     "FigureConfiguration",
     "Graph",
     "IntegersVector",
@@ -46,6 +48,8 @@ __all__ = [
     "LineStyle",
     "LogScale",
     "MarginsConfiguration",
+    "MatrixData",
+    "MatrixEntitiesData",
     "NAMED_COLOR_SCALES",
     "NumbersMatrix",
     "NumbersVector",
@@ -55,6 +59,7 @@ __all__ = [
     "StringsMatrix",
     "StringsVector",
     "Validated",
+    "ValuesData",
     "ValuesOrientation",
     "categorical_palette",
 ]
@@ -289,14 +294,9 @@ class SizesConfiguration(Validated):
 
     #: Use this fixed size for everything, instead of scaling the data.
     fixed: Optional[float]
-    #: The minimal data value to show.
-    minimum: Optional[float]
-    #: The maximal data value to show.
-    maximum: Optional[float]
-    #: Scale the data values by their logarithm.
-    log_scale: bool
-    #: Added to the data values before taking their logarithm.
-    log_regularization: float
+    #: How to scale the data values (only its ``minimum``, ``maximum``, ``log_scale``, ``log_regularization`` and
+    #: ``include_hidden`` apply).
+    axis: "AxisConfiguration"
     #: The size of the smallest data value.
     smallest: float
     #: Added to the ``smallest`` size for the largest data value.
@@ -306,25 +306,12 @@ class SizesConfiguration(Validated):
         self,
         *,
         fixed: Union[Optional[float], DefaultValue] = DEFAULT,
-        minimum: Union[Optional[float], DefaultValue] = DEFAULT,
-        maximum: Union[Optional[float], DefaultValue] = DEFAULT,
-        log_scale: Union[bool, DefaultValue] = DEFAULT,
-        log_regularization: Union[float, DefaultValue] = DEFAULT,
+        axis: Union["AxisConfiguration", DefaultValue] = DEFAULT,
         smallest: Union[float, DefaultValue] = DEFAULT,
         span: Union[float, DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
-            jl.SomeGraphs.SizesConfiguration(
-                **_given(
-                    fixed=fixed,
-                    minimum=minimum,
-                    maximum=maximum,
-                    log_scale=log_scale,
-                    log_regularization=log_regularization,
-                    smallest=smallest,
-                    span=span,
-                )
-            )
+            jl.SomeGraphs.SizesConfiguration(**_given(fixed=fixed, axis=axis, smallest=smallest, span=span))
         )
 
 
@@ -342,6 +329,8 @@ class AxisConfiguration(Validated):
     minimum: Optional[float]
     #: The maximal value shown in the axis.
     maximum: Optional[float]
+    #: Whether entities hidden by a mask still take part in the automatic range of the axis.
+    include_hidden: bool
     #: Expand the axis range by this fraction of the data range.
     expand_fraction: float
     #: Scale the axis by a logarithm of this base.
@@ -366,6 +355,7 @@ class AxisConfiguration(Validated):
         *,
         minimum: Union[Optional[float], DefaultValue] = DEFAULT,
         maximum: Union[Optional[float], DefaultValue] = DEFAULT,
+        include_hidden: Union[bool, DefaultValue] = DEFAULT,
         expand_fraction: Union[float, DefaultValue] = DEFAULT,
         log_scale: Union[Optional[LogScale], DefaultValue] = DEFAULT,
         log_regularization: Union[float, DefaultValue] = DEFAULT,
@@ -381,6 +371,7 @@ class AxisConfiguration(Validated):
                 **_given(
                     minimum=minimum,
                     maximum=maximum,
+                    include_hidden=include_hidden,
                     expand_fraction=expand_fraction,
                     log_scale=log_scale,
                     log_regularization=log_regularization,
@@ -573,6 +564,131 @@ class AnnotationSize(Validated):
 register_jl_type("AnnotationSize", AnnotationSize)
 
 
+class ValuesData(JlObject):
+    """
+    A value per entity for one role of a graph (the X coordinates of points, the names of bars, ...), and the title of
+    these values (which becomes the axis title, the colors title, ...). See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ValuesData>`__
+    for details.
+    """
+
+    #: The values, one per entity; either numbers or strings, depending on the role.
+    values: Optional[Union[NumbersVector, StringsVector]]
+    #: The title of the values.
+    title: Optional[str]
+
+    def __init__(
+        self,
+        *,
+        values: Union[Optional[Union[NumbersVector, StringsVector]], DefaultValue] = DEFAULT,
+        title: Union[Optional[str], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(jl.SomeGraphs.ValuesData(**_given(values=values, title=title)))
+
+
+register_jl_type("ValuesData", ValuesData)
+
+
+class EntitiesData(JlObject):
+    """
+    The hovers and mask of one set of entities of a graph (the points, the bars, ...), shared by all the roles of these
+    entities. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.EntitiesData>`__
+    for details.
+    """
+
+    #: The hover text of each entity.
+    hovers: Optional[StringsVector]
+    #: Which entities to show.
+    mask: Optional[BoolsVector]
+
+    def __init__(
+        self,
+        *,
+        hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
+        mask: Union[Optional[BoolsVector], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(jl.SomeGraphs.EntitiesData(**_given(hovers=hovers, mask=mask)))
+
+    def add_hovers(self, hovers: StringsVector, title: Optional[str] = None) -> None:
+        """
+        Add a line to the hover of each entity: its entry of ``hovers``, prefixed by the ``title`` (if any) as
+        ``title: hover``. See the Julia
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.add_hovers!>`__
+        for details.
+        """
+        _add_hovers(self, hovers, title)
+
+
+register_jl_type("EntitiesData", EntitiesData)
+
+
+class MatrixData(JlObject):
+    """
+    A value per row per column of a graph (the entries of a heatmap), and the title of these values. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.MatrixData>`__
+    for details.
+    """
+
+    #: The values, a row per row and a column per column.
+    values: Optional[NumbersMatrix]
+    #: The title of the values.
+    title: Optional[str]
+
+    def __init__(
+        self,
+        *,
+        values: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
+        title: Union[Optional[str], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(jl.SomeGraphs.MatrixData(**_given(values=values, title=title)))
+
+
+register_jl_type("MatrixData", MatrixData)
+
+
+class MatrixEntitiesData(JlObject):
+    """
+    The hovers and mask of the entities of a graph which are arranged in rows and columns (the cells of a heatmap). See
+    the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.MatrixEntitiesData>`__
+    for details.
+    """
+
+    #: The hover text of each entity.
+    hovers: Optional[StringsMatrix]
+    #: Which entities to show.
+    mask: Optional[np.ndarray]
+
+    def __init__(
+        self,
+        *,
+        hovers: Union[Optional[StringsMatrix], DefaultValue] = DEFAULT,
+        mask: Union[Optional[np.ndarray], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(jl.SomeGraphs.MatrixEntitiesData(**_given(hovers=hovers, mask=mask)))
+
+    def add_hovers(self, hovers: StringsMatrix, title: Optional[str] = None) -> None:
+        """
+        Add a line to the hover of each entity: its entry of ``hovers``, prefixed by the ``title`` (if any) as
+        ``title: hover``. See the Julia
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.add_hovers!>`__
+        for details.
+        """
+        _add_hovers(self, hovers, title)
+
+
+register_jl_type("MatrixEntitiesData", MatrixEntitiesData)
+
+
+def _add_hovers(entities: JlObject, hovers: Any, title: Optional[str]) -> None:
+    # The Julia error is re-raised as a plain Python one, for the same reason as in ``JlObject.__setattr__``.
+    try:
+        jl.SomeGraphs.add_hovers_b(entities.jl_obj, _to_julia(hovers), title=title)
+    except Exception as exception:  # pylint: disable=broad-exception-caught
+        raise RuntimeError(str(exception)) from None
+
+
 class AnnotationData(Validated):
     """
     The data of a single annotation shown next to a graph. See the Julia
@@ -580,26 +696,18 @@ class AnnotationData(Validated):
     for details.
     """
 
-    #: The title of the annotation.
-    title: Optional[str]
-    #: A value per annotated entity, either numbers or category names.
-    values: Union[NumbersVector, StringsVector]
-    #: The hover text per annotated entity.
-    hovers: Optional[StringsVector]
+    #: A value per annotated entity, either numbers or category names; their title is the title of the annotation.
+    values: ValuesData
     #: How to color the annotation values.
     colors: ColorsConfiguration
 
     def __init__(
         self,
         *,
-        title: Union[Optional[str], DefaultValue] = DEFAULT,
-        values: Union[NumbersVector, StringsVector, DefaultValue] = DEFAULT,
-        hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
+        values: Union[ValuesData, DefaultValue] = DEFAULT,
         colors: Union[ColorsConfiguration, DefaultValue] = DEFAULT,
     ) -> None:
-        super().__init__(
-            jl.SomeGraphs.AnnotationData(**_given(title=title, values=values, hovers=hovers, colors=colors))
-        )
+        super().__init__(jl.SomeGraphs.AnnotationData(**_given(values=values, colors=colors)))
 
 
 register_jl_type("AnnotationData", AnnotationData)

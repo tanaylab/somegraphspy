@@ -216,6 +216,8 @@ def _to_julia(value: Any) -> Any:  # pylint: disable=too-many-return-statements
     # Strings have to go through ``numpy``; a plain Python list of them would arrive as a ``PyList{Any}``, which isn't
     # an ``AbstractVector{<:AbstractString}`` so Julia would reject it.
     if isinstance(value, np.ndarray) and value.dtype.type == np.str_:
+        if value.ndim == 2:
+            return jl.Matrix(value)
         return jl.Vector(value)
 
     if isinstance(value, (list, tuple)) and len(value) > 0 and all(isinstance(entry, str) for entry in value):
@@ -273,7 +275,9 @@ def _from_julia_array(julia_array: Any) -> Any:
         return np.asarray(julia_array)
 
     if kind == "strings":
-        return np.array([str(entry) for entry in julia_array], dtype=str)
+        # Julia iterates a matrix column by column, so the entries are laid back out in that order.
+        shape = tuple(int(size) for size in jl.size(julia_array))
+        return np.array([str(entry) for entry in julia_array], dtype=str).reshape(shape, order="F")
 
     return [_from_julia(entry) for entry in julia_array]
 

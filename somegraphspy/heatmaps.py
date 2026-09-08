@@ -16,13 +16,16 @@ from .common import AbstractGraphData
 from .common import AnnotationData
 from .common import AnnotationSize
 from .common import ColorsConfiguration
+from .common import EntitiesData
 from .common import FigureConfiguration
 from .common import Graph
 from .common import IntegersVector
 from .common import LineConfiguration
+from .common import MatrixData
+from .common import MatrixEntitiesData
 from .common import NumbersMatrix
-from .common import StringsMatrix
-from .common import StringsVector
+from .common import Validated
+from .common import ValuesData
 from .julia_import import DEFAULT
 from .julia_import import DefaultValue
 from .julia_import import JlEnum
@@ -31,8 +34,14 @@ from .julia_import import _from_julia
 from .julia_import import _given
 from .julia_import import jl
 from .julia_import import register_jl_type
+from .sources import ColorsFields
+from .sources import MatrixFields
+from .sources import VectorDataFields
 
 __all__ = [
+    "EntriesConfiguration",
+    "HeatmapAxisConfiguration",
+    "HeatmapAxisData",
     "HeatmapGraph",
     "HeatmapGraphConfiguration",
     "HeatmapGraphData",
@@ -126,15 +135,15 @@ class HeatmapGraphOrder(JlObject):
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphOrder>`__
     for details.
 
-    The orders are always a permutation of the entries, so they can be fed as-is into the ``rows_order`` and
-    ``columns_order`` of a :py:obj:`HeatmapGraphData` to show another graph in the same order.
+    The orders are always a permutation of all the entries (hidden ones included), so they can be fed as-is into the
+    ``order`` of the ``rows`` and ``columns`` of a :py:obj:`HeatmapGraphData` to show another graph in the same order.
 
     The ``rows_hclust`` and ``columns_hclust`` are Julia ``Hclust`` objects. There is no Python model for these, but
-    they too can be fed back into the ``rows_order`` and ``columns_order`` of a :py:obj:`HeatmapGraphData`, which
+    they too can be fed back into the ``order`` of the ``rows`` and ``columns`` of a :py:obj:`HeatmapGraphData`, which
     reuses both the order and the tree, so the other graph also shows the same dendogram.
 
-    These describe the order of the data, not the order it is displayed in; applying the ``origin`` is up to whoever
-    shows the graph.
+    These describe the order of the data, not the order it is displayed in; applying the ``origin`` and skipping the
+    hidden entries is up to whoever shows the graph.
     """
 
     #: The final (1-based) order of the rows; the identity if they weren't reordered at all.
@@ -150,58 +159,106 @@ class HeatmapGraphOrder(JlObject):
 register_jl_type("HeatmapGraphOrder", HeatmapGraphOrder)
 
 
+class EntriesConfiguration(Validated):
+    """
+    Configure the entries of a heatmap. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.EntriesConfiguration>`__
+    for details.
+    """
+
+    #: How to color the entries (only continuous palettes are supported).
+    colors: ColorsConfiguration
+
+    def __init__(self, *, colors: Union[ColorsConfiguration, DefaultValue] = DEFAULT) -> None:
+        super().__init__(jl.SomeGraphs.EntriesConfiguration(**_given(colors=colors)))
+
+
+register_jl_type("EntriesConfiguration", EntriesConfiguration)
+
+
+class HeatmapAxisConfiguration(Validated):
+    """
+    Configure one axis (the rows or the columns) of a heatmap. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapAxisConfiguration>`__
+    for details.
+
+    Groups (and subgroups) constrain the clustering, and are separated by a gap. Each level is placed independently: a
+    level specified by numbers is laid out in the order of these numbers, and a level specified by names is laid out by
+    the clustering. The ``subgroups_gap`` defaults to ``None`` because the usual reason to specify subgroups is to
+    constrain the clustering rather than to show gaps.
+    """
+
+    #: The title of the axis.
+    title: Optional[str]
+    #: The size of the annotations shown next to the axis.
+    annotations: AnnotationSize
+    #: How to reorder the entries.
+    reorder: Optional[HeatmapReorder]
+    #: The linkage used when clustering the entries.
+    linkage: Optional[HeatmapLinkage]
+    #: The distance metric used when clustering the entries, a Julia ``Distances.PreMetric``.
+    metric: Optional[Any]
+    #: Whether entries hidden by the mask take part in a computed clustering.
+    include_hidden: bool
+    #: The gap between groups of entries, in entries.
+    groups_gap: Optional[int]
+    #: The gap between subgroups of entries, in entries.
+    subgroups_gap: Optional[int]
+    #: The size of the dendogram, as a fraction of the graph size.
+    dendogram_size: Optional[float]
+    #: How to draw the dendogram.
+    dendogram_line: LineConfiguration
+
+    def __init__(
+        self,
+        *,
+        title: Union[Optional[str], DefaultValue] = DEFAULT,
+        annotations: Union[AnnotationSize, DefaultValue] = DEFAULT,
+        reorder: Union[Optional[HeatmapReorder], DefaultValue] = DEFAULT,
+        linkage: Union[Optional[HeatmapLinkage], DefaultValue] = DEFAULT,
+        metric: Union[Optional[Any], DefaultValue] = DEFAULT,
+        include_hidden: Union[bool, DefaultValue] = DEFAULT,
+        groups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
+        subgroups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
+        dendogram_size: Union[Optional[float], DefaultValue] = DEFAULT,
+        dendogram_line: Union[LineConfiguration, DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(
+            jl.SomeGraphs.HeatmapAxisConfiguration(
+                **_given(
+                    title=title,
+                    annotations=annotations,
+                    reorder=reorder,
+                    linkage=linkage,
+                    metric=metric,
+                    include_hidden=include_hidden,
+                    groups_gap=groups_gap,
+                    subgroups_gap=subgroups_gap,
+                    dendogram_size=dendogram_size,
+                    dendogram_line=dendogram_line,
+                )
+            )
+        )
+
+
+register_jl_type("HeatmapAxisConfiguration", HeatmapAxisConfiguration)
+
+
 class HeatmapGraphConfiguration(AbstractGraphConfiguration):
     """
     Configure a graph showing a matrix of values as a heatmap. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphConfiguration>`__
     for details.
-
-    Groups (and subgroups) constrain the clustering, and are separated by a gap. Each level is placed independently: a
-    level specified by numbers is laid out in the order of these numbers, and a level specified by names is laid out by
-    the clustering. The ``..._subgroups_gap`` defaults to ``None`` because the usual reason to specify subgroups is to
-    constrain the clustering rather than to show gaps.
     """
 
     #: How to size the overall figure.
     figure: FigureConfiguration
-    #: The title of the horizontal axis.
-    x_axis_title: Optional[str]
-    #: The title of the vertical axis.
-    y_axis_title: Optional[str]
-    #: How to color the entries.
-    entries_colors: ColorsConfiguration
-    #: The size of the annotations shown next to the rows.
-    rows_annotations: AnnotationSize
-    #: The size of the annotations shown next to the columns.
-    columns_annotations: AnnotationSize
-    #: How to reorder the rows.
-    rows_reorder: Optional[HeatmapReorder]
-    #: How to reorder the columns.
-    columns_reorder: Optional[HeatmapReorder]
-    #: The linkage used when clustering the rows.
-    rows_linkage: Optional[HeatmapLinkage]
-    #: The linkage used when clustering the columns.
-    columns_linkage: Optional[HeatmapLinkage]
-    #: The distance metric used when clustering the rows, a Julia ``Distances.PreMetric``.
-    rows_metric: Optional[Any]
-    #: The distance metric used when clustering the columns, a Julia ``Distances.PreMetric``.
-    columns_metric: Optional[Any]
-    #: The gap between groups of rows, in entries.
-    rows_groups_gap: Optional[int]
-    #: The gap between groups of columns, in entries.
-    columns_groups_gap: Optional[int]
-    #: The gap between subgroups of rows, in entries.
-    rows_subgroups_gap: Optional[int]
-    #: The gap between subgroups of columns, in entries.
-    columns_subgroups_gap: Optional[int]
-    #: The size of the rows dendogram, as a fraction of the graph size.
-    rows_dendogram_size: Optional[float]
-    #: The size of the columns dendogram, as a fraction of the graph size.
-    columns_dendogram_size: Optional[float]
-    #: How to draw the rows dendogram.
-    rows_dendogram_line: LineConfiguration
-    #: How to draw the columns dendogram.
-    columns_dendogram_line: LineConfiguration
+    #: How to show the entries.
+    entries: EntriesConfiguration
+    #: How to show the rows.
+    rows: HeatmapAxisConfiguration
+    #: How to show the columns.
+    columns: HeatmapAxisConfiguration
     #: Where the first entry of the matrix is shown.
     origin: HeatmapOrigin
     #: Caches the computed order of the rows and the columns; access it through the graph's ``order``, and reset it
@@ -212,59 +269,74 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
         self,
         *,
         figure: Union[FigureConfiguration, DefaultValue] = DEFAULT,
-        x_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        y_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        entries_colors: Union[ColorsConfiguration, DefaultValue] = DEFAULT,
-        rows_annotations: Union[AnnotationSize, DefaultValue] = DEFAULT,
-        columns_annotations: Union[AnnotationSize, DefaultValue] = DEFAULT,
-        rows_reorder: Union[Optional[HeatmapReorder], DefaultValue] = DEFAULT,
-        columns_reorder: Union[Optional[HeatmapReorder], DefaultValue] = DEFAULT,
-        rows_linkage: Union[Optional[HeatmapLinkage], DefaultValue] = DEFAULT,
-        columns_linkage: Union[Optional[HeatmapLinkage], DefaultValue] = DEFAULT,
-        rows_metric: Union[Optional[Any], DefaultValue] = DEFAULT,
-        columns_metric: Union[Optional[Any], DefaultValue] = DEFAULT,
-        rows_groups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
-        columns_groups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
-        rows_subgroups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
-        columns_subgroups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
-        rows_dendogram_size: Union[Optional[float], DefaultValue] = DEFAULT,
-        columns_dendogram_size: Union[Optional[float], DefaultValue] = DEFAULT,
-        rows_dendogram_line: Union[LineConfiguration, DefaultValue] = DEFAULT,
-        columns_dendogram_line: Union[LineConfiguration, DefaultValue] = DEFAULT,
+        entries: Union[EntriesConfiguration, DefaultValue] = DEFAULT,
+        rows: Union[HeatmapAxisConfiguration, DefaultValue] = DEFAULT,
+        columns: Union[HeatmapAxisConfiguration, DefaultValue] = DEFAULT,
         origin: Union[HeatmapOrigin, DefaultValue] = DEFAULT,
         final_order: Union[Optional[HeatmapGraphOrder], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.HeatmapGraphConfiguration(
                 **_given(
-                    figure=figure,
-                    x_axis_title=x_axis_title,
-                    y_axis_title=y_axis_title,
-                    entries_colors=entries_colors,
-                    rows_annotations=rows_annotations,
-                    columns_annotations=columns_annotations,
-                    rows_reorder=rows_reorder,
-                    columns_reorder=columns_reorder,
-                    rows_linkage=rows_linkage,
-                    columns_linkage=columns_linkage,
-                    rows_metric=rows_metric,
-                    columns_metric=columns_metric,
-                    rows_groups_gap=rows_groups_gap,
-                    columns_groups_gap=columns_groups_gap,
-                    rows_subgroups_gap=rows_subgroups_gap,
-                    columns_subgroups_gap=columns_subgroups_gap,
-                    rows_dendogram_size=rows_dendogram_size,
-                    columns_dendogram_size=columns_dendogram_size,
-                    rows_dendogram_line=rows_dendogram_line,
-                    columns_dendogram_line=columns_dendogram_line,
-                    origin=origin,
-                    final_order=final_order,
+                    figure=figure, entries=entries, rows=rows, columns=columns, origin=origin, final_order=final_order
                 )
             )
         )
 
 
 register_jl_type("HeatmapGraphConfiguration", HeatmapGraphConfiguration)
+
+
+class HeatmapAxisData(JlObject):
+    """
+    The data of one axis (the rows or the columns) of a :py:obj:`HeatmapGraphData`. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapAxisData>`__
+    for details.
+    """
+
+    #: The name of each entry, shown as the tick labels; their title is the axis title.
+    names: ValuesData
+    #: The hovers and mask of the entries.
+    entities: EntitiesData
+    #: Force this order of the entries.
+    order: Optional[Order]
+    #: The group of each entry, either numbers or names. The groups have no title.
+    groups: ValuesData
+    #: The subgroup of each entry, nested in its group. A subgroup of one group is unrelated to the same subgroup of
+    #: another group, so the subgroups need not be unique. The subgroups have no title.
+    subgroups: ValuesData
+    #: The features to cluster the entries by, instead of the entries values.
+    arrange_by: Optional[NumbersMatrix]
+    #: Annotations shown next to the axis.
+    annotations: Sequence[AnnotationData]
+
+    def __init__(
+        self,
+        *,
+        names: Union[ValuesData, DefaultValue] = DEFAULT,
+        entities: Union[EntitiesData, DefaultValue] = DEFAULT,
+        order: Union[Optional[Order], DefaultValue] = DEFAULT,
+        groups: Union[ValuesData, DefaultValue] = DEFAULT,
+        subgroups: Union[ValuesData, DefaultValue] = DEFAULT,
+        arrange_by: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
+        annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(
+            jl.SomeGraphs.HeatmapAxisData(
+                **_given(
+                    names=names,
+                    entities=entities,
+                    order=order,
+                    groups=groups,
+                    subgroups=subgroups,
+                    arrange_by=arrange_by,
+                    annotations=annotations,
+                )
+            )
+        )
+
+
+register_jl_type("HeatmapAxisData", HeatmapAxisData)
 
 
 class HeatmapGraphData(AbstractGraphData):
@@ -276,95 +348,27 @@ class HeatmapGraphData(AbstractGraphData):
 
     #: The title of the figure.
     figure_title: Optional[str]
-    #: The title of the horizontal axis.
-    x_axis_title: Optional[str]
-    #: The title of the vertical axis.
-    y_axis_title: Optional[str]
-    #: The title of the entries colors legend.
-    entries_colors_title: Optional[str]
-    #: The value of each entry, a row per row and a column per column.
-    entries_values: Optional[NumbersMatrix]
-    #: The name of each row.
-    rows_names: Optional[StringsVector]
-    #: The name of each column.
-    columns_names: Optional[StringsVector]
-    #: The hover text of each entry.
-    entries_hovers: Optional[StringsMatrix]
-    #: The hover text of each row.
-    rows_hovers: Optional[StringsVector]
-    #: The hover text of each column.
-    columns_hovers: Optional[StringsVector]
-    #: Annotations shown next to the rows.
-    rows_annotations: Sequence[AnnotationData]
-    #: Annotations shown next to the columns.
-    columns_annotations: Sequence[AnnotationData]
-    #: The features to cluster the rows by, instead of the entries values.
-    rows_arrange_by: Optional[NumbersMatrix]
-    #: The features to cluster the columns by, instead of the entries values.
-    columns_arrange_by: Optional[NumbersMatrix]
-    #: Force this order of the rows.
-    rows_order: Optional[Order]
-    #: Force this order of the columns.
-    columns_order: Optional[Order]
-    #: The group of each row.
-    rows_groups: Optional[Union[StringsVector, IntegersVector]]
-    #: The group of each column.
-    columns_groups: Optional[Union[StringsVector, IntegersVector]]
-    #: The subgroup of each row, nested in its group. A subgroup of one group is unrelated to the same subgroup of
-    #: another group, so the subgroups need not be unique.
-    rows_subgroups: Optional[Union[StringsVector, IntegersVector]]
-    #: The subgroup of each column, nested in its group. A subgroup of one group is unrelated to the same subgroup of
-    #: another group, so the subgroups need not be unique.
-    columns_subgroups: Optional[Union[StringsVector, IntegersVector]]
+    #: The value of each entry, a row per row and a column per column; their title is the colors legend title.
+    entries: MatrixData
+    #: The hovers and mask of the entries.
+    cells: MatrixEntitiesData
+    #: The data of the rows.
+    rows: HeatmapAxisData
+    #: The data of the columns.
+    columns: HeatmapAxisData
 
     def __init__(
         self,
         *,
         figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        x_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        y_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        entries_colors_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        entries_values: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
-        rows_names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        columns_names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        entries_hovers: Union[Optional[StringsMatrix], DefaultValue] = DEFAULT,
-        rows_hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        columns_hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        rows_annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
-        columns_annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
-        rows_arrange_by: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
-        columns_arrange_by: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
-        rows_order: Union[Optional[Order], DefaultValue] = DEFAULT,
-        columns_order: Union[Optional[Order], DefaultValue] = DEFAULT,
-        rows_groups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
-        columns_groups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
-        rows_subgroups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
-        columns_subgroups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
+        entries: Union[MatrixData, DefaultValue] = DEFAULT,
+        cells: Union[MatrixEntitiesData, DefaultValue] = DEFAULT,
+        rows: Union[HeatmapAxisData, DefaultValue] = DEFAULT,
+        columns: Union[HeatmapAxisData, DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.HeatmapGraphData(
-                **_given(
-                    figure_title=figure_title,
-                    x_axis_title=x_axis_title,
-                    y_axis_title=y_axis_title,
-                    entries_colors_title=entries_colors_title,
-                    entries_values=entries_values,
-                    rows_names=rows_names,
-                    columns_names=columns_names,
-                    entries_hovers=entries_hovers,
-                    rows_hovers=rows_hovers,
-                    columns_hovers=columns_hovers,
-                    rows_annotations=rows_annotations,
-                    columns_annotations=columns_annotations,
-                    rows_arrange_by=rows_arrange_by,
-                    columns_arrange_by=columns_arrange_by,
-                    rows_order=rows_order,
-                    columns_order=columns_order,
-                    rows_groups=rows_groups,
-                    columns_groups=columns_groups,
-                    rows_subgroups=rows_subgroups,
-                    columns_subgroups=columns_subgroups,
-                )
+                **_given(figure_title=figure_title, entries=entries, cells=cells, rows=rows, columns=columns)
             )
         )
 
@@ -401,17 +405,17 @@ class HeatmapGraph(Graph):
         for details.
 
         Use this to list the entries in the order they are shown, or to show several graphs in the same order by
-        feeding it into the ``rows_order`` and ``columns_order`` of their data. The order is only computed
-        once; showing the graph will reuse it, and vice versa.
+        feeding it into the ``order`` of the ``rows`` and ``columns`` of their data. The order is only computed once.
+        Showing the graph will reuse it, and vice versa.
 
         .. note::
 
             Nothing detects that the cached order went stale. Call :py:obj:`reset_order` if anything it was computed
-            from is changed after it was computed - that is, the ``..._reorder``, ``..._linkage`` and ``..._metric``
-            configuration, and the ``entries_values``, ``..._order``, ``..._arrange_by`` and ``..._groups`` data. The
-            groups are easy to forget: they constrain the clustering, so saving the same graph twice, grouped
-            differently each time, silently reuses the order of the first grouping unless the cache is reset in
-            between.
+            from is changed after it was computed - that is, the ``reorder``, ``linkage``, ``metric`` and
+            ``include_hidden`` of the axes configuration, and the ``entries.values`` and the ``order``, ``arrange_by``,
+            ``groups`` and ``subgroups`` of the axes data. The groups are easy to forget: they constrain the clustering,
+            so saving the same graph twice, grouped differently each time, silently reuses the order of the first
+            grouping unless the cache is reset in between.
         """
         return _from_julia(jl.SomeGraphs.heatmap_order(self.jl_obj))
 
@@ -424,29 +428,69 @@ class HeatmapGraph(Graph):
         """
         jl.SomeGraphs.reset_order_b(self.jl_obj)
 
+    def entries_fields(self) -> MatrixFields:
+        """
+        The data source view of the entries of the heatmap, colored by the ``entries.colors``.
+        """
+        return _from_julia(jl.SomeGraphs.entries_fields(self.jl_obj))
+
+    def rows_names_fields(self) -> VectorDataFields:
+        """
+        The data source view of the names of the rows; their title is the title of the rows axis.
+        """
+        return _from_julia(jl.SomeGraphs.rows_names_fields(self.jl_obj))
+
+    def columns_names_fields(self) -> VectorDataFields:
+        """
+        The data source view of the names of the columns; their title is the title of the columns axis.
+        """
+        return _from_julia(jl.SomeGraphs.columns_names_fields(self.jl_obj))
+
+    def rows_groups_fields(self) -> VectorDataFields:
+        """
+        The data source view of the groups of the rows.
+        """
+        return _from_julia(jl.SomeGraphs.rows_groups_fields(self.jl_obj))
+
+    def rows_subgroups_fields(self) -> VectorDataFields:
+        """
+        The data source view of the subgroups of the rows.
+        """
+        return _from_julia(jl.SomeGraphs.rows_subgroups_fields(self.jl_obj))
+
+    def columns_groups_fields(self) -> VectorDataFields:
+        """
+        The data source view of the groups of the columns.
+        """
+        return _from_julia(jl.SomeGraphs.columns_groups_fields(self.jl_obj))
+
+    def columns_subgroups_fields(self) -> VectorDataFields:
+        """
+        The data source view of the subgroups of the columns.
+        """
+        return _from_julia(jl.SomeGraphs.columns_subgroups_fields(self.jl_obj))
+
+    def rows_annotations_fields(self, index: int) -> ColorsFields:
+        """
+        The data source view of the (1-based) ``index`` annotation of the rows, which shares the entities of the rows.
+        """
+        return _from_julia(jl.SomeGraphs.rows_annotations_fields(self.jl_obj, index))
+
+    def columns_annotations_fields(self, index: int) -> ColorsFields:
+        """
+        The data source view of the (1-based) ``index`` annotation of the columns, which shares the entities of the
+        columns.
+        """
+        return _from_julia(jl.SomeGraphs.columns_annotations_fields(self.jl_obj, index))
+
 
 def heatmap_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    x_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    y_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    entries_colors_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    entries_values: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
-    rows_names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-    columns_names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-    entries_hovers: Union[Optional[StringsMatrix], DefaultValue] = DEFAULT,
-    rows_hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-    columns_hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-    rows_annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
-    columns_annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
-    rows_arrange_by: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
-    columns_arrange_by: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
-    rows_order: Union[Optional[Order], DefaultValue] = DEFAULT,
-    columns_order: Union[Optional[Order], DefaultValue] = DEFAULT,
-    rows_groups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
-    columns_groups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
-    rows_subgroups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
-    columns_subgroups: Union[Optional[Union[StringsVector, IntegersVector]], DefaultValue] = DEFAULT,
+    entries: Union[MatrixData, DefaultValue] = DEFAULT,
+    cells: Union[MatrixEntitiesData, DefaultValue] = DEFAULT,
+    rows: Union[HeatmapAxisData, DefaultValue] = DEFAULT,
+    columns: Union[HeatmapAxisData, DefaultValue] = DEFAULT,
     configuration: Union[HeatmapGraphConfiguration, DefaultValue] = DEFAULT,
 ) -> HeatmapGraph:
     """
@@ -456,27 +500,6 @@ def heatmap_graph(
     for details.
     """
     return HeatmapGraph(
-        data=HeatmapGraphData(
-            figure_title=figure_title,
-            x_axis_title=x_axis_title,
-            y_axis_title=y_axis_title,
-            entries_colors_title=entries_colors_title,
-            entries_values=entries_values,
-            rows_names=rows_names,
-            columns_names=columns_names,
-            entries_hovers=entries_hovers,
-            rows_hovers=rows_hovers,
-            columns_hovers=columns_hovers,
-            rows_annotations=rows_annotations,
-            columns_annotations=columns_annotations,
-            rows_arrange_by=rows_arrange_by,
-            columns_arrange_by=columns_arrange_by,
-            rows_order=rows_order,
-            columns_order=columns_order,
-            rows_groups=rows_groups,
-            columns_groups=columns_groups,
-            rows_subgroups=rows_subgroups,
-            columns_subgroups=columns_subgroups,
-        ),
+        data=HeatmapGraphData(figure_title=figure_title, entries=entries, cells=cells, rows=rows, columns=columns),
         configuration=configuration,
     )

@@ -88,31 +88,56 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">BandsConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">BandsData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorsConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntitiesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">FigureConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Graph</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">NumbersVector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Stacking</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringsVector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Validated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValuesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValuesOrientation</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultValue</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlObject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_from_julia</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_given</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">jl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxisFields</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorsFields</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorDataFields</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;BarsConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;BarsGraph&quot;</span><span class="p">,</span>
     <span class="s2">&quot;BarsGraphConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;BarsGraphData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;SeriesBarsGraph&quot;</span><span class="p">,</span>
     <span class="s2">&quot;SeriesBarsGraphConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;SeriesBarsGraphData&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SeriesData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;bars_graph&quot;</span><span class="p">,</span>
     <span class="s2">&quot;series_bars_graph&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
-<span class="c1">#: The colors of a set of bars, either explicit color names or values to map through a palette.</span>
-<span class="n">ColorsVector</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">StringsVector</span><span class="p">]</span>
+
+<div class="viewcode-block" id="BarsConfiguration">
+<a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsConfiguration">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BarsConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure the bars of a bars graph. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html#SomeGraphs.Bars.BarsConfiguration&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The gap between the bars, as a fraction of the total graph size.</span>
+    <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">BarsConfiguration</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">gap</span><span class="o">=</span><span class="n">gap</span><span class="p">)))</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;BarsConfiguration&quot;</span><span class="p">,</span> <span class="n">BarsConfiguration</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="BarsGraphConfiguration">
@@ -133,11 +158,11 @@
     <span class="c1">#: Whether the values are shown in the vertical or the horizontal axis.</span>
     <span class="n">values_orientation</span><span class="p">:</span> <span class="n">ValuesOrientation</span>
     <span class="c1">#: How to color the bars.</span>
-    <span class="n">bars_colors</span><span class="p">:</span> <span class="n">ColorsConfiguration</span>
-    <span class="c1">#: The gap between the bars, as a fraction of the bar size.</span>
-    <span class="n">bars_gap</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">ColorsConfiguration</span>
+    <span class="c1">#: How to show the bars.</span>
+    <span class="n">bars</span><span class="p">:</span> <span class="n">BarsConfiguration</span>
     <span class="c1">#: The size of the annotations shown next to the bars.</span>
-    <span class="n">bars_annotations</span><span class="p">:</span> <span class="n">AnnotationSize</span>
+    <span class="n">annotations</span><span class="p">:</span> <span class="n">AnnotationSize</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -146,9 +171,9 @@
         <span class="n">value_axis</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AxisConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">value_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">values_orientation</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesOrientation</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ColorsConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnnotationSize</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ColorsConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">bars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BarsConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnnotationSize</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">BarsGraphConfiguration</span><span class="p">(</span>
@@ -157,9 +182,9 @@
                     <span class="n">value_axis</span><span class="o">=</span><span class="n">value_axis</span><span class="p">,</span>
                     <span class="n">value_bands</span><span class="o">=</span><span class="n">value_bands</span><span class="p">,</span>
                     <span class="n">values_orientation</span><span class="o">=</span><span class="n">values_orientation</span><span class="p">,</span>
-                    <span class="n">bars_colors</span><span class="o">=</span><span class="n">bars_colors</span><span class="p">,</span>
-                    <span class="n">bars_gap</span><span class="o">=</span><span class="n">bars_gap</span><span class="p">,</span>
-                    <span class="n">bars_annotations</span><span class="o">=</span><span class="n">bars_annotations</span><span class="p">,</span>
+                    <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+                    <span class="n">bars</span><span class="o">=</span><span class="n">bars</span><span class="p">,</span>
+                    <span class="n">annotations</span><span class="o">=</span><span class="n">annotations</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
@@ -180,52 +205,40 @@
 
     <span class="c1">#: The title of the figure.</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the axis listing the bars.</span>
-    <span class="n">bar_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the axis showing the values.</span>
-    <span class="n">value_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the bars colors legend.</span>
-    <span class="n">bars_colors_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The value of each bar.</span>
-    <span class="n">bars_values</span><span class="p">:</span> <span class="n">NumbersVector</span>
-    <span class="c1">#: The name of each bar.</span>
-    <span class="n">bars_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
-    <span class="c1">#: The color of each bar.</span>
-    <span class="n">bars_colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ColorsVector</span><span class="p">]</span>
-    <span class="c1">#: The hover text of each bar.</span>
-    <span class="n">bars_hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
+    <span class="c1">#: The value of each bar; their title is the value axis title.</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The name of each bar; their title is the bar axis title.</span>
+    <span class="n">names</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The hovers and mask of the bars.</span>
+    <span class="n">bars</span><span class="p">:</span> <span class="n">EntitiesData</span>
+    <span class="c1">#: The color of each bar; their title is the legend title.</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: Annotations shown next to the bars.</span>
+    <span class="n">annotations</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span>
     <span class="c1">#: Override the offsets of the value bands.</span>
     <span class="n">value_bands</span><span class="p">:</span> <span class="n">BandsData</span>
-    <span class="c1">#: Annotations shown next to the bars.</span>
-    <span class="n">bars_annotations</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bar_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">value_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_colors_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">ColorsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">bars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">value_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">BarsGraphData</span><span class="p">(</span>
                 <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
                     <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-                    <span class="n">bar_axis_title</span><span class="o">=</span><span class="n">bar_axis_title</span><span class="p">,</span>
-                    <span class="n">value_axis_title</span><span class="o">=</span><span class="n">value_axis_title</span><span class="p">,</span>
-                    <span class="n">bars_colors_title</span><span class="o">=</span><span class="n">bars_colors_title</span><span class="p">,</span>
-                    <span class="n">bars_values</span><span class="o">=</span><span class="n">bars_values</span><span class="p">,</span>
-                    <span class="n">bars_names</span><span class="o">=</span><span class="n">bars_names</span><span class="p">,</span>
-                    <span class="n">bars_colors</span><span class="o">=</span><span class="n">bars_colors</span><span class="p">,</span>
-                    <span class="n">bars_hovers</span><span class="o">=</span><span class="n">bars_hovers</span><span class="p">,</span>
+                    <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span>
+                    <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span>
+                    <span class="n">bars</span><span class="o">=</span><span class="n">bars</span><span class="p">,</span>
+                    <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+                    <span class="n">annotations</span><span class="o">=</span><span class="n">annotations</span><span class="p">,</span>
                     <span class="n">value_bands</span><span class="o">=</span><span class="n">value_bands</span><span class="p">,</span>
-                    <span class="n">bars_annotations</span><span class="o">=</span><span class="n">bars_annotations</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
@@ -255,7 +268,43 @@
         <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BarsGraphData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BarsGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">BarsGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">BarsGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="BarsGraph.values_fields">
+<a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraph.values_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">values_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxisFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the values of the bars, along the ``value_axis``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">values_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="BarsGraph.colors_fields">
+<a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraph.colors_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">colors_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the colors of the bars.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">colors_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="BarsGraph.names_fields">
+<a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraph.names_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">names_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the names of the bars; their title is the title of the bars axis.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">names_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="BarsGraph.annotations_fields">
+<a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraph.annotations_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">annotations_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the (1-based) ``index`` annotation of the bars, which shares the entities of the bars.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">annotations_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
+</div>
 
 
 
@@ -264,15 +313,12 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">bars_graph</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">bar_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">value_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">bars_colors_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">bars_values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">bars_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">bars_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">ColorsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">bars_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">bars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">value_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">bars_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BarsGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BarsGraph</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -284,15 +330,12 @@
     <span class="k">return</span> <span class="n">BarsGraph</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">BarsGraphData</span><span class="p">(</span>
             <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-            <span class="n">bar_axis_title</span><span class="o">=</span><span class="n">bar_axis_title</span><span class="p">,</span>
-            <span class="n">value_axis_title</span><span class="o">=</span><span class="n">value_axis_title</span><span class="p">,</span>
-            <span class="n">bars_colors_title</span><span class="o">=</span><span class="n">bars_colors_title</span><span class="p">,</span>
-            <span class="n">bars_values</span><span class="o">=</span><span class="n">bars_values</span><span class="p">,</span>
-            <span class="n">bars_names</span><span class="o">=</span><span class="n">bars_names</span><span class="p">,</span>
-            <span class="n">bars_colors</span><span class="o">=</span><span class="n">bars_colors</span><span class="p">,</span>
-            <span class="n">bars_hovers</span><span class="o">=</span><span class="n">bars_hovers</span><span class="p">,</span>
+            <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span>
+            <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span>
+            <span class="n">bars</span><span class="o">=</span><span class="n">bars</span><span class="p">,</span>
+            <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+            <span class="n">annotations</span><span class="o">=</span><span class="n">annotations</span><span class="p">,</span>
             <span class="n">value_bands</span><span class="o">=</span><span class="n">value_bands</span><span class="p">,</span>
-            <span class="n">bars_annotations</span><span class="o">=</span><span class="n">bars_annotations</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">,</span>
     <span class="p">)</span></div>
@@ -314,10 +357,10 @@
     <span class="n">value_axis</span><span class="p">:</span> <span class="n">AxisConfiguration</span>
     <span class="c1">#: Whether the values are shown in the vertical or the horizontal axis.</span>
     <span class="n">values_orientation</span><span class="p">:</span> <span class="n">ValuesOrientation</span>
-    <span class="c1">#: The gap between the bars, as a fraction of the bar size.</span>
-    <span class="n">bars_gap</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="c1">#: How to show the bars.</span>
+    <span class="n">bars</span><span class="p">:</span> <span class="n">BarsConfiguration</span>
     <span class="c1">#: The size of the annotations shown next to the bars.</span>
-    <span class="n">bars_annotations</span><span class="p">:</span> <span class="n">AnnotationSize</span>
+    <span class="n">annotations</span><span class="p">:</span> <span class="n">AnnotationSize</span>
     <span class="c1">#: The gap between the series of each bar, as a fraction of the bar size.</span>
     <span class="n">series_gap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="c1">#: Stack the series on top of each other.</span>
@@ -331,8 +374,8 @@
         <span class="n">figure</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">FigureConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">value_axis</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AxisConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">values_orientation</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesOrientation</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnnotationSize</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">bars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BarsConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnnotationSize</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">series_gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">stacking</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Stacking</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">mirrored</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
@@ -343,8 +386,8 @@
                     <span class="n">figure</span><span class="o">=</span><span class="n">figure</span><span class="p">,</span>
                     <span class="n">value_axis</span><span class="o">=</span><span class="n">value_axis</span><span class="p">,</span>
                     <span class="n">values_orientation</span><span class="o">=</span><span class="n">values_orientation</span><span class="p">,</span>
-                    <span class="n">bars_gap</span><span class="o">=</span><span class="n">bars_gap</span><span class="p">,</span>
-                    <span class="n">bars_annotations</span><span class="o">=</span><span class="n">bars_annotations</span><span class="p">,</span>
+                    <span class="n">bars</span><span class="o">=</span><span class="n">bars</span><span class="p">,</span>
+                    <span class="n">annotations</span><span class="o">=</span><span class="n">annotations</span><span class="p">,</span>
                     <span class="n">series_gap</span><span class="o">=</span><span class="n">series_gap</span><span class="p">,</span>
                     <span class="n">stacking</span><span class="o">=</span><span class="n">stacking</span><span class="p">,</span>
                     <span class="n">mirrored</span><span class="o">=</span><span class="n">mirrored</span><span class="p">,</span>
@@ -355,6 +398,44 @@
 
 
 <span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;SeriesBarsGraphConfiguration&quot;</span><span class="p">,</span> <span class="n">SeriesBarsGraphConfiguration</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SeriesData">
+<a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SeriesData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    One series of a :py:obj:`SeriesBarsGraphData`. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html#SomeGraphs.Bars.SeriesData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The value of each bar of the series; their title is the value axis title shared by all the series.</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The hovers and mask of the bars of this series alone.</span>
+    <span class="n">bars</span><span class="p">:</span> <span class="n">EntitiesData</span>
+    <span class="c1">#: The name of the series.</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: Prefixed to the hover of each bar of the series.</span>
+    <span class="n">hover</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: The color of all the bars of the series.</span>
+    <span class="n">color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">bars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">hover</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">SeriesData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">bars</span><span class="o">=</span><span class="n">bars</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">hover</span><span class="o">=</span><span class="n">hover</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">))</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;SeriesData&quot;</span><span class="p">,</span> <span class="n">SeriesData</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SeriesBarsGraphData">
@@ -368,57 +449,27 @@
 
     <span class="c1">#: The title of the figure.</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the axis listing the bars.</span>
-    <span class="n">bar_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the axis showing the values.</span>
-    <span class="n">value_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The values of the bars of each series.</span>
-    <span class="n">series_bars_values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">]</span>
-    <span class="c1">#: The hover text of each bar of each series, when it differs between the series.</span>
-    <span class="n">series_bars_hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]]</span>
-    <span class="c1">#: The name of each bar.</span>
-    <span class="n">bars_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
-    <span class="c1">#: The hover text of each bar, when it is the same in every series.</span>
-    <span class="n">bars_hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
+    <span class="c1">#: The series of bars.</span>
+    <span class="n">series</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">SeriesData</span><span class="p">]</span>
+    <span class="c1">#: The name of each bar; their title is the bar axis title.</span>
+    <span class="n">names</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The hovers and mask of the bars, shared by all the series.</span>
+    <span class="n">bars</span><span class="p">:</span> <span class="n">EntitiesData</span>
     <span class="c1">#: Annotations shown next to the bars.</span>
-    <span class="n">bars_annotations</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span>
-    <span class="c1">#: The name of each series.</span>
-    <span class="n">series_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
-    <span class="c1">#: The color of each series.</span>
-    <span class="n">series_colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
-    <span class="c1">#: The hover text of each series.</span>
-    <span class="n">series_hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
+    <span class="n">annotations</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bar_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">value_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">series_bars_values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">series_bars_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">bars_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">series_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">series_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">series_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">series</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">SeriesData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">bars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">SeriesBarsGraphData</span><span class="p">(</span>
-                <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
-                    <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-                    <span class="n">bar_axis_title</span><span class="o">=</span><span class="n">bar_axis_title</span><span class="p">,</span>
-                    <span class="n">value_axis_title</span><span class="o">=</span><span class="n">value_axis_title</span><span class="p">,</span>
-                    <span class="n">series_bars_values</span><span class="o">=</span><span class="n">series_bars_values</span><span class="p">,</span>
-                    <span class="n">series_bars_hovers</span><span class="o">=</span><span class="n">series_bars_hovers</span><span class="p">,</span>
-                    <span class="n">bars_names</span><span class="o">=</span><span class="n">bars_names</span><span class="p">,</span>
-                    <span class="n">bars_hovers</span><span class="o">=</span><span class="n">bars_hovers</span><span class="p">,</span>
-                    <span class="n">bars_annotations</span><span class="o">=</span><span class="n">bars_annotations</span><span class="p">,</span>
-                    <span class="n">series_names</span><span class="o">=</span><span class="n">series_names</span><span class="p">,</span>
-                    <span class="n">series_colors</span><span class="o">=</span><span class="n">series_colors</span><span class="p">,</span>
-                    <span class="n">series_hovers</span><span class="o">=</span><span class="n">series_hovers</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">bars</span><span class="o">=</span><span class="n">bars</span><span class="p">,</span> <span class="n">annotations</span><span class="o">=</span><span class="n">annotations</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
 
@@ -447,7 +498,37 @@
         <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SeriesBarsGraphData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SeriesBarsGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">SeriesBarsGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">SeriesBarsGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="SeriesBarsGraph.series_values_fields">
+<a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph.series_values_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">series_values_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxisFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the values of the (1-based) ``index`` series, along the (shared) ``value_axis``. The</span>
+<span class="sd">        entities are the bars of the series alone.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">series_values_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SeriesBarsGraph.names_fields">
+<a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph.names_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">names_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the names of the bars (shared by all the series); their title is the title of the bars</span>
+<span class="sd">        axis.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">names_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SeriesBarsGraph.annotations_fields">
+<a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph.annotations_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">annotations_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the (1-based) ``index`` annotation of the bars, which shares the entities of the bars</span>
+<span class="sd">        (the ones shared by all the series).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">annotations_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
+</div>
 
 
 
@@ -456,16 +537,10 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">series_bars_graph</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">bar_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">value_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">series_bars_values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">series_bars_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">bars_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">bars_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">bars_annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">series_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">series_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">series_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">series</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">SeriesData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">bars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SeriesBarsGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SeriesBarsGraph</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -476,17 +551,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">SeriesBarsGraph</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">SeriesBarsGraphData</span><span class="p">(</span>
-            <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-            <span class="n">bar_axis_title</span><span class="o">=</span><span class="n">bar_axis_title</span><span class="p">,</span>
-            <span class="n">value_axis_title</span><span class="o">=</span><span class="n">value_axis_title</span><span class="p">,</span>
-            <span class="n">series_bars_values</span><span class="o">=</span><span class="n">series_bars_values</span><span class="p">,</span>
-            <span class="n">series_bars_hovers</span><span class="o">=</span><span class="n">series_bars_hovers</span><span class="p">,</span>
-            <span class="n">bars_names</span><span class="o">=</span><span class="n">bars_names</span><span class="p">,</span>
-            <span class="n">bars_hovers</span><span class="o">=</span><span class="n">bars_hovers</span><span class="p">,</span>
-            <span class="n">bars_annotations</span><span class="o">=</span><span class="n">bars_annotations</span><span class="p">,</span>
-            <span class="n">series_names</span><span class="o">=</span><span class="n">series_names</span><span class="p">,</span>
-            <span class="n">series_colors</span><span class="o">=</span><span class="n">series_colors</span><span class="p">,</span>
-            <span class="n">series_hovers</span><span class="o">=</span><span class="n">series_hovers</span><span class="p">,</span>
+            <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">bars</span><span class="o">=</span><span class="n">bars</span><span class="p">,</span> <span class="n">annotations</span><span class="o">=</span><span class="n">annotations</span>
         <span class="p">),</span>
         <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">,</span>
     <span class="p">)</span></div>

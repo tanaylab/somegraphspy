@@ -95,6 +95,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlEnum</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlObject</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_given</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_to_julia</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">jl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
 
@@ -112,6 +113,7 @@
     <span class="s2">&quot;CategoricalColors&quot;</span><span class="p">,</span>
     <span class="s2">&quot;ColorsConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;ContinuousColors&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;EntitiesData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;FigureConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Graph&quot;</span><span class="p">,</span>
     <span class="s2">&quot;IntegersVector&quot;</span><span class="p">,</span>
@@ -119,6 +121,8 @@
     <span class="s2">&quot;LineStyle&quot;</span><span class="p">,</span>
     <span class="s2">&quot;LogScale&quot;</span><span class="p">,</span>
     <span class="s2">&quot;MarginsConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MatrixData&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MatrixEntitiesData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;NAMED_COLOR_SCALES&quot;</span><span class="p">,</span>
     <span class="s2">&quot;NumbersMatrix&quot;</span><span class="p">,</span>
     <span class="s2">&quot;NumbersVector&quot;</span><span class="p">,</span>
@@ -128,6 +132,7 @@
     <span class="s2">&quot;StringsMatrix&quot;</span><span class="p">,</span>
     <span class="s2">&quot;StringsVector&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Validated&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ValuesData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;ValuesOrientation&quot;</span><span class="p">,</span>
     <span class="s2">&quot;categorical_palette&quot;</span><span class="p">,</span>
 <span class="p">]</span>
@@ -391,14 +396,9 @@
 
     <span class="c1">#: Use this fixed size for everything, instead of scaling the data.</span>
     <span class="n">fixed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
-    <span class="c1">#: The minimal data value to show.</span>
-    <span class="n">minimum</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
-    <span class="c1">#: The maximal data value to show.</span>
-    <span class="n">maximum</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
-    <span class="c1">#: Scale the data values by their logarithm.</span>
-    <span class="n">log_scale</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="c1">#: Added to the data values before taking their logarithm.</span>
-    <span class="n">log_regularization</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="c1">#: How to scale the data values (only its ``minimum``, ``maximum``, ``log_scale``, ``log_regularization`` and</span>
+    <span class="c1">#: ``include_hidden`` apply).</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="s2">&quot;AxisConfiguration&quot;</span>
     <span class="c1">#: The size of the smallest data value.</span>
     <span class="n">smallest</span><span class="p">:</span> <span class="nb">float</span>
     <span class="c1">#: Added to the ``smallest`` size for the largest data value.</span>
@@ -408,25 +408,12 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">fixed</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">minimum</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">maximum</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">log_scale</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">log_regularization</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">axis</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;AxisConfiguration&quot;</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">smallest</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">span</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">SizesConfiguration</span><span class="p">(</span>
-                <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
-                    <span class="n">fixed</span><span class="o">=</span><span class="n">fixed</span><span class="p">,</span>
-                    <span class="n">minimum</span><span class="o">=</span><span class="n">minimum</span><span class="p">,</span>
-                    <span class="n">maximum</span><span class="o">=</span><span class="n">maximum</span><span class="p">,</span>
-                    <span class="n">log_scale</span><span class="o">=</span><span class="n">log_scale</span><span class="p">,</span>
-                    <span class="n">log_regularization</span><span class="o">=</span><span class="n">log_regularization</span><span class="p">,</span>
-                    <span class="n">smallest</span><span class="o">=</span><span class="n">smallest</span><span class="p">,</span>
-                    <span class="n">span</span><span class="o">=</span><span class="n">span</span><span class="p">,</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">SizesConfiguration</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">fixed</span><span class="o">=</span><span class="n">fixed</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">smallest</span><span class="o">=</span><span class="n">smallest</span><span class="p">,</span> <span class="n">span</span><span class="o">=</span><span class="n">span</span><span class="p">))</span>
         <span class="p">)</span></div>
 
 
@@ -447,6 +434,8 @@
     <span class="n">minimum</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="c1">#: The maximal value shown in the axis.</span>
     <span class="n">maximum</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: Whether entities hidden by a mask still take part in the automatic range of the axis.</span>
+    <span class="n">include_hidden</span><span class="p">:</span> <span class="nb">bool</span>
     <span class="c1">#: Expand the axis range by this fraction of the data range.</span>
     <span class="n">expand_fraction</span><span class="p">:</span> <span class="nb">float</span>
     <span class="c1">#: Scale the axis by a logarithm of this base.</span>
@@ -471,6 +460,7 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">minimum</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">maximum</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">include_hidden</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">expand_fraction</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">log_scale</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">LogScale</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">log_regularization</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
@@ -486,6 +476,7 @@
                 <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
                     <span class="n">minimum</span><span class="o">=</span><span class="n">minimum</span><span class="p">,</span>
                     <span class="n">maximum</span><span class="o">=</span><span class="n">maximum</span><span class="p">,</span>
+                    <span class="n">include_hidden</span><span class="o">=</span><span class="n">include_hidden</span><span class="p">,</span>
                     <span class="n">expand_fraction</span><span class="o">=</span><span class="n">expand_fraction</span><span class="p">,</span>
                     <span class="n">log_scale</span><span class="o">=</span><span class="n">log_scale</span><span class="p">,</span>
                     <span class="n">log_regularization</span><span class="o">=</span><span class="n">log_regularization</span><span class="p">,</span>
@@ -697,6 +688,149 @@
 <span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;AnnotationSize&quot;</span><span class="p">,</span> <span class="n">AnnotationSize</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="ValuesData">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.ValuesData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ValuesData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A value per entity for one role of a graph (the X coordinates of points, the names of bars, ...), and the title of</span>
+<span class="sd">    these values (which becomes the axis title, the colors title, ...). See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ValuesData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The values, one per entity; either numbers or strings, depending on the role.</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">StringsVector</span><span class="p">]]</span>
+    <span class="c1">#: The title of the values.</span>
+    <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">StringsVector</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">ValuesData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)))</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;ValuesData&quot;</span><span class="p">,</span> <span class="n">ValuesData</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="EntitiesData">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.EntitiesData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EntitiesData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The hovers and mask of one set of entities of a graph (the points, the bars, ...), shared by all the roles of these</span>
+<span class="sd">    entities. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.EntitiesData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The hover text of each entity.</span>
+    <span class="n">hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
+    <span class="c1">#: Which entities to show.</span>
+    <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">mask</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">EntitiesData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">hovers</span><span class="o">=</span><span class="n">hovers</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="EntitiesData.add_hovers">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.EntitiesData.add_hovers">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_hovers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hovers</span><span class="p">:</span> <span class="n">StringsVector</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a line to the hover of each entity: its entry of ``hovers``, prefixed by the ``title`` (if any) as</span>
+<span class="sd">        ``title: hover``. See the Julia</span>
+<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.add_hovers!&gt;`__</span>
+<span class="sd">        for details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_add_hovers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hovers</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;EntitiesData&quot;</span><span class="p">,</span> <span class="n">EntitiesData</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="MatrixData">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.MatrixData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MatrixData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A value per row per column of a graph (the entries of a heatmap), and the title of these values. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.MatrixData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The values, a row per row and a column per column.</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">]</span>
+    <span class="c1">#: The title of the values.</span>
+    <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">MatrixData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)))</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;MatrixData&quot;</span><span class="p">,</span> <span class="n">MatrixData</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="MatrixEntitiesData">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.MatrixEntitiesData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MatrixEntitiesData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The hovers and mask of the entities of a graph which are arranged in rows and columns (the cells of a heatmap). See</span>
+<span class="sd">    the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.MatrixEntitiesData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The hover text of each entity.</span>
+    <span class="n">hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsMatrix</span><span class="p">]</span>
+    <span class="c1">#: Which entities to show.</span>
+    <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">mask</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">MatrixEntitiesData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">hovers</span><span class="o">=</span><span class="n">hovers</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="MatrixEntitiesData.add_hovers">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.MatrixEntitiesData.add_hovers">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_hovers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hovers</span><span class="p">:</span> <span class="n">StringsMatrix</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a line to the hover of each entity: its entry of ``hovers``, prefixed by the ``title`` (if any) as</span>
+<span class="sd">        ``title: hover``. See the Julia</span>
+<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.add_hovers!&gt;`__</span>
+<span class="sd">        for details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_add_hovers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hovers</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;MatrixEntitiesData&quot;</span><span class="p">,</span> <span class="n">MatrixEntitiesData</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_add_hovers</span><span class="p">(</span><span class="n">entities</span><span class="p">:</span> <span class="n">JlObject</span><span class="p">,</span> <span class="n">hovers</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># The Julia error is re-raised as a plain Python one, for the same reason as in ``JlObject.__setattr__``.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_hovers_b</span><span class="p">(</span><span class="n">entities</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">hovers</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-exception-caught</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">exception</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+
+
 <div class="viewcode-block" id="AnnotationData">
 <a class="viewcode-back" href="../../common.html#somegraphspy.common.AnnotationData">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AnnotationData</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
@@ -706,26 +840,18 @@
 <span class="sd">    for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1">#: The title of the annotation.</span>
-    <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: A value per annotated entity, either numbers or category names.</span>
-    <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">StringsVector</span><span class="p">]</span>
-    <span class="c1">#: The hover text per annotated entity.</span>
-    <span class="n">hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
+    <span class="c1">#: A value per annotated entity, either numbers or category names; their title is the title of the annotation.</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">ValuesData</span>
     <span class="c1">#: How to color the annotation values.</span>
     <span class="n">colors</span><span class="p">:</span> <span class="n">ColorsConfiguration</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">StringsVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ColorsConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">AnnotationData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">hovers</span><span class="o">=</span><span class="n">hovers</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">))</span>
-        <span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">AnnotationData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">)))</span></div>
 
 
 

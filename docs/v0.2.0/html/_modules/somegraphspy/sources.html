@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>somegraphspy.sources &mdash; SomeGraphs 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SomeGraphs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">README</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../API.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SomeGraphs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">somegraphspy.sources</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for somegraphspy.sources</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Data source views into the graphs. See the Julia</span>
+<span class="sd">`documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html&gt;`__ for details.</span>
+
+<span class="sd">A view bundles the parts of a graph that one source of data fills: the values of one role, the entities they belong to,</span>
+<span class="sd">and the configuration they are shown by. The views are obtained from a graph by its ``..._fields`` methods (e.g.,</span>
+<span class="sd">``graph.x_fields()``), which mirror the Julia accessor functions. A source is any Python function writing into a view.</span>
+<span class="sd">It works on any graph and any role that offers the same kind of view. The views hold no data of their own. They</span>
+<span class="sd">reference the graph&#39;s own objects, so writing into them changes the graph.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxisConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorsConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntitiesData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixEntitiesData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">SizesConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValuesData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlObject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;AxisConfigurationFields&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AxisFields&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ColorsConfigurationFields&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ColorsFields&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MatrixConfigurationFields&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MatrixDataFields&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MatrixFields&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SizesConfigurationFields&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SizesFields&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;VectorDataFields&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;VectorFields&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="VectorDataFields">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.VectorDataFields">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">VectorDataFields</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The data half of a data source view: the values of one role of a graph and the entities these values belong to. See</span>
+<span class="sd">    the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.VectorDataFields&gt;`__</span>
+<span class="sd">    for details.</span>
+
+<span class="sd">    A source which only writes values, a title and hovers takes one of these. The ``data`` of every</span>
+<span class="sd">    :py:obj:`VectorFields` is one, and so is a view of a role that has no configuration (the names of the bars, the</span>
+<span class="sd">    groups of the rows of a heatmap), so such a source applies to all of them alike.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The values of the role.</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The entities the values belong to (shared with the other roles of the same entities).</span>
+    <span class="n">entities</span><span class="p">:</span> <span class="n">EntitiesData</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;VectorDataFields&quot;</span><span class="p">,</span> <span class="n">VectorDataFields</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="MatrixDataFields">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.MatrixDataFields">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MatrixDataFields</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The data half of a :py:obj:`MatrixFields` data source view: the entries of a heatmap and its cells. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixDataFields&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The values of the entries.</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">MatrixData</span>
+    <span class="c1">#: The cells the values belong to.</span>
+    <span class="n">entities</span><span class="p">:</span> <span class="n">MatrixEntitiesData</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;MatrixDataFields&quot;</span><span class="p">,</span> <span class="n">MatrixDataFields</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AxisConfigurationFields">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.AxisConfigurationFields">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AxisConfigurationFields</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The configuration half of an :py:obj:`AxisFields` data source view. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.AxisConfigurationFields&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The axis the values are shown along.</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="n">AxisConfiguration</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;AxisConfigurationFields&quot;</span><span class="p">,</span> <span class="n">AxisConfigurationFields</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ColorsConfigurationFields">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.ColorsConfigurationFields">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ColorsConfigurationFields</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The configuration half of a :py:obj:`ColorsFields` data source view. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ColorsConfigurationFields&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The axis of the colors configuration, which scales the values.</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="n">AxisConfiguration</span>
+    <span class="c1">#: How the values are colored.</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">ColorsConfiguration</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;ColorsConfigurationFields&quot;</span><span class="p">,</span> <span class="n">ColorsConfigurationFields</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SizesConfigurationFields">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.SizesConfigurationFields">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SizesConfigurationFields</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The configuration half of a :py:obj:`SizesFields` data source view. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.SizesConfigurationFields&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The axis of the sizes configuration, which scales the values.</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="n">AxisConfiguration</span>
+    <span class="c1">#: How the values are sized.</span>
+    <span class="n">sizes</span><span class="p">:</span> <span class="n">SizesConfiguration</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;SizesConfigurationFields&quot;</span><span class="p">,</span> <span class="n">SizesConfigurationFields</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="MatrixConfigurationFields">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.MatrixConfigurationFields">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MatrixConfigurationFields</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The configuration half of a :py:obj:`MatrixFields` data source view. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixConfigurationFields&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The axis of the colors configuration, which scales the entries.</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="n">AxisConfiguration</span>
+    <span class="c1">#: How the entries are colored.</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">ColorsConfiguration</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;MatrixConfigurationFields&quot;</span><span class="p">,</span> <span class="n">MatrixConfigurationFields</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="VectorFields">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.VectorFields">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">VectorFields</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A data source view of one role of a graph whose entities are a vector: the ``data`` and the ``configuration``. See</span>
+<span class="sd">    the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.VectorFields&gt;`__</span>
+<span class="sd">    for details.</span>
+
+<span class="sd">    A function writing into such a view fills the role from some source of data, and works the same on the X</span>
+<span class="sd">    coordinates of points, the values of bars, the colors of either, and so on. The ``configuration`` says what kind of</span>
+<span class="sd">    view this is: an :py:obj:`AxisConfigurationFields` for values shown along an axis (:py:obj:`AxisFields`), a</span>
+<span class="sd">    :py:obj:`ColorsConfigurationFields` for values shown as colors (:py:obj:`ColorsFields`), or a</span>
+<span class="sd">    :py:obj:`SizesConfigurationFields` for values shown as sizes (:py:obj:`SizesFields`). All three have an ``axis``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The values of the role and the entities they belong to.</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">VectorDataFields</span>
+    <span class="c1">#: How the values are shown.</span>
+    <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AxisConfigurationFields</span><span class="p">,</span> <span class="n">ColorsConfigurationFields</span><span class="p">,</span> <span class="n">SizesConfigurationFields</span><span class="p">]</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;VectorFields&quot;</span><span class="p">,</span> <span class="n">VectorFields</span><span class="p">)</span>
+
+<span class="c1">#: A :py:obj:`VectorFields` view of values shown along an axis; its ``configuration`` is an</span>
+<span class="c1">#: :py:obj:`AxisConfigurationFields`.</span>
+<span class="n">AxisFields</span> <span class="o">=</span> <span class="n">VectorFields</span>
+
+<span class="c1">#: A :py:obj:`VectorFields` view of values shown as colors; its ``configuration`` is a</span>
+<span class="c1">#: :py:obj:`ColorsConfigurationFields`.</span>
+<span class="n">ColorsFields</span> <span class="o">=</span> <span class="n">VectorFields</span>
+
+<span class="c1">#: A :py:obj:`VectorFields` view of values shown as sizes; its ``configuration`` is a</span>
+<span class="c1">#: :py:obj:`SizesConfigurationFields`.</span>
+<span class="n">SizesFields</span> <span class="o">=</span> <span class="n">VectorFields</span>
+
+
+<div class="viewcode-block" id="MatrixFields">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.MatrixFields">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MatrixFields</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A data source view of the entries of a graph whose entities are arranged in rows and columns (a heatmap), shown as</span>
+<span class="sd">    colors. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixFields&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The values of the entries and the cells they belong to.</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">MatrixDataFields</span>
+    <span class="c1">#: How the entries are colored.</span>
+    <span class="n">configuration</span><span class="p">:</span> <span class="n">MatrixConfigurationFields</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;MatrixFields&quot;</span><span class="p">,</span> <span class="n">MatrixFields</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Weizmann Institute of Science.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

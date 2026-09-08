@@ -1,0 +1,1806 @@
+
+
+
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en" data-content_root="./">
+
+<head>
+  
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+<title>sources &mdash; SomeGraphs 0.2.0 documentation
+</title>
+      
+<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      
+<link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      
+<script src="_static/jquery.js?v=5d32c60e">
+</script>
+      
+<script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c">
+</script>
+      
+<script src="_static/documentation_options.js?v=938c9ccc">
+</script>
+      
+<script src="_static/doctools.js?v=fd6eb6e6">
+</script>
+      
+<script src="_static/sphinx_highlight.js?v=6ffebe34">
+</script>
+    
+<script src="_static/js/theme.js">
+</script>
+    
+<link rel="index" title="Index" href="genindex.html" />
+    
+<link rel="search" title="Search" href="search.html" />
+    
+<link rel="next" title="enums" href="enums.html" />
+    
+<link rel="prev" title="heatmaps" href="heatmaps.html" /> 
+
+</head>
+
+
+<body class="wy-body-for-nav"> 
+  
+<div class="wy-grid-for-nav">
+    
+<nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      
+<div class="wy-side-scroll">
+        
+<div class="wy-side-nav-search" >
+
+          
+          
+          
+<a href="index.html" class="icon icon-home">
+            SomeGraphs
+          
+</a>
+
+<div role="search">
+  
+<form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    
+<input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    
+<input type="hidden" name="check_keywords" value="yes" />
+    
+<input type="hidden" name="area" value="default" />
+  
+</form>
+
+</div>
+        
+</div>
+<div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              
+<ul>
+
+<li class="toctree-l1">
+<a class="reference internal" href="readme.html">README
+</a>
+</li>
+
+</ul>
+
+<ul class="current">
+
+<li class="toctree-l1 current">
+<a class="reference internal" href="API.html">API
+</a>
+<ul class="current">
+
+<li class="toctree-l2">
+<a class="reference internal" href="julia_import.html">julia_import
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html">common
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="distributions.html">distributions
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="scatters.html">scatters
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="bars.html">bars
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="heatmaps.html">heatmaps
+</a>
+</li>
+
+<li class="toctree-l2 current">
+<a class="current reference internal" href="#">sources
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.AxisConfigurationFields">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfigurationFields
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.AxisConfigurationFields.axis">
+<code class="docutils literal notranslate">
+<span class="pre">AxisConfigurationFields.axis
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.AxisFields">
+<code class="docutils literal notranslate">
+<span class="pre">AxisFields
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.ColorsConfigurationFields">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfigurationFields
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.ColorsConfigurationFields.axis">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfigurationFields.axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.ColorsConfigurationFields.colors">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsConfigurationFields.colors
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.ColorsFields">
+<code class="docutils literal notranslate">
+<span class="pre">ColorsFields
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.MatrixConfigurationFields">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixConfigurationFields
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.MatrixConfigurationFields.axis">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixConfigurationFields.axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.MatrixConfigurationFields.colors">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixConfigurationFields.colors
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.MatrixDataFields">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixDataFields
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.MatrixDataFields.values">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixDataFields.values
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.MatrixDataFields.entities">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixDataFields.entities
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.MatrixFields">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixFields
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.MatrixFields.data">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixFields.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.MatrixFields.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixFields.configuration
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.SizesConfigurationFields">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfigurationFields
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.SizesConfigurationFields.axis">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfigurationFields.axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.SizesConfigurationFields.sizes">
+<code class="docutils literal notranslate">
+<span class="pre">SizesConfigurationFields.sizes
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.SizesFields">
+<code class="docutils literal notranslate">
+<span class="pre">SizesFields
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.VectorDataFields">
+<code class="docutils literal notranslate">
+<span class="pre">VectorDataFields
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.VectorDataFields.values">
+<code class="docutils literal notranslate">
+<span class="pre">VectorDataFields.values
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.VectorDataFields.entities">
+<code class="docutils literal notranslate">
+<span class="pre">VectorDataFields.entities
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.VectorFields">
+<code class="docutils literal notranslate">
+<span class="pre">VectorFields
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.VectorFields.data">
+<code class="docutils literal notranslate">
+<span class="pre">VectorFields.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.sources.VectorFields.configuration">
+<code class="docutils literal notranslate">
+<span class="pre">VectorFields.configuration
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="enums.html">enums
+</a>
+</li>
+
+</ul>
+
+</li>
+
+</ul>
+
+        
+</div>
+      
+</div>
+    
+</nav>
+
+    
+<section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+<nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          
+<i data-toggle="wy-nav-top" class="fa fa-bars">
+</i>
+          
+<a href="index.html">SomeGraphs
+</a>
+      
+</nav>
+
+      
+<div class="wy-nav-content">
+        
+<div class="rst-content">
+          
+<div role="navigation" aria-label="Page navigation">
+  
+<ul class="wy-breadcrumbs">
+      
+<li>
+<a href="index.html" class="icon icon-home" aria-label="Home">
+</a>
+</li>
+          
+<li class="breadcrumb-item">
+<a href="API.html">API
+</a>
+</li>
+      
+<li class="breadcrumb-item active">sources
+</li>
+      
+<li class="wy-breadcrumbs-aside">
+            
+<a href="_sources/sources.rst.txt" rel="nofollow"> View page source
+</a>
+      
+</li>
+  
+</ul>
+  
+<hr/>
+
+</div>
+          
+<div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           
+<div itemprop="articleBody">
+             
+  
+<section id="module-somegraphspy.sources">
+
+<span id="sources">
+</span>
+<h1>sources
+<a class="headerlink" href="#module-somegraphspy.sources" title="Link to this heading">
+</a>
+</h1>
+
+<p>Data source views into the graphs. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html">documentation
+</a> for details.
+</p>
+
+<p>A view bundles the parts of a graph that one source of data fills: the values of one role, the entities they belong to,
+and the configuration they are shown by. The views are obtained from a graph by its 
+<code class="docutils literal notranslate">
+<span class="pre">..._fields
+</span>
+</code> methods (e.g.,
+
+<code class="docutils literal notranslate">
+<span class="pre">graph.x_fields()
+</span>
+</code>), which mirror the Julia accessor functions. A source is any Python function writing into a view.
+It works on any graph and any role that offers the same kind of view. The views hold no data of their own. They
+reference the graph’s own objects, so writing into them changes the graph.
+</p>
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.AxisConfigurationFields">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">AxisConfigurationFields
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#AxisConfigurationFields">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.AxisConfigurationFields" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The configuration half of an 
+<a class="reference internal" href="#somegraphspy.sources.AxisFields" title="somegraphspy.sources.AxisFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">AxisFields
+</span>
+</code>
+</a> data source view. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.AxisConfigurationFields">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.AxisConfigurationFields.axis">
+
+<span class="sig-name descname">
+<span class="pre">axis
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<span class="pre">AxisConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.AxisConfigurationFields.axis" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The axis the values are shown along.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.AxisFields">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">AxisFields
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.AxisFields" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A 
+<a class="reference internal" href="#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">VectorFields
+</span>
+</code>
+</a> view of values shown along an axis; its 
+<code class="docutils literal notranslate">
+<span class="pre">configuration
+</span>
+</code> is an
+
+<a class="reference internal" href="#somegraphspy.sources.AxisConfigurationFields" title="somegraphspy.sources.AxisConfigurationFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">AxisConfigurationFields
+</span>
+</code>
+</a>.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.ColorsConfigurationFields">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">ColorsConfigurationFields
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#ColorsConfigurationFields">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.ColorsConfigurationFields" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The configuration half of a 
+<a class="reference internal" href="#somegraphspy.sources.ColorsFields" title="somegraphspy.sources.ColorsFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">ColorsFields
+</span>
+</code>
+</a> data source view. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ColorsConfigurationFields">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.ColorsConfigurationFields.axis">
+
+<span class="sig-name descname">
+<span class="pre">axis
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<span class="pre">AxisConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.ColorsConfigurationFields.axis" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The axis of the colors configuration, which scales the values.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.ColorsConfigurationFields.colors">
+
+<span class="sig-name descname">
+<span class="pre">colors
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
+<span class="pre">ColorsConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.ColorsConfigurationFields.colors" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>How the values are colored.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.ColorsFields">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">ColorsFields
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.ColorsFields" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A 
+<a class="reference internal" href="#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">VectorFields
+</span>
+</code>
+</a> view of values shown as colors; its 
+<code class="docutils literal notranslate">
+<span class="pre">configuration
+</span>
+</code> is a
+
+<a class="reference internal" href="#somegraphspy.sources.ColorsConfigurationFields" title="somegraphspy.sources.ColorsConfigurationFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">ColorsConfigurationFields
+</span>
+</code>
+</a>.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.MatrixConfigurationFields">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">MatrixConfigurationFields
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#MatrixConfigurationFields">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.MatrixConfigurationFields" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The configuration half of a 
+<a class="reference internal" href="#somegraphspy.sources.MatrixFields" title="somegraphspy.sources.MatrixFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">MatrixFields
+</span>
+</code>
+</a> data source view. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixConfigurationFields">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.MatrixConfigurationFields.axis">
+
+<span class="sig-name descname">
+<span class="pre">axis
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<span class="pre">AxisConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.MatrixConfigurationFields.axis" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The axis of the colors configuration, which scales the entries.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.MatrixConfigurationFields.colors">
+
+<span class="sig-name descname">
+<span class="pre">colors
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
+<span class="pre">ColorsConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.MatrixConfigurationFields.colors" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>How the entries are colored.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.MatrixDataFields">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">MatrixDataFields
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#MatrixDataFields">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.MatrixDataFields" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The data half of a 
+<a class="reference internal" href="#somegraphspy.sources.MatrixFields" title="somegraphspy.sources.MatrixFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">MatrixFields
+</span>
+</code>
+</a> data source view: the entries of a heatmap and its cells. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixDataFields">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.MatrixDataFields.values">
+
+<span class="sig-name descname">
+<span class="pre">values
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.MatrixData" title="somegraphspy.common.MatrixData">
+<span class="pre">MatrixData
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.MatrixDataFields.values" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The values of the entries.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.MatrixDataFields.entities">
+
+<span class="sig-name descname">
+<span class="pre">entities
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.MatrixEntitiesData" title="somegraphspy.common.MatrixEntitiesData">
+<span class="pre">MatrixEntitiesData
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.MatrixDataFields.entities" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The cells the values belong to.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.MatrixFields">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">MatrixFields
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#MatrixFields">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.MatrixFields" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A data source view of the entries of a graph whose entities are arranged in rows and columns (a heatmap), shown as
+colors. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixFields">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.MatrixFields.data">
+
+<span class="sig-name descname">
+<span class="pre">data
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.sources.MatrixDataFields" title="somegraphspy.sources.MatrixDataFields">
+<span class="pre">MatrixDataFields
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.MatrixFields.data" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The values of the entries and the cells they belong to.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.MatrixFields.configuration">
+
+<span class="sig-name descname">
+<span class="pre">configuration
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.sources.MatrixConfigurationFields" title="somegraphspy.sources.MatrixConfigurationFields">
+<span class="pre">MatrixConfigurationFields
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.MatrixFields.configuration" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>How the entries are colored.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.SizesConfigurationFields">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">SizesConfigurationFields
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#SizesConfigurationFields">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.SizesConfigurationFields" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The configuration half of a 
+<a class="reference internal" href="#somegraphspy.sources.SizesFields" title="somegraphspy.sources.SizesFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">SizesFields
+</span>
+</code>
+</a> data source view. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.SizesConfigurationFields">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.SizesConfigurationFields.axis">
+
+<span class="sig-name descname">
+<span class="pre">axis
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<span class="pre">AxisConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.SizesConfigurationFields.axis" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The axis of the sizes configuration, which scales the values.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.SizesConfigurationFields.sizes">
+
+<span class="sig-name descname">
+<span class="pre">sizes
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration" title="somegraphspy.common.SizesConfiguration">
+<span class="pre">SizesConfiguration
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.SizesConfigurationFields.sizes" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>How the values are sized.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.SizesFields">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">SizesFields
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.SizesFields" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A 
+<a class="reference internal" href="#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">VectorFields
+</span>
+</code>
+</a> view of values shown as sizes; its 
+<code class="docutils literal notranslate">
+<span class="pre">configuration
+</span>
+</code> is a
+
+<a class="reference internal" href="#somegraphspy.sources.SizesConfigurationFields" title="somegraphspy.sources.SizesConfigurationFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">SizesConfigurationFields
+</span>
+</code>
+</a>.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.VectorDataFields">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">VectorDataFields
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#VectorDataFields">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.VectorDataFields" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The data half of a data source view: the values of one role of a graph and the entities these values belong to. See
+the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.VectorDataFields">documentation
+</a>
+for details.
+</p>
+
+<p>A source which only writes values, a title and hovers takes one of these. The 
+<code class="docutils literal notranslate">
+<span class="pre">data
+</span>
+</code> of every
+
+<a class="reference internal" href="#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">VectorFields
+</span>
+</code>
+</a> is one, and so is a view of a role that has no configuration (the names of the bars, the
+groups of the rows of a heatmap), so such a source applies to all of them alike.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.VectorDataFields.values">
+
+<span class="sig-name descname">
+<span class="pre">values
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.ValuesData" title="somegraphspy.common.ValuesData">
+<span class="pre">ValuesData
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.VectorDataFields.values" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The values of the role.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.VectorDataFields.entities">
+
+<span class="sig-name descname">
+<span class="pre">entities
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="common.html#somegraphspy.common.EntitiesData" title="somegraphspy.common.EntitiesData">
+<span class="pre">EntitiesData
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.VectorDataFields.entities" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The entities the values belong to (shared with the other roles of the same entities).
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.VectorFields">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">VectorFields
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#VectorFields">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.VectorFields" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A data source view of one role of a graph whose entities are a vector: the 
+<code class="docutils literal notranslate">
+<span class="pre">data
+</span>
+</code> and the 
+<code class="docutils literal notranslate">
+<span class="pre">configuration
+</span>
+</code>. See
+the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.VectorFields">documentation
+</a>
+for details.
+</p>
+
+<p>A function writing into such a view fills the role from some source of data, and works the same on the X
+coordinates of points, the values of bars, the colors of either, and so on. The 
+<code class="docutils literal notranslate">
+<span class="pre">configuration
+</span>
+</code> says what kind of
+view this is: an 
+<a class="reference internal" href="#somegraphspy.sources.AxisConfigurationFields" title="somegraphspy.sources.AxisConfigurationFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">AxisConfigurationFields
+</span>
+</code>
+</a> for values shown along an axis (
+<a class="reference internal" href="#somegraphspy.sources.AxisFields" title="somegraphspy.sources.AxisFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">AxisFields
+</span>
+</code>
+</a>), a
+
+<a class="reference internal" href="#somegraphspy.sources.ColorsConfigurationFields" title="somegraphspy.sources.ColorsConfigurationFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">ColorsConfigurationFields
+</span>
+</code>
+</a> for values shown as colors (
+<a class="reference internal" href="#somegraphspy.sources.ColorsFields" title="somegraphspy.sources.ColorsFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">ColorsFields
+</span>
+</code>
+</a>), or a
+
+<a class="reference internal" href="#somegraphspy.sources.SizesConfigurationFields" title="somegraphspy.sources.SizesConfigurationFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">SizesConfigurationFields
+</span>
+</code>
+</a> for values shown as sizes (
+<a class="reference internal" href="#somegraphspy.sources.SizesFields" title="somegraphspy.sources.SizesFields">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">SizesFields
+</span>
+</code>
+</a>). All three have an 
+<code class="docutils literal notranslate">
+<span class="pre">axis
+</span>
+</code>.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.VectorFields.data">
+
+<span class="sig-name descname">
+<span class="pre">data
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.sources.VectorDataFields" title="somegraphspy.sources.VectorDataFields">
+<span class="pre">VectorDataFields
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.VectorFields.data" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The values of the role and the entities they belong to.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.VectorFields.configuration">
+
+<span class="sig-name descname">
+<span class="pre">configuration
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.sources.AxisConfigurationFields" title="somegraphspy.sources.AxisConfigurationFields">
+<span class="pre">AxisConfigurationFields
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.sources.ColorsConfigurationFields" title="somegraphspy.sources.ColorsConfigurationFields">
+<span class="pre">ColorsConfigurationFields
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.sources.SizesConfigurationFields" title="somegraphspy.sources.SizesConfigurationFields">
+<span class="pre">SizesConfigurationFields
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.VectorFields.configuration" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>How the values are shown.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+</section>
+
+
+           
+</div>
+          
+</div>
+          
+<footer>
+<div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        
+<a href="heatmaps.html" class="btn btn-neutral float-left" title="heatmaps" accesskey="p" rel="prev">
+<span class="fa fa-arrow-circle-left" aria-hidden="true">
+</span> Previous
+</a>
+        
+<a href="enums.html" class="btn btn-neutral float-right" title="enums" accesskey="n" rel="next">Next 
+<span class="fa fa-arrow-circle-right" aria-hidden="true">
+</span>
+</a>
+    
+</div>
+
+  
+<hr/>
+
+  
+<div role="contentinfo">
+    
+<p>&#169; Copyright 2025 Weizmann Institute of Science.
+</p>
+  
+</div>
+
+  Built with 
+<a href="https://www.sphinx-doc.org/">Sphinx
+</a> using a
+    
+<a href="https://github.com/readthedocs/sphinx_rtd_theme">theme
+</a>
+    provided by 
+<a href="https://readthedocs.org">Read the Docs
+</a>.
+   
+
+
+</footer>
+        
+</div>
+      
+</div>
+    
+</section>
+  
+</div>
+  
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  
+</script> 
+
+
+</body>
+
+</html>

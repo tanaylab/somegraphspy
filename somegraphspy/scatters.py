@@ -1,5 +1,5 @@
 """
-Graphs showing scattered points and/or lines. See the Julia
+Scatter graphs: points and lines. See the Julia
 `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html>`__ for details.
 """
 
@@ -15,6 +15,7 @@ from .common import BandsConfiguration
 from .common import BandsData
 from .common import BoolsVector
 from .common import ColorsConfiguration
+from .common import EntitiesData
 from .common import FigureConfiguration
 from .common import Graph
 from .common import IntegersVector
@@ -23,20 +24,29 @@ from .common import LineStyle
 from .common import NumbersVector
 from .common import SizesConfiguration
 from .common import Stacking
-from .common import StringsVector
+from .common import ValuesData
 from .julia_import import DEFAULT
 from .julia_import import DefaultValue
+from .julia_import import JlObject
+from .julia_import import _from_julia
 from .julia_import import _given
 from .julia_import import jl
 from .julia_import import register_jl_type
+from .sources import AxisFields
+from .sources import ColorsFields
+from .sources import SizesFields
 
 __all__ = [
+    "BordersData",
+    "EdgesData",
+    "LineData",
     "LineGraph",
     "LineGraphConfiguration",
     "LineGraphData",
     "LinesGraph",
     "LinesGraphConfiguration",
     "LinesGraphData",
+    "PointsData",
     "PointsGraph",
     "PointsGraphConfiguration",
     "PointsGraphData",
@@ -46,9 +56,6 @@ __all__ = [
     "points_density",
     "points_graph",
 ]
-
-#: The colors of a set of points (or edges), either explicit color names or values to map through a palette.
-ColorsVector = Union[NumbersVector, StringsVector]
 
 #: The pairs of point indices to draw edges between. These are 1-based, as in Julia.
 EdgesVector = Sequence[Tuple[int, int]]
@@ -145,6 +152,104 @@ class PointsGraphConfiguration(AbstractGraphConfiguration):
 register_jl_type("PointsGraphConfiguration", PointsGraphConfiguration)
 
 
+class PointsData(JlObject):
+    """
+    The per-point data of a :py:obj:`PointsGraphData`. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.PointsData>`__
+    for details.
+    """
+
+    #: The color of each point; their title is the legend title.
+    colors: ValuesData
+    #: The size of each point.
+    sizes: ValuesData
+    #: The hovers and mask of the points.
+    entities: EntitiesData
+    #: The (1-based) order to draw the points in, controlling which are on top.
+    order: Optional[IntegersVector]
+
+    def __init__(
+        self,
+        *,
+        colors: Union[ValuesData, DefaultValue] = DEFAULT,
+        sizes: Union[ValuesData, DefaultValue] = DEFAULT,
+        entities: Union[EntitiesData, DefaultValue] = DEFAULT,
+        order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(jl.SomeGraphs.PointsData(**_given(colors=colors, sizes=sizes, entities=entities, order=order)))
+
+
+register_jl_type("PointsData", PointsData)
+
+
+class BordersData(JlObject):
+    """
+    The per-point data of the borders of a :py:obj:`PointsGraphData`. The borders share the hovers and order of the
+    points. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.BordersData>`__
+    for details.
+    """
+
+    #: The color of the border of each point; their title is the legend title.
+    colors: ValuesData
+    #: The size added to each point for its border.
+    sizes: ValuesData
+    #: Which borders to show.
+    mask: Optional[BoolsVector]
+
+    def __init__(
+        self,
+        *,
+        colors: Union[ValuesData, DefaultValue] = DEFAULT,
+        sizes: Union[ValuesData, DefaultValue] = DEFAULT,
+        mask: Union[Optional[BoolsVector], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(jl.SomeGraphs.BordersData(**_given(colors=colors, sizes=sizes, mask=mask)))
+
+
+register_jl_type("BordersData", BordersData)
+
+
+class EdgesData(JlObject):
+    """
+    The per-edge data of a :py:obj:`PointsGraphData`. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.EdgesData>`__
+    for details.
+    """
+
+    #: The pairs of (1-based) point indices to draw edges between.
+    points: Optional[EdgesVector]
+    #: The color of each edge; their title is the legend title.
+    colors: ValuesData
+    #: The width of each edge.
+    sizes: ValuesData
+    #: The style of each edge.
+    styles: Optional[Sequence[LineStyle]]
+    #: The hovers and mask of the edges.
+    entities: EntitiesData
+    #: The (1-based) order to draw the edges in, controlling which are on top.
+    order: Optional[IntegersVector]
+
+    def __init__(
+        self,
+        *,
+        points: Union[Optional[EdgesVector], DefaultValue] = DEFAULT,
+        colors: Union[ValuesData, DefaultValue] = DEFAULT,
+        sizes: Union[ValuesData, DefaultValue] = DEFAULT,
+        styles: Union[Optional[Sequence[LineStyle]], DefaultValue] = DEFAULT,
+        entities: Union[EntitiesData, DefaultValue] = DEFAULT,
+        order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(
+            jl.SomeGraphs.EdgesData(
+                **_given(points=points, colors=colors, sizes=sizes, styles=styles, entities=entities, order=order)
+            )
+        )
+
+
+register_jl_type("EdgesData", EdgesData)
+
+
 class PointsGraphData(AbstractGraphData):
     """
     The data of a scatter graph of points. See the Julia
@@ -154,50 +259,16 @@ class PointsGraphData(AbstractGraphData):
 
     #: The title of the figure.
     figure_title: Optional[str]
-    #: The title of the horizontal axis.
-    x_axis_title: Optional[str]
-    #: The title of the vertical axis.
-    y_axis_title: Optional[str]
-    #: The title of the points colors legend.
-    points_colors_title: Optional[str]
-    #: The title of the borders colors legend.
-    borders_colors_title: Optional[str]
-    #: The title of the edges colors legend.
-    edges_colors_title: Optional[str]
-    #: The horizontal coordinate of each point.
-    points_xs: NumbersVector
-    #: The vertical coordinate of each point.
-    points_ys: NumbersVector
-    #: The diameter of each point, in pixels.
-    points_sizes: Optional[NumbersVector]
-    #: The color of each point.
-    points_colors: Optional[ColorsVector]
-    #: The hover text of each point.
-    points_hovers: Optional[StringsVector]
-    #: Which points to show.
-    points_mask: Optional[BoolsVector]
-    #: The order to draw the points in, controlling which are on top.
-    points_order: Optional[IntegersVector]
-    #: The color of the border of each point.
-    borders_colors: Optional[ColorsVector]
-    #: The size added to each point for its border, in pixels.
-    borders_sizes: Optional[NumbersVector]
-    #: Which borders to show.
-    borders_mask: Optional[BoolsVector]
-    #: The pairs of (1-based) point indices to draw edges between.
-    edges_points: Optional[EdgesVector]
-    #: The color of each edge.
-    edges_colors: Optional[ColorsVector]
-    #: The width of each edge, in pixels.
-    edges_sizes: Optional[NumbersVector]
-    #: The style of each edge.
-    edges_styles: Optional[Sequence[LineStyle]]
-    #: The hover text of each edge.
-    edges_hovers: Optional[StringsVector]
-    #: Which edges to show.
-    edges_mask: Optional[BoolsVector]
-    #: The order to draw the edges in, controlling which are on top.
-    edges_order: Optional[IntegersVector]
+    #: The horizontal coordinate of each point; their title is the horizontal axis title.
+    x: ValuesData
+    #: The vertical coordinate of each point; their title is the vertical axis title.
+    y: ValuesData
+    #: The colors, sizes, hovers, mask and order of the points.
+    points: PointsData
+    #: The colors, sizes and mask of the borders of the points.
+    borders: BordersData
+    #: The edges between the points.
+    edges: EdgesData
     #: Override the offsets of the vertical bands.
     vertical_bands: BandsData
     #: Override the offsets of the horizontal bands.
@@ -209,28 +280,11 @@ class PointsGraphData(AbstractGraphData):
         self,
         *,
         figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        x_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        y_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        points_colors_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        borders_colors_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        edges_colors_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        points_xs: Union[NumbersVector, DefaultValue] = DEFAULT,
-        points_ys: Union[NumbersVector, DefaultValue] = DEFAULT,
-        points_sizes: Union[Optional[NumbersVector], DefaultValue] = DEFAULT,
-        points_colors: Union[Optional[ColorsVector], DefaultValue] = DEFAULT,
-        points_hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        points_mask: Union[Optional[BoolsVector], DefaultValue] = DEFAULT,
-        points_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
-        borders_colors: Union[Optional[ColorsVector], DefaultValue] = DEFAULT,
-        borders_sizes: Union[Optional[NumbersVector], DefaultValue] = DEFAULT,
-        borders_mask: Union[Optional[BoolsVector], DefaultValue] = DEFAULT,
-        edges_points: Union[Optional[EdgesVector], DefaultValue] = DEFAULT,
-        edges_colors: Union[Optional[ColorsVector], DefaultValue] = DEFAULT,
-        edges_sizes: Union[Optional[NumbersVector], DefaultValue] = DEFAULT,
-        edges_styles: Union[Optional[Sequence[LineStyle]], DefaultValue] = DEFAULT,
-        edges_hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        edges_mask: Union[Optional[BoolsVector], DefaultValue] = DEFAULT,
-        edges_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
+        x: Union[ValuesData, DefaultValue] = DEFAULT,
+        y: Union[ValuesData, DefaultValue] = DEFAULT,
+        points: Union[PointsData, DefaultValue] = DEFAULT,
+        borders: Union[BordersData, DefaultValue] = DEFAULT,
+        edges: Union[EdgesData, DefaultValue] = DEFAULT,
         vertical_bands: Union[BandsData, DefaultValue] = DEFAULT,
         horizontal_bands: Union[BandsData, DefaultValue] = DEFAULT,
         diagonal_bands: Union[BandsData, DefaultValue] = DEFAULT,
@@ -239,28 +293,11 @@ class PointsGraphData(AbstractGraphData):
             jl.SomeGraphs.PointsGraphData(
                 **_given(
                     figure_title=figure_title,
-                    x_axis_title=x_axis_title,
-                    y_axis_title=y_axis_title,
-                    points_colors_title=points_colors_title,
-                    borders_colors_title=borders_colors_title,
-                    edges_colors_title=edges_colors_title,
-                    points_xs=points_xs,
-                    points_ys=points_ys,
-                    points_sizes=points_sizes,
-                    points_colors=points_colors,
-                    points_hovers=points_hovers,
-                    points_mask=points_mask,
-                    points_order=points_order,
-                    borders_colors=borders_colors,
-                    borders_sizes=borders_sizes,
-                    borders_mask=borders_mask,
-                    edges_points=edges_points,
-                    edges_colors=edges_colors,
-                    edges_sizes=edges_sizes,
-                    edges_styles=edges_styles,
-                    edges_hovers=edges_hovers,
-                    edges_mask=edges_mask,
-                    edges_order=edges_order,
+                    x=x,
+                    y=y,
+                    points=points,
+                    borders=borders,
+                    edges=edges,
                     vertical_bands=vertical_bands,
                     horizontal_bands=horizontal_bands,
                     diagonal_bands=diagonal_bands,
@@ -292,32 +329,63 @@ class PointsGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.PointsGraph(**_given(data=data, configuration=configuration)))
 
+    def x_fields(self) -> AxisFields:
+        """
+        The data source view of the X coordinates of the points, along the ``x_axis``.
+        """
+        return _from_julia(jl.SomeGraphs.x_fields(self.jl_obj))
+
+    def y_fields(self) -> AxisFields:
+        """
+        The data source view of the Y coordinates of the points, along the ``y_axis``.
+        """
+        return _from_julia(jl.SomeGraphs.y_fields(self.jl_obj))
+
+    def points_colors_fields(self) -> ColorsFields:
+        """
+        The data source view of the colors of the points.
+        """
+        return _from_julia(jl.SomeGraphs.points_colors_fields(self.jl_obj))
+
+    def points_sizes_fields(self) -> SizesFields:
+        """
+        The data source view of the sizes of the points.
+        """
+        return _from_julia(jl.SomeGraphs.points_sizes_fields(self.jl_obj))
+
+    def borders_colors_fields(self) -> ColorsFields:
+        """
+        The data source view of the colors of the borders of the points, which share the entities of the points.
+        """
+        return _from_julia(jl.SomeGraphs.borders_colors_fields(self.jl_obj))
+
+    def borders_sizes_fields(self) -> SizesFields:
+        """
+        The data source view of the sizes of the borders of the points, which share the entities of the points.
+        """
+        return _from_julia(jl.SomeGraphs.borders_sizes_fields(self.jl_obj))
+
+    def edges_colors_fields(self) -> ColorsFields:
+        """
+        The data source view of the colors of the edges.
+        """
+        return _from_julia(jl.SomeGraphs.edges_colors_fields(self.jl_obj))
+
+    def edges_sizes_fields(self) -> SizesFields:
+        """
+        The data source view of the sizes (widths) of the edges.
+        """
+        return _from_julia(jl.SomeGraphs.edges_sizes_fields(self.jl_obj))
+
 
 def points_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    x_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    y_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    points_colors_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    borders_colors_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    edges_colors_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    points_xs: Union[NumbersVector, DefaultValue] = DEFAULT,
-    points_ys: Union[NumbersVector, DefaultValue] = DEFAULT,
-    points_sizes: Union[Optional[NumbersVector], DefaultValue] = DEFAULT,
-    points_colors: Union[Optional[ColorsVector], DefaultValue] = DEFAULT,
-    points_hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-    points_mask: Union[Optional[BoolsVector], DefaultValue] = DEFAULT,
-    points_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
-    borders_colors: Union[Optional[ColorsVector], DefaultValue] = DEFAULT,
-    borders_sizes: Union[Optional[NumbersVector], DefaultValue] = DEFAULT,
-    borders_mask: Union[Optional[BoolsVector], DefaultValue] = DEFAULT,
-    edges_points: Union[Optional[EdgesVector], DefaultValue] = DEFAULT,
-    edges_colors: Union[Optional[ColorsVector], DefaultValue] = DEFAULT,
-    edges_sizes: Union[Optional[NumbersVector], DefaultValue] = DEFAULT,
-    edges_styles: Union[Optional[Sequence[LineStyle]], DefaultValue] = DEFAULT,
-    edges_hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-    edges_mask: Union[Optional[BoolsVector], DefaultValue] = DEFAULT,
-    edges_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
+    x: Union[ValuesData, DefaultValue] = DEFAULT,
+    y: Union[ValuesData, DefaultValue] = DEFAULT,
+    points: Union[PointsData, DefaultValue] = DEFAULT,
+    borders: Union[BordersData, DefaultValue] = DEFAULT,
+    edges: Union[EdgesData, DefaultValue] = DEFAULT,
     vertical_bands: Union[BandsData, DefaultValue] = DEFAULT,
     horizontal_bands: Union[BandsData, DefaultValue] = DEFAULT,
     diagonal_bands: Union[BandsData, DefaultValue] = DEFAULT,
@@ -332,28 +400,11 @@ def points_graph(
     return PointsGraph(
         data=PointsGraphData(
             figure_title=figure_title,
-            x_axis_title=x_axis_title,
-            y_axis_title=y_axis_title,
-            points_colors_title=points_colors_title,
-            borders_colors_title=borders_colors_title,
-            edges_colors_title=edges_colors_title,
-            points_xs=points_xs,
-            points_ys=points_ys,
-            points_sizes=points_sizes,
-            points_colors=points_colors,
-            points_hovers=points_hovers,
-            points_mask=points_mask,
-            points_order=points_order,
-            borders_colors=borders_colors,
-            borders_sizes=borders_sizes,
-            borders_mask=borders_mask,
-            edges_points=edges_points,
-            edges_colors=edges_colors,
-            edges_sizes=edges_sizes,
-            edges_styles=edges_styles,
-            edges_hovers=edges_hovers,
-            edges_mask=edges_mask,
-            edges_order=edges_order,
+            x=x,
+            y=y,
+            points=points,
+            borders=borders,
+            edges=edges,
             vertical_bands=vertical_bands,
             horizontal_bands=horizontal_bands,
             diagonal_bands=diagonal_bands,
@@ -368,8 +419,6 @@ def points_density(points_xs: NumbersVector, points_ys: NumbersVector) -> Number
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.points_density>`__
     for details.
     """
-    from .julia_import import _from_julia  # pylint: disable=import-outside-toplevel
-
     return _from_julia(jl.SomeGraphs.points_density(points_xs, points_ys))
 
 
@@ -445,16 +494,12 @@ class LineGraphData(AbstractGraphData):
 
     #: The title of the figure.
     figure_title: Optional[str]
-    #: The title of the horizontal axis.
-    x_axis_title: Optional[str]
-    #: The title of the vertical axis.
-    y_axis_title: Optional[str]
-    #: The horizontal coordinate of each point of the line.
-    points_xs: NumbersVector
-    #: The vertical coordinate of each point of the line.
-    points_ys: NumbersVector
-    #: The hover text of each point of the line.
-    points_hovers: Optional[StringsVector]
+    #: The horizontal coordinate of each point of the line; their title is the horizontal axis title.
+    x: ValuesData
+    #: The vertical coordinate of each point of the line; their title is the vertical axis title.
+    y: ValuesData
+    #: The hovers and mask of the points of the line.
+    points: EntitiesData
     #: Override the offsets of the vertical bands.
     vertical_bands: BandsData
     #: Override the offsets of the horizontal bands.
@@ -466,11 +511,9 @@ class LineGraphData(AbstractGraphData):
         self,
         *,
         figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        x_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        y_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        points_xs: Union[NumbersVector, DefaultValue] = DEFAULT,
-        points_ys: Union[NumbersVector, DefaultValue] = DEFAULT,
-        points_hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
+        x: Union[ValuesData, DefaultValue] = DEFAULT,
+        y: Union[ValuesData, DefaultValue] = DEFAULT,
+        points: Union[EntitiesData, DefaultValue] = DEFAULT,
         vertical_bands: Union[BandsData, DefaultValue] = DEFAULT,
         horizontal_bands: Union[BandsData, DefaultValue] = DEFAULT,
         diagonal_bands: Union[BandsData, DefaultValue] = DEFAULT,
@@ -479,11 +522,9 @@ class LineGraphData(AbstractGraphData):
             jl.SomeGraphs.LineGraphData(
                 **_given(
                     figure_title=figure_title,
-                    x_axis_title=x_axis_title,
-                    y_axis_title=y_axis_title,
-                    points_xs=points_xs,
-                    points_ys=points_ys,
-                    points_hovers=points_hovers,
+                    x=x,
+                    y=y,
+                    points=points,
                     vertical_bands=vertical_bands,
                     horizontal_bands=horizontal_bands,
                     diagonal_bands=diagonal_bands,
@@ -515,15 +556,25 @@ class LineGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.LineGraph(**_given(data=data, configuration=configuration)))
 
+    def x_fields(self) -> AxisFields:
+        """
+        The data source view of the X coordinates of the points of the line, along the ``x_axis``.
+        """
+        return _from_julia(jl.SomeGraphs.x_fields(self.jl_obj))
+
+    def y_fields(self) -> AxisFields:
+        """
+        The data source view of the Y coordinates of the points of the line, along the ``y_axis``.
+        """
+        return _from_julia(jl.SomeGraphs.y_fields(self.jl_obj))
+
 
 def line_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    x_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    y_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    points_xs: Union[NumbersVector, DefaultValue] = DEFAULT,
-    points_ys: Union[NumbersVector, DefaultValue] = DEFAULT,
-    points_hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
+    x: Union[ValuesData, DefaultValue] = DEFAULT,
+    y: Union[ValuesData, DefaultValue] = DEFAULT,
+    points: Union[EntitiesData, DefaultValue] = DEFAULT,
     vertical_bands: Union[BandsData, DefaultValue] = DEFAULT,
     horizontal_bands: Union[BandsData, DefaultValue] = DEFAULT,
     diagonal_bands: Union[BandsData, DefaultValue] = DEFAULT,
@@ -538,11 +589,9 @@ def line_graph(
     return LineGraph(
         data=LineGraphData(
             figure_title=figure_title,
-            x_axis_title=x_axis_title,
-            y_axis_title=y_axis_title,
-            points_xs=points_xs,
-            points_ys=points_ys,
-            points_hovers=points_hovers,
+            x=x,
+            y=y,
+            points=points,
             vertical_bands=vertical_bands,
             horizontal_bands=horizontal_bands,
             diagonal_bands=diagonal_bands,
@@ -622,6 +671,73 @@ class LinesGraphConfiguration(AbstractGraphConfiguration):
 register_jl_type("LinesGraphConfiguration", LinesGraphConfiguration)
 
 
+class LineData(JlObject):
+    """
+    One line of a :py:obj:`LinesGraphData`. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.LineData>`__
+    for details.
+    """
+
+    #: The horizontal coordinate of each point of the line; their title is the horizontal axis title.
+    x: ValuesData
+    #: The vertical coordinate of each point of the line; their title is the vertical axis title.
+    y: ValuesData
+    #: The hovers and mask of the points of the line.
+    points: EntitiesData
+    #: The name of the line, shown in the legend.
+    name: Optional[str]
+    #: Prefixed to the hover of each point of the line.
+    hover: Optional[str]
+    #: Whether to show the line at all.
+    is_shown: bool
+    #: The color of the line.
+    color: Optional[str]
+    #: The width of the line, in pixels.
+    width: Optional[float]
+    #: The style of the line.
+    style: Optional[LineStyle]
+    #: The diameter of the points of the line, in pixels.
+    points_size: Optional[float]
+    #: The color of the points of the line.
+    points_color: Optional[str]
+
+    def __init__(
+        self,
+        *,
+        x: Union[ValuesData, DefaultValue] = DEFAULT,
+        y: Union[ValuesData, DefaultValue] = DEFAULT,
+        points: Union[EntitiesData, DefaultValue] = DEFAULT,
+        name: Union[Optional[str], DefaultValue] = DEFAULT,
+        hover: Union[Optional[str], DefaultValue] = DEFAULT,
+        is_shown: Union[bool, DefaultValue] = DEFAULT,
+        color: Union[Optional[str], DefaultValue] = DEFAULT,
+        width: Union[Optional[float], DefaultValue] = DEFAULT,
+        style: Union[Optional[LineStyle], DefaultValue] = DEFAULT,
+        points_size: Union[Optional[float], DefaultValue] = DEFAULT,
+        points_color: Union[Optional[str], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(
+            jl.SomeGraphs.LineData(
+                **_given(
+                    x=x,
+                    y=y,
+                    points=points,
+                    name=name,
+                    hover=hover,
+                    is_shown=is_shown,
+                    color=color,
+                    width=width,
+                    style=style,
+                    points_size=points_size,
+                    points_color=points_color,
+                )
+            )
+        )
+
+
+register_jl_type("LineData", LineData)
+
+
 class LinesGraphData(AbstractGraphData):
     """
     The data of a graph showing multiple lines. See the Julia
@@ -631,28 +747,10 @@ class LinesGraphData(AbstractGraphData):
 
     #: The title of the figure.
     figure_title: Optional[str]
-    #: The title of the horizontal axis.
-    x_axis_title: Optional[str]
-    #: The title of the vertical axis.
-    y_axis_title: Optional[str]
-    #: The title of each line, shown in the legend.
-    lines_titles: Optional[StringsVector]
-    #: The horizontal coordinates of the points of each line.
-    lines_points_xs: Sequence[NumbersVector]
-    #: The vertical coordinates of the points of each line.
-    lines_points_ys: Sequence[NumbersVector]
-    #: The diameter of the points of each line, in pixels.
-    lines_points_sizes: Optional[NumbersVector]
-    #: The color of the points of each line.
-    lines_points_colors: Optional[StringsVector]
-    #: The width of each line, in pixels.
-    lines_widths: Optional[NumbersVector]
-    #: The color of each line.
-    lines_colors: Optional[StringsVector]
-    #: The style of each line.
-    lines_styles: Optional[Sequence[LineStyle]]
-    #: The order to draw the lines in, controlling which are on top.
-    lines_order: Optional[IntegersVector]
+    #: The lines to show.
+    lines: Sequence[LineData]
+    #: The (1-based) order to draw the lines in, controlling which are on top.
+    order: Optional[IntegersVector]
     #: Override the offsets of the vertical bands.
     vertical_bands: BandsData
     #: Override the offsets of the horizontal bands.
@@ -664,17 +762,8 @@ class LinesGraphData(AbstractGraphData):
         self,
         *,
         figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        x_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        y_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        lines_titles: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        lines_points_xs: Union[Sequence[NumbersVector], DefaultValue] = DEFAULT,
-        lines_points_ys: Union[Sequence[NumbersVector], DefaultValue] = DEFAULT,
-        lines_points_sizes: Union[Optional[NumbersVector], DefaultValue] = DEFAULT,
-        lines_points_colors: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        lines_widths: Union[Optional[NumbersVector], DefaultValue] = DEFAULT,
-        lines_colors: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        lines_styles: Union[Optional[Sequence[LineStyle]], DefaultValue] = DEFAULT,
-        lines_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
+        lines: Union[Sequence[LineData], DefaultValue] = DEFAULT,
+        order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
         vertical_bands: Union[BandsData, DefaultValue] = DEFAULT,
         horizontal_bands: Union[BandsData, DefaultValue] = DEFAULT,
         diagonal_bands: Union[BandsData, DefaultValue] = DEFAULT,
@@ -683,17 +772,8 @@ class LinesGraphData(AbstractGraphData):
             jl.SomeGraphs.LinesGraphData(
                 **_given(
                     figure_title=figure_title,
-                    x_axis_title=x_axis_title,
-                    y_axis_title=y_axis_title,
-                    lines_titles=lines_titles,
-                    lines_points_xs=lines_points_xs,
-                    lines_points_ys=lines_points_ys,
-                    lines_points_sizes=lines_points_sizes,
-                    lines_points_colors=lines_points_colors,
-                    lines_widths=lines_widths,
-                    lines_colors=lines_colors,
-                    lines_styles=lines_styles,
-                    lines_order=lines_order,
+                    lines=lines,
+                    order=order,
                     vertical_bands=vertical_bands,
                     horizontal_bands=horizontal_bands,
                     diagonal_bands=diagonal_bands,
@@ -725,21 +805,26 @@ class LinesGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.LinesGraph(**_given(data=data, configuration=configuration)))
 
+    def x_fields(self, index: int) -> AxisFields:
+        """
+        The data source view of the X coordinates of the points of the (1-based) ``index`` line, along the (shared)
+        ``x_axis``.
+        """
+        return _from_julia(jl.SomeGraphs.x_fields(self.jl_obj, index))
+
+    def y_fields(self, index: int) -> AxisFields:
+        """
+        The data source view of the Y coordinates of the points of the (1-based) ``index`` line, along the (shared)
+        ``y_axis``.
+        """
+        return _from_julia(jl.SomeGraphs.y_fields(self.jl_obj, index))
+
 
 def lines_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    x_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    y_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    lines_titles: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-    lines_points_xs: Union[Sequence[NumbersVector], DefaultValue] = DEFAULT,
-    lines_points_ys: Union[Sequence[NumbersVector], DefaultValue] = DEFAULT,
-    lines_points_sizes: Union[Optional[NumbersVector], DefaultValue] = DEFAULT,
-    lines_points_colors: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-    lines_widths: Union[Optional[NumbersVector], DefaultValue] = DEFAULT,
-    lines_colors: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-    lines_styles: Union[Optional[Sequence[LineStyle]], DefaultValue] = DEFAULT,
-    lines_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
+    lines: Union[Sequence[LineData], DefaultValue] = DEFAULT,
+    order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     vertical_bands: Union[BandsData, DefaultValue] = DEFAULT,
     horizontal_bands: Union[BandsData, DefaultValue] = DEFAULT,
     diagonal_bands: Union[BandsData, DefaultValue] = DEFAULT,
@@ -754,17 +839,8 @@ def lines_graph(
     return LinesGraph(
         data=LinesGraphData(
             figure_title=figure_title,
-            x_axis_title=x_axis_title,
-            y_axis_title=y_axis_title,
-            lines_titles=lines_titles,
-            lines_points_xs=lines_points_xs,
-            lines_points_ys=lines_points_ys,
-            lines_points_sizes=lines_points_sizes,
-            lines_points_colors=lines_points_colors,
-            lines_widths=lines_widths,
-            lines_colors=lines_colors,
-            lines_styles=lines_styles,
-            lines_order=lines_order,
+            lines=lines,
+            order=order,
             vertical_bands=vertical_bands,
             horizontal_bands=horizontal_bands,
             diagonal_bands=diagonal_bands,

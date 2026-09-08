@@ -1,10 +1,11 @@
 """
-Graphs showing distributions of values. See the Julia
+Graphs showing distributions. See the Julia
 `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/distributions.html>`__ for details.
 """
 
-# The enum values are named exactly as they are in Julia, so they are not UPPER_CASE.
-# pylint: disable=invalid-name
+# The enum values are named exactly as they are in Julia, so they are not UPPER_CASE. The data classes mirror the Julia
+# structures, which share fields, so the classes repeat each other.
+# pylint: disable=invalid-name,duplicate-code
 
 from typing import Optional
 from typing import Sequence
@@ -15,23 +16,27 @@ from .common import AbstractGraphData
 from .common import AxisConfiguration
 from .common import BandsConfiguration
 from .common import BandsData
+from .common import EntitiesData
 from .common import FigureConfiguration
 from .common import Graph
 from .common import IntegersVector
 from .common import LineConfiguration
-from .common import NumbersVector
-from .common import StringsVector
 from .common import Validated
+from .common import ValuesData
 from .common import ValuesOrientation
 from .julia_import import DEFAULT
 from .julia_import import DefaultValue
 from .julia_import import JlEnum
+from .julia_import import JlObject
+from .julia_import import _from_julia
 from .julia_import import _given
 from .julia_import import jl
 from .julia_import import register_jl_type
+from .sources import AxisFields
 
 __all__ = [
     "DistributionConfiguration",
+    "DistributionData",
     "DistributionGraph",
     "DistributionGraphConfiguration",
     "DistributionGraphData",
@@ -162,6 +167,46 @@ class DistributionGraphConfiguration(AbstractGraphConfiguration):
 register_jl_type("DistributionGraphConfiguration", DistributionGraphConfiguration)
 
 
+class DistributionData(JlObject):
+    """
+    One distribution of a :py:obj:`DistributionGraphData` or a :py:obj:`DistributionsGraphData`. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/distributions.html#SomeGraphs.Distributions.DistributionData>`__
+    for details.
+    """
+
+    #: The values whose distribution is shown; their title is the value axis title.
+    values: ValuesData
+    #: The hovers and mask of the values.
+    points: EntitiesData
+    #: The name of the distribution.
+    name: Optional[str]
+    #: Prefixed to the hover of each value.
+    hover: Optional[str]
+    #: Whether to show the distribution at all (in a graph of multiple distributions).
+    is_shown: bool
+    #: The color of the distribution.
+    color: Optional[str]
+
+    def __init__(
+        self,
+        *,
+        values: Union[ValuesData, DefaultValue] = DEFAULT,
+        points: Union[EntitiesData, DefaultValue] = DEFAULT,
+        name: Union[Optional[str], DefaultValue] = DEFAULT,
+        hover: Union[Optional[str], DefaultValue] = DEFAULT,
+        is_shown: Union[bool, DefaultValue] = DEFAULT,
+        color: Union[Optional[str], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(
+            jl.SomeGraphs.DistributionData(
+                **_given(values=values, points=points, name=name, hover=hover, is_shown=is_shown, color=color)
+            )
+        )
+
+
+register_jl_type("DistributionData", DistributionData)
+
+
 class DistributionGraphData(AbstractGraphData):
     """
     The data of a graph showing a single distribution. See the Julia
@@ -171,14 +216,8 @@ class DistributionGraphData(AbstractGraphData):
 
     #: The title of the figure.
     figure_title: Optional[str]
-    #: The title of the axis showing the values.
-    value_axis_title: Optional[str]
-    #: The values whose distribution is shown.
-    distribution_values: NumbersVector
-    #: The name of the distribution.
-    distribution_name: Optional[str]
-    #: The color of the distribution.
-    distribution_color: Optional[str]
+    #: The distribution to show.
+    distribution: DistributionData
     #: Override the offsets of the value bands.
     value_bands: BandsData
     #: Override the offsets of the cumulative bands.
@@ -188,10 +227,7 @@ class DistributionGraphData(AbstractGraphData):
         self,
         *,
         figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        value_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        distribution_values: Union[NumbersVector, DefaultValue] = DEFAULT,
-        distribution_name: Union[Optional[str], DefaultValue] = DEFAULT,
-        distribution_color: Union[Optional[str], DefaultValue] = DEFAULT,
+        distribution: Union[DistributionData, DefaultValue] = DEFAULT,
         value_bands: Union[BandsData, DefaultValue] = DEFAULT,
         cumulative_bands: Union[BandsData, DefaultValue] = DEFAULT,
     ) -> None:
@@ -199,10 +235,7 @@ class DistributionGraphData(AbstractGraphData):
             jl.SomeGraphs.DistributionGraphData(
                 **_given(
                     figure_title=figure_title,
-                    value_axis_title=value_axis_title,
-                    distribution_values=distribution_values,
-                    distribution_name=distribution_name,
-                    distribution_color=distribution_color,
+                    distribution=distribution,
                     value_bands=value_bands,
                     cumulative_bands=cumulative_bands,
                 )
@@ -233,14 +266,17 @@ class DistributionGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.DistributionGraph(**_given(data=data, configuration=configuration)))
 
+    def distribution_values_fields(self) -> AxisFields:
+        """
+        The data source view of the values of the distribution, along the ``value_axis``.
+        """
+        return _from_julia(jl.SomeGraphs.distribution_values_fields(self.jl_obj))
+
 
 def distribution_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    value_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    distribution_values: Union[NumbersVector, DefaultValue] = DEFAULT,
-    distribution_name: Union[Optional[str], DefaultValue] = DEFAULT,
-    distribution_color: Union[Optional[str], DefaultValue] = DEFAULT,
+    distribution: Union[DistributionData, DefaultValue] = DEFAULT,
     value_bands: Union[BandsData, DefaultValue] = DEFAULT,
     cumulative_bands: Union[BandsData, DefaultValue] = DEFAULT,
     configuration: Union[DistributionGraphConfiguration, DefaultValue] = DEFAULT,
@@ -254,10 +290,7 @@ def distribution_graph(
     return DistributionGraph(
         data=DistributionGraphData(
             figure_title=figure_title,
-            value_axis_title=value_axis_title,
-            distribution_values=distribution_values,
-            distribution_name=distribution_name,
-            distribution_color=distribution_color,
+            distribution=distribution,
             value_bands=value_bands,
             cumulative_bands=cumulative_bands,
         ),
@@ -325,47 +358,35 @@ class DistributionsGraphData(AbstractGraphData):
 
     #: The title of the figure.
     figure_title: Optional[str]
-    #: The title of the axis showing the values.
-    value_axis_title: Optional[str]
+    #: The distributions to show.
+    distributions: Sequence[DistributionData]
+    #: The (1-based) order to show the distributions in.
+    order: Optional[IntegersVector]
     #: The title of the axis showing the density.
     density_axis_title: Optional[str]
     #: The title of the axis listing the distributions.
     series_axis_title: Optional[str]
-    #: The values of each distribution.
-    distributions_values: Sequence[NumbersVector]
-    #: The name of each distribution.
-    distributions_names: Optional[StringsVector]
-    #: The color of each distribution.
-    distributions_colors: Optional[StringsVector]
-    #: The order to show the distributions in.
-    distributions_order: Optional[IntegersVector]
-    #: Bands partitioning the graph by the value axis.
+    #: Override the offsets of the value bands.
     value_bands: BandsData
 
     def __init__(
         self,
         *,
         figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        value_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
+        distributions: Union[Sequence[DistributionData], DefaultValue] = DEFAULT,
+        order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
         density_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
         series_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        distributions_values: Union[Sequence[NumbersVector], DefaultValue] = DEFAULT,
-        distributions_names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        distributions_colors: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        distributions_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
         value_bands: Union[BandsData, DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.DistributionsGraphData(
                 **_given(
                     figure_title=figure_title,
-                    value_axis_title=value_axis_title,
+                    distributions=distributions,
+                    order=order,
                     density_axis_title=density_axis_title,
                     series_axis_title=series_axis_title,
-                    distributions_values=distributions_values,
-                    distributions_names=distributions_names,
-                    distributions_colors=distributions_colors,
-                    distributions_order=distributions_order,
                     value_bands=value_bands,
                 )
             )
@@ -395,17 +416,20 @@ class DistributionsGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.DistributionsGraph(**_given(data=data, configuration=configuration)))
 
+    def distributions_values_fields(self, index: int) -> AxisFields:
+        """
+        The data source view of the values of the (1-based) ``index`` distribution, along the (shared) ``value_axis``.
+        """
+        return _from_julia(jl.SomeGraphs.distributions_values_fields(self.jl_obj, index))
+
 
 def distributions_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    value_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
+    distributions: Union[Sequence[DistributionData], DefaultValue] = DEFAULT,
+    order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     density_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
     series_axis_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    distributions_values: Union[Sequence[NumbersVector], DefaultValue] = DEFAULT,
-    distributions_names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-    distributions_colors: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-    distributions_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     value_bands: Union[BandsData, DefaultValue] = DEFAULT,
     configuration: Union[DistributionsGraphConfiguration, DefaultValue] = DEFAULT,
 ) -> DistributionsGraph:
@@ -418,13 +442,10 @@ def distributions_graph(
     return DistributionsGraph(
         data=DistributionsGraphData(
             figure_title=figure_title,
-            value_axis_title=value_axis_title,
+            distributions=distributions,
+            order=order,
             density_axis_title=density_axis_title,
             series_axis_title=series_axis_title,
-            distributions_values=distributions_values,
-            distributions_names=distributions_names,
-            distributions_colors=distributions_colors,
-            distributions_order=distributions_order,
             value_bands=value_bands,
         ),
         configuration=configuration,

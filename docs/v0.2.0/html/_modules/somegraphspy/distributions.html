@@ -72,12 +72,13 @@
              
   <h1>Source code for somegraphspy.distributions</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Graphs showing distributions of values. See the Julia</span>
+<span class="sd">Graphs showing distributions. See the Julia</span>
 <span class="sd">`documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/distributions.html&gt;`__ for details.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># The enum values are named exactly as they are in Julia, so they are not UPPER_CASE.</span>
-<span class="c1"># pylint: disable=invalid-name</span>
+<span class="c1"># The enum values are named exactly as they are in Julia, so they are not UPPER_CASE. The data classes mirror the Julia</span>
+<span class="c1"># structures, which share fields, so the classes repeat each other.</span>
+<span class="c1"># pylint: disable=invalid-name,duplicate-code</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
@@ -88,23 +89,27 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxisConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">BandsConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">BandsData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntitiesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">FigureConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Graph</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntegersVector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">LineConfiguration</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">NumbersVector</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringsVector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Validated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValuesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValuesOrientation</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultValue</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlObject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_from_julia</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_given</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">jl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxisFields</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;DistributionConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DistributionData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;DistributionGraph&quot;</span><span class="p">,</span>
     <span class="s2">&quot;DistributionGraphConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;DistributionGraphData&quot;</span><span class="p">,</span>
@@ -244,6 +249,49 @@
 <span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;DistributionGraphConfiguration&quot;</span><span class="p">,</span> <span class="n">DistributionGraphConfiguration</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="DistributionData">
+<a class="viewcode-back" href="../../distributions.html#somegraphspy.distributions.DistributionData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DistributionData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    One distribution of a :py:obj:`DistributionGraphData` or a :py:obj:`DistributionsGraphData`. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/distributions.html#SomeGraphs.Distributions.DistributionData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The values whose distribution is shown; their title is the value axis title.</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The hovers and mask of the values.</span>
+    <span class="n">points</span><span class="p">:</span> <span class="n">EntitiesData</span>
+    <span class="c1">#: The name of the distribution.</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: Prefixed to the hover of each value.</span>
+    <span class="n">hover</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: Whether to show the distribution at all (in a graph of multiple distributions).</span>
+    <span class="n">is_shown</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="c1">#: The color of the distribution.</span>
+    <span class="n">color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">hover</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">is_shown</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">DistributionData</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">hover</span><span class="o">=</span><span class="n">hover</span><span class="p">,</span> <span class="n">is_shown</span><span class="o">=</span><span class="n">is_shown</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;DistributionData&quot;</span><span class="p">,</span> <span class="n">DistributionData</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="DistributionGraphData">
 <a class="viewcode-back" href="../../distributions.html#somegraphspy.distributions.DistributionGraphData">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DistributionGraphData</span><span class="p">(</span><span class="n">AbstractGraphData</span><span class="p">):</span>
@@ -255,14 +303,8 @@
 
     <span class="c1">#: The title of the figure.</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the axis showing the values.</span>
-    <span class="n">value_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The values whose distribution is shown.</span>
-    <span class="n">distribution_values</span><span class="p">:</span> <span class="n">NumbersVector</span>
-    <span class="c1">#: The name of the distribution.</span>
-    <span class="n">distribution_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The color of the distribution.</span>
-    <span class="n">distribution_color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: The distribution to show.</span>
+    <span class="n">distribution</span><span class="p">:</span> <span class="n">DistributionData</span>
     <span class="c1">#: Override the offsets of the value bands.</span>
     <span class="n">value_bands</span><span class="p">:</span> <span class="n">BandsData</span>
     <span class="c1">#: Override the offsets of the cumulative bands.</span>
@@ -272,10 +314,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">value_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">distribution_values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">distribution_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">distribution_color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">distribution</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DistributionData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">value_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">cumulative_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -283,10 +322,7 @@
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">DistributionGraphData</span><span class="p">(</span>
                 <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
                     <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-                    <span class="n">value_axis_title</span><span class="o">=</span><span class="n">value_axis_title</span><span class="p">,</span>
-                    <span class="n">distribution_values</span><span class="o">=</span><span class="n">distribution_values</span><span class="p">,</span>
-                    <span class="n">distribution_name</span><span class="o">=</span><span class="n">distribution_name</span><span class="p">,</span>
-                    <span class="n">distribution_color</span><span class="o">=</span><span class="n">distribution_color</span><span class="p">,</span>
+                    <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
                     <span class="n">value_bands</span><span class="o">=</span><span class="n">value_bands</span><span class="p">,</span>
                     <span class="n">cumulative_bands</span><span class="o">=</span><span class="n">cumulative_bands</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -318,7 +354,16 @@
         <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DistributionGraphData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DistributionGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">DistributionGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">DistributionGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="DistributionGraph.distribution_values_fields">
+<a class="viewcode-back" href="../../distributions.html#somegraphspy.distributions.DistributionGraph.distribution_values_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">distribution_values_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxisFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the values of the distribution, along the ``value_axis``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">distribution_values_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+</div>
 
 
 
@@ -327,10 +372,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">distribution_graph</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">value_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">distribution_values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">distribution_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">distribution_color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">distribution</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DistributionData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">value_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">cumulative_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DistributionGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
@@ -344,10 +386,7 @@
     <span class="k">return</span> <span class="n">DistributionGraph</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">DistributionGraphData</span><span class="p">(</span>
             <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-            <span class="n">value_axis_title</span><span class="o">=</span><span class="n">value_axis_title</span><span class="p">,</span>
-            <span class="n">distribution_values</span><span class="o">=</span><span class="n">distribution_values</span><span class="p">,</span>
-            <span class="n">distribution_name</span><span class="o">=</span><span class="n">distribution_name</span><span class="p">,</span>
-            <span class="n">distribution_color</span><span class="o">=</span><span class="n">distribution_color</span><span class="p">,</span>
+            <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
             <span class="n">value_bands</span><span class="o">=</span><span class="n">value_bands</span><span class="p">,</span>
             <span class="n">cumulative_bands</span><span class="o">=</span><span class="n">cumulative_bands</span><span class="p">,</span>
         <span class="p">),</span>
@@ -421,47 +460,35 @@
 
     <span class="c1">#: The title of the figure.</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the axis showing the values.</span>
-    <span class="n">value_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: The distributions to show.</span>
+    <span class="n">distributions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DistributionData</span><span class="p">]</span>
+    <span class="c1">#: The (1-based) order to show the distributions in.</span>
+    <span class="n">order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
     <span class="c1">#: The title of the axis showing the density.</span>
     <span class="n">density_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="c1">#: The title of the axis listing the distributions.</span>
     <span class="n">series_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The values of each distribution.</span>
-    <span class="n">distributions_values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">]</span>
-    <span class="c1">#: The name of each distribution.</span>
-    <span class="n">distributions_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
-    <span class="c1">#: The color of each distribution.</span>
-    <span class="n">distributions_colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
-    <span class="c1">#: The order to show the distributions in.</span>
-    <span class="n">distributions_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
-    <span class="c1">#: Bands partitioning the graph by the value axis.</span>
+    <span class="c1">#: Override the offsets of the value bands.</span>
     <span class="n">value_bands</span><span class="p">:</span> <span class="n">BandsData</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">value_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">distributions</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">DistributionData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">density_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">series_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">distributions_values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">distributions_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">distributions_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">distributions_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">value_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">DistributionsGraphData</span><span class="p">(</span>
                 <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
                     <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-                    <span class="n">value_axis_title</span><span class="o">=</span><span class="n">value_axis_title</span><span class="p">,</span>
+                    <span class="n">distributions</span><span class="o">=</span><span class="n">distributions</span><span class="p">,</span>
+                    <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
                     <span class="n">density_axis_title</span><span class="o">=</span><span class="n">density_axis_title</span><span class="p">,</span>
                     <span class="n">series_axis_title</span><span class="o">=</span><span class="n">series_axis_title</span><span class="p">,</span>
-                    <span class="n">distributions_values</span><span class="o">=</span><span class="n">distributions_values</span><span class="p">,</span>
-                    <span class="n">distributions_names</span><span class="o">=</span><span class="n">distributions_names</span><span class="p">,</span>
-                    <span class="n">distributions_colors</span><span class="o">=</span><span class="n">distributions_colors</span><span class="p">,</span>
-                    <span class="n">distributions_order</span><span class="o">=</span><span class="n">distributions_order</span><span class="p">,</span>
                     <span class="n">value_bands</span><span class="o">=</span><span class="n">value_bands</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
@@ -492,7 +519,16 @@
         <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DistributionsGraphData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DistributionsGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">DistributionsGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">DistributionsGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="DistributionsGraph.distributions_values_fields">
+<a class="viewcode-back" href="../../distributions.html#somegraphspy.distributions.DistributionsGraph.distributions_values_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">distributions_values_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxisFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the values of the (1-based) ``index`` distribution, along the (shared) ``value_axis``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">distributions_values_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
+</div>
 
 
 
@@ -501,13 +537,10 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">distributions_graph</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">value_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">distributions</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">DistributionData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">density_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">series_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">distributions_values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">distributions_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">distributions_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">distributions_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">value_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DistributionsGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DistributionsGraph</span><span class="p">:</span>
@@ -520,13 +553,10 @@
     <span class="k">return</span> <span class="n">DistributionsGraph</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">DistributionsGraphData</span><span class="p">(</span>
             <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-            <span class="n">value_axis_title</span><span class="o">=</span><span class="n">value_axis_title</span><span class="p">,</span>
+            <span class="n">distributions</span><span class="o">=</span><span class="n">distributions</span><span class="p">,</span>
+            <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
             <span class="n">density_axis_title</span><span class="o">=</span><span class="n">density_axis_title</span><span class="p">,</span>
             <span class="n">series_axis_title</span><span class="o">=</span><span class="n">series_axis_title</span><span class="p">,</span>
-            <span class="n">distributions_values</span><span class="o">=</span><span class="n">distributions_values</span><span class="p">,</span>
-            <span class="n">distributions_names</span><span class="o">=</span><span class="n">distributions_names</span><span class="p">,</span>
-            <span class="n">distributions_colors</span><span class="o">=</span><span class="n">distributions_colors</span><span class="p">,</span>
-            <span class="n">distributions_order</span><span class="o">=</span><span class="n">distributions_order</span><span class="p">,</span>
             <span class="n">value_bands</span><span class="o">=</span><span class="n">value_bands</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">,</span>

@@ -11,4 +11,5 @@ API
   scatters
   bars
   heatmaps
+  sources
   enums

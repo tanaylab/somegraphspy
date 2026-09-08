@@ -72,7 +72,7 @@
              
   <h1>Source code for somegraphspy.scatters</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Graphs showing scattered points and/or lines. See the Julia</span>
+<span class="sd">Scatter graphs: points and lines. See the Julia</span>
 <span class="sd">`documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html&gt;`__ for details.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -88,6 +88,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">BandsData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoolsVector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorsConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntitiesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">FigureConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Graph</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntegersVector</span>
@@ -96,20 +97,29 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">NumbersVector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">SizesConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Stacking</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringsVector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValuesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultValue</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlObject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_from_julia</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_given</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">jl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxisFields</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorsFields</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">SizesFields</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;BordersData&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;EdgesData&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LineData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;LineGraph&quot;</span><span class="p">,</span>
     <span class="s2">&quot;LineGraphConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;LineGraphData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;LinesGraph&quot;</span><span class="p">,</span>
     <span class="s2">&quot;LinesGraphConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;LinesGraphData&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PointsData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;PointsGraph&quot;</span><span class="p">,</span>
     <span class="s2">&quot;PointsGraphConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;PointsGraphData&quot;</span><span class="p">,</span>
@@ -119,9 +129,6 @@
     <span class="s2">&quot;points_density&quot;</span><span class="p">,</span>
     <span class="s2">&quot;points_graph&quot;</span><span class="p">,</span>
 <span class="p">]</span>
-
-<span class="c1">#: The colors of a set of points (or edges), either explicit color names or values to map through a palette.</span>
-<span class="n">ColorsVector</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">StringsVector</span><span class="p">]</span>
 
 <span class="c1">#: The pairs of point indices to draw edges between. These are 1-based, as in Julia.</span>
 <span class="n">EdgesVector</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span>
@@ -224,6 +231,113 @@
 <span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;PointsGraphConfiguration&quot;</span><span class="p">,</span> <span class="n">PointsGraphConfiguration</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="PointsData">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.PointsData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PointsData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The per-point data of a :py:obj:`PointsGraphData`. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.PointsData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The color of each point; their title is the legend title.</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The size of each point.</span>
+    <span class="n">sizes</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The hovers and mask of the points.</span>
+    <span class="n">entities</span><span class="p">:</span> <span class="n">EntitiesData</span>
+    <span class="c1">#: The (1-based) order to draw the points in, controlling which are on top.</span>
+    <span class="n">order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">entities</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">PointsData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)))</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;PointsData&quot;</span><span class="p">,</span> <span class="n">PointsData</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="BordersData">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.BordersData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BordersData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The per-point data of the borders of a :py:obj:`PointsGraphData`. The borders share the hovers and order of the</span>
+<span class="sd">    points. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.BordersData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The color of the border of each point; their title is the legend title.</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The size added to each point for its border.</span>
+    <span class="n">sizes</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: Which borders to show.</span>
+    <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">mask</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">BordersData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)))</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;BordersData&quot;</span><span class="p">,</span> <span class="n">BordersData</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="EdgesData">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.EdgesData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EdgesData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The per-edge data of a :py:obj:`PointsGraphData`. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.EdgesData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The pairs of (1-based) point indices to draw edges between.</span>
+    <span class="n">points</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgesVector</span><span class="p">]</span>
+    <span class="c1">#: The color of each edge; their title is the legend title.</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The width of each edge.</span>
+    <span class="n">sizes</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The style of each edge.</span>
+    <span class="n">styles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">]]</span>
+    <span class="c1">#: The hovers and mask of the edges.</span>
+    <span class="n">entities</span><span class="p">:</span> <span class="n">EntitiesData</span>
+    <span class="c1">#: The (1-based) order to draw the edges in, controlling which are on top.</span>
+    <span class="n">order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">EdgesVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">styles</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">entities</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">EdgesData</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span> <span class="n">styles</span><span class="o">=</span><span class="n">styles</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;EdgesData&quot;</span><span class="p">,</span> <span class="n">EdgesData</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="PointsGraphData">
 <a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.PointsGraphData">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PointsGraphData</span><span class="p">(</span><span class="n">AbstractGraphData</span><span class="p">):</span>
@@ -235,50 +349,16 @@
 
     <span class="c1">#: The title of the figure.</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the horizontal axis.</span>
-    <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the vertical axis.</span>
-    <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the points colors legend.</span>
-    <span class="n">points_colors_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the borders colors legend.</span>
-    <span class="n">borders_colors_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the edges colors legend.</span>
-    <span class="n">edges_colors_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The horizontal coordinate of each point.</span>
-    <span class="n">points_xs</span><span class="p">:</span> <span class="n">NumbersVector</span>
-    <span class="c1">#: The vertical coordinate of each point.</span>
-    <span class="n">points_ys</span><span class="p">:</span> <span class="n">NumbersVector</span>
-    <span class="c1">#: The diameter of each point, in pixels.</span>
-    <span class="n">points_sizes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">]</span>
-    <span class="c1">#: The color of each point.</span>
-    <span class="n">points_colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ColorsVector</span><span class="p">]</span>
-    <span class="c1">#: The hover text of each point.</span>
-    <span class="n">points_hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
-    <span class="c1">#: Which points to show.</span>
-    <span class="n">points_mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">]</span>
-    <span class="c1">#: The order to draw the points in, controlling which are on top.</span>
-    <span class="n">points_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
-    <span class="c1">#: The color of the border of each point.</span>
-    <span class="n">borders_colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ColorsVector</span><span class="p">]</span>
-    <span class="c1">#: The size added to each point for its border, in pixels.</span>
-    <span class="n">borders_sizes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">]</span>
-    <span class="c1">#: Which borders to show.</span>
-    <span class="n">borders_mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">]</span>
-    <span class="c1">#: The pairs of (1-based) point indices to draw edges between.</span>
-    <span class="n">edges_points</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgesVector</span><span class="p">]</span>
-    <span class="c1">#: The color of each edge.</span>
-    <span class="n">edges_colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ColorsVector</span><span class="p">]</span>
-    <span class="c1">#: The width of each edge, in pixels.</span>
-    <span class="n">edges_sizes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">]</span>
-    <span class="c1">#: The style of each edge.</span>
-    <span class="n">edges_styles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">]]</span>
-    <span class="c1">#: The hover text of each edge.</span>
-    <span class="n">edges_hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
-    <span class="c1">#: Which edges to show.</span>
-    <span class="n">edges_mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">]</span>
-    <span class="c1">#: The order to draw the edges in, controlling which are on top.</span>
-    <span class="n">edges_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
+    <span class="c1">#: The horizontal coordinate of each point; their title is the horizontal axis title.</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The vertical coordinate of each point; their title is the vertical axis title.</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The colors, sizes, hovers, mask and order of the points.</span>
+    <span class="n">points</span><span class="p">:</span> <span class="n">PointsData</span>
+    <span class="c1">#: The colors, sizes and mask of the borders of the points.</span>
+    <span class="n">borders</span><span class="p">:</span> <span class="n">BordersData</span>
+    <span class="c1">#: The edges between the points.</span>
+    <span class="n">edges</span><span class="p">:</span> <span class="n">EdgesData</span>
     <span class="c1">#: Override the offsets of the vertical bands.</span>
     <span class="n">vertical_bands</span><span class="p">:</span> <span class="n">BandsData</span>
     <span class="c1">#: Override the offsets of the horizontal bands.</span>
@@ -290,28 +370,11 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">points_colors_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">borders_colors_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">edges_colors_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">points_xs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">points_ys</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">points_sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">points_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">ColorsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">points_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">points_mask</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">points_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">borders_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">ColorsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">borders_sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">borders_mask</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">edges_points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">EdgesVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">edges_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">ColorsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">edges_sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">edges_styles</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">edges_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">edges_mask</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">edges_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">PointsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">borders</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BordersData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">edges</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EdgesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">vertical_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">horizontal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">diagonal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
@@ -320,28 +383,11 @@
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">PointsGraphData</span><span class="p">(</span>
                 <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
                     <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-                    <span class="n">x_axis_title</span><span class="o">=</span><span class="n">x_axis_title</span><span class="p">,</span>
-                    <span class="n">y_axis_title</span><span class="o">=</span><span class="n">y_axis_title</span><span class="p">,</span>
-                    <span class="n">points_colors_title</span><span class="o">=</span><span class="n">points_colors_title</span><span class="p">,</span>
-                    <span class="n">borders_colors_title</span><span class="o">=</span><span class="n">borders_colors_title</span><span class="p">,</span>
-                    <span class="n">edges_colors_title</span><span class="o">=</span><span class="n">edges_colors_title</span><span class="p">,</span>
-                    <span class="n">points_xs</span><span class="o">=</span><span class="n">points_xs</span><span class="p">,</span>
-                    <span class="n">points_ys</span><span class="o">=</span><span class="n">points_ys</span><span class="p">,</span>
-                    <span class="n">points_sizes</span><span class="o">=</span><span class="n">points_sizes</span><span class="p">,</span>
-                    <span class="n">points_colors</span><span class="o">=</span><span class="n">points_colors</span><span class="p">,</span>
-                    <span class="n">points_hovers</span><span class="o">=</span><span class="n">points_hovers</span><span class="p">,</span>
-                    <span class="n">points_mask</span><span class="o">=</span><span class="n">points_mask</span><span class="p">,</span>
-                    <span class="n">points_order</span><span class="o">=</span><span class="n">points_order</span><span class="p">,</span>
-                    <span class="n">borders_colors</span><span class="o">=</span><span class="n">borders_colors</span><span class="p">,</span>
-                    <span class="n">borders_sizes</span><span class="o">=</span><span class="n">borders_sizes</span><span class="p">,</span>
-                    <span class="n">borders_mask</span><span class="o">=</span><span class="n">borders_mask</span><span class="p">,</span>
-                    <span class="n">edges_points</span><span class="o">=</span><span class="n">edges_points</span><span class="p">,</span>
-                    <span class="n">edges_colors</span><span class="o">=</span><span class="n">edges_colors</span><span class="p">,</span>
-                    <span class="n">edges_sizes</span><span class="o">=</span><span class="n">edges_sizes</span><span class="p">,</span>
-                    <span class="n">edges_styles</span><span class="o">=</span><span class="n">edges_styles</span><span class="p">,</span>
-                    <span class="n">edges_hovers</span><span class="o">=</span><span class="n">edges_hovers</span><span class="p">,</span>
-                    <span class="n">edges_mask</span><span class="o">=</span><span class="n">edges_mask</span><span class="p">,</span>
-                    <span class="n">edges_order</span><span class="o">=</span><span class="n">edges_order</span><span class="p">,</span>
+                    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+                    <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+                    <span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span>
+                    <span class="n">borders</span><span class="o">=</span><span class="n">borders</span><span class="p">,</span>
+                    <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">,</span>
                     <span class="n">vertical_bands</span><span class="o">=</span><span class="n">vertical_bands</span><span class="p">,</span>
                     <span class="n">horizontal_bands</span><span class="o">=</span><span class="n">horizontal_bands</span><span class="p">,</span>
                     <span class="n">diagonal_bands</span><span class="o">=</span><span class="n">diagonal_bands</span><span class="p">,</span>
@@ -374,7 +420,79 @@
         <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">PointsGraphData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">PointsGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">PointsGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">PointsGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="PointsGraph.x_fields">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.PointsGraph.x_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxisFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the X coordinates of the points, along the ``x_axis``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">x_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="PointsGraph.y_fields">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.PointsGraph.y_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">y_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxisFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the Y coordinates of the points, along the ``y_axis``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">y_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="PointsGraph.points_colors_fields">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.PointsGraph.points_colors_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">points_colors_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the colors of the points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">points_colors_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="PointsGraph.points_sizes_fields">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.PointsGraph.points_sizes_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">points_sizes_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SizesFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the sizes of the points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">points_sizes_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="PointsGraph.borders_colors_fields">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.PointsGraph.borders_colors_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">borders_colors_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the colors of the borders of the points, which share the entities of the points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">borders_colors_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="PointsGraph.borders_sizes_fields">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.PointsGraph.borders_sizes_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">borders_sizes_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SizesFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the sizes of the borders of the points, which share the entities of the points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">borders_sizes_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="PointsGraph.edges_colors_fields">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.PointsGraph.edges_colors_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">edges_colors_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the colors of the edges.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">edges_colors_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="PointsGraph.edges_sizes_fields">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.PointsGraph.edges_sizes_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">edges_sizes_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SizesFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the sizes (widths) of the edges.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">edges_sizes_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+</div>
 
 
 
@@ -383,28 +501,11 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">points_graph</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">points_colors_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">borders_colors_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">edges_colors_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">points_xs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">points_ys</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">points_sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">points_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">ColorsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">points_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">points_mask</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">points_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">borders_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">ColorsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">borders_sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">borders_mask</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">edges_points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">EdgesVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">edges_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">ColorsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">edges_sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">edges_styles</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">edges_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">edges_mask</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">BoolsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">edges_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">PointsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">borders</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BordersData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">edges</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EdgesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">vertical_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">horizontal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">diagonal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
@@ -419,28 +520,11 @@
     <span class="k">return</span> <span class="n">PointsGraph</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">PointsGraphData</span><span class="p">(</span>
             <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-            <span class="n">x_axis_title</span><span class="o">=</span><span class="n">x_axis_title</span><span class="p">,</span>
-            <span class="n">y_axis_title</span><span class="o">=</span><span class="n">y_axis_title</span><span class="p">,</span>
-            <span class="n">points_colors_title</span><span class="o">=</span><span class="n">points_colors_title</span><span class="p">,</span>
-            <span class="n">borders_colors_title</span><span class="o">=</span><span class="n">borders_colors_title</span><span class="p">,</span>
-            <span class="n">edges_colors_title</span><span class="o">=</span><span class="n">edges_colors_title</span><span class="p">,</span>
-            <span class="n">points_xs</span><span class="o">=</span><span class="n">points_xs</span><span class="p">,</span>
-            <span class="n">points_ys</span><span class="o">=</span><span class="n">points_ys</span><span class="p">,</span>
-            <span class="n">points_sizes</span><span class="o">=</span><span class="n">points_sizes</span><span class="p">,</span>
-            <span class="n">points_colors</span><span class="o">=</span><span class="n">points_colors</span><span class="p">,</span>
-            <span class="n">points_hovers</span><span class="o">=</span><span class="n">points_hovers</span><span class="p">,</span>
-            <span class="n">points_mask</span><span class="o">=</span><span class="n">points_mask</span><span class="p">,</span>
-            <span class="n">points_order</span><span class="o">=</span><span class="n">points_order</span><span class="p">,</span>
-            <span class="n">borders_colors</span><span class="o">=</span><span class="n">borders_colors</span><span class="p">,</span>
-            <span class="n">borders_sizes</span><span class="o">=</span><span class="n">borders_sizes</span><span class="p">,</span>
-            <span class="n">borders_mask</span><span class="o">=</span><span class="n">borders_mask</span><span class="p">,</span>
-            <span class="n">edges_points</span><span class="o">=</span><span class="n">edges_points</span><span class="p">,</span>
-            <span class="n">edges_colors</span><span class="o">=</span><span class="n">edges_colors</span><span class="p">,</span>
-            <span class="n">edges_sizes</span><span class="o">=</span><span class="n">edges_sizes</span><span class="p">,</span>
-            <span class="n">edges_styles</span><span class="o">=</span><span class="n">edges_styles</span><span class="p">,</span>
-            <span class="n">edges_hovers</span><span class="o">=</span><span class="n">edges_hovers</span><span class="p">,</span>
-            <span class="n">edges_mask</span><span class="o">=</span><span class="n">edges_mask</span><span class="p">,</span>
-            <span class="n">edges_order</span><span class="o">=</span><span class="n">edges_order</span><span class="p">,</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span>
+            <span class="n">borders</span><span class="o">=</span><span class="n">borders</span><span class="p">,</span>
+            <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">,</span>
             <span class="n">vertical_bands</span><span class="o">=</span><span class="n">vertical_bands</span><span class="p">,</span>
             <span class="n">horizontal_bands</span><span class="o">=</span><span class="n">horizontal_bands</span><span class="p">,</span>
             <span class="n">diagonal_bands</span><span class="o">=</span><span class="n">diagonal_bands</span><span class="p">,</span>
@@ -458,8 +542,6 @@
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.points_density&gt;`__</span>
 <span class="sd">    for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_from_julia</span>  <span class="c1"># pylint: disable=import-outside-toplevel</span>
-
     <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">points_density</span><span class="p">(</span><span class="n">points_xs</span><span class="p">,</span> <span class="n">points_ys</span><span class="p">))</span></div>
 
 
@@ -541,16 +623,12 @@
 
     <span class="c1">#: The title of the figure.</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the horizontal axis.</span>
-    <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the vertical axis.</span>
-    <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The horizontal coordinate of each point of the line.</span>
-    <span class="n">points_xs</span><span class="p">:</span> <span class="n">NumbersVector</span>
-    <span class="c1">#: The vertical coordinate of each point of the line.</span>
-    <span class="n">points_ys</span><span class="p">:</span> <span class="n">NumbersVector</span>
-    <span class="c1">#: The hover text of each point of the line.</span>
-    <span class="n">points_hovers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
+    <span class="c1">#: The horizontal coordinate of each point of the line; their title is the horizontal axis title.</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The vertical coordinate of each point of the line; their title is the vertical axis title.</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The hovers and mask of the points of the line.</span>
+    <span class="n">points</span><span class="p">:</span> <span class="n">EntitiesData</span>
     <span class="c1">#: Override the offsets of the vertical bands.</span>
     <span class="n">vertical_bands</span><span class="p">:</span> <span class="n">BandsData</span>
     <span class="c1">#: Override the offsets of the horizontal bands.</span>
@@ -562,11 +640,9 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">points_xs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">points_ys</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">points_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">vertical_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">horizontal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">diagonal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
@@ -575,11 +651,9 @@
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">LineGraphData</span><span class="p">(</span>
                 <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
                     <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-                    <span class="n">x_axis_title</span><span class="o">=</span><span class="n">x_axis_title</span><span class="p">,</span>
-                    <span class="n">y_axis_title</span><span class="o">=</span><span class="n">y_axis_title</span><span class="p">,</span>
-                    <span class="n">points_xs</span><span class="o">=</span><span class="n">points_xs</span><span class="p">,</span>
-                    <span class="n">points_ys</span><span class="o">=</span><span class="n">points_ys</span><span class="p">,</span>
-                    <span class="n">points_hovers</span><span class="o">=</span><span class="n">points_hovers</span><span class="p">,</span>
+                    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+                    <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+                    <span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span>
                     <span class="n">vertical_bands</span><span class="o">=</span><span class="n">vertical_bands</span><span class="p">,</span>
                     <span class="n">horizontal_bands</span><span class="o">=</span><span class="n">horizontal_bands</span><span class="p">,</span>
                     <span class="n">diagonal_bands</span><span class="o">=</span><span class="n">diagonal_bands</span><span class="p">,</span>
@@ -612,7 +686,25 @@
         <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">LineGraphData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">LineGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">LineGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">LineGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="LineGraph.x_fields">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.LineGraph.x_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxisFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the X coordinates of the points of the line, along the ``x_axis``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">x_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="LineGraph.y_fields">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.LineGraph.y_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">y_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxisFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the Y coordinates of the points of the line, along the ``y_axis``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">y_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+</div>
 
 
 
@@ -621,11 +713,9 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">line_graph</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">points_xs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">points_ys</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">points_hovers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">vertical_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">horizontal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">diagonal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
@@ -640,11 +730,9 @@
     <span class="k">return</span> <span class="n">LineGraph</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">LineGraphData</span><span class="p">(</span>
             <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-            <span class="n">x_axis_title</span><span class="o">=</span><span class="n">x_axis_title</span><span class="p">,</span>
-            <span class="n">y_axis_title</span><span class="o">=</span><span class="n">y_axis_title</span><span class="p">,</span>
-            <span class="n">points_xs</span><span class="o">=</span><span class="n">points_xs</span><span class="p">,</span>
-            <span class="n">points_ys</span><span class="o">=</span><span class="n">points_ys</span><span class="p">,</span>
-            <span class="n">points_hovers</span><span class="o">=</span><span class="n">points_hovers</span><span class="p">,</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span>
             <span class="n">vertical_bands</span><span class="o">=</span><span class="n">vertical_bands</span><span class="p">,</span>
             <span class="n">horizontal_bands</span><span class="o">=</span><span class="n">horizontal_bands</span><span class="p">,</span>
             <span class="n">diagonal_bands</span><span class="o">=</span><span class="n">diagonal_bands</span><span class="p">,</span>
@@ -728,6 +816,76 @@
 <span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;LinesGraphConfiguration&quot;</span><span class="p">,</span> <span class="n">LinesGraphConfiguration</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="LineData">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.LineData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LineData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    One line of a :py:obj:`LinesGraphData`. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.LineData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The horizontal coordinate of each point of the line; their title is the horizontal axis title.</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The vertical coordinate of each point of the line; their title is the vertical axis title.</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="c1">#: The hovers and mask of the points of the line.</span>
+    <span class="n">points</span><span class="p">:</span> <span class="n">EntitiesData</span>
+    <span class="c1">#: The name of the line, shown in the legend.</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: Prefixed to the hover of each point of the line.</span>
+    <span class="n">hover</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: Whether to show the line at all.</span>
+    <span class="n">is_shown</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="c1">#: The color of the line.</span>
+    <span class="n">color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: The width of the line, in pixels.</span>
+    <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: The style of the line.</span>
+    <span class="n">style</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">]</span>
+    <span class="c1">#: The diameter of the points of the line, in pixels.</span>
+    <span class="n">points_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="c1">#: The color of the points of the line.</span>
+    <span class="n">points_color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">points</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">hover</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">is_shown</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">style</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">points_size</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">points_color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">LineData</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
+                    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+                    <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+                    <span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">hover</span><span class="o">=</span><span class="n">hover</span><span class="p">,</span>
+                    <span class="n">is_shown</span><span class="o">=</span><span class="n">is_shown</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                    <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+                    <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span>
+                    <span class="n">points_size</span><span class="o">=</span><span class="n">points_size</span><span class="p">,</span>
+                    <span class="n">points_color</span><span class="o">=</span><span class="n">points_color</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;LineData&quot;</span><span class="p">,</span> <span class="n">LineData</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="LinesGraphData">
 <a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.LinesGraphData">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LinesGraphData</span><span class="p">(</span><span class="n">AbstractGraphData</span><span class="p">):</span>
@@ -739,28 +897,10 @@
 
     <span class="c1">#: The title of the figure.</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the horizontal axis.</span>
-    <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of the vertical axis.</span>
-    <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1">#: The title of each line, shown in the legend.</span>
-    <span class="n">lines_titles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
-    <span class="c1">#: The horizontal coordinates of the points of each line.</span>
-    <span class="n">lines_points_xs</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">]</span>
-    <span class="c1">#: The vertical coordinates of the points of each line.</span>
-    <span class="n">lines_points_ys</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">]</span>
-    <span class="c1">#: The diameter of the points of each line, in pixels.</span>
-    <span class="n">lines_points_sizes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">]</span>
-    <span class="c1">#: The color of the points of each line.</span>
-    <span class="n">lines_points_colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
-    <span class="c1">#: The width of each line, in pixels.</span>
-    <span class="n">lines_widths</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">]</span>
-    <span class="c1">#: The color of each line.</span>
-    <span class="n">lines_colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">]</span>
-    <span class="c1">#: The style of each line.</span>
-    <span class="n">lines_styles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">]]</span>
-    <span class="c1">#: The order to draw the lines in, controlling which are on top.</span>
-    <span class="n">lines_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
+    <span class="c1">#: The lines to show.</span>
+    <span class="n">lines</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">LineData</span><span class="p">]</span>
+    <span class="c1">#: The (1-based) order to draw the lines in, controlling which are on top.</span>
+    <span class="n">order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
     <span class="c1">#: Override the offsets of the vertical bands.</span>
     <span class="n">vertical_bands</span><span class="p">:</span> <span class="n">BandsData</span>
     <span class="c1">#: Override the offsets of the horizontal bands.</span>
@@ -772,17 +912,8 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">lines_titles</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">lines_points_xs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">lines_points_ys</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">lines_points_sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">lines_points_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">lines_widths</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">lines_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">lines_styles</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">lines_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">lines</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LineData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">vertical_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">horizontal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">diagonal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
@@ -791,17 +922,8 @@
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">LinesGraphData</span><span class="p">(</span>
                 <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
                     <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-                    <span class="n">x_axis_title</span><span class="o">=</span><span class="n">x_axis_title</span><span class="p">,</span>
-                    <span class="n">y_axis_title</span><span class="o">=</span><span class="n">y_axis_title</span><span class="p">,</span>
-                    <span class="n">lines_titles</span><span class="o">=</span><span class="n">lines_titles</span><span class="p">,</span>
-                    <span class="n">lines_points_xs</span><span class="o">=</span><span class="n">lines_points_xs</span><span class="p">,</span>
-                    <span class="n">lines_points_ys</span><span class="o">=</span><span class="n">lines_points_ys</span><span class="p">,</span>
-                    <span class="n">lines_points_sizes</span><span class="o">=</span><span class="n">lines_points_sizes</span><span class="p">,</span>
-                    <span class="n">lines_points_colors</span><span class="o">=</span><span class="n">lines_points_colors</span><span class="p">,</span>
-                    <span class="n">lines_widths</span><span class="o">=</span><span class="n">lines_widths</span><span class="p">,</span>
-                    <span class="n">lines_colors</span><span class="o">=</span><span class="n">lines_colors</span><span class="p">,</span>
-                    <span class="n">lines_styles</span><span class="o">=</span><span class="n">lines_styles</span><span class="p">,</span>
-                    <span class="n">lines_order</span><span class="o">=</span><span class="n">lines_order</span><span class="p">,</span>
+                    <span class="n">lines</span><span class="o">=</span><span class="n">lines</span><span class="p">,</span>
+                    <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
                     <span class="n">vertical_bands</span><span class="o">=</span><span class="n">vertical_bands</span><span class="p">,</span>
                     <span class="n">horizontal_bands</span><span class="o">=</span><span class="n">horizontal_bands</span><span class="p">,</span>
                     <span class="n">diagonal_bands</span><span class="o">=</span><span class="n">diagonal_bands</span><span class="p">,</span>
@@ -834,7 +956,27 @@
         <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">LinesGraphData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">LinesGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">LinesGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">LinesGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="LinesGraph.x_fields">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.LinesGraph.x_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxisFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the X coordinates of the points of the (1-based) ``index`` line, along the (shared)</span>
+<span class="sd">        ``x_axis``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">x_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="LinesGraph.y_fields">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.LinesGraph.y_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">y_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxisFields</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data source view of the Y coordinates of the points of the (1-based) ``index`` line, along the (shared)</span>
+<span class="sd">        ``y_axis``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">y_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
+</div>
 
 
 
@@ -843,17 +985,8 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">lines_graph</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">x_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">y_axis_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">lines_titles</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">lines_points_xs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">lines_points_ys</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">lines_points_sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">lines_points_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">lines_widths</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">lines_colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StringsVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">lines_styles</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">lines_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">lines</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LineData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">vertical_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">horizontal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">diagonal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
@@ -868,17 +1001,8 @@
     <span class="k">return</span> <span class="n">LinesGraph</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">LinesGraphData</span><span class="p">(</span>
             <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
-            <span class="n">x_axis_title</span><span class="o">=</span><span class="n">x_axis_title</span><span class="p">,</span>
-            <span class="n">y_axis_title</span><span class="o">=</span><span class="n">y_axis_title</span><span class="p">,</span>
-            <span class="n">lines_titles</span><span class="o">=</span><span class="n">lines_titles</span><span class="p">,</span>
-            <span class="n">lines_points_xs</span><span class="o">=</span><span class="n">lines_points_xs</span><span class="p">,</span>
-            <span class="n">lines_points_ys</span><span class="o">=</span><span class="n">lines_points_ys</span><span class="p">,</span>
-            <span class="n">lines_points_sizes</span><span class="o">=</span><span class="n">lines_points_sizes</span><span class="p">,</span>
-            <span class="n">lines_points_colors</span><span class="o">=</span><span class="n">lines_points_colors</span><span class="p">,</span>
-            <span class="n">lines_widths</span><span class="o">=</span><span class="n">lines_widths</span><span class="p">,</span>
-            <span class="n">lines_colors</span><span class="o">=</span><span class="n">lines_colors</span><span class="p">,</span>
-            <span class="n">lines_styles</span><span class="o">=</span><span class="n">lines_styles</span><span class="p">,</span>
-            <span class="n">lines_order</span><span class="o">=</span><span class="n">lines_order</span><span class="p">,</span>
+            <span class="n">lines</span><span class="o">=</span><span class="n">lines</span><span class="p">,</span>
+            <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
             <span class="n">vertical_bands</span><span class="o">=</span><span class="n">vertical_bands</span><span class="p">,</span>
             <span class="n">horizontal_bands</span><span class="o">=</span><span class="n">horizontal_bands</span><span class="p">,</span>
             <span class="n">diagonal_bands</span><span class="o">=</span><span class="n">diagonal_bands</span><span class="p">,</span>

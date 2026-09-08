@@ -19,7 +19,9 @@ import sys
 
 import somegraphspy as sg
 
-graph = sg.points_graph(points_xs=[1.0, 2.0, 3.0], points_ys=[1.0, 4.0, 9.0], figure_title="from a script")
+graph = sg.points_graph(
+    x=sg.ValuesData(values=[1.0, 2.0, 3.0]), y=sg.ValuesData(values=[1.0, 4.0, 9.0]), figure_title="from a script"
+)
 graph.validate()
 graph.save(sys.argv[1] + "/graph.html")
 graph.save(sys.argv[1] + "/graph.png")

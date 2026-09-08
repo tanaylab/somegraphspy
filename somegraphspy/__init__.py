@@ -29,6 +29,10 @@ This is a thin wrapper for the ``SomeGraphs.jl`` Julia package, with the followi
   Simply evaluating the graph in a cell will display it. Outside a notebook, call ``graph.show()`` to open the graph in
   a browser, or ``graph.save(path)`` to write it to a file.
 
+* The data source views of the Julia ``Sources`` module are graph methods (Julia's ``x_fields(graph)`` becomes Python's
+  ``graph.x_fields()``), and Julia's ``add_hovers!(entities, hovers; title)`` becomes Python's
+  ``entities.add_hovers(hovers, title)``. A Python function writing into such a view is a data source, just as in Julia.
+
 Otherwise, the API works "just the same" :-) The documentation therefore mostly just links to the relevant entry in the
 Julia `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/index.html>`__.
 """
@@ -41,6 +45,7 @@ __version__ = "0.2.0"
 
 from .julia_import import *  # isort: skip
 from .common import *  # isort: skip
+from .sources import *  # isort: skip
 from .distributions import *  # isort: skip
 from .scatters import *  # isort: skip
 from .bars import *  # isort: skip
