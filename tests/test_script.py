@@ -20,7 +20,9 @@ import sys
 import somegraphspy as sg
 
 graph = sg.points_graph(
-    x=sg.ValuesData(values=[1.0, 2.0, 3.0]), y=sg.ValuesData(values=[1.0, 4.0, 9.0]), figure_title="from a script"
+    x=sg.VectorValuesData(vector=[1.0, 2.0, 3.0]),
+    y=sg.VectorValuesData(vector=[1.0, 4.0, 9.0]),
+    figure_title="from a script",
 )
 graph.validate()
 graph.save(sys.argv[1] + "/graph.html")

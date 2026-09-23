@@ -15,13 +15,14 @@ from .common import AxisConfiguration
 from .common import BandsConfiguration
 from .common import BandsData
 from .common import ColorsConfiguration
-from .common import EntitiesData
 from .common import FigureConfiguration
 from .common import Graph
+from .common import IntegersVector
 from .common import Stacking
 from .common import Validated
-from .common import ValuesData
 from .common import ValuesOrientation
+from .common import VectorEntitiesData
+from .common import VectorValuesData
 from .julia_import import DEFAULT
 from .julia_import import DefaultValue
 from .julia_import import JlObject
@@ -30,9 +31,9 @@ from .julia_import import _given
 from .julia_import import _optional_jl_obj
 from .julia_import import jl
 from .julia_import import register_jl_type
-from .sources import AxisFields
-from .sources import ColorsFields
-from .sources import VectorDataFields
+from .sources import AxisVectorFields
+from .sources import ColorsVectorFields
+from .sources import PartFields
 
 __all__ = [
     "BarsConfiguration",
@@ -76,6 +77,8 @@ class BarsGraphConfiguration(AbstractGraphConfiguration):
     figure: FigureConfiguration
     #: The axis showing the values of the bars.
     value_axis: AxisConfiguration
+    #: The axis listing the bars.
+    bar_axis: AxisConfiguration
     #: Bands partitioning the graph by the value axis.
     value_bands: BandsConfiguration
     #: Whether the values are shown in the vertical or the horizontal axis.
@@ -92,6 +95,7 @@ class BarsGraphConfiguration(AbstractGraphConfiguration):
         *,
         figure: Union[FigureConfiguration, DefaultValue] = DEFAULT,
         value_axis: Union[AxisConfiguration, DefaultValue] = DEFAULT,
+        bar_axis: Union[AxisConfiguration, DefaultValue] = DEFAULT,
         value_bands: Union[BandsConfiguration, DefaultValue] = DEFAULT,
         values_orientation: Union[ValuesOrientation, DefaultValue] = DEFAULT,
         colors: Union[ColorsConfiguration, DefaultValue] = DEFAULT,
@@ -103,6 +107,7 @@ class BarsGraphConfiguration(AbstractGraphConfiguration):
                 **_given(
                     figure=figure,
                     value_axis=value_axis,
+                    bar_axis=bar_axis,
                     value_bands=value_bands,
                     values_orientation=values_orientation,
                     colors=colors,
@@ -126,15 +131,15 @@ class BarsGraphData(AbstractGraphData):
     #: The title of the figure.
     figure_title: Optional[str]
     #: The value of each bar; their title is the value axis title.
-    values: ValuesData
-    #: The name of each bar; their title is the bar axis title.
-    names: ValuesData
-    #: The hovers and mask of the bars.
-    bars: EntitiesData
+    values: VectorValuesData
+    #: The names, hovers and mask of the bars.
+    bars: VectorEntitiesData
     #: The color of each bar; their title is the legend title.
-    colors: ValuesData
+    colors: VectorValuesData
     #: Annotations shown next to the bars.
     annotations: Sequence[AnnotationData]
+    #: The (1-based) order to show the annotations in.
+    annotations_order: Optional[IntegersVector]
     #: Override the offsets of the value bands.
     value_bands: BandsData
 
@@ -142,11 +147,11 @@ class BarsGraphData(AbstractGraphData):
         self,
         *,
         figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        values: Union[ValuesData, DefaultValue] = DEFAULT,
-        names: Union[ValuesData, DefaultValue] = DEFAULT,
-        bars: Union[EntitiesData, DefaultValue] = DEFAULT,
-        colors: Union[ValuesData, DefaultValue] = DEFAULT,
+        values: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        bars: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
+        colors: Union[VectorValuesData, DefaultValue] = DEFAULT,
         annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
+        annotations_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
         value_bands: Union[BandsData, DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
@@ -154,10 +159,10 @@ class BarsGraphData(AbstractGraphData):
                 **_given(
                     figure_title=figure_title,
                     values=values,
-                    names=names,
                     bars=bars,
                     colors=colors,
                     annotations=annotations,
+                    annotations_order=annotations_order,
                     value_bands=value_bands,
                 )
             )
@@ -187,34 +192,34 @@ class BarsGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.BarsGraph(**_given(data=data, configuration=configuration)))
 
-    def values_fields(self) -> AxisFields:
+    def values_axis_vector_fields(self) -> AxisVectorFields:
         """
         The data source view of the values of the bars, along the ``value_axis``.
         """
-        return _from_julia(jl.SomeGraphs.values_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.values_axis_vector_fields(self.jl_obj))
 
-    def colors_fields(self) -> ColorsFields:
+    def colors_vector_fields(self) -> ColorsVectorFields:
         """
         The data source view of the colors of the bars.
         """
-        return _from_julia(jl.SomeGraphs.colors_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.colors_vector_fields(self.jl_obj))
 
-    def names_fields(self) -> VectorDataFields:
-        """
-        The data source view of the names of the bars; their title is the title of the bars axis.
-        """
-        return _from_julia(jl.SomeGraphs.names_fields(self.jl_obj))
-
-    def annotations_fields(self, index: int) -> ColorsFields:
+    def annotations_colors_vector_fields(self, index: int) -> ColorsVectorFields:
         """
         The data source view of the (1-based) ``index`` annotation of the bars, which shares the entities of the bars.
         """
-        return _from_julia(jl.SomeGraphs.annotations_fields(self.jl_obj, index))
+        return _from_julia(jl.SomeGraphs.annotations_colors_vector_fields(self.jl_obj, index))
+
+    def bars_entities(self) -> VectorEntitiesData:
+        """
+        The entities of the bars, shared by all their roles.
+        """
+        return _from_julia(jl.SomeGraphs.bars_entities(self.jl_obj))
 
     def add_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
         """
         Append an ``annotation`` of the bars (by default, an empty one) and return its (1-based) index, for
-        :py:obj:`annotations_fields`.
+        :py:obj:`annotations_colors_vector_fields`.
         """
         return int(jl.SomeGraphs.add_annotation_b(self.jl_obj, *_optional_jl_obj(annotation)))
 
@@ -222,11 +227,11 @@ class BarsGraph(Graph):
 def bars_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    values: Union[ValuesData, DefaultValue] = DEFAULT,
-    names: Union[ValuesData, DefaultValue] = DEFAULT,
-    bars: Union[EntitiesData, DefaultValue] = DEFAULT,
-    colors: Union[ValuesData, DefaultValue] = DEFAULT,
+    values: Union[VectorValuesData, DefaultValue] = DEFAULT,
+    bars: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
+    colors: Union[VectorValuesData, DefaultValue] = DEFAULT,
     annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
+    annotations_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     value_bands: Union[BandsData, DefaultValue] = DEFAULT,
     configuration: Union[BarsGraphConfiguration, DefaultValue] = DEFAULT,
 ) -> BarsGraph:
@@ -240,10 +245,10 @@ def bars_graph(
         data=BarsGraphData(
             figure_title=figure_title,
             values=values,
-            names=names,
             bars=bars,
             colors=colors,
             annotations=annotations,
+            annotations_order=annotations_order,
             value_bands=value_bands,
         ),
         configuration=configuration,
@@ -261,6 +266,8 @@ class SeriesBarsGraphConfiguration(AbstractGraphConfiguration):
     figure: FigureConfiguration
     #: The axis showing the values of the bars.
     value_axis: AxisConfiguration
+    #: The axis listing the bars.
+    bar_axis: AxisConfiguration
     #: Whether the values are shown in the vertical or the horizontal axis.
     values_orientation: ValuesOrientation
     #: How to show the bars.
@@ -279,6 +286,7 @@ class SeriesBarsGraphConfiguration(AbstractGraphConfiguration):
         *,
         figure: Union[FigureConfiguration, DefaultValue] = DEFAULT,
         value_axis: Union[AxisConfiguration, DefaultValue] = DEFAULT,
+        bar_axis: Union[AxisConfiguration, DefaultValue] = DEFAULT,
         values_orientation: Union[ValuesOrientation, DefaultValue] = DEFAULT,
         bars: Union[BarsConfiguration, DefaultValue] = DEFAULT,
         annotations: Union[AnnotationSize, DefaultValue] = DEFAULT,
@@ -291,6 +299,7 @@ class SeriesBarsGraphConfiguration(AbstractGraphConfiguration):
                 **_given(
                     figure=figure,
                     value_axis=value_axis,
+                    bar_axis=bar_axis,
                     values_orientation=values_orientation,
                     bars=bars,
                     annotations=annotations,
@@ -313,27 +322,32 @@ class SeriesData(JlObject):
     """
 
     #: The value of each bar of the series; their title is the value axis title shared by all the series.
-    values: ValuesData
-    #: The hovers and mask of the bars of this series alone.
-    bars: EntitiesData
+    values: VectorValuesData
+    #: The names, hovers and mask of the bars of this series alone.
+    bars: VectorEntitiesData
     #: The name of the series.
     name: Optional[str]
     #: Prefixed to the hover of each bar of the series.
     hover: Optional[str]
+    #: Whether to show the series at all.
+    is_shown: bool
     #: The color of all the bars of the series.
     color: Optional[str]
 
     def __init__(
         self,
         *,
-        values: Union[ValuesData, DefaultValue] = DEFAULT,
-        bars: Union[EntitiesData, DefaultValue] = DEFAULT,
+        values: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        bars: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
         name: Union[Optional[str], DefaultValue] = DEFAULT,
         hover: Union[Optional[str], DefaultValue] = DEFAULT,
+        is_shown: Union[bool, DefaultValue] = DEFAULT,
         color: Union[Optional[str], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
-            jl.SomeGraphs.SeriesData(**_given(values=values, bars=bars, name=name, hover=hover, color=color))
+            jl.SomeGraphs.SeriesData(
+                **_given(values=values, bars=bars, name=name, hover=hover, is_shown=is_shown, color=color)
+            )
         )
 
 
@@ -351,25 +365,35 @@ class SeriesBarsGraphData(AbstractGraphData):
     figure_title: Optional[str]
     #: The series of bars.
     series: Sequence[SeriesData]
-    #: The name of each bar; their title is the bar axis title.
-    names: ValuesData
-    #: The hovers and mask of the bars, shared by all the series.
-    bars: EntitiesData
+    #: The (1-based) order to show the series in.
+    order: Optional[IntegersVector]
+    #: The names, hovers and mask of the bars, shared by all the series.
+    bars: VectorEntitiesData
     #: Annotations shown next to the bars.
     annotations: Sequence[AnnotationData]
+    #: The (1-based) order to show the annotations in.
+    annotations_order: Optional[IntegersVector]
 
     def __init__(
         self,
         *,
         figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
         series: Union[Sequence[SeriesData], DefaultValue] = DEFAULT,
-        names: Union[ValuesData, DefaultValue] = DEFAULT,
-        bars: Union[EntitiesData, DefaultValue] = DEFAULT,
+        order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
+        bars: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
         annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
+        annotations_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.SeriesBarsGraphData(
-                **_given(figure_title=figure_title, series=series, names=names, bars=bars, annotations=annotations)
+                **_given(
+                    figure_title=figure_title,
+                    series=series,
+                    order=order,
+                    bars=bars,
+                    annotations=annotations,
+                    annotations_order=annotations_order,
+                )
             )
         )
 
@@ -397,39 +421,38 @@ class SeriesBarsGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.SeriesBarsGraph(**_given(data=data, configuration=configuration)))
 
-    def series_values_fields(self, index: int) -> AxisFields:
+    def series_part_fields(self, index: int) -> PartFields:
         """
-        The data source view of the values of the (1-based) ``index`` series, along the (shared) ``value_axis``. The
-        entities are the bars of the series alone.
+        The data source view of the (1-based) ``index`` series of bars. Its ``values`` are along the (shared)
+        ``value_axis``, and its entities are the bars of the series alone.
         """
-        return _from_julia(jl.SomeGraphs.series_values_fields(self.jl_obj, index))
+        return _from_julia(jl.SomeGraphs.series_part_fields(self.jl_obj, index))
 
-    def names_fields(self) -> VectorDataFields:
-        """
-        The data source view of the names of the bars (shared by all the series); their title is the title of the bars
-        axis.
-        """
-        return _from_julia(jl.SomeGraphs.names_fields(self.jl_obj))
-
-    def annotations_fields(self, index: int) -> ColorsFields:
+    def annotations_colors_vector_fields(self, index: int) -> ColorsVectorFields:
         """
         The data source view of the (1-based) ``index`` annotation of the bars, which shares the entities of the bars
         (the ones shared by all the series).
         """
-        return _from_julia(jl.SomeGraphs.annotations_fields(self.jl_obj, index))
+        return _from_julia(jl.SomeGraphs.annotations_colors_vector_fields(self.jl_obj, index))
 
-    def add_series(self, series: Optional[SeriesData] = None) -> int:
+    def bars_entities(self) -> VectorEntitiesData:
         """
-        Append a ``series`` of bars (by default, an empty one) and return its (1-based) index, for
-        :py:obj:`series_values_fields`. Whatever the series leaves at its defaults can be set later, through the view or
-        directly.
+        The entities of the bars shared by all the series. For the bars of one series, use the ``entities`` of its
+        :py:obj:`series_part_fields`.
         """
-        return int(jl.SomeGraphs.add_series_b(self.jl_obj, *_optional_jl_obj(series)))
+        return _from_julia(jl.SomeGraphs.bars_entities(self.jl_obj))
+
+    def add_series(self, series: Optional[SeriesData] = None) -> PartFields:
+        """
+        Append a ``series`` of bars (by default, an empty one) and return its view. Whatever the series leaves at its
+        defaults can be set later, through the view or directly.
+        """
+        return _from_julia(jl.SomeGraphs.add_series_b(self.jl_obj, *_optional_jl_obj(series)))
 
     def add_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
         """
         Append an ``annotation`` of the bars (by default, an empty one) and return its (1-based) index, for
-        :py:obj:`annotations_fields`.
+        :py:obj:`annotations_colors_vector_fields`.
         """
         return int(jl.SomeGraphs.add_annotation_b(self.jl_obj, *_optional_jl_obj(annotation)))
 
@@ -438,9 +461,10 @@ def series_bars_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
     series: Union[Sequence[SeriesData], DefaultValue] = DEFAULT,
-    names: Union[ValuesData, DefaultValue] = DEFAULT,
-    bars: Union[EntitiesData, DefaultValue] = DEFAULT,
+    order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
+    bars: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
     annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
+    annotations_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     configuration: Union[SeriesBarsGraphConfiguration, DefaultValue] = DEFAULT,
 ) -> SeriesBarsGraph:
     """
@@ -451,7 +475,12 @@ def series_bars_graph(
     """
     return SeriesBarsGraph(
         data=SeriesBarsGraphData(
-            figure_title=figure_title, series=series, names=names, bars=bars, annotations=annotations
+            figure_title=figure_title,
+            series=series,
+            order=order,
+            bars=bars,
+            annotations=annotations,
+            annotations_order=annotations_order,
         ),
         configuration=configuration,
     )

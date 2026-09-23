@@ -372,12 +372,12 @@ a browser, or
 </span>
 </code> module are graph methods (Julia’s 
 <code class="docutils literal notranslate">
-<span class="pre">x_fields(graph)
+<span class="pre">x_axis_vector_fields(graph)
 </span>
-</code> becomes Python’s
-
+</code>
+becomes Python’s 
 <code class="docutils literal notranslate">
-<span class="pre">graph.x_fields()
+<span class="pre">graph.x_axis_vector_fields()
 </span>
 </code>), and Julia’s 
 <code class="docutils literal notranslate">
@@ -387,14 +387,15 @@ a browser, or
 </span> 
 <span class="pre">title)
 </span>
-</code> becomes Python’s
-
+</code> becomes
+Python’s 
 <code class="docutils literal notranslate">
 <span class="pre">entities.add_hovers(hovers,
 </span> 
 <span class="pre">title)
 </span>
-</code>. A Python function writing into such a view is a data source, just as in Julia.
+</code>. A Python function writing into such a view is a data source, just as
+in Julia.
 </p>
 </li>
 
@@ -545,6 +546,15 @@ Julia
 </a>
 </li>
 
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.AnnotationData.is_shown">
+<code class="docutils literal notranslate">
+<span class="pre">AnnotationData.is_shown
+</span>
+</code>
+</a>
+</li>
+
 </ul>
 
 </li>
@@ -599,27 +609,9 @@ Julia
 <ul>
 
 <li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.minimum">
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.scale">
 <code class="docutils literal notranslate">
-<span class="pre">AxisConfiguration.minimum
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.maximum">
-<code class="docutils literal notranslate">
-<span class="pre">AxisConfiguration.maximum
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.include_hidden">
-<code class="docutils literal notranslate">
-<span class="pre">AxisConfiguration.include_hidden
+<span class="pre">AxisConfiguration.scale
 </span>
 </code>
 </a>
@@ -629,33 +621,6 @@ Julia
 <a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.expand_fraction">
 <code class="docutils literal notranslate">
 <span class="pre">AxisConfiguration.expand_fraction
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.log_scale">
-<code class="docutils literal notranslate">
-<span class="pre">AxisConfiguration.log_scale
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.log_regularization">
-<code class="docutils literal notranslate">
-<span class="pre">AxisConfiguration.log_regularization
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration.percent">
-<code class="docutils literal notranslate">
-<span class="pre">AxisConfiguration.percent
 </span>
 </code>
 </a>
@@ -867,9 +832,9 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration.axis">
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration.scale">
 <code class="docutils literal notranslate">
-<span class="pre">ColorsConfiguration.axis
+<span class="pre">ColorsConfiguration.scale
 </span>
 </code>
 </a>
@@ -907,46 +872,6 @@ Julia
 </li>
 
 <li class="toctree-l2">
-<a class="reference internal" href="common.html#somegraphspy.common.EntitiesData">
-<code class="docutils literal notranslate">
-<span class="pre">EntitiesData
-</span>
-</code>
-</a>
-<ul>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.EntitiesData.hovers">
-<code class="docutils literal notranslate">
-<span class="pre">EntitiesData.hovers
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.EntitiesData.mask">
-<code class="docutils literal notranslate">
-<span class="pre">EntitiesData.mask
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.EntitiesData.add_hovers">
-<code class="docutils literal notranslate">
-<span class="pre">EntitiesData.add_hovers()
-</span>
-</code>
-</a>
-</li>
-
-</ul>
-
-</li>
-
-<li class="toctree-l2">
 <a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration">
 <code class="docutils literal notranslate">
 <span class="pre">FigureConfiguration
@@ -977,15 +902,6 @@ Julia
 <a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration.height">
 <code class="docutils literal notranslate">
 <span class="pre">FigureConfiguration.height
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration.template">
-<code class="docutils literal notranslate">
-<span class="pre">FigureConfiguration.template
 </span>
 </code>
 </a>
@@ -1224,27 +1140,27 @@ Julia
 </li>
 
 <li class="toctree-l2">
-<a class="reference internal" href="common.html#somegraphspy.common.LogScale">
+<a class="reference internal" href="common.html#somegraphspy.common.LogBase">
 <code class="docutils literal notranslate">
-<span class="pre">LogScale
+<span class="pre">LogBase
 </span>
 </code>
 </a>
 <ul>
 
 <li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.LogScale.Log10Scale">
+<a class="reference internal" href="common.html#somegraphspy.common.LogBase.Log10Base">
 <code class="docutils literal notranslate">
-<span class="pre">LogScale.Log10Scale
+<span class="pre">LogBase.Log10Base
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.LogScale.Log2Scale">
+<a class="reference internal" href="common.html#somegraphspy.common.LogBase.Log2Base">
 <code class="docutils literal notranslate">
-<span class="pre">LogScale.Log2Scale
+<span class="pre">LogBase.Log2Base
 </span>
 </code>
 </a>
@@ -1304,37 +1220,6 @@ Julia
 </li>
 
 <li class="toctree-l2">
-<a class="reference internal" href="common.html#somegraphspy.common.MatrixData">
-<code class="docutils literal notranslate">
-<span class="pre">MatrixData
-</span>
-</code>
-</a>
-<ul>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.MatrixData.values">
-<code class="docutils literal notranslate">
-<span class="pre">MatrixData.values
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.MatrixData.title">
-<code class="docutils literal notranslate">
-<span class="pre">MatrixData.title
-</span>
-</code>
-</a>
-</li>
-
-</ul>
-
-</li>
-
-<li class="toctree-l2">
 <a class="reference internal" href="common.html#somegraphspy.common.MatrixEntitiesData">
 <code class="docutils literal notranslate">
 <span class="pre">MatrixEntitiesData
@@ -1353,18 +1238,40 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.MatrixEntitiesData.mask">
+<a class="reference internal" href="common.html#somegraphspy.common.MatrixEntitiesData.add_hovers">
 <code class="docutils literal notranslate">
-<span class="pre">MatrixEntitiesData.mask
+<span class="pre">MatrixEntitiesData.add_hovers()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.MatrixValuesData">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixValuesData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.MatrixValuesData.matrix">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixValuesData.matrix
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.MatrixEntitiesData.add_hovers">
+<a class="reference internal" href="common.html#somegraphspy.common.MatrixValuesData.title">
 <code class="docutils literal notranslate">
-<span class="pre">MatrixEntitiesData.add_hovers()
+<span class="pre">MatrixValuesData.title
 </span>
 </code>
 </a>
@@ -1411,6 +1318,73 @@ Julia
 </li>
 
 <li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.ScaleConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">ScaleConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ScaleConfiguration.minimum">
+<code class="docutils literal notranslate">
+<span class="pre">ScaleConfiguration.minimum
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ScaleConfiguration.maximum">
+<code class="docutils literal notranslate">
+<span class="pre">ScaleConfiguration.maximum
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ScaleConfiguration.include_hidden">
+<code class="docutils literal notranslate">
+<span class="pre">ScaleConfiguration.include_hidden
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ScaleConfiguration.log_base">
+<code class="docutils literal notranslate">
+<span class="pre">ScaleConfiguration.log_base
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ScaleConfiguration.log_regularization">
+<code class="docutils literal notranslate">
+<span class="pre">ScaleConfiguration.log_regularization
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.ScaleConfiguration.percent">
+<code class="docutils literal notranslate">
+<span class="pre">ScaleConfiguration.percent
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
 <a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration">
 <code class="docutils literal notranslate">
 <span class="pre">SizesConfiguration
@@ -1429,9 +1403,9 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration.axis">
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration.scale">
 <code class="docutils literal notranslate">
-<span class="pre">SizesConfiguration.axis
+<span class="pre">SizesConfiguration.scale
 </span>
 </code>
 </a>
@@ -1531,37 +1505,6 @@ Julia
 </li>
 
 <li class="toctree-l2">
-<a class="reference internal" href="common.html#somegraphspy.common.ValuesData">
-<code class="docutils literal notranslate">
-<span class="pre">ValuesData
-</span>
-</code>
-</a>
-<ul>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.ValuesData.values">
-<code class="docutils literal notranslate">
-<span class="pre">ValuesData.values
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.ValuesData.title">
-<code class="docutils literal notranslate">
-<span class="pre">ValuesData.title
-</span>
-</code>
-</a>
-</li>
-
-</ul>
-
-</li>
-
-<li class="toctree-l2">
 <a class="reference internal" href="common.html#somegraphspy.common.ValuesOrientation">
 <code class="docutils literal notranslate">
 <span class="pre">ValuesOrientation
@@ -1583,6 +1526,86 @@ Julia
 <a class="reference internal" href="common.html#somegraphspy.common.ValuesOrientation.VerticalValues">
 <code class="docutils literal notranslate">
 <span class="pre">ValuesOrientation.VerticalValues
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData">
+<code class="docutils literal notranslate">
+<span class="pre">VectorEntitiesData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData.names">
+<code class="docutils literal notranslate">
+<span class="pre">VectorEntitiesData.names
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData.hovers">
+<code class="docutils literal notranslate">
+<span class="pre">VectorEntitiesData.hovers
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData.mask">
+<code class="docutils literal notranslate">
+<span class="pre">VectorEntitiesData.mask
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData.add_hovers">
+<code class="docutils literal notranslate">
+<span class="pre">VectorEntitiesData.add_hovers()
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData">
+<code class="docutils literal notranslate">
+<span class="pre">VectorValuesData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData.vector">
+<code class="docutils literal notranslate">
+<span class="pre">VectorValuesData.vector
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData.title">
+<code class="docutils literal notranslate">
+<span class="pre">VectorValuesData.title
 </span>
 </code>
 </a>
@@ -1763,9 +1786,18 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraph.distribution_values_fields">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraph.distribution_axis_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">DistributionGraph.distribution_values_fields()
+<span class="pre">DistributionGraph.distribution_axis_vector_fields()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionGraph.distribution_entities">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraph.distribution_entities()
 </span>
 </code>
 </a>
@@ -2004,9 +2036,9 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraph.distributions_values_fields">
+<a class="reference internal" href="distributions.html#somegraphspy.distributions.DistributionsGraph.distribution_part_fields">
 <code class="docutils literal notranslate">
-<span class="pre">DistributionsGraph.distributions_values_fields()
+<span class="pre">DistributionsGraph.distribution_part_fields()
 </span>
 </code>
 </a>
@@ -2442,18 +2474,27 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraph.x_fields">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraph.x_axis_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">LineGraph.x_fields()
+<span class="pre">LineGraph.x_axis_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraph.y_fields">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraph.y_axis_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">LineGraph.y_fields()
+<span class="pre">LineGraph.y_axis_vector_fields()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LineGraph.points_entities">
+<code class="docutils literal notranslate">
+<span class="pre">LineGraph.points_entities()
 </span>
 </code>
 </a>
@@ -2670,18 +2711,9 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraph.x_fields">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraph.line_part_fields">
 <code class="docutils literal notranslate">
-<span class="pre">LinesGraph.x_fields()
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l3">
-<a class="reference internal" href="scatters.html#somegraphspy.scatters.LinesGraph.y_fields">
-<code class="docutils literal notranslate">
-<span class="pre">LinesGraph.y_fields()
+<span class="pre">LinesGraph.line_part_fields()
 </span>
 </code>
 </a>
@@ -2965,72 +2997,90 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.x_fields">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.x_axis_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">PointsGraph.x_fields()
+<span class="pre">PointsGraph.x_axis_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.y_fields">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.y_axis_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">PointsGraph.y_fields()
+<span class="pre">PointsGraph.y_axis_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.points_colors_fields">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.points_colors_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">PointsGraph.points_colors_fields()
+<span class="pre">PointsGraph.points_colors_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.points_sizes_fields">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.points_sizes_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">PointsGraph.points_sizes_fields()
+<span class="pre">PointsGraph.points_sizes_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.borders_colors_fields">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.borders_colors_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">PointsGraph.borders_colors_fields()
+<span class="pre">PointsGraph.borders_colors_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.borders_sizes_fields">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.borders_sizes_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">PointsGraph.borders_sizes_fields()
+<span class="pre">PointsGraph.borders_sizes_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.edges_colors_fields">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.edges_colors_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">PointsGraph.edges_colors_fields()
+<span class="pre">PointsGraph.edges_colors_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.edges_sizes_fields">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.edges_sizes_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">PointsGraph.edges_sizes_fields()
+<span class="pre">PointsGraph.edges_sizes_vector_fields()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.points_entities">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraph.points_entities()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="scatters.html#somegraphspy.scatters.PointsGraph.edges_entities">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraph.edges_entities()
 </span>
 </code>
 </a>
@@ -3372,36 +3422,36 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraph.values_fields">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraph.values_axis_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">BarsGraph.values_fields()
+<span class="pre">BarsGraph.values_axis_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraph.colors_fields">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraph.colors_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">BarsGraph.colors_fields()
+<span class="pre">BarsGraph.colors_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraph.names_fields">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraph.annotations_colors_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">BarsGraph.names_fields()
+<span class="pre">BarsGraph.annotations_colors_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraph.annotations_fields">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraph.bars_entities">
 <code class="docutils literal notranslate">
-<span class="pre">BarsGraph.annotations_fields()
+<span class="pre">BarsGraph.bars_entities()
 </span>
 </code>
 </a>
@@ -3442,6 +3492,15 @@ Julia
 <a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphConfiguration.value_axis">
 <code class="docutils literal notranslate">
 <span class="pre">BarsGraphConfiguration.value_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphConfiguration.bar_axis">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphConfiguration.bar_axis
 </span>
 </code>
 </a>
@@ -3524,15 +3583,6 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.names">
-<code class="docutils literal notranslate">
-<span class="pre">BarsGraphData.names
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l3">
 <a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.bars">
 <code class="docutils literal notranslate">
 <span class="pre">BarsGraphData.bars
@@ -3554,6 +3604,15 @@ Julia
 <a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.annotations">
 <code class="docutils literal notranslate">
 <span class="pre">BarsGraphData.annotations
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.BarsGraphData.annotations_order">
+<code class="docutils literal notranslate">
+<span class="pre">BarsGraphData.annotations_order
 </span>
 </code>
 </a>
@@ -3600,27 +3659,27 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraph.series_values_fields">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraph.series_part_fields">
 <code class="docutils literal notranslate">
-<span class="pre">SeriesBarsGraph.series_values_fields()
+<span class="pre">SeriesBarsGraph.series_part_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraph.names_fields">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraph.annotations_colors_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">SeriesBarsGraph.names_fields()
+<span class="pre">SeriesBarsGraph.annotations_colors_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraph.annotations_fields">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraph.bars_entities">
 <code class="docutils literal notranslate">
-<span class="pre">SeriesBarsGraph.annotations_fields()
+<span class="pre">SeriesBarsGraph.bars_entities()
 </span>
 </code>
 </a>
@@ -3670,6 +3729,15 @@ Julia
 <a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphConfiguration.value_axis">
 <code class="docutils literal notranslate">
 <span class="pre">SeriesBarsGraphConfiguration.value_axis
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphConfiguration.bar_axis">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphConfiguration.bar_axis
 </span>
 </code>
 </a>
@@ -3761,9 +3829,9 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.names">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.order">
 <code class="docutils literal notranslate">
-<span class="pre">SeriesBarsGraphData.names
+<span class="pre">SeriesBarsGraphData.order
 </span>
 </code>
 </a>
@@ -3782,6 +3850,15 @@ Julia
 <a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.annotations">
 <code class="docutils literal notranslate">
 <span class="pre">SeriesBarsGraphData.annotations
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesBarsGraphData.annotations_order">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesBarsGraphData.annotations_order
 </span>
 </code>
 </a>
@@ -3831,6 +3908,15 @@ Julia
 <a class="reference internal" href="bars.html#somegraphspy.bars.SeriesData.hover">
 <code class="docutils literal notranslate">
 <span class="pre">SeriesData.hover
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="bars.html#somegraphspy.bars.SeriesData.is_shown">
+<code class="docutils literal notranslate">
+<span class="pre">SeriesData.is_shown
 </span>
 </code>
 </a>
@@ -3917,6 +4003,24 @@ Julia
 </li>
 
 <li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapAxisConfiguration.show_ticks">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapAxisConfiguration.show_ticks
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapAxisConfiguration.ticks_angle">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapAxisConfiguration.ticks_angle
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
 <a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapAxisConfiguration.annotations">
 <code class="docutils literal notranslate">
 <span class="pre">HeatmapAxisConfiguration.annotations
@@ -3980,6 +4084,15 @@ Julia
 </li>
 
 <li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapAxisConfiguration.total_gaps_fraction">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapAxisConfiguration.total_gaps_fraction
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
 <a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapAxisConfiguration.dendogram_size">
 <code class="docutils literal notranslate">
 <span class="pre">HeatmapAxisConfiguration.dendogram_size
@@ -4009,15 +4122,6 @@ Julia
 </code>
 </a>
 <ul>
-
-<li class="toctree-l3">
-<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapAxisData.names">
-<code class="docutils literal notranslate">
-<span class="pre">HeatmapAxisData.names
-</span>
-</code>
-</a>
-</li>
 
 <li class="toctree-l3">
 <a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapAxisData.entities">
@@ -4073,6 +4177,15 @@ Julia
 </a>
 </li>
 
+<li class="toctree-l3">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapAxisData.annotations_order">
+<code class="docutils literal notranslate">
+<span class="pre">HeatmapAxisData.annotations_order
+</span>
+</code>
+</a>
+</li>
+
 </ul>
 
 </li>
@@ -4123,81 +4236,81 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.entries_fields">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.entries_matrix_fields">
 <code class="docutils literal notranslate">
-<span class="pre">HeatmapGraph.entries_fields()
+<span class="pre">HeatmapGraph.entries_matrix_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.rows_names_fields">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.rows_groups_vector_data_fields">
 <code class="docutils literal notranslate">
-<span class="pre">HeatmapGraph.rows_names_fields()
+<span class="pre">HeatmapGraph.rows_groups_vector_data_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.columns_names_fields">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.rows_subgroups_vector_data_fields">
 <code class="docutils literal notranslate">
-<span class="pre">HeatmapGraph.columns_names_fields()
+<span class="pre">HeatmapGraph.rows_subgroups_vector_data_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.rows_groups_fields">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.columns_groups_vector_data_fields">
 <code class="docutils literal notranslate">
-<span class="pre">HeatmapGraph.rows_groups_fields()
+<span class="pre">HeatmapGraph.columns_groups_vector_data_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.rows_subgroups_fields">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.columns_subgroups_vector_data_fields">
 <code class="docutils literal notranslate">
-<span class="pre">HeatmapGraph.rows_subgroups_fields()
+<span class="pre">HeatmapGraph.columns_subgroups_vector_data_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.columns_groups_fields">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.rows_annotations_colors_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">HeatmapGraph.columns_groups_fields()
+<span class="pre">HeatmapGraph.rows_annotations_colors_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.columns_subgroups_fields">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.columns_annotations_colors_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">HeatmapGraph.columns_subgroups_fields()
+<span class="pre">HeatmapGraph.columns_annotations_colors_vector_fields()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.rows_annotations_fields">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.rows_entities">
 <code class="docutils literal notranslate">
-<span class="pre">HeatmapGraph.rows_annotations_fields()
+<span class="pre">HeatmapGraph.rows_entities()
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.columns_annotations_fields">
+<a class="reference internal" href="heatmaps.html#somegraphspy.heatmaps.HeatmapGraph.columns_entities">
 <code class="docutils literal notranslate">
-<span class="pre">HeatmapGraph.columns_annotations_fields()
+<span class="pre">HeatmapGraph.columns_entities()
 </span>
 </code>
 </a>
@@ -4641,9 +4754,9 @@ Julia
 </li>
 
 <li class="toctree-l2">
-<a class="reference internal" href="sources.html#somegraphspy.sources.AxisFields">
+<a class="reference internal" href="sources.html#somegraphspy.sources.AxisVectorFields">
 <code class="docutils literal notranslate">
-<span class="pre">AxisFields
+<span class="pre">AxisVectorFields
 </span>
 </code>
 </a>
@@ -4659,9 +4772,9 @@ Julia
 <ul>
 
 <li class="toctree-l3">
-<a class="reference internal" href="sources.html#somegraphspy.sources.ColorsConfigurationFields.axis">
+<a class="reference internal" href="sources.html#somegraphspy.sources.ColorsConfigurationFields.scale">
 <code class="docutils literal notranslate">
-<span class="pre">ColorsConfigurationFields.axis
+<span class="pre">ColorsConfigurationFields.scale
 </span>
 </code>
 </a>
@@ -4681,9 +4794,9 @@ Julia
 </li>
 
 <li class="toctree-l2">
-<a class="reference internal" href="sources.html#somegraphspy.sources.ColorsFields">
+<a class="reference internal" href="sources.html#somegraphspy.sources.ColorsVectorFields">
 <code class="docutils literal notranslate">
-<span class="pre">ColorsFields
+<span class="pre">ColorsVectorFields
 </span>
 </code>
 </a>
@@ -4699,9 +4812,9 @@ Julia
 <ul>
 
 <li class="toctree-l3">
-<a class="reference internal" href="sources.html#somegraphspy.sources.MatrixConfigurationFields.axis">
+<a class="reference internal" href="sources.html#somegraphspy.sources.MatrixConfigurationFields.scale">
 <code class="docutils literal notranslate">
-<span class="pre">MatrixConfigurationFields.axis
+<span class="pre">MatrixConfigurationFields.scale
 </span>
 </code>
 </a>
@@ -4747,6 +4860,24 @@ Julia
 </a>
 </li>
 
+<li class="toctree-l3">
+<a class="reference internal" href="sources.html#somegraphspy.sources.MatrixDataFields.rows_entities">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixDataFields.rows_entities
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="sources.html#somegraphspy.sources.MatrixDataFields.columns_entities">
+<code class="docutils literal notranslate">
+<span class="pre">MatrixDataFields.columns_entities
+</span>
+</code>
+</a>
+</li>
+
 </ul>
 
 </li>
@@ -4783,6 +4914,91 @@ Julia
 </li>
 
 <li class="toctree-l2">
+<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields">
+<code class="docutils literal notranslate">
+<span class="pre">PartFields
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l3">
+<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields.graph">
+<code class="docutils literal notranslate">
+<span class="pre">PartFields.graph
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields.index">
+<code class="docutils literal notranslate">
+<span class="pre">PartFields.index
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields.data">
+<code class="docutils literal notranslate">
+<span class="pre">PartFields.data
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields.entities">
+<code class="docutils literal notranslate">
+<span class="pre">PartFields.entities
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields.values">
+<code class="docutils literal notranslate">
+<span class="pre">PartFields.values
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields.x">
+<code class="docutils literal notranslate">
+<span class="pre">PartFields.x
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields.y">
+<code class="docutils literal notranslate">
+<span class="pre">PartFields.y
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="sources.html#somegraphspy.sources.Sinks">
+<code class="docutils literal notranslate">
+<span class="pre">Sinks
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
 <a class="reference internal" href="sources.html#somegraphspy.sources.SizesConfigurationFields">
 <code class="docutils literal notranslate">
 <span class="pre">SizesConfigurationFields
@@ -4792,9 +5008,9 @@ Julia
 <ul>
 
 <li class="toctree-l3">
-<a class="reference internal" href="sources.html#somegraphspy.sources.SizesConfigurationFields.axis">
+<a class="reference internal" href="sources.html#somegraphspy.sources.SizesConfigurationFields.scale">
 <code class="docutils literal notranslate">
-<span class="pre">SizesConfigurationFields.axis
+<span class="pre">SizesConfigurationFields.scale
 </span>
 </code>
 </a>
@@ -4814,9 +5030,9 @@ Julia
 </li>
 
 <li class="toctree-l2">
-<a class="reference internal" href="sources.html#somegraphspy.sources.SizesFields">
+<a class="reference internal" href="sources.html#somegraphspy.sources.SizesVectorFields">
 <code class="docutils literal notranslate">
-<span class="pre">SizesFields
+<span class="pre">SizesVectorFields
 </span>
 </code>
 </a>
@@ -4882,6 +5098,24 @@ Julia
 
 </ul>
 
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="sources.html#somegraphspy.sources.visit_configuration_sinks">
+<code class="docutils literal notranslate">
+<span class="pre">visit_configuration_sinks()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="sources.html#somegraphspy.sources.visit_data_sinks">
+<code class="docutils literal notranslate">
+<span class="pre">visit_data_sinks()
+</span>
+</code>
+</a>
 </li>
 
 </ul>
@@ -5220,27 +5454,27 @@ Julia
 </li>
 
 <li class="toctree-l2">
-<a class="reference internal" href="enums.html#somegraphspy.enums.LogScale">
+<a class="reference internal" href="enums.html#somegraphspy.enums.LogBase">
 <code class="docutils literal notranslate">
-<span class="pre">LogScale
+<span class="pre">LogBase
 </span>
 </code>
 </a>
 <ul>
 
 <li class="toctree-l3">
-<a class="reference internal" href="enums.html#somegraphspy.enums.LogScale.Log10Scale">
+<a class="reference internal" href="enums.html#somegraphspy.enums.LogBase.Log10Base">
 <code class="docutils literal notranslate">
-<span class="pre">LogScale.Log10Scale
+<span class="pre">LogBase.Log10Base
 </span>
 </code>
 </a>
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="enums.html#somegraphspy.enums.LogScale.Log2Scale">
+<a class="reference internal" href="enums.html#somegraphspy.enums.LogBase.Log2Base">
 <code class="docutils literal notranslate">
-<span class="pre">LogScale.Log2Scale
+<span class="pre">LogBase.Log2Base
 </span>
 </code>
 </a>

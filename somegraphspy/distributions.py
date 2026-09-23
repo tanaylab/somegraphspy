@@ -16,14 +16,14 @@ from .common import AbstractGraphData
 from .common import AxisConfiguration
 from .common import BandsConfiguration
 from .common import BandsData
-from .common import EntitiesData
 from .common import FigureConfiguration
 from .common import Graph
 from .common import IntegersVector
 from .common import LineConfiguration
 from .common import Validated
-from .common import ValuesData
 from .common import ValuesOrientation
+from .common import VectorEntitiesData
+from .common import VectorValuesData
 from .julia_import import DEFAULT
 from .julia_import import DefaultValue
 from .julia_import import JlEnum
@@ -33,7 +33,8 @@ from .julia_import import _given
 from .julia_import import _optional_jl_obj
 from .julia_import import jl
 from .julia_import import register_jl_type
-from .sources import AxisFields
+from .sources import AxisVectorFields
+from .sources import PartFields
 
 __all__ = [
     "DistributionConfiguration",
@@ -176,9 +177,9 @@ class DistributionData(JlObject):
     """
 
     #: The values whose distribution is shown; their title is the value axis title.
-    values: ValuesData
-    #: The hovers and mask of the values.
-    points: EntitiesData
+    values: VectorValuesData
+    #: The names, hovers and mask of the values.
+    points: VectorEntitiesData
     #: The name of the distribution.
     name: Optional[str]
     #: Prefixed to the hover of each value.
@@ -191,8 +192,8 @@ class DistributionData(JlObject):
     def __init__(
         self,
         *,
-        values: Union[ValuesData, DefaultValue] = DEFAULT,
-        points: Union[EntitiesData, DefaultValue] = DEFAULT,
+        values: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        points: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
         name: Union[Optional[str], DefaultValue] = DEFAULT,
         hover: Union[Optional[str], DefaultValue] = DEFAULT,
         is_shown: Union[bool, DefaultValue] = DEFAULT,
@@ -267,11 +268,17 @@ class DistributionGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.DistributionGraph(**_given(data=data, configuration=configuration)))
 
-    def distribution_values_fields(self) -> AxisFields:
+    def distribution_axis_vector_fields(self) -> AxisVectorFields:
         """
         The data source view of the values of the distribution, along the ``value_axis``.
         """
-        return _from_julia(jl.SomeGraphs.distribution_values_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.distribution_axis_vector_fields(self.jl_obj))
+
+    def distribution_entities(self) -> VectorEntitiesData:
+        """
+        The entities of the points of the distribution.
+        """
+        return _from_julia(jl.SomeGraphs.distribution_entities(self.jl_obj))
 
 
 def distribution_graph(
@@ -417,19 +424,19 @@ class DistributionsGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.DistributionsGraph(**_given(data=data, configuration=configuration)))
 
-    def distributions_values_fields(self, index: int) -> AxisFields:
+    def distribution_part_fields(self, index: int) -> PartFields:
         """
-        The data source view of the values of the (1-based) ``index`` distribution, along the (shared) ``value_axis``.
+        The data source view of the (1-based) ``index`` distribution. Its ``values`` are along the (shared)
+        ``value_axis``.
         """
-        return _from_julia(jl.SomeGraphs.distributions_values_fields(self.jl_obj, index))
+        return _from_julia(jl.SomeGraphs.distribution_part_fields(self.jl_obj, index))
 
-    def add_distribution(self, distribution: Optional[DistributionData] = None) -> int:
+    def add_distribution(self, distribution: Optional[DistributionData] = None) -> PartFields:
         """
-        Append a ``distribution`` (by default, an empty one) and return its (1-based) index, for
-        :py:obj:`distributions_values_fields`. Whatever the distribution leaves at its defaults can be set later,
-        through the view or directly.
+        Append a ``distribution`` (by default, an empty one) and return its view. Whatever the distribution leaves at
+        its defaults can be set later, through the view or directly.
         """
-        return int(jl.SomeGraphs.add_distribution_b(self.jl_obj, *_optional_jl_obj(distribution)))
+        return _from_julia(jl.SomeGraphs.add_distribution_b(self.jl_obj, *_optional_jl_obj(distribution)))
 
 
 def distributions_graph(

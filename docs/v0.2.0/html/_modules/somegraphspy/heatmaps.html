@@ -89,16 +89,16 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotationData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotationSize</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorsConfiguration</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntitiesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">FigureConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Graph</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntegersVector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">LineConfiguration</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixEntitiesData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixValuesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">NumbersMatrix</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Validated</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValuesData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorEntitiesData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorValuesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultValue</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlEnum</span>
@@ -108,7 +108,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_optional_jl_obj</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">jl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorsFields</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorsVectorFields</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixFields</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorDataFields</span>
 
@@ -281,6 +281,10 @@
 
     <span class="c1">#: The title of the axis.</span>
     <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1">#: Show the tick labels (the names of the entries).</span>
+    <span class="n">show_ticks</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="c1">#: Rotate the tick labels by this angle, in degrees.</span>
+    <span class="n">ticks_angle</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="c1">#: The size of the annotations shown next to the axis.</span>
     <span class="n">annotations</span><span class="p">:</span> <span class="n">AnnotationSize</span>
     <span class="c1">#: How to reorder the entries.</span>
@@ -295,6 +299,8 @@
     <span class="n">groups_gap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
     <span class="c1">#: The gap between subgroups of entries, in entries.</span>
     <span class="n">subgroups_gap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="c1">#: Cap the total size of all the gaps to this fraction of the axis.</span>
+    <span class="n">total_gaps_fraction</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="c1">#: The size of the dendogram, as a fraction of the graph size.</span>
     <span class="n">dendogram_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="c1">#: How to draw the dendogram.</span>
@@ -304,6 +310,8 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">show_ticks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">ticks_angle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnnotationSize</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">reorder</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapReorder</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">linkage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapLinkage</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
@@ -311,6 +319,7 @@
         <span class="n">include_hidden</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">groups_gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">subgroups_gap</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">total_gaps_fraction</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">dendogram_size</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">dendogram_line</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">LineConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -318,6 +327,8 @@
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">HeatmapAxisConfiguration</span><span class="p">(</span>
                 <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
                     <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                    <span class="n">show_ticks</span><span class="o">=</span><span class="n">show_ticks</span><span class="p">,</span>
+                    <span class="n">ticks_angle</span><span class="o">=</span><span class="n">ticks_angle</span><span class="p">,</span>
                     <span class="n">annotations</span><span class="o">=</span><span class="n">annotations</span><span class="p">,</span>
                     <span class="n">reorder</span><span class="o">=</span><span class="n">reorder</span><span class="p">,</span>
                     <span class="n">linkage</span><span class="o">=</span><span class="n">linkage</span><span class="p">,</span>
@@ -325,6 +336,7 @@
                     <span class="n">include_hidden</span><span class="o">=</span><span class="n">include_hidden</span><span class="p">,</span>
                     <span class="n">groups_gap</span><span class="o">=</span><span class="n">groups_gap</span><span class="p">,</span>
                     <span class="n">subgroups_gap</span><span class="o">=</span><span class="n">subgroups_gap</span><span class="p">,</span>
+                    <span class="n">total_gaps_fraction</span><span class="o">=</span><span class="n">total_gaps_fraction</span><span class="p">,</span>
                     <span class="n">dendogram_size</span><span class="o">=</span><span class="n">dendogram_size</span><span class="p">,</span>
                     <span class="n">dendogram_line</span><span class="o">=</span><span class="n">dendogram_line</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -391,43 +403,43 @@
 <span class="sd">    for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1">#: The name of each entry, shown as the tick labels; their title is the axis title.</span>
-    <span class="n">names</span><span class="p">:</span> <span class="n">ValuesData</span>
-    <span class="c1">#: The hovers and mask of the entries.</span>
-    <span class="n">entities</span><span class="p">:</span> <span class="n">EntitiesData</span>
+    <span class="c1">#: The names (shown as the tick labels), hovers and mask of the entries.</span>
+    <span class="n">entities</span><span class="p">:</span> <span class="n">VectorEntitiesData</span>
     <span class="c1">#: Force this order of the entries.</span>
     <span class="n">order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Order</span><span class="p">]</span>
     <span class="c1">#: The group of each entry, either numbers or names. The groups have no title.</span>
-    <span class="n">groups</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="n">groups</span><span class="p">:</span> <span class="n">VectorValuesData</span>
     <span class="c1">#: The subgroup of each entry, nested in its group. A subgroup of one group is unrelated to the same subgroup of</span>
     <span class="c1">#: another group, so the subgroups need not be unique. The subgroups have no title.</span>
-    <span class="n">subgroups</span><span class="p">:</span> <span class="n">ValuesData</span>
+    <span class="n">subgroups</span><span class="p">:</span> <span class="n">VectorValuesData</span>
     <span class="c1">#: The features to cluster the entries by, instead of the entries values.</span>
     <span class="n">arrange_by</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">]</span>
     <span class="c1">#: Annotations shown next to the axis.</span>
     <span class="n">annotations</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span>
+    <span class="c1">#: The (1-based) order to show the annotations in.</span>
+    <span class="n">annotations_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">entities</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">EntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">entities</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorEntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Order</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">groups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">subgroups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">groups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">subgroups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">arrange_by</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">annotations</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">annotations_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">HeatmapAxisData</span><span class="p">(</span>
                 <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
-                    <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span>
                     <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
                     <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
                     <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span>
                     <span class="n">subgroups</span><span class="o">=</span><span class="n">subgroups</span><span class="p">,</span>
                     <span class="n">arrange_by</span><span class="o">=</span><span class="n">arrange_by</span><span class="p">,</span>
                     <span class="n">annotations</span><span class="o">=</span><span class="n">annotations</span><span class="p">,</span>
+                    <span class="n">annotations_order</span><span class="o">=</span><span class="n">annotations_order</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
@@ -449,8 +461,8 @@
     <span class="c1">#: The title of the figure.</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="c1">#: The value of each entry, a row per row and a column per column; their title is the colors legend title.</span>
-    <span class="n">entries</span><span class="p">:</span> <span class="n">MatrixData</span>
-    <span class="c1">#: The hovers and mask of the entries.</span>
+    <span class="n">entries</span><span class="p">:</span> <span class="n">MatrixValuesData</span>
+    <span class="c1">#: The hovers of the entries.</span>
     <span class="n">cells</span><span class="p">:</span> <span class="n">MatrixEntitiesData</span>
     <span class="c1">#: The data of the rows.</span>
     <span class="n">rows</span><span class="p">:</span> <span class="n">HeatmapAxisData</span>
@@ -461,7 +473,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">entries</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">MatrixData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">entries</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">MatrixValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">cells</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">MatrixEntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapAxisData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">columns</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapAxisData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
@@ -534,86 +546,86 @@
         <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">reset_order_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="HeatmapGraph.entries_fields">
-<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.entries_fields">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">entries_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixFields</span><span class="p">:</span>
+<div class="viewcode-block" id="HeatmapGraph.entries_matrix_fields">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.entries_matrix_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">entries_matrix_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixFields</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The data source view of the entries of the heatmap, colored by the ``entries.colors``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">entries_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">entries_matrix_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="HeatmapGraph.rows_names_fields">
-<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_names_fields">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">rows_names_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The data source view of the names of the rows; their title is the title of the rows axis.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_names_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
-
-
-<div class="viewcode-block" id="HeatmapGraph.columns_names_fields">
-<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_names_fields">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">columns_names_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The data source view of the names of the columns; their title is the title of the columns axis.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_names_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
-
-
-<div class="viewcode-block" id="HeatmapGraph.rows_groups_fields">
-<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_groups_fields">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">rows_groups_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
+<div class="viewcode-block" id="HeatmapGraph.rows_groups_vector_data_fields">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_groups_vector_data_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rows_groups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The data source view of the groups of the rows.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_groups_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_groups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="HeatmapGraph.rows_subgroups_fields">
-<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_subgroups_fields">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">rows_subgroups_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
+<div class="viewcode-block" id="HeatmapGraph.rows_subgroups_vector_data_fields">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_subgroups_vector_data_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rows_subgroups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The data source view of the subgroups of the rows.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_subgroups_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_subgroups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="HeatmapGraph.columns_groups_fields">
-<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_groups_fields">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">columns_groups_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
+<div class="viewcode-block" id="HeatmapGraph.columns_groups_vector_data_fields">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_groups_vector_data_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">columns_groups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The data source view of the groups of the columns.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_groups_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_groups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="HeatmapGraph.columns_subgroups_fields">
-<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_subgroups_fields">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">columns_subgroups_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
+<div class="viewcode-block" id="HeatmapGraph.columns_subgroups_vector_data_fields">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_subgroups_vector_data_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">columns_subgroups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The data source view of the subgroups of the columns.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_subgroups_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_subgroups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="HeatmapGraph.rows_annotations_fields">
-<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_annotations_fields">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">rows_annotations_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsFields</span><span class="p">:</span>
+<div class="viewcode-block" id="HeatmapGraph.rows_annotations_colors_vector_fields">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_annotations_colors_vector_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rows_annotations_colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsVectorFields</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The data source view of the (1-based) ``index`` annotation of the rows, which shares the entities of the rows.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_annotations_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_annotations_colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="HeatmapGraph.columns_annotations_fields">
-<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_annotations_fields">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">columns_annotations_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsFields</span><span class="p">:</span>
+<div class="viewcode-block" id="HeatmapGraph.columns_annotations_colors_vector_fields">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_annotations_colors_vector_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">columns_annotations_colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsVectorFields</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The data source view of the (1-based) ``index`` annotation of the columns, which shares the entities of the</span>
 <span class="sd">        columns.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_annotations_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_annotations_colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="HeatmapGraph.rows_entities">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_entities">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rows_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorEntitiesData</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The entities of the rows, shared by all their roles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_entities</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="HeatmapGraph.columns_entities">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_entities">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">columns_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorEntitiesData</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The entities of the columns, shared by all their roles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_entities</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.add_rows_annotation">
@@ -621,7 +633,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">add_rows_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Append an ``annotation`` of the rows (by default, an empty one) and return its (1-based) index, for</span>
-<span class="sd">        :py:obj:`rows_annotations_fields`.</span>
+<span class="sd">        :py:obj:`rows_annotations_colors_vector_fields`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_rows_annotation_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">_optional_jl_obj</span><span class="p">(</span><span class="n">annotation</span><span class="p">)))</span></div>
 
@@ -631,7 +643,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">add_columns_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Append an ``annotation`` of the columns (by default, an empty one) and return its (1-based) index, for</span>
-<span class="sd">        :py:obj:`columns_annotations_fields`.</span>
+<span class="sd">        :py:obj:`columns_annotations_colors_vector_fields`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_columns_annotation_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">_optional_jl_obj</span><span class="p">(</span><span class="n">annotation</span><span class="p">)))</span></div>
 </div>
@@ -643,7 +655,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">heatmap_graph</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">entries</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">MatrixData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">entries</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">MatrixValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">cells</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">MatrixEntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapAxisData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">columns</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapAxisData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>

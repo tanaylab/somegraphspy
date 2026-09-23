@@ -27,11 +27,11 @@ def test_complete_the_fields_of_a_configuration() -> None:
 
 def test_complete_through_nested_fields() -> None:
     names = _completions("sg.PointsGraphConfiguration().figure.")
-    for name in ("margins", "width", "height", "template", "background_color"):
+    for name in ("margins", "width", "height", "background_color"):
         assert name in names
 
-    names = _completions("sg.PointsGraphConfiguration().points.colors.axis.")
-    for name in ("minimum", "maximum", "log_scale", "percent", "title"):
+    names = _completions("sg.PointsGraphConfiguration().points.colors.scale.")
+    for name in ("minimum", "maximum", "log_base", "percent", "include_hidden"):
         assert name in names
 
 

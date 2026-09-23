@@ -218,6 +218,8 @@
 
 <span class="s2">    using PythonCall</span>
 
+<span class="s2">    import SomeGraphs</span>
+
 <span class="s2">    function pyconvert_rule_jl_object(::Type</span><span class="si">{T}</span><span class="s2">, x::Py) where </span><span class="si">{T}</span>
 <span class="s2">        return PythonCall.pyconvert_return(pyconvert(T, x.jl_obj))</span>
 <span class="s2">    end</span>
@@ -246,6 +248,15 @@
 <span class="s2">        else</span>
 <span class="s2">            return &quot;other&quot;</span>
 <span class="s2">        end</span>
+<span class="s2">    end</span>
+
+<span class="s2">    # Run a Python visitor over the sinks. A Python callable is not a Julia ``Function``, so it is wrapped in one.</span>
+<span class="s2">    function _visit_data_sinks(visitor::Py, sinks::Any)::Nothing</span>
+<span class="s2">        return SomeGraphs.visit_data_sinks(sink -&gt; (visitor(sink); nothing), sinks)</span>
+<span class="s2">    end</span>
+
+<span class="s2">    function _visit_configuration_sinks(visitor::Py, sinks::Any)::Nothing</span>
+<span class="s2">        return SomeGraphs.visit_configuration_sinks(sink -&gt; (visitor(sink); nothing), sinks)</span>
 <span class="s2">    end</span>
 
 <span class="s2">    end  # module SomeGraphsPy</span>

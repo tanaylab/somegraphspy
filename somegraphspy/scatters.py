@@ -15,7 +15,6 @@ from .common import BandsConfiguration
 from .common import BandsData
 from .common import BoolsVector
 from .common import ColorsConfiguration
-from .common import EntitiesData
 from .common import FigureConfiguration
 from .common import Graph
 from .common import IntegersVector
@@ -24,7 +23,8 @@ from .common import LineStyle
 from .common import NumbersVector
 from .common import SizesConfiguration
 from .common import Stacking
-from .common import ValuesData
+from .common import VectorEntitiesData
+from .common import VectorValuesData
 from .julia_import import DEFAULT
 from .julia_import import DefaultValue
 from .julia_import import JlObject
@@ -33,9 +33,10 @@ from .julia_import import _given
 from .julia_import import _optional_jl_obj
 from .julia_import import jl
 from .julia_import import register_jl_type
-from .sources import AxisFields
-from .sources import ColorsFields
-from .sources import SizesFields
+from .sources import AxisVectorFields
+from .sources import ColorsVectorFields
+from .sources import PartFields
+from .sources import SizesVectorFields
 
 __all__ = [
     "BordersData",
@@ -161,20 +162,20 @@ class PointsData(JlObject):
     """
 
     #: The color of each point; their title is the legend title.
-    colors: ValuesData
+    colors: VectorValuesData
     #: The size of each point.
-    sizes: ValuesData
-    #: The hovers and mask of the points.
-    entities: EntitiesData
+    sizes: VectorValuesData
+    #: The names, hovers and mask of the points.
+    entities: VectorEntitiesData
     #: The (1-based) order to draw the points in, controlling which are on top.
     order: Optional[IntegersVector]
 
     def __init__(
         self,
         *,
-        colors: Union[ValuesData, DefaultValue] = DEFAULT,
-        sizes: Union[ValuesData, DefaultValue] = DEFAULT,
-        entities: Union[EntitiesData, DefaultValue] = DEFAULT,
+        colors: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        sizes: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        entities: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
         order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(jl.SomeGraphs.PointsData(**_given(colors=colors, sizes=sizes, entities=entities, order=order)))
@@ -192,17 +193,17 @@ class BordersData(JlObject):
     """
 
     #: The color of the border of each point; their title is the legend title.
-    colors: ValuesData
+    colors: VectorValuesData
     #: The size added to each point for its border.
-    sizes: ValuesData
+    sizes: VectorValuesData
     #: Which borders to show.
     mask: Optional[BoolsVector]
 
     def __init__(
         self,
         *,
-        colors: Union[ValuesData, DefaultValue] = DEFAULT,
-        sizes: Union[ValuesData, DefaultValue] = DEFAULT,
+        colors: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        sizes: Union[VectorValuesData, DefaultValue] = DEFAULT,
         mask: Union[Optional[BoolsVector], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(jl.SomeGraphs.BordersData(**_given(colors=colors, sizes=sizes, mask=mask)))
@@ -221,13 +222,13 @@ class EdgesData(JlObject):
     #: The pairs of (1-based) point indices to draw edges between.
     points: Optional[EdgesVector]
     #: The color of each edge; their title is the legend title.
-    colors: ValuesData
+    colors: VectorValuesData
     #: The width of each edge.
-    sizes: ValuesData
+    sizes: VectorValuesData
     #: The style of each edge.
     styles: Optional[Sequence[LineStyle]]
-    #: The hovers and mask of the edges.
-    entities: EntitiesData
+    #: The names, hovers and mask of the edges.
+    entities: VectorEntitiesData
     #: The (1-based) order to draw the edges in, controlling which are on top.
     order: Optional[IntegersVector]
 
@@ -235,10 +236,10 @@ class EdgesData(JlObject):
         self,
         *,
         points: Union[Optional[EdgesVector], DefaultValue] = DEFAULT,
-        colors: Union[ValuesData, DefaultValue] = DEFAULT,
-        sizes: Union[ValuesData, DefaultValue] = DEFAULT,
+        colors: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        sizes: Union[VectorValuesData, DefaultValue] = DEFAULT,
         styles: Union[Optional[Sequence[LineStyle]], DefaultValue] = DEFAULT,
-        entities: Union[EntitiesData, DefaultValue] = DEFAULT,
+        entities: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
         order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
@@ -261,9 +262,9 @@ class PointsGraphData(AbstractGraphData):
     #: The title of the figure.
     figure_title: Optional[str]
     #: The horizontal coordinate of each point; their title is the horizontal axis title.
-    x: ValuesData
+    x: VectorValuesData
     #: The vertical coordinate of each point; their title is the vertical axis title.
-    y: ValuesData
+    y: VectorValuesData
     #: The colors, sizes, hovers, mask and order of the points.
     points: PointsData
     #: The colors, sizes and mask of the borders of the points.
@@ -281,8 +282,8 @@ class PointsGraphData(AbstractGraphData):
         self,
         *,
         figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        x: Union[ValuesData, DefaultValue] = DEFAULT,
-        y: Union[ValuesData, DefaultValue] = DEFAULT,
+        x: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        y: Union[VectorValuesData, DefaultValue] = DEFAULT,
         points: Union[PointsData, DefaultValue] = DEFAULT,
         borders: Union[BordersData, DefaultValue] = DEFAULT,
         edges: Union[EdgesData, DefaultValue] = DEFAULT,
@@ -330,60 +331,72 @@ class PointsGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.PointsGraph(**_given(data=data, configuration=configuration)))
 
-    def x_fields(self) -> AxisFields:
+    def x_axis_vector_fields(self) -> AxisVectorFields:
         """
         The data source view of the X coordinates of the points, along the ``x_axis``.
         """
-        return _from_julia(jl.SomeGraphs.x_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.x_axis_vector_fields(self.jl_obj))
 
-    def y_fields(self) -> AxisFields:
+    def y_axis_vector_fields(self) -> AxisVectorFields:
         """
         The data source view of the Y coordinates of the points, along the ``y_axis``.
         """
-        return _from_julia(jl.SomeGraphs.y_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.y_axis_vector_fields(self.jl_obj))
 
-    def points_colors_fields(self) -> ColorsFields:
+    def points_colors_vector_fields(self) -> ColorsVectorFields:
         """
         The data source view of the colors of the points.
         """
-        return _from_julia(jl.SomeGraphs.points_colors_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.points_colors_vector_fields(self.jl_obj))
 
-    def points_sizes_fields(self) -> SizesFields:
+    def points_sizes_vector_fields(self) -> SizesVectorFields:
         """
         The data source view of the sizes of the points.
         """
-        return _from_julia(jl.SomeGraphs.points_sizes_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.points_sizes_vector_fields(self.jl_obj))
 
-    def borders_colors_fields(self) -> ColorsFields:
+    def borders_colors_vector_fields(self) -> ColorsVectorFields:
         """
         The data source view of the colors of the borders of the points, which share the entities of the points.
         """
-        return _from_julia(jl.SomeGraphs.borders_colors_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.borders_colors_vector_fields(self.jl_obj))
 
-    def borders_sizes_fields(self) -> SizesFields:
+    def borders_sizes_vector_fields(self) -> SizesVectorFields:
         """
         The data source view of the sizes of the borders of the points, which share the entities of the points.
         """
-        return _from_julia(jl.SomeGraphs.borders_sizes_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.borders_sizes_vector_fields(self.jl_obj))
 
-    def edges_colors_fields(self) -> ColorsFields:
+    def edges_colors_vector_fields(self) -> ColorsVectorFields:
         """
         The data source view of the colors of the edges.
         """
-        return _from_julia(jl.SomeGraphs.edges_colors_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.edges_colors_vector_fields(self.jl_obj))
 
-    def edges_sizes_fields(self) -> SizesFields:
+    def edges_sizes_vector_fields(self) -> SizesVectorFields:
         """
         The data source view of the sizes (widths) of the edges.
         """
-        return _from_julia(jl.SomeGraphs.edges_sizes_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.edges_sizes_vector_fields(self.jl_obj))
+
+    def points_entities(self) -> VectorEntitiesData:
+        """
+        The entities of the points, shared by all their roles.
+        """
+        return _from_julia(jl.SomeGraphs.points_entities(self.jl_obj))
+
+    def edges_entities(self) -> VectorEntitiesData:
+        """
+        The entities of the edges, shared by all their roles.
+        """
+        return _from_julia(jl.SomeGraphs.edges_entities(self.jl_obj))
 
 
 def points_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    x: Union[ValuesData, DefaultValue] = DEFAULT,
-    y: Union[ValuesData, DefaultValue] = DEFAULT,
+    x: Union[VectorValuesData, DefaultValue] = DEFAULT,
+    y: Union[VectorValuesData, DefaultValue] = DEFAULT,
     points: Union[PointsData, DefaultValue] = DEFAULT,
     borders: Union[BordersData, DefaultValue] = DEFAULT,
     edges: Union[EdgesData, DefaultValue] = DEFAULT,
@@ -496,11 +509,11 @@ class LineGraphData(AbstractGraphData):
     #: The title of the figure.
     figure_title: Optional[str]
     #: The horizontal coordinate of each point of the line; their title is the horizontal axis title.
-    x: ValuesData
+    x: VectorValuesData
     #: The vertical coordinate of each point of the line; their title is the vertical axis title.
-    y: ValuesData
-    #: The hovers and mask of the points of the line.
-    points: EntitiesData
+    y: VectorValuesData
+    #: The names, hovers and mask of the points of the line.
+    points: VectorEntitiesData
     #: Override the offsets of the vertical bands.
     vertical_bands: BandsData
     #: Override the offsets of the horizontal bands.
@@ -512,9 +525,9 @@ class LineGraphData(AbstractGraphData):
         self,
         *,
         figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        x: Union[ValuesData, DefaultValue] = DEFAULT,
-        y: Union[ValuesData, DefaultValue] = DEFAULT,
-        points: Union[EntitiesData, DefaultValue] = DEFAULT,
+        x: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        y: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        points: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
         vertical_bands: Union[BandsData, DefaultValue] = DEFAULT,
         horizontal_bands: Union[BandsData, DefaultValue] = DEFAULT,
         diagonal_bands: Union[BandsData, DefaultValue] = DEFAULT,
@@ -557,25 +570,31 @@ class LineGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.LineGraph(**_given(data=data, configuration=configuration)))
 
-    def x_fields(self) -> AxisFields:
+    def x_axis_vector_fields(self) -> AxisVectorFields:
         """
         The data source view of the X coordinates of the points of the line, along the ``x_axis``.
         """
-        return _from_julia(jl.SomeGraphs.x_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.x_axis_vector_fields(self.jl_obj))
 
-    def y_fields(self) -> AxisFields:
+    def y_axis_vector_fields(self) -> AxisVectorFields:
         """
         The data source view of the Y coordinates of the points of the line, along the ``y_axis``.
         """
-        return _from_julia(jl.SomeGraphs.y_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.y_axis_vector_fields(self.jl_obj))
+
+    def points_entities(self) -> VectorEntitiesData:
+        """
+        The entities of the points of the line, shared by all their roles.
+        """
+        return _from_julia(jl.SomeGraphs.points_entities(self.jl_obj))
 
 
 def line_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    x: Union[ValuesData, DefaultValue] = DEFAULT,
-    y: Union[ValuesData, DefaultValue] = DEFAULT,
-    points: Union[EntitiesData, DefaultValue] = DEFAULT,
+    x: Union[VectorValuesData, DefaultValue] = DEFAULT,
+    y: Union[VectorValuesData, DefaultValue] = DEFAULT,
+    points: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
     vertical_bands: Union[BandsData, DefaultValue] = DEFAULT,
     horizontal_bands: Union[BandsData, DefaultValue] = DEFAULT,
     diagonal_bands: Union[BandsData, DefaultValue] = DEFAULT,
@@ -680,11 +699,11 @@ class LineData(JlObject):
     """
 
     #: The horizontal coordinate of each point of the line; their title is the horizontal axis title.
-    x: ValuesData
+    x: VectorValuesData
     #: The vertical coordinate of each point of the line; their title is the vertical axis title.
-    y: ValuesData
-    #: The hovers and mask of the points of the line.
-    points: EntitiesData
+    y: VectorValuesData
+    #: The names, hovers and mask of the points of the line.
+    points: VectorEntitiesData
     #: The name of the line, shown in the legend.
     name: Optional[str]
     #: Prefixed to the hover of each point of the line.
@@ -705,9 +724,9 @@ class LineData(JlObject):
     def __init__(
         self,
         *,
-        x: Union[ValuesData, DefaultValue] = DEFAULT,
-        y: Union[ValuesData, DefaultValue] = DEFAULT,
-        points: Union[EntitiesData, DefaultValue] = DEFAULT,
+        x: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        y: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        points: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
         name: Union[Optional[str], DefaultValue] = DEFAULT,
         hover: Union[Optional[str], DefaultValue] = DEFAULT,
         is_shown: Union[bool, DefaultValue] = DEFAULT,
@@ -806,26 +825,19 @@ class LinesGraph(Graph):
     ) -> None:
         super().__init__(jl.SomeGraphs.LinesGraph(**_given(data=data, configuration=configuration)))
 
-    def x_fields(self, index: int) -> AxisFields:
+    def line_part_fields(self, index: int) -> PartFields:
         """
-        The data source view of the X coordinates of the points of the (1-based) ``index`` line, along the (shared)
-        ``x_axis``.
-        """
-        return _from_julia(jl.SomeGraphs.x_fields(self.jl_obj, index))
-
-    def y_fields(self, index: int) -> AxisFields:
-        """
-        The data source view of the Y coordinates of the points of the (1-based) ``index`` line, along the (shared)
+        The data source view of the (1-based) ``index`` line. Its ``x`` and ``y`` are along the (shared) ``x_axis`` and
         ``y_axis``.
         """
-        return _from_julia(jl.SomeGraphs.y_fields(self.jl_obj, index))
+        return _from_julia(jl.SomeGraphs.line_part_fields(self.jl_obj, index))
 
-    def add_line(self, line: Optional[LineData] = None) -> int:
+    def add_line(self, line: Optional[LineData] = None) -> PartFields:
         """
-        Append a ``line`` (by default, an empty one) and return its (1-based) index, for :py:obj:`x_fields` and
-        :py:obj:`y_fields`. Whatever the line leaves at its defaults can be set later, through the views or directly.
+        Append a ``line`` (by default, an empty one) and return its view. Whatever the line leaves at its defaults can
+        be set later, through the view or directly.
         """
-        return int(jl.SomeGraphs.add_line_b(self.jl_obj, *_optional_jl_obj(line)))
+        return _from_julia(jl.SomeGraphs.add_line_b(self.jl_obj, *_optional_jl_obj(line)))
 
 
 def lines_graph(

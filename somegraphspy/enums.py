@@ -7,7 +7,7 @@ for the values of the chosen one. The same types are also available directly, e.
 """
 
 from .common import LineStyle
-from .common import LogScale
+from .common import LogBase
 from .common import Stacking
 from .common import ValuesOrientation
 from .distributions import DistributionStyle
@@ -21,7 +21,7 @@ __all__ = [
     "HeatmapOrigin",
     "HeatmapReorder",
     "LineStyle",
-    "LogScale",
+    "LogBase",
     "Stacking",
     "ValuesOrientation",
 ]

@@ -145,6 +145,8 @@ jl.seval("""
 
     using PythonCall
 
+    import SomeGraphs
+
     function pyconvert_rule_jl_object(::Type{T}, x::Py) where {T}
         return PythonCall.pyconvert_return(pyconvert(T, x.jl_obj))
     end
@@ -173,6 +175,15 @@ jl.seval("""
         else
             return "other"
         end
+    end
+
+    # Run a Python visitor over the sinks. A Python callable is not a Julia ``Function``, so it is wrapped in one.
+    function _visit_data_sinks(visitor::Py, sinks::Any)::Nothing
+        return SomeGraphs.visit_data_sinks(sink -> (visitor(sink); nothing), sinks)
+    end
+
+    function _visit_configuration_sinks(visitor::Py, sinks::Any)::Nothing
+        return SomeGraphs.visit_configuration_sinks(sink -> (visitor(sink); nothing), sinks)
     end
 
     end  # module SomeGraphsPy

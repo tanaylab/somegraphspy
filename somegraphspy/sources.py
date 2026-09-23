@@ -4,35 +4,46 @@ Data source views into the graphs. See the Julia
 
 A view bundles the parts of a graph that one source of data fills: the values of one role, the entities they belong to,
 and the configuration they are shown by. The views are obtained from a graph by its ``..._fields`` methods (e.g.,
-``graph.x_fields()``), which mirror the Julia accessor functions. A source is any Python function writing into a view.
-It works on any graph and any role that offers the same kind of view. The views hold no data of their own. They
-reference the graph's own objects, so writing into them changes the graph.
+``graph.x_axis_vector_fields()``), which mirror the Julia accessor functions. A source is any Python function writing
+into a view. It works on any graph and any role that offers the same kind of view. The views hold no data of their own.
+They reference the graph's own objects, so writing into them changes the graph.
 """
 
+from typing import Any
+from typing import Callable
+from typing import Sequence
 from typing import Union
 
 from .common import AxisConfiguration
 from .common import ColorsConfiguration
-from .common import EntitiesData
-from .common import MatrixData
 from .common import MatrixEntitiesData
+from .common import MatrixValuesData
+from .common import ScaleConfiguration
 from .common import SizesConfiguration
-from .common import ValuesData
+from .common import VectorEntitiesData
+from .common import VectorValuesData
 from .julia_import import JlObject
+from .julia_import import _from_julia
+from .julia_import import _to_julia
+from .julia_import import jl
 from .julia_import import register_jl_type
 
 __all__ = [
     "AxisConfigurationFields",
-    "AxisFields",
+    "AxisVectorFields",
     "ColorsConfigurationFields",
-    "ColorsFields",
+    "ColorsVectorFields",
     "MatrixConfigurationFields",
     "MatrixDataFields",
     "MatrixFields",
+    "PartFields",
+    "Sinks",
     "SizesConfigurationFields",
-    "SizesFields",
+    "SizesVectorFields",
     "VectorDataFields",
     "VectorFields",
+    "visit_configuration_sinks",
+    "visit_data_sinks",
 ]
 
 
@@ -44,14 +55,14 @@ class VectorDataFields(JlObject):
     for details.
 
     A source which only writes values, a title and hovers takes one of these. The ``data`` of every
-    :py:obj:`VectorFields` is one, and so is a view of a role that has no configuration (the names of the bars, the
-    groups of the rows of a heatmap), so such a source applies to all of them alike.
+    :py:obj:`VectorFields` is one, and so is a view of a role that has no configuration (the groups of the rows of a
+    heatmap), so such a source applies to all of them alike.
     """
 
     #: The values of the role.
-    values: ValuesData
+    values: VectorValuesData
     #: The entities the values belong to (shared with the other roles of the same entities).
-    entities: EntitiesData
+    entities: VectorEntitiesData
 
 
 register_jl_type("VectorDataFields", VectorDataFields)
@@ -59,15 +70,20 @@ register_jl_type("VectorDataFields", VectorDataFields)
 
 class MatrixDataFields(JlObject):
     """
-    The data half of a :py:obj:`MatrixFields` data source view: the entries of a heatmap and its cells. See the Julia
+    The data half of a :py:obj:`MatrixFields` data source view: the entries of a heatmap, its cells, and the entities of
+    each of its two axes. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixDataFields>`__
     for details.
     """
 
     #: The values of the entries.
-    values: MatrixData
+    values: MatrixValuesData
     #: The cells the values belong to.
     entities: MatrixEntitiesData
+    #: The rows the values are indexed by (shared with the other roles of the rows).
+    rows_entities: VectorEntitiesData
+    #: The columns the values are indexed by (shared with the other roles of the columns).
+    columns_entities: VectorEntitiesData
 
 
 register_jl_type("MatrixDataFields", MatrixDataFields)
@@ -75,7 +91,7 @@ register_jl_type("MatrixDataFields", MatrixDataFields)
 
 class AxisConfigurationFields(JlObject):
     """
-    The configuration half of an :py:obj:`AxisFields` data source view. See the Julia
+    The configuration half of an :py:obj:`AxisVectorFields` data source view. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.AxisConfigurationFields>`__
     for details.
     """
@@ -89,13 +105,13 @@ register_jl_type("AxisConfigurationFields", AxisConfigurationFields)
 
 class ColorsConfigurationFields(JlObject):
     """
-    The configuration half of a :py:obj:`ColorsFields` data source view. See the Julia
+    The configuration half of a :py:obj:`ColorsVectorFields` data source view. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ColorsConfigurationFields>`__
     for details.
     """
 
-    #: The axis of the colors configuration, which scales the values.
-    axis: AxisConfiguration
+    #: The scale of the colors configuration, which scales the values.
+    scale: ScaleConfiguration
     #: How the values are colored.
     colors: ColorsConfiguration
 
@@ -105,13 +121,13 @@ register_jl_type("ColorsConfigurationFields", ColorsConfigurationFields)
 
 class SizesConfigurationFields(JlObject):
     """
-    The configuration half of a :py:obj:`SizesFields` data source view. See the Julia
+    The configuration half of a :py:obj:`SizesVectorFields` data source view. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.SizesConfigurationFields>`__
     for details.
     """
 
-    #: The axis of the sizes configuration, which scales the values.
-    axis: AxisConfiguration
+    #: The scale of the sizes configuration, which scales the values.
+    scale: ScaleConfiguration
     #: How the values are sized.
     sizes: SizesConfiguration
 
@@ -126,8 +142,8 @@ class MatrixConfigurationFields(JlObject):
     for details.
     """
 
-    #: The axis of the colors configuration, which scales the entries.
-    axis: AxisConfiguration
+    #: The scale of the colors configuration, which scales the entries.
+    scale: ScaleConfiguration
     #: How the entries are colored.
     colors: ColorsConfiguration
 
@@ -144,9 +160,9 @@ class VectorFields(JlObject):
 
     A function writing into such a view fills the role from some source of data, and works the same on the X
     coordinates of points, the values of bars, the colors of either, and so on. The ``configuration`` says what kind of
-    view this is: an :py:obj:`AxisConfigurationFields` for values shown along an axis (:py:obj:`AxisFields`), a
-    :py:obj:`ColorsConfigurationFields` for values shown as colors (:py:obj:`ColorsFields`), or a
-    :py:obj:`SizesConfigurationFields` for values shown as sizes (:py:obj:`SizesFields`). All three have an ``axis``.
+    view this is: an :py:obj:`AxisConfigurationFields` for values shown along an axis (:py:obj:`AxisVectorFields`), a
+    :py:obj:`ColorsConfigurationFields` for values shown as colors (:py:obj:`ColorsVectorFields`), or a
+    :py:obj:`SizesConfigurationFields` for values shown as sizes (:py:obj:`SizesVectorFields`).
     """
 
     #: The values of the role and the entities they belong to.
@@ -159,15 +175,47 @@ register_jl_type("VectorFields", VectorFields)
 
 #: A :py:obj:`VectorFields` view of values shown along an axis; its ``configuration`` is an
 #: :py:obj:`AxisConfigurationFields`.
-AxisFields = VectorFields
+AxisVectorFields = VectorFields
 
 #: A :py:obj:`VectorFields` view of values shown as colors; its ``configuration`` is a
 #: :py:obj:`ColorsConfigurationFields`.
-ColorsFields = VectorFields
+ColorsVectorFields = VectorFields
 
 #: A :py:obj:`VectorFields` view of values shown as sizes; its ``configuration`` is a
 #: :py:obj:`SizesConfigurationFields`.
-SizesFields = VectorFields
+SizesVectorFields = VectorFields
+
+
+class PartFields(JlObject):
+    """
+    A data source view of one part of a graph built from several such parts (a series of bars, a line, a distribution),
+    identified by its (1-based) ``index`` in the ``graph``. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.PartFields>`__
+    for details.
+
+    The fields of the part's ``data`` (its ``name``, ``hover``, ``color``, ...) are also fields of the view, and so is
+    its ``entities``, whatever the part calls them (the ``bars`` of a series, the ``points`` of a line). The roles of
+    the part are :py:obj:`AxisVectorFields` views along the matching axis of the graph: the ``values`` of a series of
+    bars or a distribution, the ``x`` and ``y`` of a line.
+    """
+
+    #: The graph the part belongs to.
+    graph: Any
+    #: The (1-based) index of the part in the graph.
+    index: int
+    #: The part itself (a ``SeriesData``, a ``LineData``, a ``DistributionData``).
+    data: Any
+    #: The entities of the part, shared by all its roles.
+    entities: VectorEntitiesData
+    #: The view of the values of the part (of a series of bars or a distribution).
+    values: AxisVectorFields
+    #: The view of the X coordinates of the part (of a line).
+    x: AxisVectorFields
+    #: The view of the Y coordinates of the part (of a line).
+    y: AxisVectorFields
+
+
+register_jl_type("PartFields", PartFields)
 
 
 class MatrixFields(JlObject):
@@ -185,3 +233,29 @@ class MatrixFields(JlObject):
 
 
 register_jl_type("MatrixFields", MatrixFields)
+
+#: What a data source accepts: one struct it writes into (a view, or one of the data or configuration structs a view
+#: holds), or a sequence of them. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.Sinks>`__
+#: for details.
+Sinks = Union[JlObject, Sequence[JlObject]]
+
+
+def visit_data_sinks(visitor: Callable[[Any], None], sinks: Sinks) -> None:
+    """
+    Call the ``visitor`` on each data struct among the ``sinks`` (and inside the views among them), once each. See the
+    Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.visit_data_sinks>`__
+    for details.
+    """
+    jl.SomeGraphsPy._visit_data_sinks(lambda sink: visitor(_from_julia(sink)), _to_julia(sinks))
+
+
+def visit_configuration_sinks(visitor: Callable[[Any], None], sinks: Sinks) -> None:
+    """
+    Call the ``visitor`` on each configuration struct among the ``sinks`` (and inside the views among them), once each.
+    See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.visit_configuration_sinks>`__
+    for details.
+    """
+    jl.SomeGraphsPy._visit_configuration_sinks(lambda sink: visitor(_from_julia(sink)), _to_julia(sinks))

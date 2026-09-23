@@ -16,16 +16,16 @@ from .common import AbstractGraphData
 from .common import AnnotationData
 from .common import AnnotationSize
 from .common import ColorsConfiguration
-from .common import EntitiesData
 from .common import FigureConfiguration
 from .common import Graph
 from .common import IntegersVector
 from .common import LineConfiguration
-from .common import MatrixData
 from .common import MatrixEntitiesData
+from .common import MatrixValuesData
 from .common import NumbersMatrix
 from .common import Validated
-from .common import ValuesData
+from .common import VectorEntitiesData
+from .common import VectorValuesData
 from .julia_import import DEFAULT
 from .julia_import import DefaultValue
 from .julia_import import JlEnum
@@ -35,7 +35,7 @@ from .julia_import import _given
 from .julia_import import _optional_jl_obj
 from .julia_import import jl
 from .julia_import import register_jl_type
-from .sources import ColorsFields
+from .sources import ColorsVectorFields
 from .sources import MatrixFields
 from .sources import VectorDataFields
 
@@ -191,6 +191,10 @@ class HeatmapAxisConfiguration(Validated):
 
     #: The title of the axis.
     title: Optional[str]
+    #: Show the tick labels (the names of the entries).
+    show_ticks: bool
+    #: Rotate the tick labels by this angle, in degrees.
+    ticks_angle: Optional[float]
     #: The size of the annotations shown next to the axis.
     annotations: AnnotationSize
     #: How to reorder the entries.
@@ -205,6 +209,8 @@ class HeatmapAxisConfiguration(Validated):
     groups_gap: Optional[int]
     #: The gap between subgroups of entries, in entries.
     subgroups_gap: Optional[int]
+    #: Cap the total size of all the gaps to this fraction of the axis.
+    total_gaps_fraction: Optional[float]
     #: The size of the dendogram, as a fraction of the graph size.
     dendogram_size: Optional[float]
     #: How to draw the dendogram.
@@ -214,6 +220,8 @@ class HeatmapAxisConfiguration(Validated):
         self,
         *,
         title: Union[Optional[str], DefaultValue] = DEFAULT,
+        show_ticks: Union[bool, DefaultValue] = DEFAULT,
+        ticks_angle: Union[Optional[float], DefaultValue] = DEFAULT,
         annotations: Union[AnnotationSize, DefaultValue] = DEFAULT,
         reorder: Union[Optional[HeatmapReorder], DefaultValue] = DEFAULT,
         linkage: Union[Optional[HeatmapLinkage], DefaultValue] = DEFAULT,
@@ -221,6 +229,7 @@ class HeatmapAxisConfiguration(Validated):
         include_hidden: Union[bool, DefaultValue] = DEFAULT,
         groups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
         subgroups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
+        total_gaps_fraction: Union[Optional[float], DefaultValue] = DEFAULT,
         dendogram_size: Union[Optional[float], DefaultValue] = DEFAULT,
         dendogram_line: Union[LineConfiguration, DefaultValue] = DEFAULT,
     ) -> None:
@@ -228,6 +237,8 @@ class HeatmapAxisConfiguration(Validated):
             jl.SomeGraphs.HeatmapAxisConfiguration(
                 **_given(
                     title=title,
+                    show_ticks=show_ticks,
+                    ticks_angle=ticks_angle,
                     annotations=annotations,
                     reorder=reorder,
                     linkage=linkage,
@@ -235,6 +246,7 @@ class HeatmapAxisConfiguration(Validated):
                     include_hidden=include_hidden,
                     groups_gap=groups_gap,
                     subgroups_gap=subgroups_gap,
+                    total_gaps_fraction=total_gaps_fraction,
                     dendogram_size=dendogram_size,
                     dendogram_line=dendogram_line,
                 )
@@ -295,43 +307,43 @@ class HeatmapAxisData(JlObject):
     for details.
     """
 
-    #: The name of each entry, shown as the tick labels; their title is the axis title.
-    names: ValuesData
-    #: The hovers and mask of the entries.
-    entities: EntitiesData
+    #: The names (shown as the tick labels), hovers and mask of the entries.
+    entities: VectorEntitiesData
     #: Force this order of the entries.
     order: Optional[Order]
     #: The group of each entry, either numbers or names. The groups have no title.
-    groups: ValuesData
+    groups: VectorValuesData
     #: The subgroup of each entry, nested in its group. A subgroup of one group is unrelated to the same subgroup of
     #: another group, so the subgroups need not be unique. The subgroups have no title.
-    subgroups: ValuesData
+    subgroups: VectorValuesData
     #: The features to cluster the entries by, instead of the entries values.
     arrange_by: Optional[NumbersMatrix]
     #: Annotations shown next to the axis.
     annotations: Sequence[AnnotationData]
+    #: The (1-based) order to show the annotations in.
+    annotations_order: Optional[IntegersVector]
 
     def __init__(
         self,
         *,
-        names: Union[ValuesData, DefaultValue] = DEFAULT,
-        entities: Union[EntitiesData, DefaultValue] = DEFAULT,
+        entities: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
         order: Union[Optional[Order], DefaultValue] = DEFAULT,
-        groups: Union[ValuesData, DefaultValue] = DEFAULT,
-        subgroups: Union[ValuesData, DefaultValue] = DEFAULT,
+        groups: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        subgroups: Union[VectorValuesData, DefaultValue] = DEFAULT,
         arrange_by: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
         annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
+        annotations_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.HeatmapAxisData(
                 **_given(
-                    names=names,
                     entities=entities,
                     order=order,
                     groups=groups,
                     subgroups=subgroups,
                     arrange_by=arrange_by,
                     annotations=annotations,
+                    annotations_order=annotations_order,
                 )
             )
         )
@@ -350,8 +362,8 @@ class HeatmapGraphData(AbstractGraphData):
     #: The title of the figure.
     figure_title: Optional[str]
     #: The value of each entry, a row per row and a column per column; their title is the colors legend title.
-    entries: MatrixData
-    #: The hovers and mask of the entries.
+    entries: MatrixValuesData
+    #: The hovers of the entries.
     cells: MatrixEntitiesData
     #: The data of the rows.
     rows: HeatmapAxisData
@@ -362,7 +374,7 @@ class HeatmapGraphData(AbstractGraphData):
         self,
         *,
         figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        entries: Union[MatrixData, DefaultValue] = DEFAULT,
+        entries: Union[MatrixValuesData, DefaultValue] = DEFAULT,
         cells: Union[MatrixEntitiesData, DefaultValue] = DEFAULT,
         rows: Union[HeatmapAxisData, DefaultValue] = DEFAULT,
         columns: Union[HeatmapAxisData, DefaultValue] = DEFAULT,
@@ -429,72 +441,72 @@ class HeatmapGraph(Graph):
         """
         jl.SomeGraphs.reset_order_b(self.jl_obj)
 
-    def entries_fields(self) -> MatrixFields:
+    def entries_matrix_fields(self) -> MatrixFields:
         """
         The data source view of the entries of the heatmap, colored by the ``entries.colors``.
         """
-        return _from_julia(jl.SomeGraphs.entries_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.entries_matrix_fields(self.jl_obj))
 
-    def rows_names_fields(self) -> VectorDataFields:
-        """
-        The data source view of the names of the rows; their title is the title of the rows axis.
-        """
-        return _from_julia(jl.SomeGraphs.rows_names_fields(self.jl_obj))
-
-    def columns_names_fields(self) -> VectorDataFields:
-        """
-        The data source view of the names of the columns; their title is the title of the columns axis.
-        """
-        return _from_julia(jl.SomeGraphs.columns_names_fields(self.jl_obj))
-
-    def rows_groups_fields(self) -> VectorDataFields:
+    def rows_groups_vector_data_fields(self) -> VectorDataFields:
         """
         The data source view of the groups of the rows.
         """
-        return _from_julia(jl.SomeGraphs.rows_groups_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.rows_groups_vector_data_fields(self.jl_obj))
 
-    def rows_subgroups_fields(self) -> VectorDataFields:
+    def rows_subgroups_vector_data_fields(self) -> VectorDataFields:
         """
         The data source view of the subgroups of the rows.
         """
-        return _from_julia(jl.SomeGraphs.rows_subgroups_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.rows_subgroups_vector_data_fields(self.jl_obj))
 
-    def columns_groups_fields(self) -> VectorDataFields:
+    def columns_groups_vector_data_fields(self) -> VectorDataFields:
         """
         The data source view of the groups of the columns.
         """
-        return _from_julia(jl.SomeGraphs.columns_groups_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.columns_groups_vector_data_fields(self.jl_obj))
 
-    def columns_subgroups_fields(self) -> VectorDataFields:
+    def columns_subgroups_vector_data_fields(self) -> VectorDataFields:
         """
         The data source view of the subgroups of the columns.
         """
-        return _from_julia(jl.SomeGraphs.columns_subgroups_fields(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.columns_subgroups_vector_data_fields(self.jl_obj))
 
-    def rows_annotations_fields(self, index: int) -> ColorsFields:
+    def rows_annotations_colors_vector_fields(self, index: int) -> ColorsVectorFields:
         """
         The data source view of the (1-based) ``index`` annotation of the rows, which shares the entities of the rows.
         """
-        return _from_julia(jl.SomeGraphs.rows_annotations_fields(self.jl_obj, index))
+        return _from_julia(jl.SomeGraphs.rows_annotations_colors_vector_fields(self.jl_obj, index))
 
-    def columns_annotations_fields(self, index: int) -> ColorsFields:
+    def columns_annotations_colors_vector_fields(self, index: int) -> ColorsVectorFields:
         """
         The data source view of the (1-based) ``index`` annotation of the columns, which shares the entities of the
         columns.
         """
-        return _from_julia(jl.SomeGraphs.columns_annotations_fields(self.jl_obj, index))
+        return _from_julia(jl.SomeGraphs.columns_annotations_colors_vector_fields(self.jl_obj, index))
+
+    def rows_entities(self) -> VectorEntitiesData:
+        """
+        The entities of the rows, shared by all their roles.
+        """
+        return _from_julia(jl.SomeGraphs.rows_entities(self.jl_obj))
+
+    def columns_entities(self) -> VectorEntitiesData:
+        """
+        The entities of the columns, shared by all their roles.
+        """
+        return _from_julia(jl.SomeGraphs.columns_entities(self.jl_obj))
 
     def add_rows_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
         """
         Append an ``annotation`` of the rows (by default, an empty one) and return its (1-based) index, for
-        :py:obj:`rows_annotations_fields`.
+        :py:obj:`rows_annotations_colors_vector_fields`.
         """
         return int(jl.SomeGraphs.add_rows_annotation_b(self.jl_obj, *_optional_jl_obj(annotation)))
 
     def add_columns_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
         """
         Append an ``annotation`` of the columns (by default, an empty one) and return its (1-based) index, for
-        :py:obj:`columns_annotations_fields`.
+        :py:obj:`columns_annotations_colors_vector_fields`.
         """
         return int(jl.SomeGraphs.add_columns_annotation_b(self.jl_obj, *_optional_jl_obj(annotation)))
 
@@ -502,7 +514,7 @@ class HeatmapGraph(Graph):
 def heatmap_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    entries: Union[MatrixData, DefaultValue] = DEFAULT,
+    entries: Union[MatrixValuesData, DefaultValue] = DEFAULT,
     cells: Union[MatrixEntitiesData, DefaultValue] = DEFAULT,
     rows: Union[HeatmapAxisData, DefaultValue] = DEFAULT,
     columns: Union[HeatmapAxisData, DefaultValue] = DEFAULT,

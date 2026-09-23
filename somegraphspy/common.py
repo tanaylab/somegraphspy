@@ -40,27 +40,28 @@ __all__ = [
     "CategoricalColors",
     "ColorsConfiguration",
     "ContinuousColors",
-    "EntitiesData",
     "FigureConfiguration",
     "Graph",
     "IntegersVector",
     "LineConfiguration",
     "LineStyle",
-    "LogScale",
+    "LogBase",
     "MarginsConfiguration",
-    "MatrixData",
     "MatrixEntitiesData",
+    "MatrixValuesData",
     "NAMED_COLOR_SCALES",
     "NumbersMatrix",
     "NumbersVector",
     "Palette",
+    "ScaleConfiguration",
     "SizesConfiguration",
     "Stacking",
     "StringsMatrix",
     "StringsVector",
     "Validated",
-    "ValuesData",
     "ValuesOrientation",
+    "VectorEntitiesData",
+    "VectorValuesData",
     "categorical_palette",
 ]
 
@@ -133,20 +134,20 @@ class ValuesOrientation(JlEnum):
 register_jl_type("ValuesOrientation", ValuesOrientation)
 
 
-class LogScale(JlEnum):
+class LogBase(JlEnum):
     """
-    The base of the logarithm used to scale an axis. See the Julia
-    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.LogScale>`__
+    The base of the logarithm used to scale values. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.LogBase>`__
     for details.
     """
 
-    #: Scale the axis using a base 10 logarithm.
-    Log10Scale = "Log10Scale"
-    #: Scale the axis using a base 2 logarithm.
-    Log2Scale = "Log2Scale"
+    #: Scale the values using a base 10 logarithm.
+    Log10Base = "Log10Base"
+    #: Scale the values using a base 2 logarithm.
+    Log2Base = "Log2Base"
 
 
-register_jl_type("LogScale", LogScale)
+register_jl_type("LogBase", LogBase)
 
 
 class LineStyle(JlEnum):
@@ -247,8 +248,6 @@ class FigureConfiguration(Validated):
     width: Optional[int]
     #: The height of the figure in pixels.
     height: Optional[int]
-    #: The name of the Plotly template to use.
-    template: Optional[str]
     #: The color of the area behind the graph itself.
     background_color: str
     #: The color of the area around the graph.
@@ -262,7 +261,6 @@ class FigureConfiguration(Validated):
         margins: Union[MarginsConfiguration, DefaultValue] = DEFAULT,
         width: Union[Optional[int], DefaultValue] = DEFAULT,
         height: Union[Optional[int], DefaultValue] = DEFAULT,
-        template: Union[Optional[str], DefaultValue] = DEFAULT,
         background_color: Union[str, DefaultValue] = DEFAULT,
         paper_color: Union[str, DefaultValue] = DEFAULT,
         colors_scale_offsets: Union[NumbersVector, DefaultValue] = DEFAULT,
@@ -273,7 +271,6 @@ class FigureConfiguration(Validated):
                     margins=margins,
                     width=width,
                     height=height,
-                    template=template,
                     background_color=background_color,
                     paper_color=paper_color,
                     colors_scale_offsets=colors_scale_offsets,
@@ -285,6 +282,53 @@ class FigureConfiguration(Validated):
 register_jl_type("FigureConfiguration", FigureConfiguration)
 
 
+class ScaleConfiguration(Validated):
+    """
+    Configure how to scale data values (of an axis, of colors, of sizes). See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ScaleConfiguration>`__
+    for details.
+    """
+
+    #: The minimal value shown.
+    minimum: Optional[float]
+    #: The maximal value shown.
+    maximum: Optional[float]
+    #: Whether entities hidden by a mask still take part in the automatic range.
+    include_hidden: bool
+    #: Scale the values by a logarithm of this base.
+    log_base: Optional[LogBase]
+    #: Added to the values before taking their logarithm.
+    log_regularization: float
+    #: Show the values as percents.
+    percent: bool
+
+    def __init__(
+        self,
+        *,
+        minimum: Union[Optional[float], DefaultValue] = DEFAULT,
+        maximum: Union[Optional[float], DefaultValue] = DEFAULT,
+        include_hidden: Union[bool, DefaultValue] = DEFAULT,
+        log_base: Union[Optional[LogBase], DefaultValue] = DEFAULT,
+        log_regularization: Union[float, DefaultValue] = DEFAULT,
+        percent: Union[bool, DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(
+            jl.SomeGraphs.ScaleConfiguration(
+                **_given(
+                    minimum=minimum,
+                    maximum=maximum,
+                    include_hidden=include_hidden,
+                    log_base=log_base,
+                    log_regularization=log_regularization,
+                    percent=percent,
+                )
+            )
+        )
+
+
+register_jl_type("ScaleConfiguration", ScaleConfiguration)
+
+
 class SizesConfiguration(Validated):
     """
     Configure how to scale data values into sizes (in pixels). See the Julia
@@ -294,9 +338,8 @@ class SizesConfiguration(Validated):
 
     #: Use this fixed size for everything, instead of scaling the data.
     fixed: Optional[float]
-    #: How to scale the data values (only its ``minimum``, ``maximum``, ``log_scale``, ``log_regularization`` and
-    #: ``include_hidden`` apply).
-    axis: "AxisConfiguration"
+    #: How to scale the data values.
+    scale: ScaleConfiguration
     #: The size of the smallest data value.
     smallest: float
     #: Added to the ``smallest`` size for the largest data value.
@@ -306,12 +349,12 @@ class SizesConfiguration(Validated):
         self,
         *,
         fixed: Union[Optional[float], DefaultValue] = DEFAULT,
-        axis: Union["AxisConfiguration", DefaultValue] = DEFAULT,
+        scale: Union[ScaleConfiguration, DefaultValue] = DEFAULT,
         smallest: Union[float, DefaultValue] = DEFAULT,
         span: Union[float, DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
-            jl.SomeGraphs.SizesConfiguration(**_given(fixed=fixed, axis=axis, smallest=smallest, span=span))
+            jl.SomeGraphs.SizesConfiguration(**_given(fixed=fixed, scale=scale, smallest=smallest, span=span))
         )
 
 
@@ -325,20 +368,10 @@ class AxisConfiguration(Validated):
     for details.
     """
 
-    #: The minimal value shown in the axis.
-    minimum: Optional[float]
-    #: The maximal value shown in the axis.
-    maximum: Optional[float]
-    #: Whether entities hidden by a mask still take part in the automatic range of the axis.
-    include_hidden: bool
+    #: How to scale the values shown in the axis.
+    scale: ScaleConfiguration
     #: Expand the axis range by this fraction of the data range.
     expand_fraction: float
-    #: Scale the axis by a logarithm of this base.
-    log_scale: Optional[LogScale]
-    #: Added to the values before taking their logarithm.
-    log_regularization: float
-    #: Show the values as percents.
-    percent: bool
     #: Show the tick labels.
     show_ticks: bool
     #: Rotate the tick labels by this angle, in degrees.
@@ -353,13 +386,8 @@ class AxisConfiguration(Validated):
     def __init__(
         self,
         *,
-        minimum: Union[Optional[float], DefaultValue] = DEFAULT,
-        maximum: Union[Optional[float], DefaultValue] = DEFAULT,
-        include_hidden: Union[bool, DefaultValue] = DEFAULT,
+        scale: Union[ScaleConfiguration, DefaultValue] = DEFAULT,
         expand_fraction: Union[float, DefaultValue] = DEFAULT,
-        log_scale: Union[Optional[LogScale], DefaultValue] = DEFAULT,
-        log_regularization: Union[float, DefaultValue] = DEFAULT,
-        percent: Union[bool, DefaultValue] = DEFAULT,
         show_ticks: Union[bool, DefaultValue] = DEFAULT,
         ticks_angle: Union[Optional[float], DefaultValue] = DEFAULT,
         show_grid: Union[bool, DefaultValue] = DEFAULT,
@@ -369,13 +397,8 @@ class AxisConfiguration(Validated):
         super().__init__(
             jl.SomeGraphs.AxisConfiguration(
                 **_given(
-                    minimum=minimum,
-                    maximum=maximum,
-                    include_hidden=include_hidden,
+                    scale=scale,
                     expand_fraction=expand_fraction,
-                    log_scale=log_scale,
-                    log_regularization=log_regularization,
-                    percent=percent,
                     show_ticks=show_ticks,
                     ticks_angle=ticks_angle,
                     show_grid=show_grid,
@@ -515,7 +538,7 @@ class ColorsConfiguration(Validated):
     #: Give all the entities this same color.
     fixed: Optional[str]
     #: How to scale the (numeric) colors data.
-    axis: AxisConfiguration
+    scale: ScaleConfiguration
     #: Show a legend (or a color scale) for the colors.
     show_legend: bool
     #: The title to use when showing the legend.
@@ -526,13 +549,13 @@ class ColorsConfiguration(Validated):
         *,
         palette: Union[Optional[Palette], DefaultValue] = DEFAULT,
         fixed: Union[Optional[str], DefaultValue] = DEFAULT,
-        axis: Union[AxisConfiguration, DefaultValue] = DEFAULT,
+        scale: Union[ScaleConfiguration, DefaultValue] = DEFAULT,
         show_legend: Union[bool, DefaultValue] = DEFAULT,
         title: Union[Optional[str], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.ColorsConfiguration(
-                **_given(palette=palette, fixed=fixed, axis=axis, show_legend=show_legend, title=title)
+                **_given(palette=palette, fixed=fixed, scale=scale, show_legend=show_legend, title=title)
             )
         )
 
@@ -564,39 +587,41 @@ class AnnotationSize(Validated):
 register_jl_type("AnnotationSize", AnnotationSize)
 
 
-class ValuesData(JlObject):
+class VectorValuesData(JlObject):
     """
-    A value per entity for one role of a graph (the X coordinates of points, the names of bars, ...), and the title of
+    A value per entity for one role of a graph (the X coordinates of points, the heights of bars, ...), and the title of
     these values (which becomes the axis title, the colors title, ...). See the Julia
-    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ValuesData>`__
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.VectorValuesData>`__
     for details.
     """
 
     #: The values, one per entity; either numbers or strings, depending on the role.
-    values: Optional[Union[NumbersVector, StringsVector]]
+    vector: Optional[Union[NumbersVector, StringsVector]]
     #: The title of the values.
     title: Optional[str]
 
     def __init__(
         self,
         *,
-        values: Union[Optional[Union[NumbersVector, StringsVector]], DefaultValue] = DEFAULT,
+        vector: Union[Optional[Union[NumbersVector, StringsVector]], DefaultValue] = DEFAULT,
         title: Union[Optional[str], DefaultValue] = DEFAULT,
     ) -> None:
-        super().__init__(jl.SomeGraphs.ValuesData(**_given(values=values, title=title)))
+        super().__init__(jl.SomeGraphs.VectorValuesData(**_given(vector=vector, title=title)))
 
 
-register_jl_type("ValuesData", ValuesData)
+register_jl_type("VectorValuesData", VectorValuesData)
 
 
-class EntitiesData(JlObject):
+class VectorEntitiesData(JlObject):
     """
-    The hovers and mask of one set of entities of a graph (the points, the bars, ...), shared by all the roles of these
-    entities. See the Julia
-    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.EntitiesData>`__
+    The names, hovers and mask of one set of entities of a graph (the points, the bars, ...), shared by all the roles of
+    these entities. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.VectorEntitiesData>`__
     for details.
     """
 
+    #: The name of each entity.
+    names: Optional[StringsVector]
     #: The hover text of each entity.
     hovers: Optional[StringsVector]
     #: Which entities to show.
@@ -605,10 +630,11 @@ class EntitiesData(JlObject):
     def __init__(
         self,
         *,
+        names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
         hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
         mask: Union[Optional[BoolsVector], DefaultValue] = DEFAULT,
     ) -> None:
-        super().__init__(jl.SomeGraphs.EntitiesData(**_given(hovers=hovers, mask=mask)))
+        super().__init__(jl.SomeGraphs.VectorEntitiesData(**_given(names=names, hovers=hovers, mask=mask)))
 
     def add_hovers(self, hovers: StringsVector, title: Optional[str] = None) -> None:
         """
@@ -620,53 +646,45 @@ class EntitiesData(JlObject):
         _add_hovers(self, hovers, title)
 
 
-register_jl_type("EntitiesData", EntitiesData)
+register_jl_type("VectorEntitiesData", VectorEntitiesData)
 
 
-class MatrixData(JlObject):
+class MatrixValuesData(JlObject):
     """
     A value per row per column of a graph (the entries of a heatmap), and the title of these values. See the Julia
-    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.MatrixData>`__
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.MatrixValuesData>`__
     for details.
     """
 
     #: The values, a row per row and a column per column.
-    values: Optional[NumbersMatrix]
+    matrix: Optional[NumbersMatrix]
     #: The title of the values.
     title: Optional[str]
 
     def __init__(
         self,
         *,
-        values: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
+        matrix: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
         title: Union[Optional[str], DefaultValue] = DEFAULT,
     ) -> None:
-        super().__init__(jl.SomeGraphs.MatrixData(**_given(values=values, title=title)))
+        super().__init__(jl.SomeGraphs.MatrixValuesData(**_given(matrix=matrix, title=title)))
 
 
-register_jl_type("MatrixData", MatrixData)
+register_jl_type("MatrixValuesData", MatrixValuesData)
 
 
 class MatrixEntitiesData(JlObject):
     """
-    The hovers and mask of the entities of a graph which are arranged in rows and columns (the cells of a heatmap). See
-    the Julia
+    The hovers of the entities of a graph which are arranged in rows and columns (the cells of a heatmap). See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.MatrixEntitiesData>`__
     for details.
     """
 
     #: The hover text of each entity.
     hovers: Optional[StringsMatrix]
-    #: Which entities to show.
-    mask: Optional[np.ndarray]
 
-    def __init__(
-        self,
-        *,
-        hovers: Union[Optional[StringsMatrix], DefaultValue] = DEFAULT,
-        mask: Union[Optional[np.ndarray], DefaultValue] = DEFAULT,
-    ) -> None:
-        super().__init__(jl.SomeGraphs.MatrixEntitiesData(**_given(hovers=hovers, mask=mask)))
+    def __init__(self, *, hovers: Union[Optional[StringsMatrix], DefaultValue] = DEFAULT) -> None:
+        super().__init__(jl.SomeGraphs.MatrixEntitiesData(**_given(hovers=hovers)))
 
     def add_hovers(self, hovers: StringsMatrix, title: Optional[str] = None) -> None:
         """
@@ -697,17 +715,20 @@ class AnnotationData(Validated):
     """
 
     #: A value per annotated entity, either numbers or category names; their title is the title of the annotation.
-    values: ValuesData
+    values: VectorValuesData
     #: How to color the annotation values.
     colors: ColorsConfiguration
+    #: Whether to show the annotation.
+    is_shown: bool
 
     def __init__(
         self,
         *,
-        values: Union[ValuesData, DefaultValue] = DEFAULT,
+        values: Union[VectorValuesData, DefaultValue] = DEFAULT,
         colors: Union[ColorsConfiguration, DefaultValue] = DEFAULT,
+        is_shown: Union[bool, DefaultValue] = DEFAULT,
     ) -> None:
-        super().__init__(jl.SomeGraphs.AnnotationData(**_given(values=values, colors=colors)))
+        super().__init__(jl.SomeGraphs.AnnotationData(**_given(values=values, colors=colors, is_shown=is_shown)))
 
 
 register_jl_type("AnnotationData", AnnotationData)

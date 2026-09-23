@@ -270,9 +270,18 @@
 </li>
 
 <li class="toctree-l4">
-<a class="reference internal" href="#somegraphspy.distributions.DistributionGraph.distribution_values_fields">
+<a class="reference internal" href="#somegraphspy.distributions.DistributionGraph.distribution_axis_vector_fields">
 <code class="docutils literal notranslate">
-<span class="pre">DistributionGraph.distribution_values_fields()
+<span class="pre">DistributionGraph.distribution_axis_vector_fields()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.distributions.DistributionGraph.distribution_entities">
+<code class="docutils literal notranslate">
+<span class="pre">DistributionGraph.distribution_entities()
 </span>
 </code>
 </a>
@@ -511,9 +520,9 @@
 </li>
 
 <li class="toctree-l4">
-<a class="reference internal" href="#somegraphspy.distributions.DistributionsGraph.distributions_values_fields">
+<a class="reference internal" href="#somegraphspy.distributions.DistributionsGraph.distribution_part_fields">
 <code class="docutils literal notranslate">
-<span class="pre">DistributionsGraph.distributions_values_fields()
+<span class="pre">DistributionsGraph.distribution_part_fields()
 </span>
 </code>
 </a>
@@ -1266,8 +1275,8 @@ for details.
 <span class="w"> 
 </span>
 <span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.ValuesData" title="somegraphspy.common.ValuesData">
-<span class="pre">ValuesData
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<span class="pre">VectorValuesData
 </span>
 </a>
 <span class="w"> 
@@ -1310,8 +1319,8 @@ for details.
 <span class="w"> 
 </span>
 <span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.EntitiesData" title="somegraphspy.common.EntitiesData">
-<span class="pre">EntitiesData
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<span class="pre">VectorEntitiesData
 </span>
 </a>
 <span class="w"> 
@@ -1587,8 +1596,8 @@ for details.
 </span>
 <span class="w"> 
 </span>
-<a class="reference internal" href="common.html#somegraphspy.common.ValuesData" title="somegraphspy.common.ValuesData">
-<span class="pre">ValuesData
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<span class="pre">VectorValuesData
 </span>
 </a>
 </span>
@@ -1619,8 +1628,8 @@ for details.
 </span>
 <span class="w"> 
 </span>
-<a class="reference internal" href="common.html#somegraphspy.common.EntitiesData" title="somegraphspy.common.EntitiesData">
-<span class="pre">EntitiesData
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<span class="pre">VectorEntitiesData
 </span>
 </a>
 </span>
@@ -1629,7 +1638,7 @@ for details.
 </dt>
 
 <dd>
-<p>The hovers and mask of the values.
+<p>The names, hovers and mask of the values.
 </p>
 
 </dd>
@@ -1992,10 +2001,10 @@ for details.
 
 <dl class="py method">
 
-<dt class="sig sig-object py" id="somegraphspy.distributions.DistributionGraph.distribution_values_fields">
+<dt class="sig sig-object py" id="somegraphspy.distributions.DistributionGraph.distribution_axis_vector_fields">
 
 <span class="sig-name descname">
-<span class="pre">distribution_values_fields
+<span class="pre">distribution_axis_vector_fields
 </span>
 </span>
 <span class="sig-paren">(
@@ -2012,13 +2021,13 @@ for details.
 </a>
 </span>
 </span>
-<a class="reference internal" href="_modules/somegraphspy/distributions.html#DistributionGraph.distribution_values_fields">
+<a class="reference internal" href="_modules/somegraphspy/distributions.html#DistributionGraph.distribution_axis_vector_fields">
 <span class="viewcode-link">
 <span class="pre">[source]
 </span>
 </span>
 </a>
-<a class="headerlink" href="#somegraphspy.distributions.DistributionGraph.distribution_values_fields" title="Link to this definition">
+<a class="headerlink" href="#somegraphspy.distributions.DistributionGraph.distribution_axis_vector_fields" title="Link to this definition">
 </a>
 </dt>
 
@@ -2028,6 +2037,46 @@ for details.
 <span class="pre">value_axis
 </span>
 </code>.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py method">
+
+<dt class="sig sig-object py" id="somegraphspy.distributions.DistributionGraph.distribution_entities">
+
+<span class="sig-name descname">
+<span class="pre">distribution_entities
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<span class="sig-paren">)
+</span> 
+<span class="sig-return">
+<span class="sig-return-icon">&#x2192;
+</span> 
+<span class="sig-return-typehint">
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<span class="pre">VectorEntitiesData
+</span>
+</a>
+</span>
+</span>
+<a class="reference internal" href="_modules/somegraphspy/distributions.html#DistributionGraph.distribution_entities">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.distributions.DistributionGraph.distribution_entities" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The entities of the points of the distribution.
 </p>
 
 </dd>
@@ -3428,10 +3477,10 @@ for details.
 
 <dl class="py method">
 
-<dt class="sig sig-object py" id="somegraphspy.distributions.DistributionsGraph.distributions_values_fields">
+<dt class="sig sig-object py" id="somegraphspy.distributions.DistributionsGraph.distribution_part_fields">
 
 <span class="sig-name descname">
-<span class="pre">distributions_values_fields
+<span class="pre">distribution_part_fields
 </span>
 </span>
 <span class="sig-paren">(
@@ -3458,28 +3507,33 @@ for details.
 <span class="sig-return-icon">&#x2192;
 </span> 
 <span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
-<span class="pre">VectorFields
+<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields" title="somegraphspy.sources.PartFields">
+<span class="pre">PartFields
 </span>
 </a>
 </span>
 </span>
-<a class="reference internal" href="_modules/somegraphspy/distributions.html#DistributionsGraph.distributions_values_fields">
+<a class="reference internal" href="_modules/somegraphspy/distributions.html#DistributionsGraph.distribution_part_fields">
 <span class="viewcode-link">
 <span class="pre">[source]
 </span>
 </span>
 </a>
-<a class="headerlink" href="#somegraphspy.distributions.DistributionsGraph.distributions_values_fields" title="Link to this definition">
+<a class="headerlink" href="#somegraphspy.distributions.DistributionsGraph.distribution_part_fields" title="Link to this definition">
 </a>
 </dt>
 
 <dd>
-<p>The data source view of the values of the (1-based) 
+<p>The data source view of the (1-based) 
 <code class="docutils literal notranslate">
 <span class="pre">index
 </span>
-</code> distribution, along the (shared) 
+</code> distribution. Its 
+<code class="docutils literal notranslate">
+<span class="pre">values
+</span>
+</code> are along the (shared)
+
 <code class="docutils literal notranslate">
 <span class="pre">value_axis
 </span>
@@ -3546,8 +3600,10 @@ for details.
 <span class="sig-return-icon">&#x2192;
 </span> 
 <span class="sig-return-typehint">
-<span class="pre">int
+<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields" title="somegraphspy.sources.PartFields">
+<span class="pre">PartFields
 </span>
+</a>
 </span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/distributions.html#DistributionsGraph.add_distribution">
@@ -3565,15 +3621,8 @@ for details.
 <code class="docutils literal notranslate">
 <span class="pre">distribution
 </span>
-</code> (by default, an empty one) and return its (1-based) index, for
-
-<a class="reference internal" href="#somegraphspy.distributions.DistributionsGraph.distributions_values_fields" title="somegraphspy.distributions.DistributionsGraph.distributions_values_fields">
-<code class="xref py py-obj docutils literal notranslate">
-<span class="pre">distributions_values_fields
-</span>
-</code>
-</a>. Whatever the distribution leaves at its defaults can be set later,
-through the view or directly.
+</code> (by default, an empty one) and return its view. Whatever the distribution leaves at
+its defaults can be set later, through the view or directly.
 </p>
 
 </dd>
