@@ -33,6 +33,7 @@ __all__ = [
     "AxisVectorFields",
     "ColorsConfigurationFields",
     "ColorsVectorFields",
+    "CompoundSinks",
     "MatrixConfigurationFields",
     "MatrixDataFields",
     "MatrixFields",
@@ -239,6 +240,11 @@ register_jl_type("MatrixFields", MatrixFields)
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.Sinks>`__
 #: for details.
 Sinks = Union[JlObject, Sequence[JlObject]]
+
+#: The :py:obj:`Sinks` a data source walks rather than writes: a view, or a sequence of sinks. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.CompoundSinks>`__
+#: for details.
+CompoundSinks = Union[VectorFields, MatrixFields, Sequence[JlObject]]
 
 
 def visit_data_sinks(visitor: Callable[[Any], None], sinks: Sinks) -> None:
