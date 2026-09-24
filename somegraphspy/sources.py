@@ -29,19 +29,31 @@ from .julia_import import jl
 from .julia_import import register_jl_type
 
 __all__ = [
+    "AnyContainer",
+    "AnyLeaf",
+    "AnySink",
     "AxisConfigurationFields",
     "AxisVectorFields",
     "ColorsConfigurationFields",
     "ColorsVectorFields",
-    "CompoundSinks",
+    "ConfigurationContainer",
+    "ConfigurationLeaf",
+    "ConfigurationSink",
+    "DataContainer",
+    "DataLeaf",
+    "DataSink",
     "MatrixConfigurationFields",
     "MatrixDataFields",
+    "MatrixDataLeaf",
+    "MatrixDataSinks",
     "MatrixFields",
     "PartFields",
     "Sinks",
     "SizesConfigurationFields",
     "SizesVectorFields",
     "VectorDataFields",
+    "VectorDataLeaf",
+    "VectorDataSinks",
     "VectorFields",
     "visit_configuration_sinks",
     "visit_data_sinks",
@@ -235,16 +247,79 @@ class MatrixFields(JlObject):
 
 register_jl_type("MatrixFields", MatrixFields)
 
-#: What a data source accepts: one struct it writes into (a view, or one of the data or configuration structs a view
-#: holds), or a sequence of them. See the Julia
+#: A struct holding graph data with a value per entity. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.VectorDataLeaf>`__
+#: for details.
+VectorDataLeaf = Union[VectorValuesData, VectorEntitiesData]
+
+#: A struct holding graph data with a value per row per column. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixDataLeaf>`__
+#: for details.
+MatrixDataLeaf = Union[MatrixValuesData, MatrixEntitiesData]
+
+#: A struct holding graph data. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.DataLeaf>`__
+#: for details.
+DataLeaf = Union[VectorDataLeaf, MatrixDataLeaf]
+
+#: A struct holding graph configuration. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ConfigurationLeaf>`__
+#: for details.
+ConfigurationLeaf = Union[AxisConfiguration, ScaleConfiguration, ColorsConfiguration, SizesConfiguration]
+
+#: A :py:obj:`DataLeaf` or a :py:obj:`ConfigurationLeaf`. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.AnyLeaf>`__
+#: for details.
+AnyLeaf = Union[DataLeaf, ConfigurationLeaf]
+
+#: Anything that may contain graph data: a view, or the data half of one. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.DataContainer>`__
+#: for details.
+DataContainer = Union[VectorFields, MatrixFields, VectorDataFields, MatrixDataFields]
+
+#: Anything that may contain graph configuration: a view, or the configuration half of one. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ConfigurationContainer>`__
+#: for details.
+ConfigurationContainer = Union[
+    VectorFields, MatrixFields, AxisConfigurationFields, ColorsConfigurationFields, SizesConfigurationFields
+]
+
+#: A :py:obj:`DataContainer` or a :py:obj:`ConfigurationContainer`. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.AnyContainer>`__
+#: for details.
+AnyContainer = Union[DataContainer, ConfigurationContainer]
+
+#: One struct a data source writes data into. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.DataSink>`__
+#: for details.
+DataSink = Union[DataContainer, DataLeaf]
+
+#: One struct a data source writes configuration into. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ConfigurationSink>`__
+#: for details.
+ConfigurationSink = Union[ConfigurationContainer, ConfigurationLeaf]
+
+#: Any one struct a data source writes into. See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.AnySink>`__
+#: for details.
+AnySink = Union[AnyContainer, AnyLeaf]
+
+#: What a data source accepts: one :py:obj:`AnySink`, or a sequence of them. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.Sinks>`__
 #: for details.
-Sinks = Union[JlObject, Sequence[JlObject]]
+Sinks = Union[AnySink, Sequence[AnySink]]
 
-#: The :py:obj:`Sinks` a data source walks rather than writes: a view, or a sequence of sinks. See the Julia
-#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.CompoundSinks>`__
+#: What a data source writing a value per entity accepts: every :py:obj:`Sinks` but a :py:obj:`MatrixDataLeaf`. See the
+#: Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.VectorDataSinks>`__
 #: for details.
-CompoundSinks = Union[VectorFields, MatrixFields, Sequence[JlObject]]
+VectorDataSinks = Union[AnyContainer, ConfigurationLeaf, VectorDataLeaf, Sequence[AnySink]]
+
+#: What a data source writing a value per row per column accepts: every :py:obj:`Sinks` but a :py:obj:`VectorDataLeaf`.
+#: See the Julia
+#: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixDataSinks>`__
+#: for details.
+MatrixDataSinks = Union[AnyContainer, ConfigurationLeaf, MatrixDataLeaf, Sequence[AnySink]]
 
 
 def visit_data_sinks(visitor: Callable[[Any], None], sinks: Sinks) -> None:
