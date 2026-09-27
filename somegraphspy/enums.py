@@ -13,15 +13,17 @@ from .common import ValuesOrientation
 from .distributions import DistributionStyle
 from .heatmaps import HeatmapLinkage
 from .heatmaps import HeatmapOrigin
-from .heatmaps import HeatmapReorder
+from .heatmaps import OrderSource
+from .heatmaps import TreeSource
 
 __all__ = [
     "DistributionStyle",
     "HeatmapLinkage",
     "HeatmapOrigin",
-    "HeatmapReorder",
     "LineStyle",
     "LogBase",
+    "OrderSource",
     "Stacking",
+    "TreeSource",
     "ValuesOrientation",
 ]

@@ -45,7 +45,11 @@ def test_complete_the_fields_of_a_graph() -> None:
         assert name in names
 
     names = _completions("sg.points_graph().data.points.")
-    for name in ("colors", "sizes", "entities", "order"):
+    for name in ("colors", "sizes", "entities"):
+        assert name in names
+
+    names = _completions("sg.points_graph().data.points.entities.")
+    for name in ("names", "hovers", "mask", "order"):
         assert name in names
 
 

@@ -89,9 +89,11 @@ def test_part_and_data_only_views() -> None:
 
     groups = heatmap.rows_groups_vector_data_fields()
     assert isinstance(groups, sg.VectorDataFields)
-    assert _is_same(groups.values, heatmap.data.rows.groups)
+    assert _is_same(groups.values, heatmap.data.rows.arrangement.groups)
     assert _is_same(groups.entities, heatmap.data.rows.entities)
     assert _is_same(heatmap.rows_entities(), heatmap.data.rows.entities)
+    assert _is_same(heatmap.rows_arrangement(), heatmap.data.rows.arrangement)
+    assert _is_same(heatmap.columns_arrangement(), heatmap.data.columns.arrangement)
 
 
 def test_add_parts() -> None:

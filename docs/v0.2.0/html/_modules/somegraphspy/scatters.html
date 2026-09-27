@@ -246,10 +246,8 @@
     <span class="n">colors</span><span class="p">:</span> <span class="n">VectorValuesData</span>
     <span class="c1">#: The size of each point.</span>
     <span class="n">sizes</span><span class="p">:</span> <span class="n">VectorValuesData</span>
-    <span class="c1">#: The names, hovers and mask of the points.</span>
+    <span class="c1">#: The names, hovers, mask and draw order of the points.</span>
     <span class="n">entities</span><span class="p">:</span> <span class="n">VectorEntitiesData</span>
-    <span class="c1">#: The (1-based) order to draw the points in, controlling which are on top.</span>
-    <span class="n">order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -257,9 +255,8 @@
         <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">entities</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorEntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">PointsData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)))</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">PointsData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">)))</span></div>
 
 
 
@@ -314,10 +311,8 @@
     <span class="n">sizes</span><span class="p">:</span> <span class="n">VectorValuesData</span>
     <span class="c1">#: The style of each edge.</span>
     <span class="n">styles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">]]</span>
-    <span class="c1">#: The names, hovers and mask of the edges.</span>
+    <span class="c1">#: The names, hovers, mask and draw order of the edges.</span>
     <span class="n">entities</span><span class="p">:</span> <span class="n">VectorEntitiesData</span>
-    <span class="c1">#: The (1-based) order to draw the edges in, controlling which are on top.</span>
-    <span class="n">order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -327,11 +322,10 @@
         <span class="n">sizes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">styles</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LineStyle</span><span class="p">]],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">entities</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorEntitiesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">EdgesData</span><span class="p">(</span>
-                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span> <span class="n">styles</span><span class="o">=</span><span class="n">styles</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span> <span class="n">styles</span><span class="o">=</span><span class="n">styles</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
 

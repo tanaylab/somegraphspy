@@ -626,6 +626,9 @@ class VectorEntitiesData(JlObject):
     hovers: Optional[StringsVector]
     #: Which entities to show.
     mask: Optional[BoolsVector]
+    #: The (1-based) order of the entities. What it means depends on the graph: the draw order of points and edges,
+    #: the layout of a heatmap axis. It is rejected where it has no meaning.
+    order: Optional[IntegersVector]
 
     def __init__(
         self,
@@ -633,8 +636,9 @@ class VectorEntitiesData(JlObject):
         names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
         hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
         mask: Union[Optional[BoolsVector], DefaultValue] = DEFAULT,
+        order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     ) -> None:
-        super().__init__(jl.SomeGraphs.VectorEntitiesData(**_given(names=names, hovers=hovers, mask=mask)))
+        super().__init__(jl.SomeGraphs.VectorEntitiesData(**_given(names=names, hovers=hovers, mask=mask, order=order)))
 
     def add_hovers(self, hovers: StringsVector, title: Optional[str] = None) -> None:
         """

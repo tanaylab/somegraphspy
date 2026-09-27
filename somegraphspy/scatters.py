@@ -165,10 +165,8 @@ class PointsData(JlObject):
     colors: VectorValuesData
     #: The size of each point.
     sizes: VectorValuesData
-    #: The names, hovers and mask of the points.
+    #: The names, hovers, mask and draw order of the points.
     entities: VectorEntitiesData
-    #: The (1-based) order to draw the points in, controlling which are on top.
-    order: Optional[IntegersVector]
 
     def __init__(
         self,
@@ -176,9 +174,8 @@ class PointsData(JlObject):
         colors: Union[VectorValuesData, DefaultValue] = DEFAULT,
         sizes: Union[VectorValuesData, DefaultValue] = DEFAULT,
         entities: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
-        order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     ) -> None:
-        super().__init__(jl.SomeGraphs.PointsData(**_given(colors=colors, sizes=sizes, entities=entities, order=order)))
+        super().__init__(jl.SomeGraphs.PointsData(**_given(colors=colors, sizes=sizes, entities=entities)))
 
 
 register_jl_type("PointsData", PointsData)
@@ -227,10 +224,8 @@ class EdgesData(JlObject):
     sizes: VectorValuesData
     #: The style of each edge.
     styles: Optional[Sequence[LineStyle]]
-    #: The names, hovers and mask of the edges.
+    #: The names, hovers, mask and draw order of the edges.
     entities: VectorEntitiesData
-    #: The (1-based) order to draw the edges in, controlling which are on top.
-    order: Optional[IntegersVector]
 
     def __init__(
         self,
@@ -240,11 +235,10 @@ class EdgesData(JlObject):
         sizes: Union[VectorValuesData, DefaultValue] = DEFAULT,
         styles: Union[Optional[Sequence[LineStyle]], DefaultValue] = DEFAULT,
         entities: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
-        order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.EdgesData(
-                **_given(points=points, colors=colors, sizes=sizes, styles=styles, entities=entities, order=order)
+                **_given(points=points, colors=colors, sizes=sizes, styles=styles, entities=entities)
             )
         )
 

@@ -194,6 +194,55 @@ def test_annotations() -> None:
     assert _values(graph.data.rows.annotations[0].values) == ["x", "y"]
 
 
+def test_heatmap_layout() -> None:
+    # Columns 1 and 3 are close, as are 2 and 4, so a clustering pairs them and puts the close 2 and 3 side by side.
+    values = np.array([[0.0, 5.0, 1.0, 6.0], [0.0, 5.0, 1.0, 6.0]])
+    graph = sg.heatmap_graph(entries=sg.MatrixValuesData(matrix=values))
+    assert graph.configuration.columns.tree_source is None
+    assert graph.configuration.columns.order_source is None
+
+    graph.configuration.columns.order_source = sg.OrderSource.OptimalTreeReorder
+    assert graph.configuration.columns.order_source == sg.OrderSource.OptimalTreeReorder
+    clustered_order = list(graph.order.columns_order)
+    assert clustered_order in ([1, 3, 2, 4], [4, 2, 3, 1])
+    tree = graph.order.columns_hclust
+    assert tree is not None
+
+    # The order and the tree of one graph lay out another.
+    other_graph = sg.heatmap_graph(
+        entries=sg.MatrixValuesData(matrix=values),
+        columns=sg.HeatmapAxisData(
+            entities=sg.VectorEntitiesData(order=clustered_order), arrangement=sg.ArrangementData(hclust=tree)
+        ),
+    )
+    other_graph.validate()
+    other_order = other_graph.data.columns.entities.order
+    assert other_order is not None
+    assert list(other_order) == clustered_order
+    assert other_graph.data.columns.arrangement.hclust is not None
+    assert list(other_graph.order.columns_order) == clustered_order
+
+    other_graph.configuration.columns.tree_source = sg.TreeSource.ClusteredTree
+    other_graph.reset_order()
+    try:
+        other_graph.validate()
+        raise AssertionError("an invalid graph was accepted")
+    except Exception as exception:  # pylint: disable=broad-exception-caught
+        assert "arrangement.hclust" in str(exception)
+
+
+def test_points_order() -> None:
+    graph = sg.points_graph(
+        x=sg.VectorValuesData(vector=[1.0, 2.0]),
+        y=sg.VectorValuesData(vector=[1.0, 2.0]),
+        points=sg.PointsData(entities=sg.VectorEntitiesData(order=[2, 1])),
+    )
+    graph.validate()
+    order = graph.data.points.entities.order
+    assert order is not None
+    assert list(order) == [2, 1]
+
+
 def test_invalid_graph_is_rejected() -> None:
     graph = sg.points_graph(x=sg.VectorValuesData(vector=[1.0, 2.0]), y=sg.VectorValuesData(vector=[1.0]))
     try:

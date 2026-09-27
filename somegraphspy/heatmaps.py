@@ -40,6 +40,7 @@ from .sources import MatrixFields
 from .sources import VectorDataFields
 
 __all__ = [
+    "ArrangementData",
     "EntriesConfiguration",
     "HeatmapAxisConfiguration",
     "HeatmapAxisData",
@@ -49,42 +50,58 @@ __all__ = [
     "HeatmapGraphOrder",
     "HeatmapLinkage",
     "HeatmapOrigin",
-    "HeatmapReorder",
-    "Order",
+    "OrderSource",
+    "TreeSource",
     "heatmap_graph",
 ]
 
-#: An explicit order of the rows or columns. This is either a vector of (1-based) indices, or an opaque ``Hclust``
-#: clustering taken from the :py:obj:`HeatmapGraphOrder` of a previously generated graph.
-Order = Union[IntegersVector, Any]
 
-
-class HeatmapReorder(JlEnum):
+class TreeSource(JlEnum):
     """
-    How to reorder the rows or columns of a heatmap. See the Julia
-    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapReorder>`__
+    Where the tree of a heatmap axis comes from. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.TreeSource>`__
     for details.
     """
 
-    #: Cluster the data the same way R does.
-    RCompatibleHclust = "RCompatibleHclust"
-    #: Cluster the data using an optimal ordering of the tree.
-    OptimalHclust = "OptimalHclust"
-    #: Cluster the data and reorder the tree.
-    ReorderHclust = "ReorderHclust"
-    #: Cluster the data and slant the tree.
-    SlantedHclust = "SlantedHclust"
-    #: Cluster the pre-squared data and slant the tree.
-    SlantedPreSquaredHclust = "SlantedPreSquaredHclust"
-    #: Slant the data without computing a clustering tree.
+    #: The ``hclust`` of the arrangement.
+    GivenTree = "GivenTree"
+    #: Cluster the data.
+    ClusteredTree = "ClusteredTree"
+    #: Build a tree around the target order, so its leaves are exactly that order.
+    OrderTree = "OrderTree"
+    #: The tree of the other axis.
+    SameTree = "SameTree"
+
+
+register_jl_type("TreeSource", TreeSource)
+
+
+class OrderSource(JlEnum):
+    """
+    Where the order of a heatmap axis comes from. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.OrderSource>`__
+    for details.
+    """
+
+    #: The leaves of the given tree, as they are.
+    GivenTreeOrder = "GivenTreeOrder"
+    #: The leaves of the tree after reordering its branches using the (better) Bar-Joseph method.
+    OptimalTreeReorder = "OptimalTreeReorder"
+    #: The leaves of the tree after reordering its branches in the same (bad) way that R does.
+    RCompatibleTreeReorder = "RCompatibleTreeReorder"
+    #: The ``order`` of the entities.
+    GivenOrder = "GivenOrder"
+    #: The entries as they are.
+    EntryOrder = "EntryOrder"
+    #: Slant the data.
     SlantedOrder = "SlantedOrder"
-    #: Slant the pre-squared data without computing a clustering tree.
+    #: Slant the pre-squared data.
     SlantedPreSquaredOrder = "SlantedPreSquaredOrder"
-    #: Use the same order as the other dimension.
+    #: The order of the other axis.
     SameOrder = "SameOrder"
 
 
-register_jl_type("HeatmapReorder", HeatmapReorder)
+register_jl_type("OrderSource", OrderSource)
 
 
 class HeatmapLinkage(JlEnum):
@@ -137,11 +154,13 @@ class HeatmapGraphOrder(JlObject):
     for details.
 
     The orders are always a permutation of all the entries (hidden ones included), so they can be fed as-is into the
-    ``order`` of the ``rows`` and ``columns`` of a :py:obj:`HeatmapGraphData` to show another graph in the same order.
+    ``order`` of the ``entities`` of the ``rows`` and ``columns`` of a :py:obj:`HeatmapGraphData` to show another graph
+    in the same order.
 
     The ``rows_hclust`` and ``columns_hclust`` are Julia ``Hclust`` objects. There is no Python model for these, but
-    they too can be fed back into the ``order`` of the ``rows`` and ``columns`` of a :py:obj:`HeatmapGraphData`, which
-    reuses both the order and the tree, so the other graph also shows the same dendogram.
+    they too can be fed back into the ``hclust`` of the :py:obj:`ArrangementData` of the ``rows`` and ``columns`` of a
+    :py:obj:`HeatmapGraphData`, which reuses both the order and the tree, so the other graph also shows the same
+    dendogram.
 
     These describe the order of the data, not the order it is displayed in; applying the ``origin`` and skipping the
     hidden entries is up to whoever shows the graph.
@@ -197,8 +216,10 @@ class HeatmapAxisConfiguration(Validated):
     ticks_angle: Optional[float]
     #: The size of the annotations shown next to the axis.
     annotations: AnnotationSize
-    #: How to reorder the entries.
-    reorder: Optional[HeatmapReorder]
+    #: Where the tree of the entries comes from, if one is needed; by default, inferred from what is given.
+    tree_source: Optional[TreeSource]
+    #: Where the order of the entries comes from; by default, inferred from what is given.
+    order_source: Optional[OrderSource]
     #: The linkage used when clustering the entries.
     linkage: Optional[HeatmapLinkage]
     #: The distance metric used when clustering the entries, a Julia ``Distances.PreMetric``.
@@ -223,7 +244,8 @@ class HeatmapAxisConfiguration(Validated):
         show_ticks: Union[bool, DefaultValue] = DEFAULT,
         ticks_angle: Union[Optional[float], DefaultValue] = DEFAULT,
         annotations: Union[AnnotationSize, DefaultValue] = DEFAULT,
-        reorder: Union[Optional[HeatmapReorder], DefaultValue] = DEFAULT,
+        tree_source: Union[Optional[TreeSource], DefaultValue] = DEFAULT,
+        order_source: Union[Optional[OrderSource], DefaultValue] = DEFAULT,
         linkage: Union[Optional[HeatmapLinkage], DefaultValue] = DEFAULT,
         metric: Union[Optional[Any], DefaultValue] = DEFAULT,
         include_hidden: Union[bool, DefaultValue] = DEFAULT,
@@ -240,7 +262,8 @@ class HeatmapAxisConfiguration(Validated):
                     show_ticks=show_ticks,
                     ticks_angle=ticks_angle,
                     annotations=annotations,
-                    reorder=reorder,
+                    tree_source=tree_source,
+                    order_source=order_source,
                     linkage=linkage,
                     metric=metric,
                     include_hidden=include_hidden,
@@ -300,17 +323,17 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
 register_jl_type("HeatmapGraphConfiguration", HeatmapGraphConfiguration)
 
 
-class HeatmapAxisData(JlObject):
+class ArrangementData(JlObject):
     """
-    The data of one axis (the rows or the columns) of a :py:obj:`HeatmapGraphData`. See the Julia
-    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapAxisData>`__
+    The inputs to arranging the entries of one axis of a heatmap, other than the ``order`` of its entities. See the
+    Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.ArrangementData>`__
     for details.
     """
 
-    #: The names (shown as the tick labels), hovers and mask of the entries.
-    entities: VectorEntitiesData
-    #: Force this order of the entries.
-    order: Optional[Order]
+    #: A clustering tree of the entries, an opaque Julia ``Hclust`` taken from the :py:obj:`HeatmapGraphOrder` of a
+    #: previously generated graph.
+    hclust: Optional[Any]
     #: The group of each entry, either numbers or names. The groups have no title.
     groups: VectorValuesData
     #: The subgroup of each entry, nested in its group. A subgroup of one group is unrelated to the same subgroup of
@@ -318,6 +341,36 @@ class HeatmapAxisData(JlObject):
     subgroups: VectorValuesData
     #: The features to cluster the entries by, instead of the entries values.
     arrange_by: Optional[NumbersMatrix]
+
+    def __init__(
+        self,
+        *,
+        hclust: Union[Optional[Any], DefaultValue] = DEFAULT,
+        groups: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        subgroups: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        arrange_by: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(
+            jl.SomeGraphs.ArrangementData(
+                **_given(hclust=hclust, groups=groups, subgroups=subgroups, arrange_by=arrange_by)
+            )
+        )
+
+
+register_jl_type("ArrangementData", ArrangementData)
+
+
+class HeatmapAxisData(JlObject):
+    """
+    The data of one axis (the rows or the columns) of a :py:obj:`HeatmapGraphData`. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapAxisData>`__
+    for details.
+    """
+
+    #: The names (shown as the tick labels), hovers, mask and order of the entries.
+    entities: VectorEntitiesData
+    #: What else the entries are arranged by.
+    arrangement: ArrangementData
     #: Annotations shown next to the axis.
     annotations: Sequence[AnnotationData]
     #: The (1-based) order to show the annotations in.
@@ -327,10 +380,7 @@ class HeatmapAxisData(JlObject):
         self,
         *,
         entities: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
-        order: Union[Optional[Order], DefaultValue] = DEFAULT,
-        groups: Union[VectorValuesData, DefaultValue] = DEFAULT,
-        subgroups: Union[VectorValuesData, DefaultValue] = DEFAULT,
-        arrange_by: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
+        arrangement: Union[ArrangementData, DefaultValue] = DEFAULT,
         annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
         annotations_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     ) -> None:
@@ -338,10 +388,7 @@ class HeatmapAxisData(JlObject):
             jl.SomeGraphs.HeatmapAxisData(
                 **_given(
                     entities=entities,
-                    order=order,
-                    groups=groups,
-                    subgroups=subgroups,
-                    arrange_by=arrange_by,
+                    arrangement=arrangement,
                     annotations=annotations,
                     annotations_order=annotations_order,
                 )
@@ -418,17 +465,17 @@ class HeatmapGraph(Graph):
         for details.
 
         Use this to list the entries in the order they are shown, or to show several graphs in the same order by
-        feeding it into the ``order`` of the ``rows`` and ``columns`` of their data. The order is only computed once.
-        Showing the graph will reuse it, and vice versa.
+        feeding it into the ``order`` of the ``entities`` of the ``rows`` and ``columns`` of their data. The order is
+        only computed once. Showing the graph will reuse it, and vice versa.
 
         .. note::
 
             Nothing detects that the cached order went stale. Call :py:obj:`reset_order` if anything it was computed
-            from is changed after it was computed - that is, the ``reorder``, ``linkage``, ``metric`` and
-            ``include_hidden`` of the axes configuration, and the ``entries.values`` and the ``order``, ``arrange_by``,
-            ``groups`` and ``subgroups`` of the axes data. The groups are easy to forget: they constrain the clustering,
-            so saving the same graph twice, grouped differently each time, silently reuses the order of the first
-            grouping unless the cache is reset in between.
+            from is changed after it was computed - that is, the ``tree_source``, ``order_source``, ``linkage``,
+            ``metric``, ``dendogram_size`` and ``include_hidden`` of the axes configuration, and the ``entries.values``,
+            the ``order`` of the axes entities and their ``arrangement``. The groups are easy to forget: they constrain
+            the clustering, so saving the same graph twice, grouped differently each time, silently reuses the order of
+            the first grouping unless the cache is reset in between.
         """
         return _from_julia(jl.SomeGraphs.heatmap_order(self.jl_obj))
 
@@ -495,6 +542,18 @@ class HeatmapGraph(Graph):
         The entities of the columns, shared by all their roles.
         """
         return _from_julia(jl.SomeGraphs.columns_entities(self.jl_obj))
+
+    def rows_arrangement(self) -> ArrangementData:
+        """
+        The arrangement of the rows.
+        """
+        return _from_julia(jl.SomeGraphs.rows_arrangement(self.jl_obj))
+
+    def columns_arrangement(self) -> ArrangementData:
+        """
+        The arrangement of the columns.
+        """
+        return _from_julia(jl.SomeGraphs.columns_arrangement(self.jl_obj))
 
     def add_rows_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
         """
