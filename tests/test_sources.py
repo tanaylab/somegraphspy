@@ -236,3 +236,33 @@ def test_visit_sinks() -> None:
         for sink in visited
         if isinstance(sink, sg.ColorsConfiguration)
     )
+
+
+def _given_list(values: Any) -> List[Any]:
+    assert values is not None
+    return list(values)
+
+
+def test_puts() -> None:
+    graph = _points_graph()
+    sg.put_vector_data(graph.x_axis_vector_fields(), np.array([5.0, 6.0, 7.0]), title="X")
+    sg.put_vector_names_data(graph.points_entities(), ["a", "b", "c"])
+    sg.put_vector_mask_data(graph.points_entities(), [True, False, True])
+    sg.put_vector_order_data(graph.points_entities(), [3, 1, 2])
+    assert _values(graph.data.x) == [5.0, 6.0, 7.0]
+    assert _hovers(graph.data.points.entities) == ["X: 5.0", "X: 6.0", "X: 7.0"]
+    assert _given_list(graph.data.points.entities.names) == ["a", "b", "c"]
+    assert _given_list(graph.data.points.entities.mask) == [True, False, True]
+    assert _given_list(graph.data.points.entities.order) == [3, 1, 2]
+
+    heatmap = sg.heatmap_graph()
+    sg.put_matrix_data(heatmap.entries_matrix_fields(), np.array([[1.0, 2.0], [3.0, 4.0]]), title="M")
+    sg.put_matrix_names_data(heatmap.entries_matrix_fields(), ["r1", "r2"], ["c1", "c2"])
+    matrix = heatmap.data.entries.matrix
+    assert matrix is not None
+    assert matrix[0, 1] == 2.0
+    assert _given_list(heatmap.data.rows.entities.names) == ["r1", "r2"]
+    assert _given_list(heatmap.data.columns.entities.names) == ["c1", "c2"]
+
+    sg.put_vector_names_data(heatmap.rows_side(), ["s1", "s2"])
+    assert _given_list(heatmap.data.rows.entities.names) == ["s1", "s2"]

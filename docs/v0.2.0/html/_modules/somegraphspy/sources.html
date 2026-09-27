@@ -85,6 +85,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
@@ -95,16 +96,22 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrangementData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxisConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoolsVector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorsConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Graph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntegersVector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixEntitiesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixValuesData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">NumbersMatrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">NumbersVector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScaleConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">SizesConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringsVector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorEntitiesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorValuesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlObject</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_from_julia</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_given</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_to_julia</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">jl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
@@ -137,6 +144,12 @@
     <span class="s2">&quot;VectorDataLeaf&quot;</span><span class="p">,</span>
     <span class="s2">&quot;VectorDataSinks&quot;</span><span class="p">,</span>
     <span class="s2">&quot;VectorFields&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;put_matrix_data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;put_matrix_names_data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;put_vector_data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;put_vector_mask_data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;put_vector_names_data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;put_vector_order_data&quot;</span><span class="p">,</span>
     <span class="s2">&quot;visit_configuration_sinks&quot;</span><span class="p">,</span>
     <span class="s2">&quot;visit_data_sinks&quot;</span><span class="p">,</span>
 <span class="p">]</span>
@@ -504,6 +517,87 @@
 <span class="sd">    for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphsPy</span><span class="o">.</span><span class="n">_visit_configuration_sinks</span><span class="p">(</span><span class="k">lambda</span> <span class="n">sink</span><span class="p">:</span> <span class="n">visitor</span><span class="p">(</span><span class="n">_from_julia</span><span class="p">(</span><span class="n">sink</span><span class="p">)),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="put_vector_data">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.put_vector_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">put_vector_data</span><span class="p">(</span>
+    <span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">,</span>
+    <span class="n">value_per_entry</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">StringsVector</span><span class="p">,</span> <span class="n">BoolsVector</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Put a ``value_per_entry`` into the ``sinks``: as the values of a role, and as a hover line on the entities. See the</span>
+<span class="sd">    Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_vector_data!&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">put_vector_data_b</span><span class="p">(</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">value_per_entry</span><span class="p">),</span> <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="put_vector_names_data">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.put_vector_names_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">put_vector_names_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">,</span> <span class="n">name_per_entry</span><span class="p">:</span> <span class="n">StringsVector</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Name the entities of the ``sinks`` after the ``name_per_entry``. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_vector_names_data!&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">put_vector_names_data_b</span><span class="p">(</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">name_per_entry</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="put_vector_mask_data">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.put_vector_mask_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">put_vector_mask_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">,</span> <span class="n">is_shown_per_entry</span><span class="p">:</span> <span class="n">BoolsVector</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Hide the entities of the ``sinks`` which are not shown by the ``is_shown_per_entry`` mask. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_vector_mask_data!&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">put_vector_mask_data_b</span><span class="p">(</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">is_shown_per_entry</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="put_vector_order_data">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.put_vector_order_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">put_vector_order_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="n">IntegersVector</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Give the entities of the ``sinks`` the ``order`` (a permutation of their 1-based indices). See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_vector_order_data!&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">put_vector_order_data_b</span><span class="p">(</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">order</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="put_matrix_data">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.put_matrix_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">put_matrix_data</span><span class="p">(</span>
+    <span class="n">sinks</span><span class="p">:</span> <span class="n">MatrixDataSinks</span><span class="p">,</span> <span class="n">value_per_row_per_column</span><span class="p">:</span> <span class="n">NumbersMatrix</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Put a ``value_per_row_per_column`` into the ``sinks``: as the values of the entries, and as a hover line on each</span>
+<span class="sd">    entry. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_matrix_data!&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">put_matrix_data_b</span><span class="p">(</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">value_per_row_per_column</span><span class="p">),</span> <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="put_matrix_names_data">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.put_matrix_names_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">put_matrix_names_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">MatrixDataSinks</span><span class="p">,</span> <span class="n">name_per_row</span><span class="p">:</span> <span class="n">StringsVector</span><span class="p">,</span> <span class="n">name_per_column</span><span class="p">:</span> <span class="n">StringsVector</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Name the rows and the columns of the ``sinks`` after the ``name_per_row`` and the ``name_per_column``. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_matrix_names_data!&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">put_matrix_names_data_b</span><span class="p">(</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">name_per_row</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">name_per_column</span><span class="p">))</span></div>
 
 </pre></div>
 

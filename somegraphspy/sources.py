@@ -12,6 +12,7 @@ They reference the graph's own objects, so writing into them changes the graph.
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
+from typing import Optional
 from typing import Sequence
 from typing import Union
 
@@ -22,16 +23,22 @@ if TYPE_CHECKING:
 
 from .common import ArrangementData
 from .common import AxisConfiguration
+from .common import BoolsVector
 from .common import ColorsConfiguration
 from .common import Graph
+from .common import IntegersVector
 from .common import MatrixEntitiesData
 from .common import MatrixValuesData
+from .common import NumbersMatrix
+from .common import NumbersVector
 from .common import ScaleConfiguration
 from .common import SizesConfiguration
+from .common import StringsVector
 from .common import VectorEntitiesData
 from .common import VectorValuesData
 from .julia_import import JlObject
 from .julia_import import _from_julia
+from .julia_import import _given
 from .julia_import import _to_julia
 from .julia_import import jl
 from .julia_import import register_jl_type
@@ -64,6 +71,12 @@ __all__ = [
     "VectorDataLeaf",
     "VectorDataSinks",
     "VectorFields",
+    "put_matrix_data",
+    "put_matrix_names_data",
+    "put_vector_data",
+    "put_vector_mask_data",
+    "put_vector_names_data",
+    "put_vector_order_data",
     "visit_configuration_sinks",
     "visit_data_sinks",
 ]
@@ -387,3 +400,66 @@ def visit_configuration_sinks(visitor: Callable[[Any], None], sinks: Sinks) -> N
     for details.
     """
     jl.SomeGraphsPy._visit_configuration_sinks(lambda sink: visitor(_from_julia(sink)), _to_julia(sinks))
+
+
+def put_vector_data(
+    sinks: VectorDataSinks,
+    value_per_entry: Union[NumbersVector, StringsVector, BoolsVector],
+    *,
+    title: Optional[str] = None,
+) -> None:
+    """
+    Put a ``value_per_entry`` into the ``sinks``: as the values of a role, and as a hover line on the entities. See the
+    Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_vector_data!>`__
+    for details.
+    """
+    jl.SomeGraphs.put_vector_data_b(_to_julia(sinks), _to_julia(value_per_entry), **_given(title=title))
+
+
+def put_vector_names_data(sinks: VectorDataSinks, name_per_entry: StringsVector) -> None:
+    """
+    Name the entities of the ``sinks`` after the ``name_per_entry``. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_vector_names_data!>`__
+    for details.
+    """
+    jl.SomeGraphs.put_vector_names_data_b(_to_julia(sinks), _to_julia(name_per_entry))
+
+
+def put_vector_mask_data(sinks: VectorDataSinks, is_shown_per_entry: BoolsVector) -> None:
+    """
+    Hide the entities of the ``sinks`` which are not shown by the ``is_shown_per_entry`` mask. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_vector_mask_data!>`__
+    for details.
+    """
+    jl.SomeGraphs.put_vector_mask_data_b(_to_julia(sinks), _to_julia(is_shown_per_entry))
+
+
+def put_vector_order_data(sinks: VectorDataSinks, order: IntegersVector) -> None:
+    """
+    Give the entities of the ``sinks`` the ``order`` (a permutation of their 1-based indices). See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_vector_order_data!>`__
+    for details.
+    """
+    jl.SomeGraphs.put_vector_order_data_b(_to_julia(sinks), _to_julia(order))
+
+
+def put_matrix_data(
+    sinks: MatrixDataSinks, value_per_row_per_column: NumbersMatrix, *, title: Optional[str] = None
+) -> None:
+    """
+    Put a ``value_per_row_per_column`` into the ``sinks``: as the values of the entries, and as a hover line on each
+    entry. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_matrix_data!>`__
+    for details.
+    """
+    jl.SomeGraphs.put_matrix_data_b(_to_julia(sinks), _to_julia(value_per_row_per_column), **_given(title=title))
+
+
+def put_matrix_names_data(sinks: MatrixDataSinks, name_per_row: StringsVector, name_per_column: StringsVector) -> None:
+    """
+    Name the rows and the columns of the ``sinks`` after the ``name_per_row`` and the ``name_per_column``. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_matrix_names_data!>`__
+    for details.
+    """
+    jl.SomeGraphs.put_matrix_names_data_b(_to_julia(sinks), _to_julia(name_per_row), _to_julia(name_per_column))
