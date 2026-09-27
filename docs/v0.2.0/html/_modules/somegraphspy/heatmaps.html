@@ -114,13 +114,14 @@
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;ArrangementData&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AxisPlacement&quot;</span><span class="p">,</span>
     <span class="s2">&quot;EntriesConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;HeatmapAxisConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;HeatmapAxisData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;HeatmapGraph&quot;</span><span class="p">,</span>
     <span class="s2">&quot;HeatmapGraphConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;HeatmapGraphData&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;HeatmapGraphOrder&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HeatmapGraphPlacement&quot;</span><span class="p">,</span>
     <span class="s2">&quot;HeatmapLinkage&quot;</span><span class="p">,</span>
     <span class="s2">&quot;HeatmapOrigin&quot;</span><span class="p">,</span>
     <span class="s2">&quot;OrderSource&quot;</span><span class="p">,</span>
@@ -231,40 +232,54 @@
 <span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapOrigin&quot;</span><span class="p">,</span> <span class="n">HeatmapOrigin</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="HeatmapGraphOrder">
-<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraphOrder">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">HeatmapGraphOrder</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<div class="viewcode-block" id="AxisPlacement">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.AxisPlacement">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AxisPlacement</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The final order and clustering of the rows and the columns of a heatmap graph, as returned by the graph&#39;s</span>
-<span class="sd">    ``order``. See the Julia</span>
-<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphOrder&gt;`__</span>
+<span class="sd">    Where the entries of one axis of a heatmap were put: their final order, and the tree they were put by, if one was</span>
+<span class="sd">    needed. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.AxisPlacement&gt;`__</span>
 <span class="sd">    for details.</span>
 
-<span class="sd">    The orders are always a permutation of all the entries (hidden ones included), so they can be fed as-is into the</span>
-<span class="sd">    ``order`` of the ``entities`` of the ``rows`` and ``columns`` of a :py:obj:`HeatmapGraphData` to show another graph</span>
-<span class="sd">    in the same order.</span>
+<span class="sd">    The order is always a permutation of all the entries (hidden ones included), so it can be fed as-is into the</span>
+<span class="sd">    ``order`` of the ``entities`` of an axis of a :py:obj:`HeatmapGraphData` to show another graph in the same order.</span>
 
-<span class="sd">    The ``rows_hclust`` and ``columns_hclust`` are Julia ``Hclust`` objects. There is no Python model for these, but</span>
-<span class="sd">    they too can be fed back into the ``hclust`` of the :py:obj:`ArrangementData` of the ``rows`` and ``columns`` of a</span>
-<span class="sd">    :py:obj:`HeatmapGraphData`, which reuses both the order and the tree, so the other graph also shows the same</span>
-<span class="sd">    dendogram.</span>
+<span class="sd">    The ``hclust`` is a Julia ``Hclust`` object. There is no Python model for these, but it too can be fed back into the</span>
+<span class="sd">    ``hclust`` of the :py:obj:`ArrangementData` of an axis of a :py:obj:`HeatmapGraphData`, which reuses both the order</span>
+<span class="sd">    and the tree, so the other graph also shows the same dendogram.</span>
 
 <span class="sd">    These describe the order of the data, not the order it is displayed in; applying the ``origin`` and skipping the</span>
 <span class="sd">    hidden entries is up to whoever shows the graph.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1">#: The final (1-based) order of the rows; the identity if they weren&#39;t reordered at all.</span>
-    <span class="n">rows_order</span><span class="p">:</span> <span class="n">IntegersVector</span>
-    <span class="c1">#: The clustering of the rows, if one was computed.</span>
-    <span class="n">rows_hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
-    <span class="c1">#: The final (1-based) order of the columns; the identity if they weren&#39;t reordered at all.</span>
-    <span class="n">columns_order</span><span class="p">:</span> <span class="n">IntegersVector</span>
-    <span class="c1">#: The clustering of the columns, if one was computed.</span>
-    <span class="n">columns_hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span></div>
+    <span class="c1">#: The final (1-based) order of the entries; the identity if they weren&#39;t reordered at all.</span>
+    <span class="n">order</span><span class="p">:</span> <span class="n">IntegersVector</span>
+    <span class="c1">#: The tree of the entries, if one was needed.</span>
+    <span class="n">hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span></div>
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapGraphOrder&quot;</span><span class="p">,</span> <span class="n">HeatmapGraphOrder</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;AxisPlacement&quot;</span><span class="p">,</span> <span class="n">AxisPlacement</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HeatmapGraphPlacement">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraphPlacement">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HeatmapGraphPlacement</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The computed :py:obj:`AxisPlacement` of the rows and of the columns of a heatmap graph, as returned by the graph&#39;s</span>
+<span class="sd">    ``placement``. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphPlacement&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The placement of the rows.</span>
+    <span class="n">rows</span><span class="p">:</span> <span class="n">AxisPlacement</span>
+    <span class="c1">#: The placement of the columns.</span>
+    <span class="n">columns</span><span class="p">:</span> <span class="n">AxisPlacement</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapGraphPlacement&quot;</span><span class="p">,</span> <span class="n">HeatmapGraphPlacement</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="EntriesConfiguration">
@@ -393,9 +408,9 @@
     <span class="n">columns</span><span class="p">:</span> <span class="n">HeatmapAxisConfiguration</span>
     <span class="c1">#: Where the first entry of the matrix is shown.</span>
     <span class="n">origin</span><span class="p">:</span> <span class="n">HeatmapOrigin</span>
-    <span class="c1">#: Caches the computed order of the rows and the columns; access it through the graph&#39;s ``order``, and reset it</span>
-    <span class="c1">#: with the graph&#39;s ``reset_order`` if anything it was computed from is changed after it was computed.</span>
-    <span class="n">final_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapGraphOrder</span><span class="p">]</span>
+    <span class="c1">#: Caches the computed placement of the rows and the columns; access it through the graph&#39;s ``placement``, and</span>
+    <span class="c1">#: reset it with the graph&#39;s ``reset_placement`` if anything it was computed from is changed after it was computed.</span>
+    <span class="n">final_placement</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapGraphPlacement</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -405,12 +420,17 @@
         <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapAxisConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">columns</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapAxisConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">origin</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapOrigin</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">final_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapGraphOrder</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">final_placement</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapGraphPlacement</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">HeatmapGraphConfiguration</span><span class="p">(</span>
                 <span class="o">**</span><span class="n">_given</span><span class="p">(</span>
-                    <span class="n">figure</span><span class="o">=</span><span class="n">figure</span><span class="p">,</span> <span class="n">entries</span><span class="o">=</span><span class="n">entries</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span> <span class="n">final_order</span><span class="o">=</span><span class="n">final_order</span>
+                    <span class="n">figure</span><span class="o">=</span><span class="n">figure</span><span class="p">,</span>
+                    <span class="n">entries</span><span class="o">=</span><span class="n">entries</span><span class="p">,</span>
+                    <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span>
+                    <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
+                    <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span>
+                    <span class="n">final_placement</span><span class="o">=</span><span class="n">final_placement</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
@@ -430,7 +450,7 @@
 <span class="sd">    for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1">#: A clustering tree of the entries, an opaque Julia ``Hclust`` taken from the :py:obj:`HeatmapGraphOrder` of a</span>
+    <span class="c1">#: A clustering tree of the entries, an opaque Julia ``Hclust`` taken from the :py:obj:`AxisPlacement` of a</span>
     <span class="c1">#: previously generated graph.</span>
     <span class="n">hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
     <span class="c1">#: The group of each entry, either numbers or names. The groups have no title.</span>
@@ -565,38 +585,39 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">HeatmapGraph</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)))</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">order</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HeatmapGraphOrder</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">placement</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HeatmapGraphPlacement</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The final order of the rows and the columns, and the trees they were clustered by, without rendering the graph.</span>
+<span class="sd">        The final order of the rows and the columns, and the trees they were placed by, without rendering the graph.</span>
 <span class="sd">        See the Julia</span>
-<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.heatmap_order&gt;`__</span>
+<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.heatmap_placement&gt;`__</span>
 <span class="sd">        for details.</span>
 
 <span class="sd">        Use this to list the entries in the order they are shown, or to show several graphs in the same order by</span>
-<span class="sd">        feeding it into the ``order`` of the ``entities`` of the ``rows`` and ``columns`` of their data. The order is</span>
-<span class="sd">        only computed once. Showing the graph will reuse it, and vice versa.</span>
+<span class="sd">        feeding it into the ``order`` of the ``entities`` of the ``rows`` and ``columns`` of their data. The placement</span>
+<span class="sd">        is only computed once. Showing the graph will reuse it, and vice versa.</span>
 
 <span class="sd">        .. note::</span>
 
-<span class="sd">            Nothing detects that the cached order went stale. Call :py:obj:`reset_order` if anything it was computed</span>
-<span class="sd">            from is changed after it was computed - that is, the ``tree_source``, ``order_source``, ``linkage``,</span>
-<span class="sd">            ``metric``, ``dendogram_size`` and ``include_hidden`` of the axes configuration, and the ``entries.values``,</span>
-<span class="sd">            the ``order`` of the axes entities and their ``arrangement``. The groups are easy to forget: they constrain</span>
-<span class="sd">            the clustering, so saving the same graph twice, grouped differently each time, silently reuses the order of</span>
-<span class="sd">            the first grouping unless the cache is reset in between.</span>
+<span class="sd">            Nothing detects that the cached placement went stale. Call :py:obj:`reset_placement` if anything it was</span>
+<span class="sd">            computed from is changed after it was computed - that is, the ``tree_source``, ``order_source``,</span>
+<span class="sd">            ``linkage``, ``metric``, ``dendogram_size`` and ``include_hidden`` of the axes configuration, and the</span>
+<span class="sd">            ``entries.values``, the ``order`` of the axes entities and their ``arrangement``. The groups are easy to</span>
+<span class="sd">            forget: they constrain the clustering, so saving the same graph twice, grouped differently each time,</span>
+<span class="sd">            silently reuses the placement of the first grouping unless the cache is reset in between.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">heatmap_order</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">heatmap_placement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span>
 
-<div class="viewcode-block" id="HeatmapGraph.reset_order">
-<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.reset_order">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">reset_order</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="HeatmapGraph.reset_placement">
+<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.reset_placement">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset_placement</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Forget the cached :py:obj:`HeatmapGraphOrder`, so that asking for the graph&#39;s :py:obj:`order` (or showing it)</span>
-<span class="sd">        will compute it again. Call this after changing anything the order was computed from. See the Julia</span>
-<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.reset_order!&gt;`__</span>
+<span class="sd">        Forget the cached :py:obj:`HeatmapGraphPlacement`, so that asking for the graph&#39;s :py:obj:`placement` (or</span>
+<span class="sd">        showing it) will compute it again. Call this after changing anything the placement was computed from. See the</span>
+<span class="sd">        Julia</span>
+<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.reset_placement!&gt;`__</span>
 <span class="sd">        for details.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">reset_order_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">)</span></div>
+        <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">reset_placement_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.entries_matrix_fields">

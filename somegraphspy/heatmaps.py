@@ -41,13 +41,14 @@ from .sources import VectorDataFields
 
 __all__ = [
     "ArrangementData",
+    "AxisPlacement",
     "EntriesConfiguration",
     "HeatmapAxisConfiguration",
     "HeatmapAxisData",
     "HeatmapGraph",
     "HeatmapGraphConfiguration",
     "HeatmapGraphData",
-    "HeatmapGraphOrder",
+    "HeatmapGraphPlacement",
     "HeatmapLinkage",
     "HeatmapOrigin",
     "OrderSource",
@@ -146,37 +147,48 @@ class HeatmapOrigin(JlEnum):
 register_jl_type("HeatmapOrigin", HeatmapOrigin)
 
 
-class HeatmapGraphOrder(JlObject):
+class AxisPlacement(JlObject):
     """
-    The final order and clustering of the rows and the columns of a heatmap graph, as returned by the graph's
-    ``order``. See the Julia
-    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphOrder>`__
+    Where the entries of one axis of a heatmap were put: their final order, and the tree they were put by, if one was
+    needed. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.AxisPlacement>`__
     for details.
 
-    The orders are always a permutation of all the entries (hidden ones included), so they can be fed as-is into the
-    ``order`` of the ``entities`` of the ``rows`` and ``columns`` of a :py:obj:`HeatmapGraphData` to show another graph
-    in the same order.
+    The order is always a permutation of all the entries (hidden ones included), so it can be fed as-is into the
+    ``order`` of the ``entities`` of an axis of a :py:obj:`HeatmapGraphData` to show another graph in the same order.
 
-    The ``rows_hclust`` and ``columns_hclust`` are Julia ``Hclust`` objects. There is no Python model for these, but
-    they too can be fed back into the ``hclust`` of the :py:obj:`ArrangementData` of the ``rows`` and ``columns`` of a
-    :py:obj:`HeatmapGraphData`, which reuses both the order and the tree, so the other graph also shows the same
-    dendogram.
+    The ``hclust`` is a Julia ``Hclust`` object. There is no Python model for these, but it too can be fed back into the
+    ``hclust`` of the :py:obj:`ArrangementData` of an axis of a :py:obj:`HeatmapGraphData`, which reuses both the order
+    and the tree, so the other graph also shows the same dendogram.
 
     These describe the order of the data, not the order it is displayed in; applying the ``origin`` and skipping the
     hidden entries is up to whoever shows the graph.
     """
 
-    #: The final (1-based) order of the rows; the identity if they weren't reordered at all.
-    rows_order: IntegersVector
-    #: The clustering of the rows, if one was computed.
-    rows_hclust: Optional[Any]
-    #: The final (1-based) order of the columns; the identity if they weren't reordered at all.
-    columns_order: IntegersVector
-    #: The clustering of the columns, if one was computed.
-    columns_hclust: Optional[Any]
+    #: The final (1-based) order of the entries; the identity if they weren't reordered at all.
+    order: IntegersVector
+    #: The tree of the entries, if one was needed.
+    hclust: Optional[Any]
 
 
-register_jl_type("HeatmapGraphOrder", HeatmapGraphOrder)
+register_jl_type("AxisPlacement", AxisPlacement)
+
+
+class HeatmapGraphPlacement(JlObject):
+    """
+    The computed :py:obj:`AxisPlacement` of the rows and of the columns of a heatmap graph, as returned by the graph's
+    ``placement``. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphPlacement>`__
+    for details.
+    """
+
+    #: The placement of the rows.
+    rows: AxisPlacement
+    #: The placement of the columns.
+    columns: AxisPlacement
+
+
+register_jl_type("HeatmapGraphPlacement", HeatmapGraphPlacement)
 
 
 class EntriesConfiguration(Validated):
@@ -297,9 +309,9 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
     columns: HeatmapAxisConfiguration
     #: Where the first entry of the matrix is shown.
     origin: HeatmapOrigin
-    #: Caches the computed order of the rows and the columns; access it through the graph's ``order``, and reset it
-    #: with the graph's ``reset_order`` if anything it was computed from is changed after it was computed.
-    final_order: Optional[HeatmapGraphOrder]
+    #: Caches the computed placement of the rows and the columns; access it through the graph's ``placement``, and
+    #: reset it with the graph's ``reset_placement`` if anything it was computed from is changed after it was computed.
+    final_placement: Optional[HeatmapGraphPlacement]
 
     def __init__(
         self,
@@ -309,12 +321,17 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
         rows: Union[HeatmapAxisConfiguration, DefaultValue] = DEFAULT,
         columns: Union[HeatmapAxisConfiguration, DefaultValue] = DEFAULT,
         origin: Union[HeatmapOrigin, DefaultValue] = DEFAULT,
-        final_order: Union[Optional[HeatmapGraphOrder], DefaultValue] = DEFAULT,
+        final_placement: Union[Optional[HeatmapGraphPlacement], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.HeatmapGraphConfiguration(
                 **_given(
-                    figure=figure, entries=entries, rows=rows, columns=columns, origin=origin, final_order=final_order
+                    figure=figure,
+                    entries=entries,
+                    rows=rows,
+                    columns=columns,
+                    origin=origin,
+                    final_placement=final_placement,
                 )
             )
         )
@@ -331,7 +348,7 @@ class ArrangementData(JlObject):
     for details.
     """
 
-    #: A clustering tree of the entries, an opaque Julia ``Hclust`` taken from the :py:obj:`HeatmapGraphOrder` of a
+    #: A clustering tree of the entries, an opaque Julia ``Hclust`` taken from the :py:obj:`AxisPlacement` of a
     #: previously generated graph.
     hclust: Optional[Any]
     #: The group of each entry, either numbers or names. The groups have no title.
@@ -457,36 +474,37 @@ class HeatmapGraph(Graph):
         super().__init__(jl.SomeGraphs.HeatmapGraph(**_given(data=data, configuration=configuration)))
 
     @property
-    def order(self) -> HeatmapGraphOrder:
+    def placement(self) -> HeatmapGraphPlacement:
         """
-        The final order of the rows and the columns, and the trees they were clustered by, without rendering the graph.
+        The final order of the rows and the columns, and the trees they were placed by, without rendering the graph.
         See the Julia
-        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.heatmap_order>`__
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.heatmap_placement>`__
         for details.
 
         Use this to list the entries in the order they are shown, or to show several graphs in the same order by
-        feeding it into the ``order`` of the ``entities`` of the ``rows`` and ``columns`` of their data. The order is
-        only computed once. Showing the graph will reuse it, and vice versa.
+        feeding it into the ``order`` of the ``entities`` of the ``rows`` and ``columns`` of their data. The placement
+        is only computed once. Showing the graph will reuse it, and vice versa.
 
         .. note::
 
-            Nothing detects that the cached order went stale. Call :py:obj:`reset_order` if anything it was computed
-            from is changed after it was computed - that is, the ``tree_source``, ``order_source``, ``linkage``,
-            ``metric``, ``dendogram_size`` and ``include_hidden`` of the axes configuration, and the ``entries.values``,
-            the ``order`` of the axes entities and their ``arrangement``. The groups are easy to forget: they constrain
-            the clustering, so saving the same graph twice, grouped differently each time, silently reuses the order of
-            the first grouping unless the cache is reset in between.
+            Nothing detects that the cached placement went stale. Call :py:obj:`reset_placement` if anything it was
+            computed from is changed after it was computed - that is, the ``tree_source``, ``order_source``,
+            ``linkage``, ``metric``, ``dendogram_size`` and ``include_hidden`` of the axes configuration, and the
+            ``entries.values``, the ``order`` of the axes entities and their ``arrangement``. The groups are easy to
+            forget: they constrain the clustering, so saving the same graph twice, grouped differently each time,
+            silently reuses the placement of the first grouping unless the cache is reset in between.
         """
-        return _from_julia(jl.SomeGraphs.heatmap_order(self.jl_obj))
+        return _from_julia(jl.SomeGraphs.heatmap_placement(self.jl_obj))
 
-    def reset_order(self) -> None:
+    def reset_placement(self) -> None:
         """
-        Forget the cached :py:obj:`HeatmapGraphOrder`, so that asking for the graph's :py:obj:`order` (or showing it)
-        will compute it again. Call this after changing anything the order was computed from. See the Julia
-        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.reset_order!>`__
+        Forget the cached :py:obj:`HeatmapGraphPlacement`, so that asking for the graph's :py:obj:`placement` (or
+        showing it) will compute it again. Call this after changing anything the placement was computed from. See the
+        Julia
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.reset_placement!>`__
         for details.
         """
-        jl.SomeGraphs.reset_order_b(self.jl_obj)
+        jl.SomeGraphs.reset_placement_b(self.jl_obj)
 
     def entries_matrix_fields(self) -> MatrixFields:
         """

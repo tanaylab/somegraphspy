@@ -203,9 +203,9 @@ def test_heatmap_layout() -> None:
 
     graph.configuration.columns.order_source = sg.OrderSource.OptimalTreeReorder
     assert graph.configuration.columns.order_source == sg.OrderSource.OptimalTreeReorder
-    clustered_order = list(graph.order.columns_order)
+    clustered_order = list(graph.placement.columns.order)
     assert clustered_order in ([1, 3, 2, 4], [4, 2, 3, 1])
-    tree = graph.order.columns_hclust
+    tree = graph.placement.columns.hclust
     assert tree is not None
 
     # The order and the tree of one graph lay out another.
@@ -220,10 +220,10 @@ def test_heatmap_layout() -> None:
     assert other_order is not None
     assert list(other_order) == clustered_order
     assert other_graph.data.columns.arrangement.hclust is not None
-    assert list(other_graph.order.columns_order) == clustered_order
+    assert list(other_graph.placement.columns.order) == clustered_order
 
     other_graph.configuration.columns.tree_source = sg.TreeSource.ClusteredTree
-    other_graph.reset_order()
+    other_graph.reset_placement()
     try:
         other_graph.validate()
         raise AssertionError("an invalid graph was accepted")
