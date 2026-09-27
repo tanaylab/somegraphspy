@@ -31,6 +31,7 @@ __all__ = [
     "AbstractGraphData",
     "AnnotationData",
     "AnnotationSize",
+    "ArrangementData",
     "AutomaticColors",
     "AxisConfiguration",
     "BandConfiguration",
@@ -651,6 +652,43 @@ class VectorEntitiesData(JlObject):
 
 
 register_jl_type("VectorEntitiesData", VectorEntitiesData)
+
+
+class ArrangementData(JlObject):
+    """
+    The inputs to arranging the entries of one side of a heatmap, other than the ``order`` of its entities. See the
+    Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ArrangementData>`__
+    for details.
+    """
+
+    #: A clustering tree of the entries, an opaque Julia ``Hclust`` taken from the ``SidePlacement`` of a previously
+    #: generated graph.
+    hclust: Optional[Any]
+    #: The group of each entry, either numbers or names. The groups have no title.
+    groups: VectorValuesData
+    #: The subgroup of each entry, nested in its group. A subgroup of one group is unrelated to the same subgroup of
+    #: another group, so the subgroups need not be unique. The subgroups have no title.
+    subgroups: VectorValuesData
+    #: The features to cluster the entries by, instead of the entries values.
+    arrange_by: Optional[NumbersMatrix]
+
+    def __init__(
+        self,
+        *,
+        hclust: Union[Optional[Any], DefaultValue] = DEFAULT,
+        groups: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        subgroups: Union[VectorValuesData, DefaultValue] = DEFAULT,
+        arrange_by: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(
+            jl.SomeGraphs.ArrangementData(
+                **_given(hclust=hclust, groups=groups, subgroups=subgroups, arrange_by=arrange_by)
+            )
+        )
+
+
+register_jl_type("ArrangementData", ArrangementData)
 
 
 class MatrixValuesData(JlObject):

@@ -15,6 +15,7 @@ from .common import AbstractGraphConfiguration
 from .common import AbstractGraphData
 from .common import AnnotationData
 from .common import AnnotationSize
+from .common import ArrangementData
 from .common import ColorsConfiguration
 from .common import FigureConfiguration
 from .common import Graph
@@ -22,10 +23,8 @@ from .common import IntegersVector
 from .common import LineConfiguration
 from .common import MatrixEntitiesData
 from .common import MatrixValuesData
-from .common import NumbersMatrix
 from .common import Validated
 from .common import VectorEntitiesData
-from .common import VectorValuesData
 from .julia_import import DEFAULT
 from .julia_import import DefaultValue
 from .julia_import import JlEnum
@@ -36,22 +35,22 @@ from .julia_import import _optional_jl_obj
 from .julia_import import jl
 from .julia_import import register_jl_type
 from .sources import ColorsVectorFields
+from .sources import HeatmapSide
 from .sources import MatrixFields
 from .sources import VectorDataFields
 
 __all__ = [
-    "ArrangementData",
-    "AxisPlacement",
     "EntriesConfiguration",
-    "HeatmapAxisConfiguration",
-    "HeatmapAxisData",
     "HeatmapGraph",
     "HeatmapGraphConfiguration",
     "HeatmapGraphData",
     "HeatmapGraphPlacement",
     "HeatmapLinkage",
     "HeatmapOrigin",
+    "HeatmapSideConfiguration",
+    "HeatmapSideData",
     "OrderSource",
+    "SidePlacement",
     "TreeSource",
     "heatmap_graph",
 ]
@@ -59,7 +58,7 @@ __all__ = [
 
 class TreeSource(JlEnum):
     """
-    Where the tree of a heatmap axis comes from. See the Julia
+    Where the tree of a heatmap side comes from. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.TreeSource>`__
     for details.
     """
@@ -70,7 +69,7 @@ class TreeSource(JlEnum):
     ClusteredTree = "ClusteredTree"
     #: Build a tree around the target order, so its leaves are exactly that order.
     OrderTree = "OrderTree"
-    #: The tree of the other axis.
+    #: The tree of the other side.
     SameTree = "SameTree"
 
 
@@ -79,7 +78,7 @@ register_jl_type("TreeSource", TreeSource)
 
 class OrderSource(JlEnum):
     """
-    Where the order of a heatmap axis comes from. See the Julia
+    Where the order of a heatmap side comes from. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.OrderSource>`__
     for details.
     """
@@ -98,7 +97,7 @@ class OrderSource(JlEnum):
     SlantedOrder = "SlantedOrder"
     #: Slant the pre-squared data.
     SlantedPreSquaredOrder = "SlantedPreSquaredOrder"
-    #: The order of the other axis.
+    #: The order of the other side.
     SameOrder = "SameOrder"
 
 
@@ -147,18 +146,18 @@ class HeatmapOrigin(JlEnum):
 register_jl_type("HeatmapOrigin", HeatmapOrigin)
 
 
-class AxisPlacement(JlObject):
+class SidePlacement(JlObject):
     """
-    Where the entries of one axis of a heatmap were put: their final order, and the tree they were put by, if one was
+    Where the entries of one side of a heatmap were put: their final order, and the tree they were put by, if one was
     needed. See the Julia
-    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.AxisPlacement>`__
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.SidePlacement>`__
     for details.
 
     The order is always a permutation of all the entries (hidden ones included), so it can be fed as-is into the
-    ``order`` of the ``entities`` of an axis of a :py:obj:`HeatmapGraphData` to show another graph in the same order.
+    ``order`` of the ``entities`` of a side of a :py:obj:`HeatmapGraphData` to show another graph in the same order.
 
     The ``hclust`` is a Julia ``Hclust`` object. There is no Python model for these, but it too can be fed back into the
-    ``hclust`` of the :py:obj:`ArrangementData` of an axis of a :py:obj:`HeatmapGraphData`, which reuses both the order
+    ``hclust`` of the :py:obj:`ArrangementData` of a side of a :py:obj:`HeatmapGraphData`, which reuses both the order
     and the tree, so the other graph also shows the same dendogram.
 
     These describe the order of the data, not the order it is displayed in; applying the ``origin`` and skipping the
@@ -171,21 +170,21 @@ class AxisPlacement(JlObject):
     hclust: Optional[Any]
 
 
-register_jl_type("AxisPlacement", AxisPlacement)
+register_jl_type("SidePlacement", SidePlacement)
 
 
 class HeatmapGraphPlacement(JlObject):
     """
-    The computed :py:obj:`AxisPlacement` of the rows and of the columns of a heatmap graph, as returned by the graph's
+    The computed :py:obj:`SidePlacement` of the rows and of the columns of a heatmap graph, as returned by the graph's
     ``placement``. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphPlacement>`__
     for details.
     """
 
     #: The placement of the rows.
-    rows: AxisPlacement
+    rows: SidePlacement
     #: The placement of the columns.
-    columns: AxisPlacement
+    columns: SidePlacement
 
 
 register_jl_type("HeatmapGraphPlacement", HeatmapGraphPlacement)
@@ -208,10 +207,10 @@ class EntriesConfiguration(Validated):
 register_jl_type("EntriesConfiguration", EntriesConfiguration)
 
 
-class HeatmapAxisConfiguration(Validated):
+class HeatmapSideConfiguration(Validated):
     """
-    Configure one axis (the rows or the columns) of a heatmap. See the Julia
-    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapAxisConfiguration>`__
+    Configure one side (the rows or the columns) of a heatmap. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapSideConfiguration>`__
     for details.
 
     Groups (and subgroups) constrain the clustering, and are separated by a gap. Each level is placed independently: a
@@ -226,7 +225,7 @@ class HeatmapAxisConfiguration(Validated):
     show_ticks: bool
     #: Rotate the tick labels by this angle, in degrees.
     ticks_angle: Optional[float]
-    #: The size of the annotations shown next to the axis.
+    #: The size of the annotations shown next to the entries.
     annotations: AnnotationSize
     #: Where the tree of the entries comes from, if one is needed; by default, inferred from what is given.
     tree_source: Optional[TreeSource]
@@ -268,7 +267,7 @@ class HeatmapAxisConfiguration(Validated):
         dendogram_line: Union[LineConfiguration, DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
-            jl.SomeGraphs.HeatmapAxisConfiguration(
+            jl.SomeGraphs.HeatmapSideConfiguration(
                 **_given(
                     title=title,
                     show_ticks=show_ticks,
@@ -289,7 +288,7 @@ class HeatmapAxisConfiguration(Validated):
         )
 
 
-register_jl_type("HeatmapAxisConfiguration", HeatmapAxisConfiguration)
+register_jl_type("HeatmapSideConfiguration", HeatmapSideConfiguration)
 
 
 class HeatmapGraphConfiguration(AbstractGraphConfiguration):
@@ -304,9 +303,9 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
     #: How to show the entries.
     entries: EntriesConfiguration
     #: How to show the rows.
-    rows: HeatmapAxisConfiguration
+    rows: HeatmapSideConfiguration
     #: How to show the columns.
-    columns: HeatmapAxisConfiguration
+    columns: HeatmapSideConfiguration
     #: Where the first entry of the matrix is shown.
     origin: HeatmapOrigin
     #: Caches the computed placement of the rows and the columns; access it through the graph's ``placement``, and
@@ -318,8 +317,8 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
         *,
         figure: Union[FigureConfiguration, DefaultValue] = DEFAULT,
         entries: Union[EntriesConfiguration, DefaultValue] = DEFAULT,
-        rows: Union[HeatmapAxisConfiguration, DefaultValue] = DEFAULT,
-        columns: Union[HeatmapAxisConfiguration, DefaultValue] = DEFAULT,
+        rows: Union[HeatmapSideConfiguration, DefaultValue] = DEFAULT,
+        columns: Union[HeatmapSideConfiguration, DefaultValue] = DEFAULT,
         origin: Union[HeatmapOrigin, DefaultValue] = DEFAULT,
         final_placement: Union[Optional[HeatmapGraphPlacement], DefaultValue] = DEFAULT,
     ) -> None:
@@ -340,47 +339,10 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
 register_jl_type("HeatmapGraphConfiguration", HeatmapGraphConfiguration)
 
 
-class ArrangementData(JlObject):
+class HeatmapSideData(JlObject):
     """
-    The inputs to arranging the entries of one axis of a heatmap, other than the ``order`` of its entities. See the
-    Julia
-    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.ArrangementData>`__
-    for details.
-    """
-
-    #: A clustering tree of the entries, an opaque Julia ``Hclust`` taken from the :py:obj:`AxisPlacement` of a
-    #: previously generated graph.
-    hclust: Optional[Any]
-    #: The group of each entry, either numbers or names. The groups have no title.
-    groups: VectorValuesData
-    #: The subgroup of each entry, nested in its group. A subgroup of one group is unrelated to the same subgroup of
-    #: another group, so the subgroups need not be unique. The subgroups have no title.
-    subgroups: VectorValuesData
-    #: The features to cluster the entries by, instead of the entries values.
-    arrange_by: Optional[NumbersMatrix]
-
-    def __init__(
-        self,
-        *,
-        hclust: Union[Optional[Any], DefaultValue] = DEFAULT,
-        groups: Union[VectorValuesData, DefaultValue] = DEFAULT,
-        subgroups: Union[VectorValuesData, DefaultValue] = DEFAULT,
-        arrange_by: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
-    ) -> None:
-        super().__init__(
-            jl.SomeGraphs.ArrangementData(
-                **_given(hclust=hclust, groups=groups, subgroups=subgroups, arrange_by=arrange_by)
-            )
-        )
-
-
-register_jl_type("ArrangementData", ArrangementData)
-
-
-class HeatmapAxisData(JlObject):
-    """
-    The data of one axis (the rows or the columns) of a :py:obj:`HeatmapGraphData`. See the Julia
-    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapAxisData>`__
+    The data of one side (the rows or the columns) of a :py:obj:`HeatmapGraphData`. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapSideData>`__
     for details.
     """
 
@@ -388,7 +350,7 @@ class HeatmapAxisData(JlObject):
     entities: VectorEntitiesData
     #: What else the entries are arranged by.
     arrangement: ArrangementData
-    #: Annotations shown next to the axis.
+    #: Annotations shown next to the entries.
     annotations: Sequence[AnnotationData]
     #: The (1-based) order to show the annotations in.
     annotations_order: Optional[IntegersVector]
@@ -402,7 +364,7 @@ class HeatmapAxisData(JlObject):
         annotations_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
-            jl.SomeGraphs.HeatmapAxisData(
+            jl.SomeGraphs.HeatmapSideData(
                 **_given(
                     entities=entities,
                     arrangement=arrangement,
@@ -413,7 +375,7 @@ class HeatmapAxisData(JlObject):
         )
 
 
-register_jl_type("HeatmapAxisData", HeatmapAxisData)
+register_jl_type("HeatmapSideData", HeatmapSideData)
 
 
 class HeatmapGraphData(AbstractGraphData):
@@ -430,9 +392,9 @@ class HeatmapGraphData(AbstractGraphData):
     #: The hovers of the entries.
     cells: MatrixEntitiesData
     #: The data of the rows.
-    rows: HeatmapAxisData
+    rows: HeatmapSideData
     #: The data of the columns.
-    columns: HeatmapAxisData
+    columns: HeatmapSideData
 
     def __init__(
         self,
@@ -440,8 +402,8 @@ class HeatmapGraphData(AbstractGraphData):
         figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
         entries: Union[MatrixValuesData, DefaultValue] = DEFAULT,
         cells: Union[MatrixEntitiesData, DefaultValue] = DEFAULT,
-        rows: Union[HeatmapAxisData, DefaultValue] = DEFAULT,
-        columns: Union[HeatmapAxisData, DefaultValue] = DEFAULT,
+        rows: Union[HeatmapSideData, DefaultValue] = DEFAULT,
+        columns: Union[HeatmapSideData, DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.HeatmapGraphData(
@@ -489,8 +451,8 @@ class HeatmapGraph(Graph):
 
             Nothing detects that the cached placement went stale. Call :py:obj:`reset_placement` if anything it was
             computed from is changed after it was computed - that is, the ``tree_source``, ``order_source``,
-            ``linkage``, ``metric``, ``dendogram_size`` and ``include_hidden`` of the axes configuration, and the
-            ``entries.values``, the ``order`` of the axes entities and their ``arrangement``. The groups are easy to
+            ``linkage``, ``metric``, ``dendogram_size`` and ``include_hidden`` of the sides configuration, and the
+            ``entries.values``, the ``order`` of the sides entities and their ``arrangement``. The groups are easy to
             forget: they constrain the clustering, so saving the same graph twice, grouped differently each time,
             silently reuses the placement of the first grouping unless the cache is reset in between.
         """
@@ -573,6 +535,18 @@ class HeatmapGraph(Graph):
         """
         return _from_julia(jl.SomeGraphs.columns_arrangement(self.jl_obj))
 
+    def rows_side(self) -> HeatmapSide:
+        """
+        The rows side: its data, configuration and placement.
+        """
+        return _from_julia(jl.SomeGraphs.rows_side(self.jl_obj))
+
+    def columns_side(self) -> HeatmapSide:
+        """
+        The columns side: its data, configuration and placement.
+        """
+        return _from_julia(jl.SomeGraphs.columns_side(self.jl_obj))
+
     def add_rows_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
         """
         Append an ``annotation`` of the rows (by default, an empty one) and return its (1-based) index, for
@@ -593,8 +567,8 @@ def heatmap_graph(
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
     entries: Union[MatrixValuesData, DefaultValue] = DEFAULT,
     cells: Union[MatrixEntitiesData, DefaultValue] = DEFAULT,
-    rows: Union[HeatmapAxisData, DefaultValue] = DEFAULT,
-    columns: Union[HeatmapAxisData, DefaultValue] = DEFAULT,
+    rows: Union[HeatmapSideData, DefaultValue] = DEFAULT,
+    columns: Union[HeatmapSideData, DefaultValue] = DEFAULT,
     configuration: Union[HeatmapGraphConfiguration, DefaultValue] = DEFAULT,
 ) -> HeatmapGraph:
     """

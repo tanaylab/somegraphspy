@@ -82,13 +82,21 @@
 <span class="sd">They reference the graph&#39;s own objects, so writing into them changes the graph.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.heatmaps</span><span class="w"> </span><span class="kn">import</span> <span class="n">HeatmapSideConfiguration</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.heatmaps</span><span class="w"> </span><span class="kn">import</span> <span class="n">HeatmapSideData</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.heatmaps</span><span class="w"> </span><span class="kn">import</span> <span class="n">SidePlacement</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrangementData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxisConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorsConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Graph</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixEntitiesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixValuesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScaleConfiguration</span>
@@ -115,6 +123,7 @@
     <span class="s2">&quot;DataContainer&quot;</span><span class="p">,</span>
     <span class="s2">&quot;DataLeaf&quot;</span><span class="p">,</span>
     <span class="s2">&quot;DataSink&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HeatmapSide&quot;</span><span class="p">,</span>
     <span class="s2">&quot;MatrixConfigurationFields&quot;</span><span class="p">,</span>
     <span class="s2">&quot;MatrixDataFields&quot;</span><span class="p">,</span>
     <span class="s2">&quot;MatrixDataLeaf&quot;</span><span class="p">,</span>
@@ -347,10 +356,60 @@
 
 <span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;MatrixFields&quot;</span><span class="p">,</span> <span class="n">MatrixFields</span><span class="p">)</span>
 
+
+<div class="viewcode-block" id="HeatmapSide">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.HeatmapSide">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HeatmapSide</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    One side (the rows or the columns) of a heatmap graph, as returned by its ``rows_side`` and ``columns_side``. It</span>
+<span class="sd">    stands for the side&#39;s data, configuration and computed placement. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.HeatmapSide&gt;`__</span>
+<span class="sd">    for details.</span>
+
+<span class="sd">    As a sink, it reaches the entities and the arrangement of the side.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The heatmap graph the side belongs to.</span>
+    <span class="n">graph</span><span class="p">:</span> <span class="n">Graph</span>
+    <span class="c1">#: Whether this is the rows side (rather than the columns side).</span>
+    <span class="n">is_rows</span><span class="p">:</span> <span class="nb">bool</span>
+
+<div class="viewcode-block" id="HeatmapSide.data">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.HeatmapSide.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;HeatmapSideData&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data of the side: the entities, the arrangement and the annotations of its entries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">side_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="HeatmapSide.configuration">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.HeatmapSide.configuration">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;HeatmapSideConfiguration&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The configuration of the side.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">side_configuration</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="HeatmapSide.placement">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.HeatmapSide.placement">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">placement</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SidePlacement&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The computed placement of the side: the final order of its entries, and the tree they were placed by, if one</span>
+<span class="sd">        was needed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">side_placement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
+</div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapSide&quot;</span><span class="p">,</span> <span class="n">HeatmapSide</span><span class="p">)</span>
+
 <span class="c1">#: A struct holding graph data with a value per entity. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.VectorDataLeaf&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">VectorDataLeaf</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorValuesData</span><span class="p">,</span> <span class="n">VectorEntitiesData</span><span class="p">]</span>
+<span class="n">VectorDataLeaf</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorValuesData</span><span class="p">,</span> <span class="n">VectorEntitiesData</span><span class="p">,</span> <span class="n">ArrangementData</span><span class="p">]</span>
 
 <span class="c1">#: A struct holding graph data with a value per row per column. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixDataLeaf&gt;`__</span>
@@ -372,10 +431,10 @@
 <span class="c1">#: for details.</span>
 <span class="n">AnyLeaf</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">DataLeaf</span><span class="p">,</span> <span class="n">ConfigurationLeaf</span><span class="p">]</span>
 
-<span class="c1">#: Anything that may contain graph data: a view, or the data half of one. See the Julia</span>
+<span class="c1">#: Anything that may contain graph data: a view, the data half of one, or a side of a heatmap. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.DataContainer&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">DataContainer</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorFields</span><span class="p">,</span> <span class="n">MatrixFields</span><span class="p">,</span> <span class="n">VectorDataFields</span><span class="p">,</span> <span class="n">MatrixDataFields</span><span class="p">]</span>
+<span class="n">DataContainer</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorFields</span><span class="p">,</span> <span class="n">MatrixFields</span><span class="p">,</span> <span class="n">VectorDataFields</span><span class="p">,</span> <span class="n">MatrixDataFields</span><span class="p">,</span> <span class="n">HeatmapSide</span><span class="p">]</span>
 
 <span class="c1">#: Anything that may contain graph configuration: a view, or the configuration half of one. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ConfigurationContainer&gt;`__</span>

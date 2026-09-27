@@ -104,6 +104,7 @@
     <span class="s2">&quot;AbstractGraphData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;AnnotationData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;AnnotationSize&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ArrangementData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;AutomaticColors&quot;</span><span class="p">,</span>
     <span class="s2">&quot;AxisConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;BandConfiguration&quot;</span><span class="p">,</span>
@@ -787,6 +788,46 @@
 
 
 <span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;VectorEntitiesData&quot;</span><span class="p">,</span> <span class="n">VectorEntitiesData</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ArrangementData">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.ArrangementData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ArrangementData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The inputs to arranging the entries of one side of a heatmap, other than the ``order`` of its entities. See the</span>
+<span class="sd">    Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ArrangementData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: A clustering tree of the entries, an opaque Julia ``Hclust`` taken from the ``SidePlacement`` of a previously</span>
+    <span class="c1">#: generated graph.</span>
+    <span class="n">hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+    <span class="c1">#: The group of each entry, either numbers or names. The groups have no title.</span>
+    <span class="n">groups</span><span class="p">:</span> <span class="n">VectorValuesData</span>
+    <span class="c1">#: The subgroup of each entry, nested in its group. A subgroup of one group is unrelated to the same subgroup of</span>
+    <span class="c1">#: another group, so the subgroups need not be unique. The subgroups have no title.</span>
+    <span class="n">subgroups</span><span class="p">:</span> <span class="n">VectorValuesData</span>
+    <span class="c1">#: The features to cluster the entries by, instead of the entries values.</span>
+    <span class="n">arrange_by</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">hclust</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">groups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">subgroups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">arrange_by</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">ArrangementData</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">hclust</span><span class="o">=</span><span class="n">hclust</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span> <span class="n">subgroups</span><span class="o">=</span><span class="n">subgroups</span><span class="p">,</span> <span class="n">arrange_by</span><span class="o">=</span><span class="n">arrange_by</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;ArrangementData&quot;</span><span class="p">,</span> <span class="n">ArrangementData</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="MatrixValuesData">

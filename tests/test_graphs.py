@@ -124,8 +124,8 @@ def test_heatmap_matrix_is_not_transposed() -> None:
     values = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
     graph = sg.heatmap_graph(
         entries=sg.MatrixValuesData(matrix=values),
-        rows=sg.HeatmapAxisData(entities=sg.VectorEntitiesData(names=["r1", "r2"])),
-        columns=sg.HeatmapAxisData(entities=sg.VectorEntitiesData(names=["c1", "c2", "c3"])),
+        rows=sg.HeatmapSideData(entities=sg.VectorEntitiesData(names=["r1", "r2"])),
+        columns=sg.HeatmapSideData(entities=sg.VectorEntitiesData(names=["c1", "c2", "c3"])),
     )
     graph.validate()
 
@@ -171,15 +171,15 @@ def test_enums_round_trip() -> None:
 
 
 def test_none_clears_a_non_nothing_default() -> None:
-    assert sg.HeatmapAxisConfiguration().groups_gap == 1
-    assert sg.HeatmapAxisConfiguration(groups_gap=None).groups_gap is None
+    assert sg.HeatmapSideConfiguration().groups_gap == 1
+    assert sg.HeatmapSideConfiguration(groups_gap=None).groups_gap is None
     assert sg.DistributionsGraphConfiguration(distributions_gap=None).distributions_gap is None
 
 
 def test_annotations() -> None:
     graph = sg.heatmap_graph(
         entries=sg.MatrixValuesData(matrix=np.array([[1.0, 2.0], [3.0, 4.0]])),
-        rows=sg.HeatmapAxisData(
+        rows=sg.HeatmapSideData(
             annotations=[
                 sg.AnnotationData(
                     values=sg.VectorValuesData(vector=["x", "y"], title="kind"),
@@ -211,7 +211,7 @@ def test_heatmap_layout() -> None:
     # The order and the tree of one graph lay out another.
     other_graph = sg.heatmap_graph(
         entries=sg.MatrixValuesData(matrix=values),
-        columns=sg.HeatmapAxisData(
+        columns=sg.HeatmapSideData(
             entities=sg.VectorEntitiesData(order=clustered_order), arrangement=sg.ArrangementData(hclust=tree)
         ),
     )

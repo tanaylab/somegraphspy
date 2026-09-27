@@ -9,13 +9,21 @@ into a view. It works on any graph and any role that offers the same kind of vie
 They reference the graph's own objects, so writing into them changes the graph.
 """
 
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
 from typing import Sequence
 from typing import Union
 
+if TYPE_CHECKING:
+    from .heatmaps import HeatmapSideConfiguration
+    from .heatmaps import HeatmapSideData
+    from .heatmaps import SidePlacement
+
+from .common import ArrangementData
 from .common import AxisConfiguration
 from .common import ColorsConfiguration
+from .common import Graph
 from .common import MatrixEntitiesData
 from .common import MatrixValuesData
 from .common import ScaleConfiguration
@@ -42,6 +50,7 @@ __all__ = [
     "DataContainer",
     "DataLeaf",
     "DataSink",
+    "HeatmapSide",
     "MatrixConfigurationFields",
     "MatrixDataFields",
     "MatrixDataLeaf",
@@ -247,10 +256,48 @@ class MatrixFields(JlObject):
 
 register_jl_type("MatrixFields", MatrixFields)
 
+
+class HeatmapSide(JlObject):
+    """
+    One side (the rows or the columns) of a heatmap graph, as returned by its ``rows_side`` and ``columns_side``. It
+    stands for the side's data, configuration and computed placement. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.HeatmapSide>`__
+    for details.
+
+    As a sink, it reaches the entities and the arrangement of the side.
+    """
+
+    #: The heatmap graph the side belongs to.
+    graph: Graph
+    #: Whether this is the rows side (rather than the columns side).
+    is_rows: bool
+
+    def data(self) -> "HeatmapSideData":
+        """
+        The data of the side: the entities, the arrangement and the annotations of its entries.
+        """
+        return _from_julia(jl.SomeGraphs.side_data(self.jl_obj))
+
+    def configuration(self) -> "HeatmapSideConfiguration":
+        """
+        The configuration of the side.
+        """
+        return _from_julia(jl.SomeGraphs.side_configuration(self.jl_obj))
+
+    def placement(self) -> "SidePlacement":
+        """
+        The computed placement of the side: the final order of its entries, and the tree they were placed by, if one
+        was needed.
+        """
+        return _from_julia(jl.SomeGraphs.side_placement(self.jl_obj))
+
+
+register_jl_type("HeatmapSide", HeatmapSide)
+
 #: A struct holding graph data with a value per entity. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.VectorDataLeaf>`__
 #: for details.
-VectorDataLeaf = Union[VectorValuesData, VectorEntitiesData]
+VectorDataLeaf = Union[VectorValuesData, VectorEntitiesData, ArrangementData]
 
 #: A struct holding graph data with a value per row per column. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixDataLeaf>`__
@@ -272,10 +319,10 @@ ConfigurationLeaf = Union[AxisConfiguration, ScaleConfiguration, ColorsConfigura
 #: for details.
 AnyLeaf = Union[DataLeaf, ConfigurationLeaf]
 
-#: Anything that may contain graph data: a view, or the data half of one. See the Julia
+#: Anything that may contain graph data: a view, the data half of one, or a side of a heatmap. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.DataContainer>`__
 #: for details.
-DataContainer = Union[VectorFields, MatrixFields, VectorDataFields, MatrixDataFields]
+DataContainer = Union[VectorFields, MatrixFields, VectorDataFields, MatrixDataFields, HeatmapSide]
 
 #: Anything that may contain graph configuration: a view, or the configuration half of one. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ConfigurationContainer>`__

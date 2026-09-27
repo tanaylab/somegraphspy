@@ -95,6 +95,20 @@ def test_part_and_data_only_views() -> None:
     assert _is_same(heatmap.rows_arrangement(), heatmap.data.rows.arrangement)
     assert _is_same(heatmap.columns_arrangement(), heatmap.data.columns.arrangement)
 
+    side = heatmap.columns_side()
+    assert isinstance(side, sg.HeatmapSide)
+    assert not side.is_rows
+    assert _is_same(side.data(), heatmap.data.columns)
+    assert _is_same(side.configuration(), heatmap.configuration.columns)
+    assert list(side.placement().order) == list(heatmap.placement.columns.order)
+
+    visited: List[Any] = []
+    sg.visit_data_sinks(visited.append, side)
+    assert len(visited) == 2
+    assert isinstance(visited[0], sg.VectorEntitiesData)
+    assert isinstance(visited[1], sg.ArrangementData)
+    assert _is_same(visited[1], heatmap.data.columns.arrangement)
+
 
 def test_add_parts() -> None:
     bars = sg.series_bars_graph(bars=sg.VectorEntitiesData(names=["a", "b"]))

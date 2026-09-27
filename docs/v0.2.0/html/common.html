@@ -202,6 +202,55 @@
 </li>
 
 <li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.ArrangementData">
+<code class="docutils literal notranslate">
+<span class="pre">ArrangementData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.ArrangementData.hclust">
+<code class="docutils literal notranslate">
+<span class="pre">ArrangementData.hclust
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.ArrangementData.groups">
+<code class="docutils literal notranslate">
+<span class="pre">ArrangementData.groups
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.ArrangementData.subgroups">
+<code class="docutils literal notranslate">
+<span class="pre">ArrangementData.subgroups
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.ArrangementData.arrange_by">
+<code class="docutils literal notranslate">
+<span class="pre">ArrangementData.arrange_by
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
 <a class="reference internal" href="#somegraphspy.common.AutomaticColors">
 <code class="docutils literal notranslate">
 <span class="pre">AutomaticColors
@@ -1944,6 +1993,409 @@ for details.
 
 <dd>
 <p>The gap between annotations, as a fraction of the graph size.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ArrangementData">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">ArrangementData
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">hclust
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">groups
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<span class="pre">VectorValuesData
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">subgroups
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<a class="reference internal" href="#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<span class="pre">VectorValuesData
+</span>
+</a>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">arrange_by
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<span class="pre">DefaultValue
+</span>
+</a>
+</span>
+<span class="w"> 
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#ArrangementData">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.ArrangementData" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The inputs to arranging the entries of one side of a heatmap, other than the 
+<code class="docutils literal notranslate">
+<span class="pre">order
+</span>
+</code> of its entities. See the
+Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ArrangementData">documentation
+</a>
+for details.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ArrangementData.hclust">
+
+<span class="sig-name descname">
+<span class="pre">hclust
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Any
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.ArrangementData.hclust" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A clustering tree of the entries, an opaque Julia 
+<code class="docutils literal notranslate">
+<span class="pre">Hclust
+</span>
+</code> taken from the 
+<code class="docutils literal notranslate">
+<span class="pre">SidePlacement
+</span>
+</code> of a previously
+generated graph.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ArrangementData.groups">
+
+<span class="sig-name descname">
+<span class="pre">groups
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<span class="pre">VectorValuesData
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.common.ArrangementData.groups" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The group of each entry, either numbers or names. The groups have no title.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ArrangementData.subgroups">
+
+<span class="sig-name descname">
+<span class="pre">subgroups
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<span class="pre">VectorValuesData
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.common.ArrangementData.subgroups" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The subgroup of each entry, nested in its group. A subgroup of one group is unrelated to the same subgroup of
+another group, so the subgroups need not be unique. The subgroups have no title.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.ArrangementData.arrange_by">
+
+<span class="sig-name descname">
+<span class="pre">arrange_by
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.ArrangementData.arrange_by" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The features to cluster the entries by, instead of the entries values.
 </p>
 
 </dd>
