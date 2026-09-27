@@ -627,7 +627,7 @@ class VectorEntitiesData(JlObject):
     #: Which entities to show.
     mask: Optional[BoolsVector]
     #: The (1-based) order of the entities. What it means depends on the graph: the draw order of points and edges,
-    #: the layout of a heatmap axis. It is rejected where it has no meaning.
+    #: the order of bars along the bar axis, the layout of a heatmap axis. It is rejected where it has no meaning.
     order: Optional[IntegersVector]
 
     def __init__(
