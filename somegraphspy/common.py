@@ -356,6 +356,8 @@ class SizesConfiguration(Validated):
     span: float
     #: Show a legend for the sizes.
     show_legend: bool
+    #: The title to use when showing the legend.
+    title: Optional[str]
 
     def __init__(
         self,
@@ -365,10 +367,11 @@ class SizesConfiguration(Validated):
         smallest: Union[float, DefaultValue] = DEFAULT,
         span: Union[float, DefaultValue] = DEFAULT,
         show_legend: Union[bool, DefaultValue] = DEFAULT,
+        title: Union[Optional[str], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.SizesConfiguration(
-                **_given(fixed=fixed, scale=scale, smallest=smallest, span=span, show_legend=show_legend)
+                **_given(fixed=fixed, scale=scale, smallest=smallest, span=span, show_legend=show_legend, title=title)
             )
         )
 
