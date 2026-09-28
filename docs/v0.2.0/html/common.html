@@ -800,6 +800,15 @@
 </li>
 
 <li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.LinkageMatrix">
+<code class="docutils literal notranslate">
+<span class="pre">LinkageMatrix
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
 <a class="reference internal" href="#somegraphspy.common.LogBase">
 <code class="docutils literal notranslate">
 <span class="pre">LogBase
@@ -1035,6 +1044,37 @@
 <a class="reference internal" href="#somegraphspy.common.ScaleConfiguration.percent">
 <code class="docutils literal notranslate">
 <span class="pre">ScaleConfiguration.percent
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.SidePlacement">
+<code class="docutils literal notranslate">
+<span class="pre">SidePlacement
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.SidePlacement.order">
+<code class="docutils literal notranslate">
+<span class="pre">SidePlacement.order
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.SidePlacement.hclust">
+<code class="docutils literal notranslate">
+<span class="pre">SidePlacement.hclust
 </span>
 </code>
 </a>
@@ -2043,7 +2083,7 @@ for details.
 <span class="w"> 
 </span>
 <span class="n">
-<span class="pre">Any
+<span class="pre">ndarray
 </span>
 <span class="w"> 
 </span>
@@ -2263,7 +2303,7 @@ for details.
 </span>
 <span class="w"> 
 </span>
-<span class="pre">Any
+<span class="pre">ndarray
 </span>
 <span class="w"> 
 </span>
@@ -2281,16 +2321,12 @@ for details.
 </dt>
 
 <dd>
-<p>A clustering tree of the entries, an opaque Julia 
-<code class="docutils literal notranslate">
-<span class="pre">Hclust
-</span>
-</code> taken from the 
+<p>A clustering tree of the entries (for example, from the 
 <code class="docutils literal notranslate">
 <span class="pre">SidePlacement
 </span>
-</code> of a previously
-generated graph.
+</code> of a previously generated graph, or
+made by SciPy).
 </p>
 
 </dd>
@@ -6287,6 +6323,59 @@ for details.
 </dl>
 
 
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LinkageMatrix">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">LinkageMatrix
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LinkageMatrix" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A clustering tree, as the SciPy linkage matrix of it (as made by 
+<code class="docutils literal notranslate">
+<span class="pre">scipy.cluster.hierarchy.linkage
+</span>
+</code> or by
+
+<code class="docutils literal notranslate">
+<span class="pre">fastcluster
+</span>
+</code>). Each row is a merge, 
+<code class="docutils literal notranslate">
+<span class="pre">[left,
+</span> 
+<span class="pre">right,
+</span> 
+<span class="pre">height,
+</span> 
+<span class="pre">count]
+</span>
+</code>, whose node indices are 0-based, with the
+leaves first and each merge numbered after them. In Julia this is a 
+<code class="docutils literal notranslate">
+<span class="pre">Hclust
+</span>
+</code>. The matrix does not say which linkage
+built the tree, so a tree given by Python has an 
+<code class="docutils literal notranslate">
+<span class="pre">:unknown
+</span>
+</code> linkage there.
+</p>
+
+</dd>
+</dl>
+
+
 <dl class="py class">
 
 <dt class="sig sig-object py" id="somegraphspy.common.LogBase">
@@ -8010,6 +8099,191 @@ for details.
 
 <dd>
 <p>Show the values as percents.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.SidePlacement">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">SidePlacement
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">jl_obj
+</span>
+</span>
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="n">
+<span class="pre">Any
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#SidePlacement">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.SidePlacement" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>Where the entries of one side of a heatmap were put: their final order, and the tree they were put by, if one was
+needed. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.SidePlacement">documentation
+</a>
+for details.
+</p>
+
+<p>The order is always a permutation of all the entries (hidden ones included). The 
+<code class="docutils literal notranslate">
+<span class="pre">hclust
+</span>
+</code> is a
+
+<a class="reference internal" href="#somegraphspy.common.LinkageMatrix" title="somegraphspy.common.LinkageMatrix">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">LinkageMatrix
+</span>
+</code>
+</a>, so it can also be used by SciPy (e.g., cut into clusters by
+
+<code class="docutils literal notranslate">
+<span class="pre">scipy.cluster.hierarchy.fcluster
+</span>
+</code>). Either can be given to another graph, to show it in the same order (see
+
+<code class="docutils literal notranslate">
+<span class="pre">fill_placement
+</span>
+</code>).
+</p>
+
+<p>These describe the order of the data, not the order it is displayed in; applying the 
+<code class="docutils literal notranslate">
+<span class="pre">origin
+</span>
+</code> and skipping the
+hidden entries is up to whoever shows the graph.
+</p>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.SidePlacement.order">
+
+<span class="sig-name descname">
+<span class="pre">order
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">int
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.SidePlacement.order" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The final (1-based) order of the entries; the identity if they weren’t reordered at all.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.SidePlacement.hclust">
+
+<span class="sig-name descname">
+<span class="pre">hclust
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">ndarray
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.SidePlacement.hclust" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The tree of the entries, if one was needed.
 </p>
 
 </dd>

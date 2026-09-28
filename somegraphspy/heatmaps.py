@@ -23,6 +23,7 @@ from .common import IntegersVector
 from .common import LineConfiguration
 from .common import MatrixEntitiesData
 from .common import MatrixValuesData
+from .common import SidePlacement
 from .common import Validated
 from .common import VectorEntitiesData
 from .julia_import import DEFAULT
@@ -50,7 +51,6 @@ __all__ = [
     "HeatmapSideConfiguration",
     "HeatmapSideData",
     "OrderSource",
-    "SidePlacement",
     "TreeSource",
     "heatmap_graph",
 ]
@@ -144,33 +144,6 @@ class HeatmapOrigin(JlEnum):
 
 
 register_jl_type("HeatmapOrigin", HeatmapOrigin)
-
-
-class SidePlacement(JlObject):
-    """
-    Where the entries of one side of a heatmap were put: their final order, and the tree they were put by, if one was
-    needed. See the Julia
-    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.SidePlacement>`__
-    for details.
-
-    The order is always a permutation of all the entries (hidden ones included), so it can be fed as-is into the
-    ``order`` of the ``entities`` of a side of a :py:obj:`HeatmapGraphData` to show another graph in the same order.
-
-    The ``hclust`` is a Julia ``Hclust`` object. There is no Python model for these, but it too can be fed back into the
-    ``hclust`` of the :py:obj:`ArrangementData` of a side of a :py:obj:`HeatmapGraphData`, which reuses both the order
-    and the tree, so the other graph also shows the same dendogram.
-
-    These describe the order of the data, not the order it is displayed in; applying the ``origin`` and skipping the
-    hidden entries is up to whoever shows the graph.
-    """
-
-    #: The final (1-based) order of the entries; the identity if they weren't reordered at all.
-    order: IntegersVector
-    #: The tree of the entries, if one was needed.
-    hclust: Optional[Any]
-
-
-register_jl_type("SidePlacement", SidePlacement)
 
 
 class HeatmapGraphPlacement(JlObject):

@@ -23,6 +23,7 @@ from .julia_import import JlEnum
 from .julia_import import JlObject
 from .julia_import import _given
 from .julia_import import _to_julia
+from .julia_import import _tree_to_julia
 from .julia_import import jl
 from .julia_import import register_jl_type
 
@@ -46,6 +47,7 @@ __all__ = [
     "IntegersVector",
     "LineConfiguration",
     "LineStyle",
+    "LinkageMatrix",
     "LogBase",
     "MarginsConfiguration",
     "MatrixEntitiesData",
@@ -55,6 +57,7 @@ __all__ = [
     "NumbersVector",
     "Palette",
     "ScaleConfiguration",
+    "SidePlacement",
     "SizesConfiguration",
     "Stacking",
     "StringsMatrix",
@@ -85,6 +88,12 @@ NumbersMatrix = np.ndarray
 #: A matrix of strings. Entry ``matrix[row, column]`` is the same entry in Python and in Julia, whatever the memory
 #: layout of the array is.
 StringsMatrix = np.ndarray
+
+#: A clustering tree, as the SciPy linkage matrix of it (as made by ``scipy.cluster.hierarchy.linkage`` or by
+#: ``fastcluster``). Each row is a merge, ``[left, right, height, count]``, whose node indices are 0-based, with the
+#: leaves first and each merge numbered after them. In Julia this is a ``Hclust``. The matrix does not say which linkage
+#: built the tree, so a tree given by Python has an ``:unknown`` linkage there.
+LinkageMatrix = np.ndarray
 
 #: A continuous colors palette, mapping numbers to colors. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ContinuousColors>`__
@@ -662,9 +671,9 @@ class ArrangementData(JlObject):
     for details.
     """
 
-    #: A clustering tree of the entries, an opaque Julia ``Hclust`` taken from the ``SidePlacement`` of a previously
-    #: generated graph.
-    hclust: Optional[Any]
+    #: A clustering tree of the entries (for example, from the ``SidePlacement`` of a previously generated graph, or
+    #: made by SciPy).
+    hclust: Optional[LinkageMatrix]
     #: The group of each entry, either numbers or names. The groups have no title.
     groups: VectorValuesData
     #: The subgroup of each entry, nested in its group. A subgroup of one group is unrelated to the same subgroup of
@@ -676,19 +685,50 @@ class ArrangementData(JlObject):
     def __init__(
         self,
         *,
-        hclust: Union[Optional[Any], DefaultValue] = DEFAULT,
+        hclust: Union[Optional[LinkageMatrix], DefaultValue] = DEFAULT,
         groups: Union[VectorValuesData, DefaultValue] = DEFAULT,
         subgroups: Union[VectorValuesData, DefaultValue] = DEFAULT,
         arrange_by: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.ArrangementData(
-                **_given(hclust=hclust, groups=groups, subgroups=subgroups, arrange_by=arrange_by)
+                **_given(hclust=_tree_to_julia(hclust), groups=groups, subgroups=subgroups, arrange_by=arrange_by)
             )
         )
 
+    def __setattr__(self, name: str, value: Any) -> None:
+        # The tree is the one field whose Python value (a linkage matrix) doesn't say what it is.
+        if name == "hclust":
+            value = _tree_to_julia(value)
+        super().__setattr__(name, value)
+
 
 register_jl_type("ArrangementData", ArrangementData)
+
+
+class SidePlacement(JlObject):
+    """
+    Where the entries of one side of a heatmap were put: their final order, and the tree they were put by, if one was
+    needed. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.SidePlacement>`__
+    for details.
+
+    The order is always a permutation of all the entries (hidden ones included). The ``hclust`` is a
+    :py:obj:`LinkageMatrix`, so it can also be used by SciPy (e.g., cut into clusters by
+    ``scipy.cluster.hierarchy.fcluster``). Either can be given to another graph, to show it in the same order (see
+    ``fill_placement``).
+
+    These describe the order of the data, not the order it is displayed in; applying the ``origin`` and skipping the
+    hidden entries is up to whoever shows the graph.
+    """
+
+    #: The final (1-based) order of the entries; the identity if they weren't reordered at all.
+    order: IntegersVector
+    #: The tree of the entries, if one was needed.
+    hclust: Optional[LinkageMatrix]
+
+
+register_jl_type("SidePlacement", SidePlacement)
 
 
 class MatrixValuesData(JlObject):

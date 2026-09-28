@@ -266,3 +266,27 @@ def test_puts() -> None:
 
     sg.put_vector_names_data(heatmap.rows_side(), ["s1", "s2"])
     assert _given_list(heatmap.data.rows.entities.names) == ["s1", "s2"]
+
+
+def test_fill_side() -> None:
+    values = np.array([[0.0, 5.0, 1.0, 6.0], [0.0, 5.0, 1.0, 6.0]])
+    base = sg.heatmap_graph(entries=sg.MatrixValuesData(matrix=values))
+    base.data.columns.entities.names = ["A", "B", "C", "D"]
+    base.data.columns.arrangement.subgroups.vector = ["P", "Q", "R", "S"]
+    base.data.columns.arrangement.groups.vector = [1, 1, 2, 2]
+    base.configuration.columns.order_source = sg.OrderSource.OptimalTreeReorder
+    base.configuration.columns.dendogram_size = 0.1
+
+    other = sg.heatmap_graph(entries=sg.MatrixValuesData(matrix=np.array([[9.0, 8.0, 7.0, 6.0], [5.0, 4.0, 3.0, 2.0]])))
+    sg.fill_side(other.columns_side(), base.columns_side())
+    other.validate()
+    assert list(other.placement.columns.order) == list(base.placement.columns.order)
+    assert _given_list(other.data.columns.entities.names) == ["A", "B", "C", "D"]
+    assert _given_list(other.data.columns.arrangement.groups.vector) == [1, 1, 2, 2]
+    assert other.data.columns.arrangement.subgroups.vector is None
+    assert other.configuration.columns.order_source is None
+    assert other.configuration.columns.dendogram_size == 0.1
+
+    another = sg.heatmap_graph(entries=sg.MatrixValuesData(matrix=values))
+    sg.fill_placement(another.columns_side(), base.placement.columns)
+    assert list(another.placement.columns.order) == list(base.placement.columns.order)

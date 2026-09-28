@@ -15,6 +15,7 @@ from typing import List
 import numpy as np
 import plotly.graph_objects as go  # type: ignore
 import pytest
+import scipy.cluster.hierarchy as sch  # type: ignore
 
 import somegraphspy as sg
 from somegraphspy.julia_import import jl
@@ -229,6 +230,45 @@ def test_heatmap_layout() -> None:
         raise AssertionError("an invalid graph was accepted")
     except Exception as exception:  # pylint: disable=broad-exception-caught
         assert "arrangement.hclust" in str(exception)
+
+
+def test_linkage_matrix() -> None:
+    values = np.array([[0.0, 5.0, 1.0, 6.0, 2.0], [0.0, 5.0, 1.0, 6.0, 3.0]])
+
+    # A tree computed by Julia is a valid SciPy tree, whose leaves are the order the graph is shown in.
+    graph = sg.heatmap_graph(entries=sg.MatrixValuesData(matrix=values))
+    graph.configuration.columns.order_source = sg.OrderSource.OptimalTreeReorder
+    julia_tree = graph.placement.columns.hclust
+    assert isinstance(julia_tree, np.ndarray)
+    assert julia_tree.shape == (4, 4)
+    assert sch.is_valid_linkage(julia_tree)
+    assert list(sch.leaves_list(julia_tree) + 1) == list(graph.placement.columns.order)
+
+    # A tree computed by SciPy lays out a graph in the order of its leaves, and comes back as it was given.
+    scipy_tree = sch.linkage(values.T, method="average")
+    expected_order = list(sch.leaves_list(scipy_tree) + 1)
+
+    other = sg.heatmap_graph(entries=sg.MatrixValuesData(matrix=values))
+    other.data.columns.arrangement.hclust = scipy_tree
+    assert list(other.placement.columns.order) == expected_order
+    assert np.array_equal(other.data.columns.arrangement.hclust, scipy_tree)
+
+    arranged = sg.heatmap_graph(
+        entries=sg.MatrixValuesData(matrix=values),
+        columns=sg.HeatmapSideData(arrangement=sg.ArrangementData(hclust=scipy_tree)),
+    )
+    assert list(arranged.placement.columns.order) == expected_order
+
+    put = sg.heatmap_graph(entries=sg.MatrixValuesData(matrix=values))
+    sg.put_vector_tree_data(put.columns_side(), scipy_tree)
+    assert list(put.placement.columns.order) == expected_order
+
+    # A tree which crosses back and forth is the same tree.
+    other.data.columns.arrangement.hclust = julia_tree
+    assert np.array_equal(other.data.columns.arrangement.hclust, julia_tree)
+
+    other.data.columns.arrangement.hclust = None
+    assert other.data.columns.arrangement.hclust is None
 
 
 def test_points_order() -> None:

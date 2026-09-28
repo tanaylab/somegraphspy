@@ -36,6 +36,7 @@ dev = [
     "pylint",
     "pytest",
     "pytest-cov",
+    "scipy",
     "sphinx",
     "sphinx_rtd_theme",
     "twine",
@@ -44,6 +45,7 @@ test = [
     "jedi",
     "pytest",
     "pytest-cov",
+    "scipy",
 ]
 
 [project.urls]

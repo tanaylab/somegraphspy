@@ -146,6 +146,7 @@ jl.seval("""
     using PythonCall
 
     import SomeGraphs
+    import SomeGraphs.Common.Hclust
 
     function pyconvert_rule_jl_object(::Type{T}, x::Py) where {T}
         return PythonCall.pyconvert_return(pyconvert(T, x.jl_obj))
@@ -184,6 +185,68 @@ jl.seval("""
 
     function _visit_configuration_sinks(visitor::Py, sinks::Any)::Nothing
         return SomeGraphs.visit_configuration_sinks(sink -> (visitor(sink); nothing), sinks)
+    end
+
+    # A tree from a SciPy linkage matrix. Each row of it is a merge, ``[left, right, height, count]``. Its node indices
+    # are 0-based, with the leaves first and each merge numbered after them. The matrix does not say which linkage
+    # built the tree, so that is ``:unknown``.
+    function _hclust_from_linkage(linkage::AbstractMatrix{<:Real})::Hclust
+        n_merges = size(linkage, 1)
+        n_leaves = n_merges + 1
+        merges = Matrix{Int}(undef, n_merges, 2)
+        for merge_index in 1:n_merges
+            for column in 1:2
+                node = Int(linkage[merge_index, column])
+                merges[merge_index, column] = node < n_leaves ? -(node + 1) : node - n_leaves + 1
+            end
+        end
+        return Hclust(merges, Float64.(linkage[:, 3]), _walked_leaves(merges), :unknown)
+    end
+
+    # The leaves of a tree from its root, left subtree first, which is its order. This walks rather than recurses, since
+    # a tree of many leaves may be as deep as it is wide.
+    function _walked_leaves(merges::AbstractMatrix{<:Integer})::Vector{Int}
+        n_merges = size(merges, 1)
+        if n_merges == 0
+            return [1]
+        end
+        order = Int[]
+        pending = [n_merges]
+        while !isempty(pending)
+            node = pop!(pending)
+            if node < 0
+                push!(order, -node)
+            else
+                push!(pending, merges[node, 2])
+                push!(pending, merges[node, 1])
+            end
+        end
+        return order
+    end
+
+    # The SciPy linkage matrix of a tree (see ``_hclust_from_linkage``).
+    function _linkage_from_hclust(clusters::Hclust)::Matrix{Float64}
+        n_merges = size(clusters.merges, 1)
+        n_leaves = n_merges + 1
+        linkage = Matrix{Float64}(undef, n_merges, 4)
+        count_per_merge = Vector{Int}(undef, n_merges)
+        for merge_index in 1:n_merges
+            count = 0
+            for column in 1:2
+                node = clusters.merges[merge_index, column]
+                if node < 0
+                    linkage[merge_index, column] = -node - 1
+                    count += 1
+                else
+                    linkage[merge_index, column] = node - 1 + n_leaves
+                    count += count_per_merge[node]
+                end
+            end
+            count_per_merge[merge_index] = count
+            linkage[merge_index, 3] = clusters.heights[merge_index]
+            linkage[merge_index, 4] = count
+        end
+        return linkage
     end
 
     end  # module SomeGraphsPy
@@ -267,6 +330,10 @@ def _from_julia(value: Any) -> Any:  # pylint: disable=too-many-return-statement
             return python_class(str(jl.string(value)))
         return python_class.wrap_jl_object(value)
 
+    # A tree is given to Python as the SciPy linkage matrix of it, which is what Python tools make and use.
+    if bool(jl.isa(value, jl.SomeGraphsPy.Hclust)):
+        return np.asarray(jl.SomeGraphsPy._linkage_from_hclust(value))
+
     if bool(jl.isa(value, jl.AbstractDict)):
         return {str(key): _from_julia(jl.getindex(value, key)) for key in jl.keys(value)}
 
@@ -293,6 +360,14 @@ def _from_julia_array(julia_array: Any) -> Any:
         return np.array([str(entry) for entry in julia_array], dtype=str).reshape(shape, order="F")
 
     return [_from_julia(entry) for entry in julia_array]
+
+
+def _tree_to_julia(tree: Any) -> Any:
+    # A tree is given by Python as a SciPy linkage matrix. A numpy matrix doesn't say it is a tree, so this is called
+    # where a tree is expected, rather than by ``_to_julia``.
+    if tree is None or isinstance(tree, (DefaultValue, AnyValue)):
+        return tree
+    return jl.SomeGraphsPy._hclust_from_linkage(np.asarray(tree, dtype=np.float64))
 
 
 def _given(**kwargs: Any) -> Mapping[str, Any]:

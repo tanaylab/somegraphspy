@@ -219,6 +219,7 @@
 <span class="s2">    using PythonCall</span>
 
 <span class="s2">    import SomeGraphs</span>
+<span class="s2">    import SomeGraphs.Common.Hclust</span>
 
 <span class="s2">    function pyconvert_rule_jl_object(::Type</span><span class="si">{T}</span><span class="s2">, x::Py) where </span><span class="si">{T}</span>
 <span class="s2">        return PythonCall.pyconvert_return(pyconvert(T, x.jl_obj))</span>
@@ -257,6 +258,68 @@
 
 <span class="s2">    function _visit_configuration_sinks(visitor::Py, sinks::Any)::Nothing</span>
 <span class="s2">        return SomeGraphs.visit_configuration_sinks(sink -&gt; (visitor(sink); nothing), sinks)</span>
+<span class="s2">    end</span>
+
+<span class="s2">    # A tree from a SciPy linkage matrix. Each row of it is a merge, ``[left, right, height, count]``. Its node indices</span>
+<span class="s2">    # are 0-based, with the leaves first and each merge numbered after them. The matrix does not say which linkage</span>
+<span class="s2">    # built the tree, so that is ``:unknown``.</span>
+<span class="s2">    function _hclust_from_linkage(linkage::AbstractMatrix{&lt;:Real})::Hclust</span>
+<span class="s2">        n_merges = size(linkage, 1)</span>
+<span class="s2">        n_leaves = n_merges + 1</span>
+<span class="s2">        merges = Matrix</span><span class="si">{Int}</span><span class="s2">(undef, n_merges, 2)</span>
+<span class="s2">        for merge_index in 1:n_merges</span>
+<span class="s2">            for column in 1:2</span>
+<span class="s2">                node = Int(linkage[merge_index, column])</span>
+<span class="s2">                merges[merge_index, column] = node &lt; n_leaves ? -(node + 1) : node - n_leaves + 1</span>
+<span class="s2">            end</span>
+<span class="s2">        end</span>
+<span class="s2">        return Hclust(merges, Float64.(linkage[:, 3]), _walked_leaves(merges), :unknown)</span>
+<span class="s2">    end</span>
+
+<span class="s2">    # The leaves of a tree from its root, left subtree first, which is its order. This walks rather than recurses, since</span>
+<span class="s2">    # a tree of many leaves may be as deep as it is wide.</span>
+<span class="s2">    function _walked_leaves(merges::AbstractMatrix{&lt;:Integer})::Vector</span><span class="si">{Int}</span>
+<span class="s2">        n_merges = size(merges, 1)</span>
+<span class="s2">        if n_merges == 0</span>
+<span class="s2">            return [1]</span>
+<span class="s2">        end</span>
+<span class="s2">        order = Int[]</span>
+<span class="s2">        pending = [n_merges]</span>
+<span class="s2">        while !isempty(pending)</span>
+<span class="s2">            node = pop!(pending)</span>
+<span class="s2">            if node &lt; 0</span>
+<span class="s2">                push!(order, -node)</span>
+<span class="s2">            else</span>
+<span class="s2">                push!(pending, merges[node, 2])</span>
+<span class="s2">                push!(pending, merges[node, 1])</span>
+<span class="s2">            end</span>
+<span class="s2">        end</span>
+<span class="s2">        return order</span>
+<span class="s2">    end</span>
+
+<span class="s2">    # The SciPy linkage matrix of a tree (see ``_hclust_from_linkage``).</span>
+<span class="s2">    function _linkage_from_hclust(clusters::Hclust)::Matrix</span><span class="si">{Float64}</span>
+<span class="s2">        n_merges = size(clusters.merges, 1)</span>
+<span class="s2">        n_leaves = n_merges + 1</span>
+<span class="s2">        linkage = Matrix</span><span class="si">{Float64}</span><span class="s2">(undef, n_merges, 4)</span>
+<span class="s2">        count_per_merge = Vector</span><span class="si">{Int}</span><span class="s2">(undef, n_merges)</span>
+<span class="s2">        for merge_index in 1:n_merges</span>
+<span class="s2">            count = 0</span>
+<span class="s2">            for column in 1:2</span>
+<span class="s2">                node = clusters.merges[merge_index, column]</span>
+<span class="s2">                if node &lt; 0</span>
+<span class="s2">                    linkage[merge_index, column] = -node - 1</span>
+<span class="s2">                    count += 1</span>
+<span class="s2">                else</span>
+<span class="s2">                    linkage[merge_index, column] = node - 1 + n_leaves</span>
+<span class="s2">                    count += count_per_merge[node]</span>
+<span class="s2">                end</span>
+<span class="s2">            end</span>
+<span class="s2">            count_per_merge[merge_index] = count</span>
+<span class="s2">            linkage[merge_index, 3] = clusters.heights[merge_index]</span>
+<span class="s2">            linkage[merge_index, 4] = count</span>
+<span class="s2">        end</span>
+<span class="s2">        return linkage</span>
 <span class="s2">    end</span>
 
 <span class="s2">    end  # module SomeGraphsPy</span>
@@ -346,6 +409,10 @@
             <span class="k">return</span> <span class="n">python_class</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">string</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
         <span class="k">return</span> <span class="n">python_class</span><span class="o">.</span><span class="n">wrap_jl_object</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
+    <span class="c1"># A tree is given to Python as the SciPy linkage matrix of it, which is what Python tools make and use.</span>
+    <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">isa</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphsPy</span><span class="o">.</span><span class="n">Hclust</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphsPy</span><span class="o">.</span><span class="n">_linkage_from_hclust</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+
     <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">isa</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">jl</span><span class="o">.</span><span class="n">AbstractDict</span><span class="p">)):</span>
         <span class="k">return</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">getindex</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">jl</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span><span class="n">value</span><span class="p">)}</span>
 
@@ -372,6 +439,14 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">julia_array</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">[</span><span class="n">_from_julia</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">julia_array</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_tree_to_julia</span><span class="p">(</span><span class="n">tree</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="c1"># A tree is given by Python as a SciPy linkage matrix. A numpy matrix doesn&#39;t say it is a tree, so this is called</span>
+    <span class="c1"># where a tree is expected, rather than by ``_to_julia``.</span>
+    <span class="k">if</span> <span class="n">tree</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="p">(</span><span class="n">DefaultValue</span><span class="p">,</span> <span class="n">AnyValue</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">tree</span>
+    <span class="k">return</span> <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphsPy</span><span class="o">.</span><span class="n">_hclust_from_linkage</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_given</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>

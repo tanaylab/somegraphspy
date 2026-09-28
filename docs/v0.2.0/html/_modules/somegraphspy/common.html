@@ -96,6 +96,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlObject</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_given</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_to_julia</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_tree_to_julia</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">jl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
 
@@ -119,6 +120,7 @@
     <span class="s2">&quot;IntegersVector&quot;</span><span class="p">,</span>
     <span class="s2">&quot;LineConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;LineStyle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LinkageMatrix&quot;</span><span class="p">,</span>
     <span class="s2">&quot;LogBase&quot;</span><span class="p">,</span>
     <span class="s2">&quot;MarginsConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;MatrixEntitiesData&quot;</span><span class="p">,</span>
@@ -128,6 +130,7 @@
     <span class="s2">&quot;NumbersVector&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Palette&quot;</span><span class="p">,</span>
     <span class="s2">&quot;ScaleConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SidePlacement&quot;</span><span class="p">,</span>
     <span class="s2">&quot;SizesConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Stacking&quot;</span><span class="p">,</span>
     <span class="s2">&quot;StringsMatrix&quot;</span><span class="p">,</span>
@@ -158,6 +161,12 @@
 <span class="c1">#: A matrix of strings. Entry ``matrix[row, column]`` is the same entry in Python and in Julia, whatever the memory</span>
 <span class="c1">#: layout of the array is.</span>
 <span class="n">StringsMatrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+
+<span class="c1">#: A clustering tree, as the SciPy linkage matrix of it (as made by ``scipy.cluster.hierarchy.linkage`` or by</span>
+<span class="c1">#: ``fastcluster``). Each row is a merge, ``[left, right, height, count]``, whose node indices are 0-based, with the</span>
+<span class="c1">#: leaves first and each merge numbered after them. In Julia this is a ``Hclust``. The matrix does not say which linkage</span>
+<span class="c1">#: built the tree, so a tree given by Python has an ``:unknown`` linkage there.</span>
+<span class="n">LinkageMatrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 
 <span class="c1">#: A continuous colors palette, mapping numbers to colors. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.ContinuousColors&gt;`__</span>
@@ -800,9 +809,9 @@
 <span class="sd">    for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1">#: A clustering tree of the entries, an opaque Julia ``Hclust`` taken from the ``SidePlacement`` of a previously</span>
-    <span class="c1">#: generated graph.</span>
-    <span class="n">hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+    <span class="c1">#: A clustering tree of the entries (for example, from the ``SidePlacement`` of a previously generated graph, or</span>
+    <span class="c1">#: made by SciPy).</span>
+    <span class="n">hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinkageMatrix</span><span class="p">]</span>
     <span class="c1">#: The group of each entry, either numbers or names. The groups have no title.</span>
     <span class="n">groups</span><span class="p">:</span> <span class="n">VectorValuesData</span>
     <span class="c1">#: The subgroup of each entry, nested in its group. A subgroup of one group is unrelated to the same subgroup of</span>
@@ -814,20 +823,54 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">hclust</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">hclust</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">LinkageMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">groups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">subgroups</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorValuesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">arrange_by</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">NumbersMatrix</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">ArrangementData</span><span class="p">(</span>
-                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">hclust</span><span class="o">=</span><span class="n">hclust</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span> <span class="n">subgroups</span><span class="o">=</span><span class="n">subgroups</span><span class="p">,</span> <span class="n">arrange_by</span><span class="o">=</span><span class="n">arrange_by</span><span class="p">)</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">hclust</span><span class="o">=</span><span class="n">_tree_to_julia</span><span class="p">(</span><span class="n">hclust</span><span class="p">),</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span> <span class="n">subgroups</span><span class="o">=</span><span class="n">subgroups</span><span class="p">,</span> <span class="n">arrange_by</span><span class="o">=</span><span class="n">arrange_by</span><span class="p">)</span>
             <span class="p">)</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># The tree is the one field whose Python value (a linkage matrix) doesn&#39;t say what it is.</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;hclust&quot;</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">_tree_to_julia</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
 
 
 <span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;ArrangementData&quot;</span><span class="p">,</span> <span class="n">ArrangementData</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SidePlacement">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.SidePlacement">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SidePlacement</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Where the entries of one side of a heatmap were put: their final order, and the tree they were put by, if one was</span>
+<span class="sd">    needed. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.SidePlacement&gt;`__</span>
+<span class="sd">    for details.</span>
+
+<span class="sd">    The order is always a permutation of all the entries (hidden ones included). The ``hclust`` is a</span>
+<span class="sd">    :py:obj:`LinkageMatrix`, so it can also be used by SciPy (e.g., cut into clusters by</span>
+<span class="sd">    ``scipy.cluster.hierarchy.fcluster``). Either can be given to another graph, to show it in the same order (see</span>
+<span class="sd">    ``fill_placement``).</span>
+
+<span class="sd">    These describe the order of the data, not the order it is displayed in; applying the ``origin`` and skipping the</span>
+<span class="sd">    hidden entries is up to whoever shows the graph.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The final (1-based) order of the entries; the identity if they weren&#39;t reordered at all.</span>
+    <span class="n">order</span><span class="p">:</span> <span class="n">IntegersVector</span>
+    <span class="c1">#: The tree of the entries, if one was needed.</span>
+    <span class="n">hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinkageMatrix</span><span class="p">]</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;SidePlacement&quot;</span><span class="p">,</span> <span class="n">SidePlacement</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="MatrixValuesData">

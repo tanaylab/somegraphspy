@@ -96,6 +96,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">LineConfiguration</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixEntitiesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixValuesData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">SidePlacement</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Validated</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorEntitiesData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT</span>
@@ -123,7 +124,6 @@
     <span class="s2">&quot;HeatmapSideConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;HeatmapSideData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;OrderSource&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SidePlacement&quot;</span><span class="p">,</span>
     <span class="s2">&quot;TreeSource&quot;</span><span class="p">,</span>
     <span class="s2">&quot;heatmap_graph&quot;</span><span class="p">,</span>
 <span class="p">]</span>
@@ -229,36 +229,6 @@
 
 
 <span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapOrigin&quot;</span><span class="p">,</span> <span class="n">HeatmapOrigin</span><span class="p">)</span>
-
-
-<div class="viewcode-block" id="SidePlacement">
-<a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.SidePlacement">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SidePlacement</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Where the entries of one side of a heatmap were put: their final order, and the tree they were put by, if one was</span>
-<span class="sd">    needed. See the Julia</span>
-<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.SidePlacement&gt;`__</span>
-<span class="sd">    for details.</span>
-
-<span class="sd">    The order is always a permutation of all the entries (hidden ones included), so it can be fed as-is into the</span>
-<span class="sd">    ``order`` of the ``entities`` of a side of a :py:obj:`HeatmapGraphData` to show another graph in the same order.</span>
-
-<span class="sd">    The ``hclust`` is a Julia ``Hclust`` object. There is no Python model for these, but it too can be fed back into the</span>
-<span class="sd">    ``hclust`` of the :py:obj:`ArrangementData` of a side of a :py:obj:`HeatmapGraphData`, which reuses both the order</span>
-<span class="sd">    and the tree, so the other graph also shows the same dendogram.</span>
-
-<span class="sd">    These describe the order of the data, not the order it is displayed in; applying the ``origin`` and skipping the</span>
-<span class="sd">    hidden entries is up to whoever shows the graph.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1">#: The final (1-based) order of the entries; the identity if they weren&#39;t reordered at all.</span>
-    <span class="n">order</span><span class="p">:</span> <span class="n">IntegersVector</span>
-    <span class="c1">#: The tree of the entries, if one was needed.</span>
-    <span class="n">hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span></div>
-
-
-
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;SidePlacement&quot;</span><span class="p">,</span> <span class="n">SidePlacement</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="HeatmapGraphPlacement">

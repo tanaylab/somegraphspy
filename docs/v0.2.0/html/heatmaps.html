@@ -875,37 +875,6 @@
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="#somegraphspy.heatmaps.SidePlacement">
-<code class="docutils literal notranslate">
-<span class="pre">SidePlacement
-</span>
-</code>
-</a>
-<ul>
-
-<li class="toctree-l4">
-<a class="reference internal" href="#somegraphspy.heatmaps.SidePlacement.order">
-<code class="docutils literal notranslate">
-<span class="pre">SidePlacement.order
-</span>
-</code>
-</a>
-</li>
-
-<li class="toctree-l4">
-<a class="reference internal" href="#somegraphspy.heatmaps.SidePlacement.hclust">
-<code class="docutils literal notranslate">
-<span class="pre">SidePlacement.hclust
-</span>
-</code>
-</a>
-</li>
-
-</ul>
-
-</li>
-
-<li class="toctree-l3">
 <a class="reference internal" href="#somegraphspy.heatmaps.TreeSource">
 <code class="docutils literal notranslate">
 <span class="pre">TreeSource
@@ -3348,12 +3317,10 @@ for details.
 
 <dd>
 <p>The computed 
-<a class="reference internal" href="#somegraphspy.heatmaps.SidePlacement" title="somegraphspy.heatmaps.SidePlacement">
 <code class="xref py py-obj docutils literal notranslate">
 <span class="pre">SidePlacement
 </span>
-</code>
-</a> of the rows and of the columns of a heatmap graph, as returned by the graph’s
+</code> of the rows and of the columns of a heatmap graph, as returned by the graph’s
 
 <code class="docutils literal notranslate">
 <span class="pre">placement
@@ -3380,7 +3347,7 @@ for details.
 </span>
 <span class="w"> 
 </span>
-<a class="reference internal" href="#somegraphspy.heatmaps.SidePlacement" title="somegraphspy.heatmaps.SidePlacement">
+<a class="reference internal" href="common.html#somegraphspy.common.SidePlacement" title="somegraphspy.common.SidePlacement">
 <span class="pre">SidePlacement
 </span>
 </a>
@@ -3412,7 +3379,7 @@ for details.
 </span>
 <span class="w"> 
 </span>
-<a class="reference internal" href="#somegraphspy.heatmaps.SidePlacement" title="somegraphspy.heatmaps.SidePlacement">
+<a class="reference internal" href="common.html#somegraphspy.common.SidePlacement" title="somegraphspy.common.SidePlacement">
 <span class="pre">SidePlacement
 </span>
 </a>
@@ -5863,212 +5830,6 @@ for details.
 
 <dd>
 <p>The order of the other side.
-</p>
-
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-
-
-<dl class="py class">
-
-<dt class="sig sig-object py" id="somegraphspy.heatmaps.SidePlacement">
-
-<span class="property">
-<span class="k">
-<span class="pre">class
-</span>
-</span>
-<span class="w"> 
-</span>
-</span>
-<span class="sig-prename descclassname">
-<span class="pre">somegraphspy.heatmaps.
-</span>
-</span>
-<span class="sig-name descname">
-<span class="pre">SidePlacement
-</span>
-</span>
-<span class="sig-paren">(
-</span>
-<em class="sig-param">
-<span class="n">
-<span class="pre">jl_obj
-</span>
-</span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">Any
-</span>
-</span>
-</em>
-<span class="sig-paren">)
-</span>
-<a class="reference internal" href="_modules/somegraphspy/heatmaps.html#SidePlacement">
-<span class="viewcode-link">
-<span class="pre">[source]
-</span>
-</span>
-</a>
-<a class="headerlink" href="#somegraphspy.heatmaps.SidePlacement" title="Link to this definition">
-</a>
-</dt>
-
-<dd>
-<p>Where the entries of one side of a heatmap were put: their final order, and the tree they were put by, if one was
-needed. See the Julia
-
-<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.SidePlacement">documentation
-</a>
-for details.
-</p>
-
-<p>The order is always a permutation of all the entries (hidden ones included), so it can be fed as-is into the
-
-<code class="docutils literal notranslate">
-<span class="pre">order
-</span>
-</code> of the 
-<code class="docutils literal notranslate">
-<span class="pre">entities
-</span>
-</code> of a side of a 
-<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData" title="somegraphspy.heatmaps.HeatmapGraphData">
-<code class="xref py py-obj docutils literal notranslate">
-<span class="pre">HeatmapGraphData
-</span>
-</code>
-</a> to show another graph in the same order.
-</p>
-
-<p>The 
-<code class="docutils literal notranslate">
-<span class="pre">hclust
-</span>
-</code> is a Julia 
-<code class="docutils literal notranslate">
-<span class="pre">Hclust
-</span>
-</code> object. There is no Python model for these, but it too can be fed back into the
-
-<code class="docutils literal notranslate">
-<span class="pre">hclust
-</span>
-</code> of the 
-<code class="xref py py-obj docutils literal notranslate">
-<span class="pre">ArrangementData
-</span>
-</code> of a side of a 
-<a class="reference internal" href="#somegraphspy.heatmaps.HeatmapGraphData" title="somegraphspy.heatmaps.HeatmapGraphData">
-<code class="xref py py-obj docutils literal notranslate">
-<span class="pre">HeatmapGraphData
-</span>
-</code>
-</a>, which reuses both the order
-and the tree, so the other graph also shows the same dendogram.
-</p>
-
-<p>These describe the order of the data, not the order it is displayed in; applying the 
-<code class="docutils literal notranslate">
-<span class="pre">origin
-</span>
-</code> and skipping the
-hidden entries is up to whoever shows the graph.
-</p>
-
-<dl class="py attribute">
-
-<dt class="sig sig-object py" id="somegraphspy.heatmaps.SidePlacement.order">
-
-<span class="sig-name descname">
-<span class="pre">order
-</span>
-</span>
-<span class="property">
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">ndarray
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">Sequence
-</span>
-<span class="p">
-<span class="pre">[
-</span>
-</span>
-<span class="pre">int
-</span>
-<span class="p">
-<span class="pre">]
-</span>
-</span>
-</span>
-<a class="headerlink" href="#somegraphspy.heatmaps.SidePlacement.order" title="Link to this definition">
-</a>
-</dt>
-
-<dd>
-<p>The final (1-based) order of the entries; the identity if they weren’t reordered at all.
-</p>
-
-</dd>
-</dl>
-
-
-<dl class="py attribute">
-
-<dt class="sig sig-object py" id="somegraphspy.heatmaps.SidePlacement.hclust">
-
-<span class="sig-name descname">
-<span class="pre">hclust
-</span>
-</span>
-<span class="property">
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">Any
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-</span>
-<a class="headerlink" href="#somegraphspy.heatmaps.SidePlacement.hclust" title="Link to this definition">
-</a>
-</dt>
-
-<dd>
-<p>The tree of the entries, if one was needed.
 </p>
 
 </dd>

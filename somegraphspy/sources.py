@@ -19,7 +19,6 @@ from typing import Union
 if TYPE_CHECKING:
     from .heatmaps import HeatmapSideConfiguration
     from .heatmaps import HeatmapSideData
-    from .heatmaps import SidePlacement
 
 from .common import ArrangementData
 from .common import AxisConfiguration
@@ -27,11 +26,13 @@ from .common import BoolsVector
 from .common import ColorsConfiguration
 from .common import Graph
 from .common import IntegersVector
+from .common import LinkageMatrix
 from .common import MatrixEntitiesData
 from .common import MatrixValuesData
 from .common import NumbersMatrix
 from .common import NumbersVector
 from .common import ScaleConfiguration
+from .common import SidePlacement
 from .common import SizesConfiguration
 from .common import StringsVector
 from .common import VectorEntitiesData
@@ -40,6 +41,7 @@ from .julia_import import JlObject
 from .julia_import import _from_julia
 from .julia_import import _given
 from .julia_import import _to_julia
+from .julia_import import _tree_to_julia
 from .julia_import import jl
 from .julia_import import register_jl_type
 
@@ -71,12 +73,19 @@ __all__ = [
     "VectorDataLeaf",
     "VectorDataSinks",
     "VectorFields",
+    "fill_annotations",
+    "fill_arrangement",
+    "fill_configuration",
+    "fill_entities",
+    "fill_placement",
+    "fill_side",
     "put_matrix_data",
     "put_matrix_names_data",
     "put_vector_data",
     "put_vector_mask_data",
     "put_vector_names_data",
     "put_vector_order_data",
+    "put_vector_tree_data",
     "visit_configuration_sinks",
     "visit_data_sinks",
 ]
@@ -297,7 +306,7 @@ class HeatmapSide(JlObject):
         """
         return _from_julia(jl.SomeGraphs.side_configuration(self.jl_obj))
 
-    def placement(self) -> "SidePlacement":
+    def placement(self) -> SidePlacement:
         """
         The computed placement of the side: the final order of its entries, and the tree they were placed by, if one
         was needed.
@@ -463,3 +472,77 @@ def put_matrix_names_data(sinks: MatrixDataSinks, name_per_row: StringsVector, n
     for details.
     """
     jl.SomeGraphs.put_matrix_names_data_b(_to_julia(sinks), _to_julia(name_per_row), _to_julia(name_per_column))
+
+
+def put_vector_tree_data(sinks: VectorDataSinks, hclust: Optional[LinkageMatrix]) -> None:
+    """
+    Give the arrangement of the ``sinks`` (that is, of the heatmap sides among them) the ``hclust`` tree of its
+    entries. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_vector_tree_data!>`__
+    for details.
+    """
+    jl.SomeGraphs.put_vector_tree_data_b(_to_julia(sinks), _tree_to_julia(hclust))
+
+
+def fill_entities(sinks: VectorDataSinks, source: Union[HeatmapSide, VectorEntitiesData]) -> None:
+    """
+    Fill the entities of the ``sinks`` with a copy of the names, hovers, mask and order of the entities of the
+    ``source``. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.fill_entities!>`__
+    for details.
+    """
+    jl.SomeGraphs.fill_entities_b(_to_julia(sinks), _to_julia(source))
+
+
+def fill_arrangement(sinks: VectorDataSinks, source: Union[HeatmapSide, ArrangementData]) -> None:
+    """
+    Fill the arrangement of the ``sinks`` with a copy of the tree, groups, subgroups and ``arrange_by`` matrix of the
+    arrangement of the ``source``. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.fill_arrangement!>`__
+    for details.
+    """
+    jl.SomeGraphs.fill_arrangement_b(_to_julia(sinks), _to_julia(source))
+
+
+def fill_annotations(target: HeatmapSide, source: HeatmapSide) -> None:
+    """
+    Fill the annotations of the ``target`` side with a copy of the annotations of the ``source`` side. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.fill_annotations!>`__
+    for details.
+    """
+    jl.SomeGraphs.fill_annotations_b(target.jl_obj, source.jl_obj)
+
+
+def fill_configuration(target: HeatmapSide, source: HeatmapSide) -> None:
+    """
+    Fill the configuration of the ``target`` side with a copy of the configuration of the ``source`` side. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.fill_configuration!>`__
+    for details.
+    """
+    jl.SomeGraphs.fill_configuration_b(target.jl_obj, source.jl_obj)
+
+
+def fill_placement(target: HeatmapSide, source: Union[HeatmapSide, SidePlacement]) -> None:
+    """
+    Fill the ``target`` side with the computed placement of the ``source``: its final order and its tree (if any). The
+    ``target`` is then placed exactly as the ``source`` was. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.fill_placement!>`__
+    for details.
+
+    Unlike the other fills, this does not copy an input of the graph. It turns what the inputs of the ``source``
+    computed into inputs of the ``target``, so it also clears the inputs of the ``target`` which then have no effect:
+    the ``tree_source``, ``order_source``, ``linkage`` and ``metric`` of its configuration, the ``arrange_by`` of its
+    arrangement, and its groups and subgroups which are not drawn as gaps.
+    """
+    jl.SomeGraphs.fill_placement_b(target.jl_obj, source.jl_obj)
+
+
+def fill_side(target: HeatmapSide, source: HeatmapSide) -> None:
+    """
+    Fill the ``target`` side with a copy of everything about the ``source`` side: its entities, arrangement,
+    annotations and configuration, then its computed placement (see :py:obj:`fill_placement`, which is not a plain
+    copy). This lays out the ``target`` exactly as the ``source``. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.fill_side!>`__
+    for details.
+    """
+    jl.SomeGraphs.fill_side_b(target.jl_obj, source.jl_obj)
