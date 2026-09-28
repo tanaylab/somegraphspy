@@ -361,7 +361,7 @@
     <span class="n">background_color</span><span class="p">:</span> <span class="nb">str</span>
     <span class="c1">#: The color of the area around the graph.</span>
     <span class="n">paper_color</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="c1">#: The horizontal offsets of the color scales, as fractions of the graph width.</span>
+    <span class="c1">#: The horizontal offsets of the legend, the color scales and the legends of sizes, as fractions of the graph width.</span>
     <span class="n">colors_scale_offsets</span><span class="p">:</span> <span class="n">NumbersVector</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -459,6 +459,8 @@
     <span class="n">smallest</span><span class="p">:</span> <span class="nb">float</span>
     <span class="c1">#: Added to the ``smallest`` size for the largest data value.</span>
     <span class="n">span</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="c1">#: Show a legend for the sizes.</span>
+    <span class="n">show_legend</span><span class="p">:</span> <span class="nb">bool</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -467,9 +469,12 @@
         <span class="n">scale</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ScaleConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">smallest</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">span</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">show_legend</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">SizesConfiguration</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">fixed</span><span class="o">=</span><span class="n">fixed</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">smallest</span><span class="o">=</span><span class="n">smallest</span><span class="p">,</span> <span class="n">span</span><span class="o">=</span><span class="n">span</span><span class="p">))</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">SizesConfiguration</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">fixed</span><span class="o">=</span><span class="n">fixed</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">smallest</span><span class="o">=</span><span class="n">smallest</span><span class="p">,</span> <span class="n">span</span><span class="o">=</span><span class="n">span</span><span class="p">,</span> <span class="n">show_legend</span><span class="o">=</span><span class="n">show_legend</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="p">)</span></div>
 
 

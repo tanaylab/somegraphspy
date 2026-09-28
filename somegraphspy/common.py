@@ -262,7 +262,7 @@ class FigureConfiguration(Validated):
     background_color: str
     #: The color of the area around the graph.
     paper_color: str
-    #: The horizontal offsets of the color scales, as fractions of the graph width.
+    #: The horizontal offsets of the legend, the color scales and the legends of sizes, as fractions of the graph width.
     colors_scale_offsets: NumbersVector
 
     def __init__(
@@ -354,6 +354,8 @@ class SizesConfiguration(Validated):
     smallest: float
     #: Added to the ``smallest`` size for the largest data value.
     span: float
+    #: Show a legend for the sizes.
+    show_legend: bool
 
     def __init__(
         self,
@@ -362,9 +364,12 @@ class SizesConfiguration(Validated):
         scale: Union[ScaleConfiguration, DefaultValue] = DEFAULT,
         smallest: Union[float, DefaultValue] = DEFAULT,
         span: Union[float, DefaultValue] = DEFAULT,
+        show_legend: Union[bool, DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
-            jl.SomeGraphs.SizesConfiguration(**_given(fixed=fixed, scale=scale, smallest=smallest, span=span))
+            jl.SomeGraphs.SizesConfiguration(
+                **_given(fixed=fixed, scale=scale, smallest=smallest, span=span, show_legend=show_legend)
+            )
         )
 
 

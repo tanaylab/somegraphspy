@@ -134,7 +134,7 @@ class BarsGraphData(AbstractGraphData):
     values: VectorValuesData
     #: The names, hovers and mask of the bars.
     bars: VectorEntitiesData
-    #: The color of each bar; their title is the legend title.
+    #: The color of each bar; their title is the color scale title.
     colors: VectorValuesData
     #: Annotations shown next to the bars.
     annotations: Sequence[AnnotationData]

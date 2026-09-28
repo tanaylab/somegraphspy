@@ -163,7 +163,7 @@ class PointsData(JlObject):
 
     #: The color of each point; their title is the legend title.
     colors: VectorValuesData
-    #: The size of each point.
+    #: The size of each point; their title is the sizes legend title.
     sizes: VectorValuesData
     #: The names, hovers, mask and draw order of the points.
     entities: VectorEntitiesData
@@ -191,7 +191,7 @@ class BordersData(JlObject):
 
     #: The color of the border of each point; their title is the legend title.
     colors: VectorValuesData
-    #: The size added to each point for its border.
+    #: The size added to each point for its border; their title is the sizes legend title.
     sizes: VectorValuesData
     #: Which borders to show.
     mask: Optional[BoolsVector]
@@ -220,7 +220,7 @@ class EdgesData(JlObject):
     points: Optional[EdgesVector]
     #: The color of each edge; their title is the legend title.
     colors: VectorValuesData
-    #: The width of each edge.
+    #: The width of each edge; their title is the sizes legend title.
     sizes: VectorValuesData
     #: The style of each edge.
     styles: Optional[Sequence[LineStyle]]
