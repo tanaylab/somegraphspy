@@ -126,6 +126,7 @@
     <span class="s2">&quot;PointsGraphConfiguration&quot;</span><span class="p">,</span>
     <span class="s2">&quot;PointsGraphData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;ScattersConfiguration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SelectionData&quot;</span><span class="p">,</span>
     <span class="s2">&quot;line_graph&quot;</span><span class="p">,</span>
     <span class="s2">&quot;lines_graph&quot;</span><span class="p">,</span>
     <span class="s2">&quot;points_density&quot;</span><span class="p">,</span>
@@ -134,6 +135,12 @@
 
 <span class="c1">#: The pairs of point indices to draw edges between. These are 1-based, as in Julia.</span>
 <span class="n">EdgesVector</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span>
+
+<span class="c1">#: A selected box: the minimal X, maximal X, minimal Y and maximal Y.</span>
+<span class="n">SelectionBox</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+
+<span class="c1">#: A selected polygon: the X and Y of each of its vertices.</span>
+<span class="n">SelectionPolygon</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
 
 
 <div class="viewcode-block" id="ScattersConfiguration">
@@ -334,6 +341,33 @@
 <span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;EdgesData&quot;</span><span class="p">,</span> <span class="n">EdgesData</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="SelectionData">
+<a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.SelectionData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SelectionData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The selection of a :py:obj:`PointsGraphData`: an area of the graph, which Plotly shows as selected. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.SelectionData&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: A selected box, in the units of the ``x`` and ``y`` data.</span>
+    <span class="n">box</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SelectionBox</span><span class="p">]</span>
+    <span class="c1">#: A selected polygon, in the units of the ``x`` and ``y`` data.</span>
+    <span class="n">polygon</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SelectionPolygon</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">box</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">SelectionBox</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">polygon</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">SelectionPolygon</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">SelectionData</span><span class="p">(</span><span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">box</span><span class="o">=</span><span class="n">box</span><span class="p">,</span> <span class="n">polygon</span><span class="o">=</span><span class="n">polygon</span><span class="p">)))</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;SelectionData&quot;</span><span class="p">,</span> <span class="n">SelectionData</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="PointsGraphData">
 <a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.PointsGraphData">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PointsGraphData</span><span class="p">(</span><span class="n">AbstractGraphData</span><span class="p">):</span>
@@ -361,6 +395,8 @@
     <span class="n">horizontal_bands</span><span class="p">:</span> <span class="n">BandsData</span>
     <span class="c1">#: Override the offsets of the diagonal bands.</span>
     <span class="n">diagonal_bands</span><span class="p">:</span> <span class="n">BandsData</span>
+    <span class="c1">#: The selected area, which Plotly shows as selected.</span>
+    <span class="n">selection</span><span class="p">:</span> <span class="n">SelectionData</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -374,6 +410,7 @@
         <span class="n">vertical_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">horizontal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">diagonal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">selection</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SelectionData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">PointsGraphData</span><span class="p">(</span>
@@ -387,6 +424,7 @@
                     <span class="n">vertical_bands</span><span class="o">=</span><span class="n">vertical_bands</span><span class="p">,</span>
                     <span class="n">horizontal_bands</span><span class="o">=</span><span class="n">horizontal_bands</span><span class="p">,</span>
                     <span class="n">diagonal_bands</span><span class="o">=</span><span class="n">diagonal_bands</span><span class="p">,</span>
+                    <span class="n">selection</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
@@ -523,6 +561,7 @@
     <span class="n">vertical_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">horizontal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">diagonal_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">selection</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SelectionData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">PointsGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PointsGraph</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -542,6 +581,7 @@
             <span class="n">vertical_bands</span><span class="o">=</span><span class="n">vertical_bands</span><span class="p">,</span>
             <span class="n">horizontal_bands</span><span class="o">=</span><span class="n">horizontal_bands</span><span class="p">,</span>
             <span class="n">diagonal_bands</span><span class="o">=</span><span class="n">diagonal_bands</span><span class="p">,</span>
+            <span class="n">selection</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">,</span>
     <span class="p">)</span></div>

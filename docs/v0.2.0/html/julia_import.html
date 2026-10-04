@@ -719,16 +719,6 @@ opposed to listing them as separate constants) is what allows auto-completion to
 <span class="pre">jl_obj
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">Any
-</span>
-</span>
 </em>
 <span class="sig-paren">)
 </span>
@@ -769,6 +759,25 @@ the value immediately. Nested objects are shared rather than copied, exactly as 
 you need an independent one.
 </p>
 
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<strong>jl_obj
+</strong> (
+<em>Any
+</em>)
+</p>
+
+</dd>
+
+</dl>
+
 <dl class="py method">
 
 <dt class="sig sig-object py" id="somegraphspy.julia_import.JlObject.copy">
@@ -780,14 +789,6 @@ you need an independent one.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<span class="pre">Any
-</span>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/julia_import.html#JlObject.copy">
 <span class="viewcode-link">
@@ -802,6 +803,23 @@ you need an independent one.
 <dd>
 <p>Return an independent copy of the object, which shares nothing with the original.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<em>Any
+</em>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>
@@ -830,26 +848,8 @@ you need an independent one.
 <span class="pre">jl_obj
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">Any
-</span>
-</span>
 </em>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<span class="pre">Any
-</span>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/julia_import.html#JlObject.wrap_jl_object">
 <span class="viewcode-link">
@@ -864,6 +864,38 @@ you need an independent one.
 <dd>
 <p>Wrap a Julia object (for internal use).
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<strong>jl_obj
+</strong> (
+<em>Any
+</em>)
+</p>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<em>Any
+</em>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>

@@ -53,6 +53,7 @@ __all__ = [
     "PointsGraphConfiguration",
     "PointsGraphData",
     "ScattersConfiguration",
+    "SelectionData",
     "line_graph",
     "lines_graph",
     "points_density",
@@ -61,6 +62,12 @@ __all__ = [
 
 #: The pairs of point indices to draw edges between. These are 1-based, as in Julia.
 EdgesVector = Sequence[Tuple[int, int]]
+
+#: A selected box: the minimal X, maximal X, minimal Y and maximal Y.
+SelectionBox = Tuple[float, float, float, float]
+
+#: A selected polygon: the X and Y of each of its vertices.
+SelectionPolygon = Sequence[Tuple[float, float]]
 
 
 class ScattersConfiguration(AbstractGraphConfiguration):
@@ -246,6 +253,30 @@ class EdgesData(JlObject):
 register_jl_type("EdgesData", EdgesData)
 
 
+class SelectionData(JlObject):
+    """
+    The selection of a :py:obj:`PointsGraphData`: an area of the graph, which Plotly shows as selected. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.SelectionData>`__
+    for details.
+    """
+
+    #: A selected box, in the units of the ``x`` and ``y`` data.
+    box: Optional[SelectionBox]
+    #: A selected polygon, in the units of the ``x`` and ``y`` data.
+    polygon: Optional[SelectionPolygon]
+
+    def __init__(
+        self,
+        *,
+        box: Union[Optional[SelectionBox], DefaultValue] = DEFAULT,
+        polygon: Union[Optional[SelectionPolygon], DefaultValue] = DEFAULT,
+    ) -> None:
+        super().__init__(jl.SomeGraphs.SelectionData(**_given(box=box, polygon=polygon)))
+
+
+register_jl_type("SelectionData", SelectionData)
+
+
 class PointsGraphData(AbstractGraphData):
     """
     The data of a scatter graph of points. See the Julia
@@ -271,6 +302,8 @@ class PointsGraphData(AbstractGraphData):
     horizontal_bands: BandsData
     #: Override the offsets of the diagonal bands.
     diagonal_bands: BandsData
+    #: The selected area, which Plotly shows as selected.
+    selection: SelectionData
 
     def __init__(
         self,
@@ -284,6 +317,7 @@ class PointsGraphData(AbstractGraphData):
         vertical_bands: Union[BandsData, DefaultValue] = DEFAULT,
         horizontal_bands: Union[BandsData, DefaultValue] = DEFAULT,
         diagonal_bands: Union[BandsData, DefaultValue] = DEFAULT,
+        selection: Union[SelectionData, DefaultValue] = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.PointsGraphData(
@@ -297,6 +331,7 @@ class PointsGraphData(AbstractGraphData):
                     vertical_bands=vertical_bands,
                     horizontal_bands=horizontal_bands,
                     diagonal_bands=diagonal_bands,
+                    selection=selection,
                 )
             )
         )
@@ -397,6 +432,7 @@ def points_graph(
     vertical_bands: Union[BandsData, DefaultValue] = DEFAULT,
     horizontal_bands: Union[BandsData, DefaultValue] = DEFAULT,
     diagonal_bands: Union[BandsData, DefaultValue] = DEFAULT,
+    selection: Union[SelectionData, DefaultValue] = DEFAULT,
     configuration: Union[PointsGraphConfiguration, DefaultValue] = DEFAULT,
 ) -> PointsGraph:
     """
@@ -416,6 +452,7 @@ def points_graph(
             vertical_bands=vertical_bands,
             horizontal_bands=horizontal_bands,
             diagonal_bands=diagonal_bands,
+            selection=selection,
         ),
         configuration=configuration,
     )

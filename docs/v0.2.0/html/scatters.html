@@ -1169,6 +1169,15 @@
 </a>
 </li>
 
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.scatters.PointsGraphData.selection">
+<code class="docutils literal notranslate">
+<span class="pre">PointsGraphData.selection
+</span>
+</code>
+</a>
+</li>
+
 </ul>
 
 </li>
@@ -1195,6 +1204,37 @@
 <a class="reference internal" href="#somegraphspy.scatters.ScattersConfiguration.sizes">
 <code class="docutils literal notranslate">
 <span class="pre">ScattersConfiguration.sizes
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.scatters.SelectionData">
+<code class="docutils literal notranslate">
+<span class="pre">SelectionData
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.scatters.SelectionData.box">
+<code class="docutils literal notranslate">
+<span class="pre">SelectionData.box
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.scatters.SelectionData.polygon">
+<code class="docutils literal notranslate">
+<span class="pre">SelectionData.polygon
 </span>
 </code>
 </a>
@@ -1377,37 +1417,9 @@
 <span class="pre">colors
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -1421,37 +1433,9 @@
 <span class="pre">sizes
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -1465,65 +1449,9 @@
 <span class="pre">mask
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">ndarray
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">Sequence
-</span>
-<span class="p">
-<span class="pre">[
-</span>
-</span>
-<span class="pre">bool
-</span>
-<span class="p">
-<span class="pre">]
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -1558,6 +1486,67 @@ points. See the Julia
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>colors
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>sizes
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>mask
+</strong> (
+<em>ndarray
+</em>
+<em> | 
+</em>
+<em>Sequence
+</em>
+<em>[
+</em>
+<em>bool
+</em>
+<em>] 
+</em>
+<em>| 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -1720,30 +1709,6 @@ for details.
 <span class="pre">points
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">Tuple[int
-</span>
-</span>
-</em>, 
-<em class="sig-param">
-<span class="n">
-<span class="pre">int]]
-</span> 
-<span class="pre">|
-</span> 
-<span class="pre">None
-</span> 
-<span class="pre">|
-</span> 
-<span class="pre">~somegraphspy.julia_import.DefaultValue
-</span>
-</span>
 <span class="o">
 <span class="pre">=
 </span>
@@ -1760,37 +1725,9 @@ for details.
 <span class="pre">colors
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -1804,37 +1741,9 @@ for details.
 <span class="pre">sizes
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -1848,57 +1757,9 @@ for details.
 <span class="pre">styles
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">Sequence
-</span>
-<span class="p">
-<span class="pre">[
-</span>
-</span>
-<a class="reference internal" href="common.html#somegraphspy.common.LineStyle" title="somegraphspy.common.LineStyle">
-<span class="pre">LineStyle
-</span>
-</a>
-<span class="p">
-<span class="pre">]
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -1912,37 +1773,9 @@ for details.
 <span class="pre">entities
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
-<span class="pre">VectorEntitiesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -1976,6 +1809,105 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>points
+</strong> (
+<em>Sequence
+</em>
+<em>[
+</em>
+<em>Tuple
+</em>
+<em>[
+</em>
+<em>int
+</em>
+<em>, 
+</em>
+<em>int
+</em>
+<em>]
+</em>
+<em>] 
+</em>
+<em>| 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>colors
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>sizes
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>styles
+</strong> (
+<em>Sequence
+</em>
+<em>[
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.LineStyle" title="somegraphspy.common.LineStyle">
+<em>LineStyle
+</em>
+</a>
+<em>] 
+</em>
+<em>| 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>entities
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<em>VectorEntitiesData
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -2230,37 +2162,9 @@ for details.
 <span class="pre">x
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -2274,37 +2178,9 @@ for details.
 <span class="pre">y
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -2318,37 +2194,9 @@ for details.
 <span class="pre">points
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
-<span class="pre">VectorEntitiesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -2362,45 +2210,9 @@ for details.
 <span class="pre">name
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">str
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -2414,45 +2226,9 @@ for details.
 <span class="pre">hover
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">str
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -2466,35 +2242,9 @@ for details.
 <span class="pre">is_shown
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">bool
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -2508,45 +2258,9 @@ for details.
 <span class="pre">color
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">str
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -2560,45 +2274,9 @@ for details.
 <span class="pre">width
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">float
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -2612,47 +2290,9 @@ for details.
 <span class="pre">style
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.LineStyle" title="somegraphspy.common.LineStyle">
-<span class="pre">LineStyle
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -2666,45 +2306,9 @@ for details.
 <span class="pre">points_size
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">float
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -2718,45 +2322,9 @@ for details.
 <span class="pre">points_color
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">str
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -2790,6 +2358,157 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>x
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>y
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<em>VectorEntitiesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>name
+</strong> (
+<em>str
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>hover
+</strong> (
+<em>str
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>is_shown
+</strong> (
+<em>bool
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>color
+</strong> (
+<em>str
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>width
+</strong> (
+<em>float
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>style
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.LineStyle" title="somegraphspy.common.LineStyle">
+<em>LineStyle
+</em>
+</a>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points_size
+</strong> (
+<em>float
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points_color
+</strong> (
+<em>str
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -3236,37 +2955,9 @@ for details.
 <span class="pre">data
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.LineGraphData" title="somegraphspy.scatters.LineGraphData">
-<span class="pre">LineGraphData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -3280,37 +2971,9 @@ for details.
 <span class="pre">configuration
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.LineGraphConfiguration" title="somegraphspy.scatters.LineGraphConfiguration">
-<span class="pre">LineGraphConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -3338,6 +3001,44 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>data
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.LineGraphData" title="somegraphspy.scatters.LineGraphData">
+<em>LineGraphData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>configuration
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.LineGraphConfiguration" title="somegraphspy.scatters.LineGraphConfiguration">
+<em>LineGraphConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -3414,16 +3115,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
-<span class="pre">VectorFields
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#LineGraph.x_axis_vector_fields">
 <span class="viewcode-link">
@@ -3443,6 +3134,25 @@ for details.
 </code>.
 </p>
 
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
+
 </dd>
 </dl>
 
@@ -3458,16 +3168,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
-<span class="pre">VectorFields
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#LineGraph.y_axis_vector_fields">
 <span class="viewcode-link">
@@ -3487,6 +3187,25 @@ for details.
 </code>.
 </p>
 
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
+
 </dd>
 </dl>
 
@@ -3502,16 +3221,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
-<span class="pre">VectorEntitiesData
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#LineGraph.points_entities">
 <span class="viewcode-link">
@@ -3526,6 +3235,25 @@ for details.
 <dd>
 <p>The entities of the points of the line, shared by all their roles.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<em>VectorEntitiesData
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>
@@ -3568,37 +3296,9 @@ for details.
 <span class="pre">figure
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration" title="somegraphspy.common.FigureConfiguration">
-<span class="pre">FigureConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -3612,37 +3312,9 @@ for details.
 <span class="pre">x_axis
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
-<span class="pre">AxisConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -3656,37 +3328,9 @@ for details.
 <span class="pre">y_axis
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
-<span class="pre">AxisConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -3700,37 +3344,9 @@ for details.
 <span class="pre">line
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration" title="somegraphspy.common.LineConfiguration">
-<span class="pre">LineConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -3744,35 +3360,9 @@ for details.
 <span class="pre">show_points
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">bool
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -3786,45 +3376,9 @@ for details.
 <span class="pre">points_size
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">float
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -3838,45 +3392,9 @@ for details.
 <span class="pre">points_color
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">str
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -3890,37 +3408,9 @@ for details.
 <span class="pre">vertical_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
-<span class="pre">BandsConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -3934,37 +3424,9 @@ for details.
 <span class="pre">horizontal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
-<span class="pre">BandsConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -3978,37 +3440,9 @@ for details.
 <span class="pre">diagonal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
-<span class="pre">BandsConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -4036,6 +3470,134 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>figure
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration" title="somegraphspy.common.FigureConfiguration">
+<em>FigureConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>x_axis
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<em>AxisConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>y_axis
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<em>AxisConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>line
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration" title="somegraphspy.common.LineConfiguration">
+<em>LineConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>show_points
+</strong> (
+<em>bool
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points_size
+</strong> (
+<em>float
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points_color
+</strong> (
+<em>str
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>vertical_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
+<em>BandsConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>horizontal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
+<em>BandsConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>diagonal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
+<em>BandsConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -4408,45 +3970,9 @@ for details.
 <span class="pre">figure_title
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">str
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -4460,37 +3986,9 @@ for details.
 <span class="pre">x
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -4504,37 +4002,9 @@ for details.
 <span class="pre">y
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -4548,37 +4018,9 @@ for details.
 <span class="pre">points
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
-<span class="pre">VectorEntitiesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -4592,37 +4034,9 @@ for details.
 <span class="pre">vertical_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -4636,37 +4050,9 @@ for details.
 <span class="pre">horizontal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -4680,37 +4066,9 @@ for details.
 <span class="pre">diagonal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -4738,6 +4096,101 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>figure_title
+</strong> (
+<em>str
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>x
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>y
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<em>VectorEntitiesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>vertical_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>horizontal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>diagonal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -5008,37 +4461,9 @@ for details.
 <span class="pre">data
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.LinesGraphData" title="somegraphspy.scatters.LinesGraphData">
-<span class="pre">LinesGraphData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5052,37 +4477,9 @@ for details.
 <span class="pre">configuration
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.LinesGraphConfiguration" title="somegraphspy.scatters.LinesGraphConfiguration">
-<span class="pre">LinesGraphConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5110,6 +4507,44 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>data
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.LinesGraphData" title="somegraphspy.scatters.LinesGraphData">
+<em>LinesGraphData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>configuration
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.LinesGraphConfiguration" title="somegraphspy.scatters.LinesGraphConfiguration">
+<em>LinesGraphConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -5190,28 +4625,8 @@ for details.
 <span class="pre">index
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">int
-</span>
-</span>
 </em>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields" title="somegraphspy.sources.PartFields">
-<span class="pre">PartFields
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#LinesGraph.line_part_fields">
 <span class="viewcode-link">
@@ -5248,6 +4663,40 @@ for details.
 </code>.
 </p>
 
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<strong>index
+</strong> (
+<em>int
+</em>)
+</p>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields" title="somegraphspy.sources.PartFields">
+<em>PartFields
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
+
 </dd>
 </dl>
 
@@ -5267,35 +4716,9 @@ for details.
 <span class="pre">line
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.LineData" title="somegraphspy.scatters.LineData">
-<span class="pre">LineData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">None
@@ -5303,16 +4726,6 @@ for details.
 </span>
 </em>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields" title="somegraphspy.sources.PartFields">
-<span class="pre">PartFields
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#LinesGraph.add_line">
 <span class="viewcode-link">
@@ -5332,6 +4745,46 @@ for details.
 </code> (by default, an empty one) and return its view. Whatever the line leaves at its defaults can
 be set later, through the view or directly.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<strong>line
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.LineData" title="somegraphspy.scatters.LineData">
+<em>LineData
+</em>
+</a>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<a class="reference internal" href="sources.html#somegraphspy.sources.PartFields" title="somegraphspy.sources.PartFields">
+<em>PartFields
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>
@@ -5374,37 +4827,9 @@ be set later, through the view or directly.
 <span class="pre">figure
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration" title="somegraphspy.common.FigureConfiguration">
-<span class="pre">FigureConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5418,37 +4843,9 @@ be set later, through the view or directly.
 <span class="pre">x_axis
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
-<span class="pre">AxisConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5462,37 +4859,9 @@ be set later, through the view or directly.
 <span class="pre">y_axis
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
-<span class="pre">AxisConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5506,37 +4875,9 @@ be set later, through the view or directly.
 <span class="pre">line
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration" title="somegraphspy.common.LineConfiguration">
-<span class="pre">LineConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5550,35 +4891,9 @@ be set later, through the view or directly.
 <span class="pre">show_points
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">bool
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5592,45 +4907,9 @@ be set later, through the view or directly.
 <span class="pre">points_size
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">float
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5644,45 +4923,9 @@ be set later, through the view or directly.
 <span class="pre">points_color
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">str
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5696,37 +4939,9 @@ be set later, through the view or directly.
 <span class="pre">vertical_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
-<span class="pre">BandsConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5740,37 +4955,9 @@ be set later, through the view or directly.
 <span class="pre">horizontal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
-<span class="pre">BandsConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5784,37 +4971,9 @@ be set later, through the view or directly.
 <span class="pre">diagonal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
-<span class="pre">BandsConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5828,35 +4987,9 @@ be set later, through the view or directly.
 <span class="pre">show_legend
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">bool
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5870,47 +5003,9 @@ be set later, through the view or directly.
 <span class="pre">stacking
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.Stacking" title="somegraphspy.common.Stacking">
-<span class="pre">Stacking
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -5938,6 +5033,158 @@ be set later, through the view or directly.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>figure
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration" title="somegraphspy.common.FigureConfiguration">
+<em>FigureConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>x_axis
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<em>AxisConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>y_axis
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<em>AxisConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>line
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.LineConfiguration" title="somegraphspy.common.LineConfiguration">
+<em>LineConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>show_points
+</strong> (
+<em>bool
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points_size
+</strong> (
+<em>float
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points_color
+</strong> (
+<em>str
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>vertical_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
+<em>BandsConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>horizontal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
+<em>BandsConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>diagonal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
+<em>BandsConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>show_legend
+</strong> (
+<em>bool
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>stacking
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.Stacking" title="somegraphspy.common.Stacking">
+<em>Stacking
+</em>
+</a>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -6382,45 +5629,9 @@ for details.
 <span class="pre">figure_title
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">str
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -6434,47 +5645,9 @@ for details.
 <span class="pre">lines
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">Sequence
-</span>
-<span class="p">
-<span class="pre">[
-</span>
-</span>
-<a class="reference internal" href="#somegraphspy.scatters.LineData" title="somegraphspy.scatters.LineData">
-<span class="pre">LineData
-</span>
-</a>
-<span class="p">
-<span class="pre">]
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -6488,65 +5661,9 @@ for details.
 <span class="pre">order
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">ndarray
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">Sequence
-</span>
-<span class="p">
-<span class="pre">[
-</span>
-</span>
-<span class="pre">int
-</span>
-<span class="p">
-<span class="pre">]
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -6560,37 +5677,9 @@ for details.
 <span class="pre">vertical_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -6604,37 +5693,9 @@ for details.
 <span class="pre">horizontal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -6648,37 +5709,9 @@ for details.
 <span class="pre">diagonal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -6706,6 +5739,108 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>figure_title
+</strong> (
+<em>str
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>lines
+</strong> (
+<em>Sequence
+</em>
+<em>[
+</em>
+<a class="reference internal" href="#somegraphspy.scatters.LineData" title="somegraphspy.scatters.LineData">
+<em>LineData
+</em>
+</a>
+<em>]
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>order
+</strong> (
+<em>ndarray
+</em>
+<em> | 
+</em>
+<em>Sequence
+</em>
+<em>[
+</em>
+<em>int
+</em>
+<em>] 
+</em>
+<em>| 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>vertical_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>horizontal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>diagonal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -6982,37 +6117,9 @@ for details.
 <span class="pre">colors
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -7026,37 +6133,9 @@ for details.
 <span class="pre">sizes
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -7070,37 +6149,9 @@ for details.
 <span class="pre">entities
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
-<span class="pre">VectorEntitiesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -7134,6 +6185,55 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>colors
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>sizes
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>entities
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<em>VectorEntitiesData
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -7268,37 +6368,9 @@ for details.
 <span class="pre">data
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.PointsGraphData" title="somegraphspy.scatters.PointsGraphData">
-<span class="pre">PointsGraphData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -7312,37 +6384,9 @@ for details.
 <span class="pre">configuration
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.PointsGraphConfiguration" title="somegraphspy.scatters.PointsGraphConfiguration">
-<span class="pre">PointsGraphConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -7370,6 +6414,44 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>data
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.PointsGraphData" title="somegraphspy.scatters.PointsGraphData">
+<em>PointsGraphData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>configuration
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.PointsGraphConfiguration" title="somegraphspy.scatters.PointsGraphConfiguration">
+<em>PointsGraphConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -7446,16 +6528,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
-<span class="pre">VectorFields
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#PointsGraph.x_axis_vector_fields">
 <span class="viewcode-link">
@@ -7475,6 +6547,25 @@ for details.
 </code>.
 </p>
 
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
+
 </dd>
 </dl>
 
@@ -7490,16 +6581,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
-<span class="pre">VectorFields
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#PointsGraph.y_axis_vector_fields">
 <span class="viewcode-link">
@@ -7519,6 +6600,25 @@ for details.
 </code>.
 </p>
 
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
+
 </dd>
 </dl>
 
@@ -7534,16 +6634,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
-<span class="pre">VectorFields
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#PointsGraph.points_colors_vector_fields">
 <span class="viewcode-link">
@@ -7558,6 +6648,25 @@ for details.
 <dd>
 <p>The data source view of the colors of the points.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>
@@ -7574,16 +6683,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
-<span class="pre">VectorFields
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#PointsGraph.points_sizes_vector_fields">
 <span class="viewcode-link">
@@ -7598,6 +6697,25 @@ for details.
 <dd>
 <p>The data source view of the sizes of the points.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>
@@ -7614,16 +6732,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
-<span class="pre">VectorFields
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#PointsGraph.borders_colors_vector_fields">
 <span class="viewcode-link">
@@ -7638,6 +6746,25 @@ for details.
 <dd>
 <p>The data source view of the colors of the borders of the points, which share the entities of the points.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>
@@ -7654,16 +6781,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
-<span class="pre">VectorFields
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#PointsGraph.borders_sizes_vector_fields">
 <span class="viewcode-link">
@@ -7678,6 +6795,25 @@ for details.
 <dd>
 <p>The data source view of the sizes of the borders of the points, which share the entities of the points.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>
@@ -7694,16 +6830,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
-<span class="pre">VectorFields
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#PointsGraph.edges_colors_vector_fields">
 <span class="viewcode-link">
@@ -7718,6 +6844,25 @@ for details.
 <dd>
 <p>The data source view of the colors of the edges.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>
@@ -7734,16 +6879,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
-<span class="pre">VectorFields
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#PointsGraph.edges_sizes_vector_fields">
 <span class="viewcode-link">
@@ -7758,6 +6893,25 @@ for details.
 <dd>
 <p>The data source view of the sizes (widths) of the edges.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="sources.html#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>
@@ -7774,16 +6928,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
-<span class="pre">VectorEntitiesData
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#PointsGraph.points_entities">
 <span class="viewcode-link">
@@ -7798,6 +6942,25 @@ for details.
 <dd>
 <p>The entities of the points, shared by all their roles.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<em>VectorEntitiesData
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>
@@ -7814,16 +6977,6 @@ for details.
 <span class="sig-paren">(
 </span>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
-<span class="pre">VectorEntitiesData
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#PointsGraph.edges_entities">
 <span class="viewcode-link">
@@ -7838,6 +6991,25 @@ for details.
 <dd>
 <p>The entities of the edges, shared by all their roles.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<em>VectorEntitiesData
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>
@@ -7880,37 +7052,9 @@ for details.
 <span class="pre">figure
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration" title="somegraphspy.common.FigureConfiguration">
-<span class="pre">FigureConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -7924,37 +7068,9 @@ for details.
 <span class="pre">x_axis
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
-<span class="pre">AxisConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -7968,37 +7084,9 @@ for details.
 <span class="pre">y_axis
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
-<span class="pre">AxisConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8012,37 +7100,9 @@ for details.
 <span class="pre">points
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.ScattersConfiguration" title="somegraphspy.scatters.ScattersConfiguration">
-<span class="pre">ScattersConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8056,37 +7116,9 @@ for details.
 <span class="pre">borders
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.ScattersConfiguration" title="somegraphspy.scatters.ScattersConfiguration">
-<span class="pre">ScattersConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8100,37 +7132,9 @@ for details.
 <span class="pre">edges
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.ScattersConfiguration" title="somegraphspy.scatters.ScattersConfiguration">
-<span class="pre">ScattersConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8144,37 +7148,9 @@ for details.
 <span class="pre">edges_style
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.LineStyle" title="somegraphspy.common.LineStyle">
-<span class="pre">LineStyle
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8188,35 +7164,9 @@ for details.
 <span class="pre">edges_over_points
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">bool
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8230,37 +7180,9 @@ for details.
 <span class="pre">vertical_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
-<span class="pre">BandsConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8274,37 +7196,9 @@ for details.
 <span class="pre">horizontal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
-<span class="pre">BandsConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8318,37 +7212,9 @@ for details.
 <span class="pre">diagonal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
-<span class="pre">BandsConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8376,6 +7242,141 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>figure
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.FigureConfiguration" title="somegraphspy.common.FigureConfiguration">
+<em>FigureConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>x_axis
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<em>AxisConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>y_axis
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<em>AxisConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.ScattersConfiguration" title="somegraphspy.scatters.ScattersConfiguration">
+<em>ScattersConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>borders
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.ScattersConfiguration" title="somegraphspy.scatters.ScattersConfiguration">
+<em>ScattersConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>edges
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.ScattersConfiguration" title="somegraphspy.scatters.ScattersConfiguration">
+<em>ScattersConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>edges_style
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.LineStyle" title="somegraphspy.common.LineStyle">
+<em>LineStyle
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>edges_over_points
+</strong> (
+<em>bool
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>vertical_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
+<em>BandsConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>horizontal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
+<em>BandsConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>diagonal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsConfiguration" title="somegraphspy.common.BandsConfiguration">
+<em>BandsConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -8764,45 +7765,9 @@ for details.
 <span class="pre">figure_title
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">str
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8816,37 +7781,9 @@ for details.
 <span class="pre">x
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8860,37 +7797,9 @@ for details.
 <span class="pre">y
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8904,37 +7813,9 @@ for details.
 <span class="pre">points
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.PointsData" title="somegraphspy.scatters.PointsData">
-<span class="pre">PointsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8948,37 +7829,9 @@ for details.
 <span class="pre">borders
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.BordersData" title="somegraphspy.scatters.BordersData">
-<span class="pre">BordersData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -8992,37 +7845,9 @@ for details.
 <span class="pre">edges
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.EdgesData" title="somegraphspy.scatters.EdgesData">
-<span class="pre">EdgesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -9036,37 +7861,9 @@ for details.
 <span class="pre">vertical_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -9080,37 +7877,9 @@ for details.
 <span class="pre">horizontal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -9124,37 +7893,25 @@ for details.
 <span class="pre">diagonal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
 </span>
-<span class="w"> 
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">selection
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -9182,6 +7939,134 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>figure_title
+</strong> (
+<em>str
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>x
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>y
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.PointsData" title="somegraphspy.scatters.PointsData">
+<em>PointsData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>borders
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.BordersData" title="somegraphspy.scatters.BordersData">
+<em>BordersData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>edges
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.EdgesData" title="somegraphspy.scatters.EdgesData">
+<em>EdgesData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>vertical_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>horizontal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>diagonal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>selection
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.SelectionData" title="somegraphspy.scatters.SelectionData">
+<em>SelectionData
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -9479,6 +8364,38 @@ for details.
 </dl>
 
 
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.scatters.PointsGraphData.selection">
+
+<span class="sig-name descname">
+<span class="pre">selection
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.scatters.SelectionData" title="somegraphspy.scatters.SelectionData">
+<span class="pre">SelectionData
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.scatters.PointsGraphData.selection" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The selected area, which Plotly shows as selected.
+</p>
+
+</dd>
+</dl>
+
+
 </dd>
 </dl>
 
@@ -9516,37 +8433,9 @@ for details.
 <span class="pre">colors
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
-<span class="pre">ColorsConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -9560,37 +8449,9 @@ for details.
 <span class="pre">sizes
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration" title="somegraphspy.common.SizesConfiguration">
-<span class="pre">SizesConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -9618,6 +8479,44 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>colors
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
+<em>ColorsConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>sizes
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration" title="somegraphspy.common.SizesConfiguration">
+<em>SizesConfiguration
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
 
 <dl class="py attribute">
 
@@ -9687,6 +8586,330 @@ for details.
 </dl>
 
 
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.scatters.SelectionData">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.scatters.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">SelectionData
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">*
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">box
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">polygon
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/scatters.html#SelectionData">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.scatters.SelectionData" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The selection of a 
+<a class="reference internal" href="#somegraphspy.scatters.PointsGraphData" title="somegraphspy.scatters.PointsGraphData">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">PointsGraphData
+</span>
+</code>
+</a>: an area of the graph, which Plotly shows as selected. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/scatters.html#SomeGraphs.Scatters.SelectionData">documentation
+</a>
+for details.
+</p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>box
+</strong> (
+<em>Tuple
+</em>
+<em>[
+</em>
+<em>float
+</em>
+<em>, 
+</em>
+<em>float
+</em>
+<em>, 
+</em>
+<em>float
+</em>
+<em>, 
+</em>
+<em>float
+</em>
+<em>] 
+</em>
+<em>| 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>polygon
+</strong> (
+<em>Sequence
+</em>
+<em>[
+</em>
+<em>Tuple
+</em>
+<em>[
+</em>
+<em>float
+</em>
+<em>, 
+</em>
+<em>float
+</em>
+<em>]
+</em>
+<em>] 
+</em>
+<em>| 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.scatters.SelectionData.box">
+
+<span class="sig-name descname">
+<span class="pre">box
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Tuple
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">float
+</span>
+<span class="p">
+<span class="pre">,
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="p">
+<span class="pre">,
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="p">
+<span class="pre">,
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.scatters.SelectionData.box" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A selected box, in the units of the 
+<code class="docutils literal notranslate">
+<span class="pre">x
+</span>
+</code> and 
+<code class="docutils literal notranslate">
+<span class="pre">y
+</span>
+</code> data.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.scatters.SelectionData.polygon">
+
+<span class="sig-name descname">
+<span class="pre">polygon
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">Sequence
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">Tuple
+</span>
+<span class="p">
+<span class="pre">[
+</span>
+</span>
+<span class="pre">float
+</span>
+<span class="p">
+<span class="pre">,
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="p">
+<span class="pre">]
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.scatters.SelectionData.polygon" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A selected polygon, in the units of the 
+<code class="docutils literal notranslate">
+<span class="pre">x
+</span>
+</code> and 
+<code class="docutils literal notranslate">
+<span class="pre">y
+</span>
+</code> data.
+</p>
+
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+
+
 <dl class="py function">
 
 <dt class="sig sig-object py" id="somegraphspy.scatters.line_graph">
@@ -9712,45 +8935,9 @@ for details.
 <span class="pre">figure_title
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">str
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -9764,37 +8951,9 @@ for details.
 <span class="pre">x
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -9808,37 +8967,9 @@ for details.
 <span class="pre">y
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -9852,37 +8983,9 @@ for details.
 <span class="pre">points
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
-<span class="pre">VectorEntitiesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -9896,37 +8999,9 @@ for details.
 <span class="pre">vertical_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -9940,37 +9015,9 @@ for details.
 <span class="pre">horizontal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -9984,37 +9031,9 @@ for details.
 <span class="pre">diagonal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10028,37 +9047,9 @@ for details.
 <span class="pre">configuration
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.LineGraphConfiguration" title="somegraphspy.scatters.LineGraphConfiguration">
-<span class="pre">LineGraphConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10068,16 +9059,6 @@ for details.
 </span>
 </em>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="#somegraphspy.scatters.LineGraph" title="somegraphspy.scatters.LineGraph">
-<span class="pre">LineGraph
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#line_graph">
 <span class="viewcode-link">
@@ -10116,6 +9097,175 @@ for details.
 for details.
 </p>
 
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>figure_title
+</strong> (
+<em>str
+</em>
+<em> | 
+</em>
+<em>None
+</em>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>x
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>y
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<em>VectorEntitiesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>vertical_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>horizontal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>diagonal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>configuration
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.LineGraphConfiguration" title="somegraphspy.scatters.LineGraphConfiguration">
+<em>LineGraphConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<a class="reference internal" href="#somegraphspy.scatters.LineGraph" title="somegraphspy.scatters.LineGraph">
+<em>LineGraph
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
+
 </dd>
 </dl>
 
@@ -10145,45 +9295,9 @@ for details.
 <span class="pre">figure_title
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">str
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10197,47 +9311,9 @@ for details.
 <span class="pre">lines
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">Sequence
-</span>
-<span class="p">
-<span class="pre">[
-</span>
-</span>
-<a class="reference internal" href="#somegraphspy.scatters.LineData" title="somegraphspy.scatters.LineData">
-<span class="pre">LineData
-</span>
-</a>
-<span class="p">
-<span class="pre">]
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10251,65 +9327,9 @@ for details.
 <span class="pre">order
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">ndarray
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">Sequence
-</span>
-<span class="p">
-<span class="pre">[
-</span>
-</span>
-<span class="pre">int
-</span>
-<span class="p">
-<span class="pre">]
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10323,37 +9343,9 @@ for details.
 <span class="pre">vertical_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10367,37 +9359,9 @@ for details.
 <span class="pre">horizontal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10411,37 +9375,9 @@ for details.
 <span class="pre">diagonal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10455,37 +9391,9 @@ for details.
 <span class="pre">configuration
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.LinesGraphConfiguration" title="somegraphspy.scatters.LinesGraphConfiguration">
-<span class="pre">LinesGraphConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10495,16 +9403,6 @@ for details.
 </span>
 </em>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="#somegraphspy.scatters.LinesGraph" title="somegraphspy.scatters.LinesGraph">
-<span class="pre">LinesGraph
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#lines_graph">
 <span class="viewcode-link">
@@ -10543,6 +9441,176 @@ for details.
 for details.
 </p>
 
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>figure_title
+</strong> (
+<em>str
+</em>
+<em> | 
+</em>
+<em>None
+</em>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>lines
+</strong> (
+<em>Sequence
+</em>
+<em>[
+</em>
+<a class="reference internal" href="#somegraphspy.scatters.LineData" title="somegraphspy.scatters.LineData">
+<em>LineData
+</em>
+</a>
+<em>] 
+</em>
+<em>| 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>order
+</strong> (
+<em>ndarray
+</em>
+<em> | 
+</em>
+<em>Sequence
+</em>
+<em>[
+</em>
+<em>int
+</em>
+<em>] 
+</em>
+<em>| 
+</em>
+<em>None
+</em>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>vertical_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>horizontal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>diagonal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>configuration
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.LinesGraphConfiguration" title="somegraphspy.scatters.LinesGraphConfiguration">
+<em>LinesGraphConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<a class="reference internal" href="#somegraphspy.scatters.LinesGraph" title="somegraphspy.scatters.LinesGraph">
+<em>LinesGraph
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
+
 </dd>
 </dl>
 
@@ -10566,102 +9634,14 @@ for details.
 <span class="pre">points_xs
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">ndarray
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">Sequence
-</span>
-<span class="p">
-<span class="pre">[
-</span>
-</span>
-<span class="pre">float
-</span>
-<span class="p">
-<span class="pre">]
-</span>
-</span>
-</span>
 </em>, 
 <em class="sig-param">
 <span class="n">
 <span class="pre">points_ys
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">ndarray
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">Sequence
-</span>
-<span class="p">
-<span class="pre">[
-</span>
-</span>
-<span class="pre">float
-</span>
-<span class="p">
-<span class="pre">]
-</span>
-</span>
-</span>
 </em>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<span class="pre">ndarray
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">Sequence
-</span>
-<span class="p">
-<span class="pre">[
-</span>
-</span>
-<span class="pre">float
-</span>
-<span class="p">
-<span class="pre">]
-</span>
-</span>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#points_density">
 <span class="viewcode-link">
@@ -10680,6 +9660,75 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>points_xs
+</strong> (
+<em>ndarray
+</em>
+<em> | 
+</em>
+<em>Sequence
+</em>
+<em>[
+</em>
+<em>float
+</em>
+<em>]
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points_ys
+</strong> (
+<em>ndarray
+</em>
+<em> | 
+</em>
+<em>Sequence
+</em>
+<em>[
+</em>
+<em>float
+</em>
+<em>]
+</em>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<em>ndarray
+</em> | 
+<em>Sequence
+</em>[float]
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>
@@ -10710,45 +9759,9 @@ for details.
 <span class="pre">figure_title
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<span class="pre">str
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="pre">None
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10762,37 +9775,9 @@ for details.
 <span class="pre">x
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10806,37 +9791,9 @@ for details.
 <span class="pre">y
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
-<span class="pre">VectorValuesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10850,37 +9807,9 @@ for details.
 <span class="pre">points
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.PointsData" title="somegraphspy.scatters.PointsData">
-<span class="pre">PointsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10894,37 +9823,9 @@ for details.
 <span class="pre">borders
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.BordersData" title="somegraphspy.scatters.BordersData">
-<span class="pre">BordersData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10938,37 +9839,9 @@ for details.
 <span class="pre">edges
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.EdgesData" title="somegraphspy.scatters.EdgesData">
-<span class="pre">EdgesData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -10982,37 +9855,9 @@ for details.
 <span class="pre">vertical_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -11026,37 +9871,9 @@ for details.
 <span class="pre">horizontal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -11070,37 +9887,25 @@ for details.
 <span class="pre">diagonal_bands
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
-<span class="pre">BandsData
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
 </span>
-<span class="w"> 
+<span class="default_value">
+<span class="pre">&lt;somegraphspy.julia_import.DefaultValue
+</span> 
+<span class="pre">object&gt;
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">selection
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -11114,37 +9919,9 @@ for details.
 <span class="pre">configuration
 </span>
 </span>
-<span class="p">
-<span class="pre">:
-</span>
-</span>
-<span class="w"> 
-</span>
-<span class="n">
-<a class="reference internal" href="#somegraphspy.scatters.PointsGraphConfiguration" title="somegraphspy.scatters.PointsGraphConfiguration">
-<span class="pre">PointsGraphConfiguration
-</span>
-</a>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
-</span>
-</span>
-<span class="w"> 
-</span>
-<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
-<span class="pre">DefaultValue
-</span>
-</a>
-</span>
-<span class="w"> 
-</span>
 <span class="o">
 <span class="pre">=
 </span>
-</span>
-<span class="w"> 
 </span>
 <span class="default_value">
 <span class="pre">&lt;somegraphspy.julia_import.DefaultValue
@@ -11154,16 +9931,6 @@ for details.
 </span>
 </em>
 <span class="sig-paren">)
-</span> 
-<span class="sig-return">
-<span class="sig-return-icon">&#x2192;
-</span> 
-<span class="sig-return-typehint">
-<a class="reference internal" href="#somegraphspy.scatters.PointsGraph" title="somegraphspy.scatters.PointsGraph">
-<span class="pre">PointsGraph
-</span>
-</a>
-</span>
 </span>
 <a class="reference internal" href="_modules/somegraphspy/scatters.html#points_graph">
 <span class="viewcode-link">
@@ -11201,6 +9968,226 @@ for details.
 </a>
 for details.
 </p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>figure_title
+</strong> (
+<em>str
+</em>
+<em> | 
+</em>
+<em>None
+</em>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>x
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>y
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>points
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.PointsData" title="somegraphspy.scatters.PointsData">
+<em>PointsData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>borders
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.BordersData" title="somegraphspy.scatters.BordersData">
+<em>BordersData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>edges
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.EdgesData" title="somegraphspy.scatters.EdgesData">
+<em>EdgesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>vertical_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>horizontal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>diagonal_bands
+</strong> (
+<a class="reference internal" href="common.html#somegraphspy.common.BandsData" title="somegraphspy.common.BandsData">
+<em>BandsData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>selection
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.SelectionData" title="somegraphspy.scatters.SelectionData">
+<em>SelectionData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>configuration
+</strong> (
+<a class="reference internal" href="#somegraphspy.scatters.PointsGraphConfiguration" title="somegraphspy.scatters.PointsGraphConfiguration">
+<em>PointsGraphConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="julia_import.html#somegraphspy.julia_import.DefaultValue" title="somegraphspy.julia_import.DefaultValue">
+<em>DefaultValue
+</em>
+</a>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<a class="reference internal" href="#somegraphspy.scatters.PointsGraph" title="somegraphspy.scatters.PointsGraph">
+<em>PointsGraph
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
 
 </dd>
 </dl>

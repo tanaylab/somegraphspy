@@ -307,6 +307,10 @@ def _to_julia(value: Any) -> Any:  # pylint: disable=too-many-return-statements
             jl.Vector([entry[0] for entry in value]), jl.Vector([entry[1] for entry in value])
         )
 
+    # A tuple of numbers is a Julia tuple (e.g., the limits of a selected box), while a list of numbers is a vector.
+    if isinstance(value, tuple) and len(value) > 0 and all(isinstance(entry, (bool, int, float)) for entry in value):
+        return jl.Tuple(np.array(value))
+
     if isinstance(value, (list, tuple)) and len(value) > 0:
         # A ``PyList{Any}`` is not an ``AbstractVector`` of anything specific, so Julia rejects it for a typed field.
         if all(isinstance(entry, (bool, int, float)) for entry in value):

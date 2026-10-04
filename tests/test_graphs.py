@@ -33,6 +33,24 @@ GRAPHS = {
         ),
         'points_graph(; x = VectorValuesData([1.0, 2.0, 3.0]), y = VectorValuesData([1.0, 4.0, 9.0]), figure_title = "t")',
     ),
+    "points_box": (
+        sg.points_graph(
+            x=sg.VectorValuesData(vector=[1.0, 2.0, 3.0]),
+            y=sg.VectorValuesData(vector=[1.0, 4.0, 9.0]),
+            selection=sg.SelectionData(box=(1.5, 3.0, 2.0, 9.0)),
+        ),
+        "points_graph(; x = VectorValuesData([1.0, 2.0, 3.0]), y = VectorValuesData([1.0, 4.0, 9.0]), "
+        "selection = SelectionData(; box = (1.5, 3.0, 2.0, 9.0)))",
+    ),
+    "points_polygon": (
+        sg.points_graph(
+            x=sg.VectorValuesData(vector=[1.0, 2.0, 3.0]),
+            y=sg.VectorValuesData(vector=[1.0, 4.0, 9.0]),
+            selection=sg.SelectionData(polygon=[(1.0, 0.0), (3.0, 5.0), (2.0, 10.0)]),
+        ),
+        "points_graph(; x = VectorValuesData([1.0, 2.0, 3.0]), y = VectorValuesData([1.0, 4.0, 9.0]), "
+        "selection = SelectionData(; polygon = [(1.0, 0.0), (3.0, 5.0), (2.0, 10.0)]))",
+    ),
     "line": (
         sg.line_graph(x=sg.VectorValuesData(vector=[1.0, 2.0, 3.0]), y=sg.VectorValuesData(vector=[1.0, 4.0, 9.0])),
         "line_graph(; x = VectorValuesData([1.0, 2.0, 3.0]), y = VectorValuesData([1.0, 4.0, 9.0]))",
@@ -281,6 +299,17 @@ def test_points_order() -> None:
     order = graph.data.points.entities.order
     assert order is not None
     assert list(order) == [2, 1]
+
+
+def test_selection_round_trip() -> None:
+    graph = sg.points_graph(x=sg.VectorValuesData(vector=[1.0, 2.0]), y=sg.VectorValuesData(vector=[1.0, 2.0]))
+    graph.data.selection.box = (0.5, 1.5, 0.5, 1.5)
+    graph.validate()
+    assert graph.data.selection.box == (0.5, 1.5, 0.5, 1.5)
+    graph.data.selection.box = None
+    graph.data.selection.polygon = [(0.0, 0.0), (2.0, 0.0), (1.0, 2.0)]
+    graph.validate()
+    assert graph.data.selection.polygon == [(0.0, 0.0), (2.0, 0.0), (1.0, 2.0)]
 
 
 def test_invalid_graph_is_rejected() -> None:

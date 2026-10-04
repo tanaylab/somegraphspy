@@ -148,8 +148,8 @@ register_jl_type("HeatmapOrigin", HeatmapOrigin)
 
 class HeatmapGraphPlacement(JlObject):
     """
-    The computed :py:obj:`SidePlacement` of the rows and of the columns of a heatmap graph, as returned by the graph's
-    ``placement``. See the Julia
+    The computed :py:obj:`~somegraphspy.common.SidePlacement` of the rows and of the columns of a heatmap graph, as
+    returned by the graph's ``placement``. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphPlacement>`__
     for details.
     """
