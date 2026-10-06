@@ -354,6 +354,19 @@ def test_figure_is_a_plotly_figure() -> None:
     assert figure.layout.title.text == "t"
 
 
+def test_palette_order_is_legend_order() -> None:
+    configuration = sg.PointsGraphConfiguration()
+    configuration.points.colors.palette = {"c": "red", "a": "green", "b": "blue"}
+    configuration.points.colors.show_legend = True
+    graph = sg.points_graph(
+        x=sg.VectorValuesData(vector=[1.0, 2.0, 3.0]),
+        y=sg.VectorValuesData(vector=[1.0, 4.0, 9.0]),
+        points=sg.PointsData(colors=sg.VectorValuesData(vector=["a", "b", "c"])),
+        configuration=configuration,
+    )
+    assert [trace.name for trace in graph.figure.data if trace.name in ("a", "b", "c")] == ["c", "a", "b"]
+
+
 def test_repr_mimebundle() -> None:
     graph = sg.points_graph(x=sg.VectorValuesData(vector=[1.0, 2.0]), y=sg.VectorValuesData(vector=[1.0, 2.0]))
     # Outside a notebook ``plotly`` has no renderer set up, so this is empty rather than absent.

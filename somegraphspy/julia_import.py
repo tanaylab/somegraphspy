@@ -147,6 +147,7 @@ jl.seval("""
 
     import SomeGraphs
     import SomeGraphs.Common.Hclust
+    import SomeGraphs.Common.OrderedDict
 
     function pyconvert_rule_jl_object(::Type{T}, x::Py) where {T}
         return PythonCall.pyconvert_return(pyconvert(T, x.jl_obj))
@@ -299,8 +300,9 @@ def _to_julia(value: Any) -> Any:  # pylint: disable=too-many-return-statements
     if isinstance(value, (list, tuple)) and len(value) > 0 and all(isinstance(entry, str) for entry in value):
         return jl.Vector(np.array(value, dtype=str))
 
+    # Ordered, since the order of a palette is the order of its legend.
     if isinstance(value, Mapping):
-        return jl.Dict(jl.Vector([jl.Pair(key, _to_julia(entry)) for key, entry in value.items()]))
+        return jl.SomeGraphsPy.OrderedDict(jl.Vector([jl.Pair(key, _to_julia(entry)) for key, entry in value.items()]))
 
     if isinstance(value, (list, tuple)) and len(value) > 0 and all(_is_pair(entry) for entry in value):
         return jl.SomeGraphsPy._tuples_vector(

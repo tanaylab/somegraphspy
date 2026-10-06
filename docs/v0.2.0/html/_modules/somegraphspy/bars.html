@@ -71,10 +71,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for somegraphspy.bars</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Graphs showing bars. See the Julia</span>
 <span class="sd">`documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html&gt;`__ for details.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
@@ -109,27 +109,27 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">PartFields</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;BarsConfiguration&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;BarsGraph&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;BarsGraphConfiguration&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;BarsGraphData&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SeriesBarsGraph&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SeriesBarsGraphConfiguration&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SeriesBarsGraphData&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SeriesData&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bars_graph&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;series_bars_graph&quot;</span><span class="p">,</span>
+    <span class="s2">"BarsConfiguration"</span><span class="p">,</span>
+    <span class="s2">"BarsGraph"</span><span class="p">,</span>
+    <span class="s2">"BarsGraphConfiguration"</span><span class="p">,</span>
+    <span class="s2">"BarsGraphData"</span><span class="p">,</span>
+    <span class="s2">"SeriesBarsGraph"</span><span class="p">,</span>
+    <span class="s2">"SeriesBarsGraphConfiguration"</span><span class="p">,</span>
+    <span class="s2">"SeriesBarsGraphData"</span><span class="p">,</span>
+    <span class="s2">"SeriesData"</span><span class="p">,</span>
+    <span class="s2">"bars_graph"</span><span class="p">,</span>
+    <span class="s2">"series_bars_graph"</span><span class="p">,</span>
 <span class="p">]</span>
 
 
 <div class="viewcode-block" id="BarsConfiguration">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsConfiguration">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BarsConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Configure the bars of a bars graph. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html#SomeGraphs.Bars.BarsConfiguration&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: The gap between the bars, as a fraction of the total graph size.</span>
     <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span>
@@ -139,17 +139,17 @@
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;BarsConfiguration&quot;</span><span class="p">,</span> <span class="n">BarsConfiguration</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"BarsConfiguration"</span><span class="p">,</span> <span class="n">BarsConfiguration</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="BarsGraphConfiguration">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraphConfiguration">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BarsGraphConfiguration</span><span class="p">(</span><span class="n">AbstractGraphConfiguration</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Configure a graph showing a single series of bars. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html#SomeGraphs.Bars.BarsGraphConfiguration&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: How to size the overall figure.</span>
     <span class="n">figure</span><span class="p">:</span> <span class="n">FigureConfiguration</span>
@@ -197,17 +197,17 @@
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;BarsGraphConfiguration&quot;</span><span class="p">,</span> <span class="n">BarsGraphConfiguration</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"BarsGraphConfiguration"</span><span class="p">,</span> <span class="n">BarsGraphConfiguration</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="BarsGraphData">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraphData">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BarsGraphData</span><span class="p">(</span><span class="n">AbstractGraphData</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The data of a graph showing a single series of bars. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html#SomeGraphs.Bars.BarsGraphData&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: The title of the figure.</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
@@ -251,17 +251,17 @@
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;BarsGraphData&quot;</span><span class="p">,</span> <span class="n">BarsGraphData</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"BarsGraphData"</span><span class="p">,</span> <span class="n">BarsGraphData</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="BarsGraph">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraph">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BarsGraph</span><span class="p">(</span><span class="n">Graph</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A graph visualizing a single series of bars. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html#SomeGraphs.Bars.BarsGraph&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: What to display.</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">BarsGraphData</span>
@@ -279,46 +279,46 @@
 <div class="viewcode-block" id="BarsGraph.values_axis_vector_fields">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraph.values_axis_vector_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">values_axis_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxisVectorFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The data source view of the values of the bars, along the ``value_axis``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">values_axis_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="BarsGraph.colors_vector_fields">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraph.colors_vector_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsVectorFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The data source view of the colors of the bars.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="BarsGraph.annotations_colors_vector_fields">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraph.annotations_colors_vector_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">annotations_colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsVectorFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The data source view of the (1-based) ``index`` annotation of the bars, which shares the entities of the bars.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">annotations_colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="BarsGraph.bars_entities">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraph.bars_entities">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">bars_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorEntitiesData</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The entities of the bars, shared by all their roles.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">bars_entities</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="BarsGraph.add_annotation">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraph.add_annotation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append an ``annotation`` of the bars (by default, an empty one) and return its (1-based) index, for</span>
 <span class="sd">        :py:obj:`annotations_colors_vector_fields`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_annotation_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">_optional_jl_obj</span><span class="p">(</span><span class="n">annotation</span><span class="p">)))</span></div>
 </div>
 
@@ -337,12 +337,12 @@
     <span class="n">value_bands</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BandsData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BarsGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BarsGraph</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Create a :py:obj:`BarsGraph` by specifying only the :py:obj:`BarsGraphData` fields (with an optional</span>
 <span class="sd">    :py:obj:`BarsGraphConfiguration`). See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html#SomeGraphs.Bars.bars_graph&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">BarsGraph</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">BarsGraphData</span><span class="p">(</span>
             <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>
@@ -361,11 +361,11 @@
 <div class="viewcode-block" id="SeriesBarsGraphConfiguration">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraphConfiguration">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SeriesBarsGraphConfiguration</span><span class="p">(</span><span class="n">AbstractGraphConfiguration</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Configure a graph showing multiple series of bars. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html#SomeGraphs.Bars.SeriesBarsGraphConfiguration&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: How to size the overall figure.</span>
     <span class="n">figure</span><span class="p">:</span> <span class="n">FigureConfiguration</span>
@@ -417,17 +417,17 @@
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;SeriesBarsGraphConfiguration&quot;</span><span class="p">,</span> <span class="n">SeriesBarsGraphConfiguration</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"SeriesBarsGraphConfiguration"</span><span class="p">,</span> <span class="n">SeriesBarsGraphConfiguration</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SeriesData">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesData">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SeriesData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    One series of a :py:obj:`SeriesBarsGraphData`. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html#SomeGraphs.Bars.SeriesData&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: The value of each bar of the series; their title is the value axis title shared by all the series.</span>
     <span class="n">values</span><span class="p">:</span> <span class="n">VectorValuesData</span>
@@ -460,17 +460,17 @@
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;SeriesData&quot;</span><span class="p">,</span> <span class="n">SeriesData</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"SeriesData"</span><span class="p">,</span> <span class="n">SeriesData</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SeriesBarsGraphData">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraphData">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SeriesBarsGraphData</span><span class="p">(</span><span class="n">AbstractGraphData</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The data of a graph showing multiple series of bars. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html#SomeGraphs.Bars.SeriesBarsGraphData&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: The title of the figure.</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
@@ -510,17 +510,17 @@
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;SeriesBarsGraphData&quot;</span><span class="p">,</span> <span class="n">SeriesBarsGraphData</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"SeriesBarsGraphData"</span><span class="p">,</span> <span class="n">SeriesBarsGraphData</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SeriesBarsGraph">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SeriesBarsGraph</span><span class="p">(</span><span class="n">Graph</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A graph visualizing multiple series of bars. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html#SomeGraphs.Bars.SeriesBarsGraph&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: What to display.</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">SeriesBarsGraphData</span>
@@ -538,50 +538,50 @@
 <div class="viewcode-block" id="SeriesBarsGraph.series_part_fields">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph.series_part_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">series_part_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The data source view of the (1-based) ``index`` series of bars. Its ``values`` are along the (shared)</span>
 <span class="sd">        ``value_axis``, and its entities are the bars of the series alone.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">series_part_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="SeriesBarsGraph.annotations_colors_vector_fields">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph.annotations_colors_vector_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">annotations_colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsVectorFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The data source view of the (1-based) ``index`` annotation of the bars, which shares the entities of the bars</span>
 <span class="sd">        (the ones shared by all the series).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">annotations_colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="SeriesBarsGraph.bars_entities">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph.bars_entities">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">bars_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorEntitiesData</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The entities of the bars shared by all the series. For the bars of one series, use the ``entities`` of its</span>
 <span class="sd">        :py:obj:`series_part_fields`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">bars_entities</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="SeriesBarsGraph.add_series">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph.add_series">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">series</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SeriesData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append a ``series`` of bars (by default, an empty one) and return its view. Whatever the series leaves at its</span>
 <span class="sd">        defaults can be set later, through the view or directly.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_series_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">_optional_jl_obj</span><span class="p">(</span><span class="n">series</span><span class="p">)))</span></div>
 
 
 <div class="viewcode-block" id="SeriesBarsGraph.add_annotation">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph.add_annotation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append an ``annotation`` of the bars (by default, an empty one) and return its (1-based) index, for</span>
 <span class="sd">        :py:obj:`annotations_colors_vector_fields`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_annotation_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">_optional_jl_obj</span><span class="p">(</span><span class="n">annotation</span><span class="p">)))</span></div>
 </div>
 
@@ -599,12 +599,12 @@
     <span class="n">annotations_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">IntegersVector</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SeriesBarsGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SeriesBarsGraph</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Create a :py:obj:`SeriesBarsGraph` by specifying only the :py:obj:`SeriesBarsGraphData` fields (with an optional</span>
 <span class="sd">    :py:obj:`SeriesBarsGraphConfiguration`). See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/bars.html#SomeGraphs.Bars.series_bars_graph&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">SeriesBarsGraph</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">SeriesBarsGraphData</span><span class="p">(</span>
             <span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span>

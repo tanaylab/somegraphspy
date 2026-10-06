@@ -71,10 +71,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for somegraphspy.heatmaps</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Graphs showing a matrix of values as a heatmap. See the Julia</span>
 <span class="sd">`documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html&gt;`__ for details.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="c1"># The enum values are named exactly as they are in Julia, so they are not UPPER_CASE.</span>
 <span class="c1"># pylint: disable=invalid-name</span>
@@ -114,132 +114,132 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorDataFields</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;EntriesConfiguration&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;HeatmapGraph&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;HeatmapGraphConfiguration&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;HeatmapGraphData&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;HeatmapGraphPlacement&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;HeatmapLinkage&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;HeatmapOrigin&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;HeatmapSideConfiguration&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;HeatmapSideData&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;OrderSource&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TreeSource&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;heatmap_graph&quot;</span><span class="p">,</span>
+    <span class="s2">"EntriesConfiguration"</span><span class="p">,</span>
+    <span class="s2">"HeatmapGraph"</span><span class="p">,</span>
+    <span class="s2">"HeatmapGraphConfiguration"</span><span class="p">,</span>
+    <span class="s2">"HeatmapGraphData"</span><span class="p">,</span>
+    <span class="s2">"HeatmapGraphPlacement"</span><span class="p">,</span>
+    <span class="s2">"HeatmapLinkage"</span><span class="p">,</span>
+    <span class="s2">"HeatmapOrigin"</span><span class="p">,</span>
+    <span class="s2">"HeatmapSideConfiguration"</span><span class="p">,</span>
+    <span class="s2">"HeatmapSideData"</span><span class="p">,</span>
+    <span class="s2">"OrderSource"</span><span class="p">,</span>
+    <span class="s2">"TreeSource"</span><span class="p">,</span>
+    <span class="s2">"heatmap_graph"</span><span class="p">,</span>
 <span class="p">]</span>
 
 
 <div class="viewcode-block" id="TreeSource">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.TreeSource">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TreeSource</span><span class="p">(</span><span class="n">JlEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Where the tree of a heatmap side comes from. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.TreeSource&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: The ``hclust`` of the arrangement.</span>
-    <span class="n">GivenTree</span> <span class="o">=</span> <span class="s2">&quot;GivenTree&quot;</span>
+    <span class="n">GivenTree</span> <span class="o">=</span> <span class="s2">"GivenTree"</span>
     <span class="c1">#: Cluster the data.</span>
-    <span class="n">ClusteredTree</span> <span class="o">=</span> <span class="s2">&quot;ClusteredTree&quot;</span>
+    <span class="n">ClusteredTree</span> <span class="o">=</span> <span class="s2">"ClusteredTree"</span>
     <span class="c1">#: Build a tree around the target order, so its leaves are exactly that order.</span>
-    <span class="n">OrderTree</span> <span class="o">=</span> <span class="s2">&quot;OrderTree&quot;</span>
+    <span class="n">OrderTree</span> <span class="o">=</span> <span class="s2">"OrderTree"</span>
     <span class="c1">#: The tree of the other side.</span>
-    <span class="n">SameTree</span> <span class="o">=</span> <span class="s2">&quot;SameTree&quot;</span></div>
+    <span class="n">SameTree</span> <span class="o">=</span> <span class="s2">"SameTree"</span></div>
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;TreeSource&quot;</span><span class="p">,</span> <span class="n">TreeSource</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"TreeSource"</span><span class="p">,</span> <span class="n">TreeSource</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="OrderSource">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.OrderSource">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">OrderSource</span><span class="p">(</span><span class="n">JlEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Where the order of a heatmap side comes from. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.OrderSource&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: The leaves of the given tree, as they are.</span>
-    <span class="n">GivenTreeOrder</span> <span class="o">=</span> <span class="s2">&quot;GivenTreeOrder&quot;</span>
+    <span class="n">GivenTreeOrder</span> <span class="o">=</span> <span class="s2">"GivenTreeOrder"</span>
     <span class="c1">#: The leaves of the tree after reordering its branches using the (better) Bar-Joseph method.</span>
-    <span class="n">OptimalTreeReorder</span> <span class="o">=</span> <span class="s2">&quot;OptimalTreeReorder&quot;</span>
+    <span class="n">OptimalTreeReorder</span> <span class="o">=</span> <span class="s2">"OptimalTreeReorder"</span>
     <span class="c1">#: The leaves of the tree after reordering its branches in the same (bad) way that R does.</span>
-    <span class="n">RCompatibleTreeReorder</span> <span class="o">=</span> <span class="s2">&quot;RCompatibleTreeReorder&quot;</span>
+    <span class="n">RCompatibleTreeReorder</span> <span class="o">=</span> <span class="s2">"RCompatibleTreeReorder"</span>
     <span class="c1">#: The ``order`` of the entities.</span>
-    <span class="n">GivenOrder</span> <span class="o">=</span> <span class="s2">&quot;GivenOrder&quot;</span>
+    <span class="n">GivenOrder</span> <span class="o">=</span> <span class="s2">"GivenOrder"</span>
     <span class="c1">#: The entries as they are.</span>
-    <span class="n">EntryOrder</span> <span class="o">=</span> <span class="s2">&quot;EntryOrder&quot;</span>
+    <span class="n">EntryOrder</span> <span class="o">=</span> <span class="s2">"EntryOrder"</span>
     <span class="c1">#: Slant the data.</span>
-    <span class="n">SlantedOrder</span> <span class="o">=</span> <span class="s2">&quot;SlantedOrder&quot;</span>
+    <span class="n">SlantedOrder</span> <span class="o">=</span> <span class="s2">"SlantedOrder"</span>
     <span class="c1">#: Slant the pre-squared data.</span>
-    <span class="n">SlantedPreSquaredOrder</span> <span class="o">=</span> <span class="s2">&quot;SlantedPreSquaredOrder&quot;</span>
+    <span class="n">SlantedPreSquaredOrder</span> <span class="o">=</span> <span class="s2">"SlantedPreSquaredOrder"</span>
     <span class="c1">#: The order of the other side.</span>
-    <span class="n">SameOrder</span> <span class="o">=</span> <span class="s2">&quot;SameOrder&quot;</span></div>
+    <span class="n">SameOrder</span> <span class="o">=</span> <span class="s2">"SameOrder"</span></div>
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;OrderSource&quot;</span><span class="p">,</span> <span class="n">OrderSource</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"OrderSource"</span><span class="p">,</span> <span class="n">OrderSource</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="HeatmapLinkage">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapLinkage">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HeatmapLinkage</span><span class="p">(</span><span class="n">JlEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The linkage used when clustering the rows or columns of a heatmap. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapLinkage&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: Use the minimal distance between the clusters.</span>
-    <span class="n">SingleLinkage</span> <span class="o">=</span> <span class="s2">&quot;SingleLinkage&quot;</span>
+    <span class="n">SingleLinkage</span> <span class="o">=</span> <span class="s2">"SingleLinkage"</span>
     <span class="c1">#: Use the average distance between the clusters.</span>
-    <span class="n">AverageLinkage</span> <span class="o">=</span> <span class="s2">&quot;AverageLinkage&quot;</span>
+    <span class="n">AverageLinkage</span> <span class="o">=</span> <span class="s2">"AverageLinkage"</span>
     <span class="c1">#: Use the maximal distance between the clusters.</span>
-    <span class="n">CompleteLinkage</span> <span class="o">=</span> <span class="s2">&quot;CompleteLinkage&quot;</span>
-    <span class="c1">#: Use Ward&#39;s minimal variance.</span>
-    <span class="n">WardLinkage</span> <span class="o">=</span> <span class="s2">&quot;WardLinkage&quot;</span>
-    <span class="c1">#: Use Ward&#39;s minimal variance on the pre-squared data.</span>
-    <span class="n">WardPreSquaredLinkage</span> <span class="o">=</span> <span class="s2">&quot;WardPreSquaredLinkage&quot;</span></div>
+    <span class="n">CompleteLinkage</span> <span class="o">=</span> <span class="s2">"CompleteLinkage"</span>
+    <span class="c1">#: Use Ward's minimal variance.</span>
+    <span class="n">WardLinkage</span> <span class="o">=</span> <span class="s2">"WardLinkage"</span>
+    <span class="c1">#: Use Ward's minimal variance on the pre-squared data.</span>
+    <span class="n">WardPreSquaredLinkage</span> <span class="o">=</span> <span class="s2">"WardPreSquaredLinkage"</span></div>
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapLinkage&quot;</span><span class="p">,</span> <span class="n">HeatmapLinkage</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"HeatmapLinkage"</span><span class="p">,</span> <span class="n">HeatmapLinkage</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="HeatmapOrigin">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapOrigin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HeatmapOrigin</span><span class="p">(</span><span class="n">JlEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Where the first entry of the heatmap matrix is shown. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapOrigin&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: Show the first entry at the top left.</span>
-    <span class="n">HeatmapTopLeft</span> <span class="o">=</span> <span class="s2">&quot;HeatmapTopLeft&quot;</span>
+    <span class="n">HeatmapTopLeft</span> <span class="o">=</span> <span class="s2">"HeatmapTopLeft"</span>
     <span class="c1">#: Show the first entry at the top right.</span>
-    <span class="n">HeatmapTopRight</span> <span class="o">=</span> <span class="s2">&quot;HeatmapTopRight&quot;</span>
+    <span class="n">HeatmapTopRight</span> <span class="o">=</span> <span class="s2">"HeatmapTopRight"</span>
     <span class="c1">#: Show the first entry at the bottom left.</span>
-    <span class="n">HeatmapBottomLeft</span> <span class="o">=</span> <span class="s2">&quot;HeatmapBottomLeft&quot;</span>
+    <span class="n">HeatmapBottomLeft</span> <span class="o">=</span> <span class="s2">"HeatmapBottomLeft"</span>
     <span class="c1">#: Show the first entry at the bottom right.</span>
-    <span class="n">HeatmapBottomRight</span> <span class="o">=</span> <span class="s2">&quot;HeatmapBottomRight&quot;</span></div>
+    <span class="n">HeatmapBottomRight</span> <span class="o">=</span> <span class="s2">"HeatmapBottomRight"</span></div>
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapOrigin&quot;</span><span class="p">,</span> <span class="n">HeatmapOrigin</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"HeatmapOrigin"</span><span class="p">,</span> <span class="n">HeatmapOrigin</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="HeatmapGraphPlacement">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraphPlacement">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HeatmapGraphPlacement</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The computed :py:obj:`~somegraphspy.common.SidePlacement` of the rows and of the columns of a heatmap graph, as</span>
-<span class="sd">    returned by the graph&#39;s ``placement``. See the Julia</span>
+<span class="sd">    returned by the graph's ``placement``. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphPlacement&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: The placement of the rows.</span>
     <span class="n">rows</span><span class="p">:</span> <span class="n">SidePlacement</span>
@@ -248,17 +248,17 @@
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapGraphPlacement&quot;</span><span class="p">,</span> <span class="n">HeatmapGraphPlacement</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"HeatmapGraphPlacement"</span><span class="p">,</span> <span class="n">HeatmapGraphPlacement</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="EntriesConfiguration">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.EntriesConfiguration">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EntriesConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Configure the entries of a heatmap. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.EntriesConfiguration&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: How to color the entries (only continuous palettes are supported).</span>
     <span class="n">colors</span><span class="p">:</span> <span class="n">ColorsConfiguration</span>
@@ -268,13 +268,13 @@
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;EntriesConfiguration&quot;</span><span class="p">,</span> <span class="n">EntriesConfiguration</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"EntriesConfiguration"</span><span class="p">,</span> <span class="n">EntriesConfiguration</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="HeatmapSideConfiguration">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapSideConfiguration">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HeatmapSideConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Configure one side (the rows or the columns) of a heatmap. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapSideConfiguration&gt;`__</span>
 <span class="sd">    for details.</span>
@@ -283,7 +283,7 @@
 <span class="sd">    level specified by numbers is laid out in the order of these numbers, and a level specified by names is laid out by</span>
 <span class="sd">    the clustering. The ``subgroups_gap`` defaults to ``None`` because the usual reason to specify subgroups is to</span>
 <span class="sd">    constrain the clustering rather than to show gaps.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: The title of the axis.</span>
     <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
@@ -355,17 +355,17 @@
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapSideConfiguration&quot;</span><span class="p">,</span> <span class="n">HeatmapSideConfiguration</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"HeatmapSideConfiguration"</span><span class="p">,</span> <span class="n">HeatmapSideConfiguration</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="HeatmapGraphConfiguration">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraphConfiguration">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HeatmapGraphConfiguration</span><span class="p">(</span><span class="n">AbstractGraphConfiguration</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Configure a graph showing a matrix of values as a heatmap. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphConfiguration&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: How to size the overall figure.</span>
     <span class="n">figure</span><span class="p">:</span> <span class="n">FigureConfiguration</span>
@@ -377,8 +377,8 @@
     <span class="n">columns</span><span class="p">:</span> <span class="n">HeatmapSideConfiguration</span>
     <span class="c1">#: Where the first entry of the matrix is shown.</span>
     <span class="n">origin</span><span class="p">:</span> <span class="n">HeatmapOrigin</span>
-    <span class="c1">#: Caches the computed placement of the rows and the columns; access it through the graph&#39;s ``placement``, and</span>
-    <span class="c1">#: reset it with the graph&#39;s ``reset_placement`` if anything it was computed from is changed after it was computed.</span>
+    <span class="c1">#: Caches the computed placement of the rows and the columns; access it through the graph's ``placement``, and</span>
+    <span class="c1">#: reset it with the graph's ``reset_placement`` if anything it was computed from is changed after it was computed.</span>
     <span class="n">final_placement</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HeatmapGraphPlacement</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -406,17 +406,17 @@
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapGraphConfiguration&quot;</span><span class="p">,</span> <span class="n">HeatmapGraphConfiguration</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"HeatmapGraphConfiguration"</span><span class="p">,</span> <span class="n">HeatmapGraphConfiguration</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="HeatmapSideData">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapSideData">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HeatmapSideData</span><span class="p">(</span><span class="n">JlObject</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The data of one side (the rows or the columns) of a :py:obj:`HeatmapGraphData`. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapSideData&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: The names (shown as the tick labels), hovers, mask and order of the entries.</span>
     <span class="n">entities</span><span class="p">:</span> <span class="n">VectorEntitiesData</span>
@@ -448,17 +448,17 @@
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapSideData&quot;</span><span class="p">,</span> <span class="n">HeatmapSideData</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"HeatmapSideData"</span><span class="p">,</span> <span class="n">HeatmapSideData</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="HeatmapGraphData">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraphData">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HeatmapGraphData</span><span class="p">(</span><span class="n">AbstractGraphData</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The data of a graph showing a matrix of values as a heatmap. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraphData&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: The title of the figure.</span>
     <span class="n">figure_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
@@ -488,17 +488,17 @@
 
 
 
-<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">&quot;HeatmapGraphData&quot;</span><span class="p">,</span> <span class="n">HeatmapGraphData</span><span class="p">)</span>
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"HeatmapGraphData"</span><span class="p">,</span> <span class="n">HeatmapGraphData</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="HeatmapGraph">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HeatmapGraph</span><span class="p">(</span><span class="n">Graph</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A graph visualizing a matrix of values as a heatmap. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.HeatmapGraph&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: What to display.</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">HeatmapGraphData</span>
@@ -515,7 +515,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">placement</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HeatmapGraphPlacement</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The final order of the rows and the columns, and the trees they were placed by, without rendering the graph.</span>
 <span class="sd">        See the Julia</span>
 <span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.heatmap_placement&gt;`__</span>
@@ -533,157 +533,157 @@
 <span class="sd">            ``entries.values``, the ``order`` of the sides entities and their ``arrangement``. The groups are easy to</span>
 <span class="sd">            forget: they constrain the clustering, so saving the same graph twice, grouped differently each time,</span>
 <span class="sd">            silently reuses the placement of the first grouping unless the cache is reset in between.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">heatmap_placement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span>
 
 <div class="viewcode-block" id="HeatmapGraph.reset_placement">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.reset_placement">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset_placement</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Forget the cached :py:obj:`HeatmapGraphPlacement`, so that asking for the graph&#39;s :py:obj:`placement` (or</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Forget the cached :py:obj:`HeatmapGraphPlacement`, so that asking for the graph's :py:obj:`placement` (or</span>
 <span class="sd">        showing it) will compute it again. Call this after changing anything the placement was computed from. See the</span>
 <span class="sd">        Julia</span>
 <span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.reset_placement!&gt;`__</span>
 <span class="sd">        for details.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">reset_placement_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.entries_matrix_fields">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.entries_matrix_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">entries_matrix_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The data source view of the entries of the heatmap, colored by the ``entries.colors``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">entries_matrix_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.rows_groups_vector_data_fields">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_groups_vector_data_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rows_groups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The data source view of the groups of the rows.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_groups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.rows_subgroups_vector_data_fields">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_subgroups_vector_data_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rows_subgroups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The data source view of the subgroups of the rows.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_subgroups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.columns_groups_vector_data_fields">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_groups_vector_data_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">columns_groups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The data source view of the groups of the columns.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_groups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.columns_subgroups_vector_data_fields">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_subgroups_vector_data_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">columns_subgroups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorDataFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The data source view of the subgroups of the columns.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_subgroups_vector_data_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.rows_annotations_colors_vector_fields">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_annotations_colors_vector_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rows_annotations_colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsVectorFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The data source view of the (1-based) ``index`` annotation of the rows, which shares the entities of the rows.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_annotations_colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.columns_annotations_colors_vector_fields">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_annotations_colors_vector_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">columns_annotations_colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ColorsVectorFields</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The data source view of the (1-based) ``index`` annotation of the columns, which shares the entities of the</span>
 <span class="sd">        columns.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_annotations_colors_vector_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.rows_entities">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_entities">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rows_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorEntitiesData</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The entities of the rows, shared by all their roles.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_entities</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.columns_entities">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_entities">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">columns_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorEntitiesData</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The entities of the columns, shared by all their roles.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_entities</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.rows_arrangement">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_arrangement">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rows_arrangement</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrangementData</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The arrangement of the rows.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_arrangement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.columns_arrangement">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_arrangement">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">columns_arrangement</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrangementData</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The arrangement of the columns.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_arrangement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.rows_side">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.rows_side">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rows_side</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HeatmapSide</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The rows side: its data, configuration and placement.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">rows_side</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.columns_side">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.columns_side">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">columns_side</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HeatmapSide</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The columns side: its data, configuration and placement.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">columns_side</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.add_rows_annotation">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.add_rows_annotation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_rows_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append an ``annotation`` of the rows (by default, an empty one) and return its (1-based) index, for</span>
 <span class="sd">        :py:obj:`rows_annotations_colors_vector_fields`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_rows_annotation_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">_optional_jl_obj</span><span class="p">(</span><span class="n">annotation</span><span class="p">)))</span></div>
 
 
 <div class="viewcode-block" id="HeatmapGraph.add_columns_annotation">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.add_columns_annotation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_columns_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append an ``annotation`` of the columns (by default, an empty one) and return its (1-based) index, for</span>
 <span class="sd">        :py:obj:`columns_annotations_colors_vector_fields`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_columns_annotation_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">_optional_jl_obj</span><span class="p">(</span><span class="n">annotation</span><span class="p">)))</span></div>
 </div>
 
@@ -700,12 +700,12 @@
     <span class="n">columns</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapSideData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapGraphConfiguration</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HeatmapGraph</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Create a :py:obj:`HeatmapGraph` by specifying only the :py:obj:`HeatmapGraphData` fields (with an optional</span>
 <span class="sd">    :py:obj:`HeatmapGraphConfiguration`). See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/heatmaps.html#SomeGraphs.Heatmaps.heatmap_graph&gt;`__</span>
 <span class="sd">    for details.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">HeatmapGraph</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">HeatmapGraphData</span><span class="p">(</span><span class="n">figure_title</span><span class="o">=</span><span class="n">figure_title</span><span class="p">,</span> <span class="n">entries</span><span class="o">=</span><span class="n">entries</span><span class="p">,</span> <span class="n">cells</span><span class="o">=</span><span class="n">cells</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">),</span>
         <span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">,</span>
