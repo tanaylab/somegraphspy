@@ -831,6 +831,9 @@ class AbstractGraphConfiguration(Validated):
     for details.
     """
 
+    #: The configuration of the whole figure, which every graph has.
+    figure: FigureConfiguration
+
 
 class AbstractGraphData(Validated):
     """
@@ -838,6 +841,9 @@ class AbstractGraphData(Validated):
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.AbstractGraphData>`__
     for details.
     """
+
+    #: The title of the whole figure, which every graph has.
+    figure_title: Optional[str]
 
 
 class Graph(Validated):
