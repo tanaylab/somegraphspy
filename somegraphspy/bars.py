@@ -28,6 +28,7 @@ from .julia_import import DefaultValue
 from .julia_import import JlObject
 from .julia_import import _from_julia
 from .julia_import import _given
+from .julia_import import _graph_type_name
 from .julia_import import _optional_jl_obj
 from .julia_import import jl
 from .julia_import import register_jl_type
@@ -222,6 +223,9 @@ class BarsGraph(Graph):
         :py:obj:`annotations_colors_vector_fields`.
         """
         return int(jl.SomeGraphs.add_annotation_b(self.jl_obj, *_optional_jl_obj(annotation)))
+
+
+register_jl_type(_graph_type_name("BarsGraphData"), BarsGraph)
 
 
 def bars_graph(
@@ -455,6 +459,9 @@ class SeriesBarsGraph(Graph):
         :py:obj:`annotations_colors_vector_fields`.
         """
         return int(jl.SomeGraphs.add_annotation_b(self.jl_obj, *_optional_jl_obj(annotation)))
+
+
+register_jl_type(_graph_type_name("SeriesBarsGraphData"), SeriesBarsGraph)
 
 
 def series_bars_graph(

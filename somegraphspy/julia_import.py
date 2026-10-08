@@ -188,6 +188,10 @@ jl.seval("""
         return SomeGraphs.visit_configuration_sinks(sink -> (visitor(sink); nothing), sinks)
     end
 
+    function _visit_graph_parts(visitor::Py, target::Any)::Nothing
+        return SomeGraphs.visit_graph_parts(part -> (visitor(part); nothing), target)
+    end
+
     # A tree from a SciPy linkage matrix. Each row of it is a merge, ``[left, right, height, count]``. Its node indices
     # are 0-based, with the leaves first and each merge numbered after them. The matrix does not say which linkage
     # built the tree, so that is ``:unknown``.
@@ -326,11 +330,25 @@ def _is_pair(value: Any) -> bool:
     return isinstance(value, tuple) and len(value) == 2
 
 
+def _julia_type_name(value: Any) -> str:
+    # The name the type of a Julia value is registered under. Every graph is of the type ``Graph``, so a graph is named
+    # by the type of its data instead (see ``_graph_type_name``).
+    type_name = str(jl.nameof(jl.typeof(value)))
+    if type_name == "Graph":
+        type_name = _graph_type_name(str(jl.nameof(jl.typeof(value.data))))
+    return type_name
+
+
+def _graph_type_name(data_type_name: str) -> str:
+    # The name a graph whose data is of the type ``data_type_name`` is registered under, e.g. ``Graph{PointsGraphData}``.
+    return f"Graph{{{data_type_name}}}"
+
+
 def _from_julia(value: Any) -> Any:  # pylint: disable=too-many-return-statements
     if not isinstance(value, AnyValue):
         return value
 
-    python_class = PYTHON_CLASS_OF_JULIA_TYPE.get(str(jl.nameof(jl.typeof(value))))
+    python_class = PYTHON_CLASS_OF_JULIA_TYPE.get(_julia_type_name(value))
     if python_class is not None:
         if issubclass(python_class, JlEnum):
             return python_class(str(jl.string(value)))

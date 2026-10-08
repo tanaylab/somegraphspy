@@ -161,6 +161,7 @@
     <span class="s2">"put_vector_tree_data"</span><span class="p">,</span>
     <span class="s2">"visit_configuration_sinks"</span><span class="p">,</span>
     <span class="s2">"visit_data_sinks"</span><span class="p">,</span>
+    <span class="s2">"visit_graph_parts"</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -503,12 +504,26 @@
 <span class="n">MatrixDataSinks</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnyContainer</span><span class="p">,</span> <span class="n">ConfigurationLeaf</span><span class="p">,</span> <span class="n">MatrixDataLeaf</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnySink</span><span class="p">]]</span>
 
 
+<div class="viewcode-block" id="visit_graph_parts">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.visit_graph_parts">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">visit_graph_parts</span><span class="p">(</span><span class="n">visitor</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span> <span class="n">target</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sinks</span><span class="p">,</span> <span class="n">Graph</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Call the ``visitor`` on every struct the ``target`` reaches: a whole graph, or some sinks, once each. The walk doesn't</span>
+<span class="sd">    go into a leaf, the struct of a role (such as an ``AxisConfiguration``), which the ``visitor`` handles whole. See the</span>
+<span class="sd">    Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Common.visit_graph_parts&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    """</span>
+    <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphsPy</span><span class="o">.</span><span class="n">_visit_graph_parts</span><span class="p">(</span><span class="k">lambda</span> <span class="n">part</span><span class="p">:</span> <span class="n">visitor</span><span class="p">(</span><span class="n">_from_julia</span><span class="p">(</span><span class="n">part</span><span class="p">)),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">target</span><span class="p">))</span></div>
+
+
+
 <div class="viewcode-block" id="visit_data_sinks">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.visit_data_sinks">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">visit_data_sinks</span><span class="p">(</span><span class="n">visitor</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span> <span class="n">sinks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sinks</span><span class="p">,</span> <span class="n">Graph</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">visit_data_sinks</span><span class="p">(</span><span class="n">visitor</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span> <span class="n">sinks</span><span class="p">:</span> <span class="n">Sinks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Call the ``visitor`` on each data struct among the ``sinks`` (and inside the views among them), once each. Given a</span>
-<span class="sd">    whole graph, call it on each data struct of the graph. See the Julia</span>
+<span class="sd">    Call the ``visitor`` on each data struct among the ``sinks`` (and inside the views among them), once each. See the</span>
+<span class="sd">    Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.visit_data_sinks&gt;`__</span>
 <span class="sd">    for details.</span>
 <span class="sd">    """</span>
@@ -518,11 +533,10 @@
 
 <div class="viewcode-block" id="visit_configuration_sinks">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.visit_configuration_sinks">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">visit_configuration_sinks</span><span class="p">(</span><span class="n">visitor</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span> <span class="n">sinks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sinks</span><span class="p">,</span> <span class="n">Graph</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">visit_configuration_sinks</span><span class="p">(</span><span class="n">visitor</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span> <span class="n">sinks</span><span class="p">:</span> <span class="n">Sinks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Call the ``visitor`` on each configuration struct among the ``sinks`` (and inside the views among them), once each.</span>
-<span class="sd">    Given a whole graph, call it on each configuration struct of the graph, including those held in its data (e.g. the</span>
-<span class="sd">    colors of its annotations). See the Julia</span>
+<span class="sd">    See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.visit_configuration_sinks&gt;`__</span>
 <span class="sd">    for details.</span>
 <span class="sd">    """</span>

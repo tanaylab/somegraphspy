@@ -88,6 +88,7 @@ __all__ = [
     "put_vector_tree_data",
     "visit_configuration_sinks",
     "visit_data_sinks",
+    "visit_graph_parts",
 ]
 
 
@@ -391,21 +392,31 @@ VectorDataSinks = Union[AnyContainer, ConfigurationLeaf, VectorDataLeaf, Sequenc
 MatrixDataSinks = Union[AnyContainer, ConfigurationLeaf, MatrixDataLeaf, Sequence[AnySink]]
 
 
-def visit_data_sinks(visitor: Callable[[Any], None], sinks: Union[Sinks, Graph]) -> None:
+def visit_graph_parts(visitor: Callable[[Any], None], target: Union[Sinks, Graph]) -> None:
     """
-    Call the ``visitor`` on each data struct among the ``sinks`` (and inside the views among them), once each. Given a
-    whole graph, call it on each data struct of the graph. See the Julia
+    Call the ``visitor`` on every struct the ``target`` reaches: a whole graph, or some sinks, once each. The walk doesn't
+    go into a leaf, the struct of a role (such as an ``AxisConfiguration``), which the ``visitor`` handles whole. See the
+    Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Common.visit_graph_parts>`__
+    for details.
+    """
+    jl.SomeGraphsPy._visit_graph_parts(lambda part: visitor(_from_julia(part)), _to_julia(target))
+
+
+def visit_data_sinks(visitor: Callable[[Any], None], sinks: Sinks) -> None:
+    """
+    Call the ``visitor`` on each data struct among the ``sinks`` (and inside the views among them), once each. See the
+    Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.visit_data_sinks>`__
     for details.
     """
     jl.SomeGraphsPy._visit_data_sinks(lambda sink: visitor(_from_julia(sink)), _to_julia(sinks))
 
 
-def visit_configuration_sinks(visitor: Callable[[Any], None], sinks: Union[Sinks, Graph]) -> None:
+def visit_configuration_sinks(visitor: Callable[[Any], None], sinks: Sinks) -> None:
     """
     Call the ``visitor`` on each configuration struct among the ``sinks`` (and inside the views among them), once each.
-    Given a whole graph, call it on each configuration struct of the graph, including those held in its data (e.g. the
-    colors of its annotations). See the Julia
+    See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.visit_configuration_sinks>`__
     for details.
     """

@@ -30,6 +30,7 @@ from .julia_import import JlEnum
 from .julia_import import JlObject
 from .julia_import import _from_julia
 from .julia_import import _given
+from .julia_import import _graph_type_name
 from .julia_import import _optional_jl_obj
 from .julia_import import jl
 from .julia_import import register_jl_type
@@ -281,6 +282,9 @@ class DistributionGraph(Graph):
         return _from_julia(jl.SomeGraphs.distribution_entities(self.jl_obj))
 
 
+register_jl_type(_graph_type_name("DistributionGraphData"), DistributionGraph)
+
+
 def distribution_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
@@ -437,6 +441,9 @@ class DistributionsGraph(Graph):
         its defaults can be set later, through the view or directly.
         """
         return _from_julia(jl.SomeGraphs.add_distribution_b(self.jl_obj, *_optional_jl_obj(distribution)))
+
+
+register_jl_type(_graph_type_name("DistributionsGraphData"), DistributionsGraph)
 
 
 def distributions_graph(

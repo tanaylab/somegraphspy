@@ -261,6 +261,10 @@
 <span class="s2">        return SomeGraphs.visit_configuration_sinks(sink -&gt; (visitor(sink); nothing), sinks)</span>
 <span class="s2">    end</span>
 
+<span class="s2">    function _visit_graph_parts(visitor::Py, target::Any)::Nothing</span>
+<span class="s2">        return SomeGraphs.visit_graph_parts(part -&gt; (visitor(part); nothing), target)</span>
+<span class="s2">    end</span>
+
 <span class="s2">    # A tree from a SciPy linkage matrix. Each row of it is a merge, ``[left, right, height, count]``. Its node indices</span>
 <span class="s2">    # are 0-based, with the leaves first and each merge numbered after them. The matrix does not say which linkage</span>
 <span class="s2">    # built the tree, so that is ``:unknown``.</span>
@@ -405,11 +409,25 @@
     <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_julia_type_name</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="c1"># The name the type of a Julia value is registered under. Every graph is of the type ``Graph``, so a graph is named</span>
+    <span class="c1"># by the type of its data instead (see ``_graph_type_name``).</span>
+    <span class="n">type_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">nameof</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">typeof</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">"Graph"</span><span class="p">:</span>
+        <span class="n">type_name</span> <span class="o">=</span> <span class="n">_graph_type_name</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">nameof</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">typeof</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">data</span><span class="p">))))</span>
+    <span class="k">return</span> <span class="n">type_name</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_graph_type_name</span><span class="p">(</span><span class="n">data_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="c1"># The name a graph whose data is of the type ``data_type_name`` is registered under, e.g. ``Graph{PointsGraphData}``.</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"Graph</span><span class="se">{{</span><span class="si">{</span><span class="n">data_type_name</span><span class="si">}</span><span class="se">}}</span><span class="s2">"</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_from_julia</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-return-statements</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">AnyValue</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">value</span>
 
-    <span class="n">python_class</span> <span class="o">=</span> <span class="n">PYTHON_CLASS_OF_JULIA_TYPE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">nameof</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">typeof</span><span class="p">(</span><span class="n">value</span><span class="p">))))</span>
+    <span class="n">python_class</span> <span class="o">=</span> <span class="n">PYTHON_CLASS_OF_JULIA_TYPE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_julia_type_name</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">python_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">python_class</span><span class="p">,</span> <span class="n">JlEnum</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">python_class</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">string</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>

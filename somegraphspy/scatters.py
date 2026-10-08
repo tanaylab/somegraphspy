@@ -30,6 +30,7 @@ from .julia_import import DefaultValue
 from .julia_import import JlObject
 from .julia_import import _from_julia
 from .julia_import import _given
+from .julia_import import _graph_type_name
 from .julia_import import _optional_jl_obj
 from .julia_import import jl
 from .julia_import import register_jl_type
@@ -421,6 +422,9 @@ class PointsGraph(Graph):
         return _from_julia(jl.SomeGraphs.edges_entities(self.jl_obj))
 
 
+register_jl_type(_graph_type_name("PointsGraphData"), PointsGraph)
+
+
 def points_graph(
     *,
     figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
@@ -618,6 +622,9 @@ class LineGraph(Graph):
         The entities of the points of the line, shared by all their roles.
         """
         return _from_julia(jl.SomeGraphs.points_entities(self.jl_obj))
+
+
+register_jl_type(_graph_type_name("LineGraphData"), LineGraph)
 
 
 def line_graph(
@@ -869,6 +876,9 @@ class LinesGraph(Graph):
         be set later, through the view or directly.
         """
         return _from_julia(jl.SomeGraphs.add_line_b(self.jl_obj, *_optional_jl_obj(line)))
+
+
+register_jl_type(_graph_type_name("LinesGraphData"), LinesGraph)
 
 
 def lines_graph(

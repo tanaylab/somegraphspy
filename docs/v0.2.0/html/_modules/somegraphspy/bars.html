@@ -101,6 +101,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">JlObject</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_from_julia</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_given</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_graph_type_name</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">_optional_jl_obj</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">jl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.julia_import</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jl_type</span>
@@ -322,6 +323,9 @@
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_annotation_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">_optional_jl_obj</span><span class="p">(</span><span class="n">annotation</span><span class="p">)))</span></div>
 </div>
 
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="n">_graph_type_name</span><span class="p">(</span><span class="s2">"BarsGraphData"</span><span class="p">),</span> <span class="n">BarsGraph</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="bars_graph">
@@ -585,6 +589,9 @@
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">add_annotation_b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">_optional_jl_obj</span><span class="p">(</span><span class="n">annotation</span><span class="p">)))</span></div>
 </div>
 
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="n">_graph_type_name</span><span class="p">(</span><span class="s2">"SeriesBarsGraphData"</span><span class="p">),</span> <span class="n">SeriesBarsGraph</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="series_bars_graph">
