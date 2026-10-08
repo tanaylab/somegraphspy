@@ -7884,7 +7884,8 @@ for details.
 <span class="pre">sinks
 </span>
 </code> (and inside the views among them), once each.
-See the Julia
+Given a whole graph, call it on each configuration struct of the graph, including those held in its data (e.g. the
+colors of its annotations). See the Julia
 
 <a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.visit_configuration_sinks">documentation
 </a>
@@ -8134,8 +8135,14 @@ for details.
 <em>SizesConfiguration
 </em>
 </a>
-<em>]
-</em>)
+<em>] 
+</em>
+<em>| 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.Graph" title="somegraphspy.common.Graph">
+<em>Graph
+</em>
+</a>)
 </p>
 </li>
 
@@ -8207,8 +8214,8 @@ for details.
 <code class="docutils literal notranslate">
 <span class="pre">sinks
 </span>
-</code> (and inside the views among them), once each. See the
-Julia
+</code> (and inside the views among them), once each. Given a
+whole graph, call it on each data struct of the graph. See the Julia
 
 <a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.visit_data_sinks">documentation
 </a>
@@ -8458,8 +8465,14 @@ for details.
 <em>SizesConfiguration
 </em>
 </a>
-<em>]
-</em>)
+<em>] 
+</em>
+<em>| 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.Graph" title="somegraphspy.common.Graph">
+<em>Graph
+</em>
+</a>)
 </p>
 </li>
 

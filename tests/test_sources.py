@@ -238,6 +238,23 @@ def test_visit_sinks() -> None:
     )
 
 
+def test_visit_graph() -> None:
+    graph = _points_graph()
+
+    visited: List[Any] = []
+    sg.visit_data_sinks(visited.append, graph)
+    assert any(_is_same(sink, graph.data.points.colors) for sink in visited)
+    assert not any(isinstance(sink, sg.ColorsConfiguration) for sink in visited)
+
+    def show_legend(sink: Any) -> None:
+        if hasattr(sink, "show_legend"):
+            sink.show_legend = True
+
+    sg.visit_configuration_sinks(show_legend, graph)
+    assert graph.configuration.points.colors.show_legend
+    assert graph.configuration.edges.sizes.show_legend
+
+
 def _given_list(values: Any) -> List[Any]:
     assert values is not None
     return list(values)

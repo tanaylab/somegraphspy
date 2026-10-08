@@ -391,20 +391,21 @@ VectorDataSinks = Union[AnyContainer, ConfigurationLeaf, VectorDataLeaf, Sequenc
 MatrixDataSinks = Union[AnyContainer, ConfigurationLeaf, MatrixDataLeaf, Sequence[AnySink]]
 
 
-def visit_data_sinks(visitor: Callable[[Any], None], sinks: Sinks) -> None:
+def visit_data_sinks(visitor: Callable[[Any], None], sinks: Union[Sinks, Graph]) -> None:
     """
-    Call the ``visitor`` on each data struct among the ``sinks`` (and inside the views among them), once each. See the
-    Julia
+    Call the ``visitor`` on each data struct among the ``sinks`` (and inside the views among them), once each. Given a
+    whole graph, call it on each data struct of the graph. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.visit_data_sinks>`__
     for details.
     """
     jl.SomeGraphsPy._visit_data_sinks(lambda sink: visitor(_from_julia(sink)), _to_julia(sinks))
 
 
-def visit_configuration_sinks(visitor: Callable[[Any], None], sinks: Sinks) -> None:
+def visit_configuration_sinks(visitor: Callable[[Any], None], sinks: Union[Sinks, Graph]) -> None:
     """
     Call the ``visitor`` on each configuration struct among the ``sinks`` (and inside the views among them), once each.
-    See the Julia
+    Given a whole graph, call it on each configuration struct of the graph, including those held in its data (e.g. the
+    colors of its annotations). See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.visit_configuration_sinks>`__
     for details.
     """
