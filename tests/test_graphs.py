@@ -337,6 +337,17 @@ def test_save_png(tmp_path: object) -> None:
         assert file.read(8) == b"\x89PNG\r\n\x1a\n"
 
 
+def test_images() -> None:
+    configuration = sg.PointsGraphConfiguration(figure=sg.FigureConfiguration(width=300, height=200))
+    graph = sg.points_graph(
+        x=sg.VectorValuesData(vector=[1.0, 2.0]), y=sg.VectorValuesData(vector=[1.0, 2.0]), configuration=configuration
+    )
+    svg = graph.svg
+    assert svg.startswith("<svg")
+    assert 'width="300"' in svg
+    assert graph.png[:8] == b"\x89PNG\r\n\x1a\n"
+
+
 def test_figure_is_a_plotly_figure() -> None:
     configuration = sg.PointsGraphConfiguration(figure=sg.FigureConfiguration(width=800))
     graph = sg.points_graph(

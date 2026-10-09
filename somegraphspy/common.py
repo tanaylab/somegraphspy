@@ -868,6 +868,30 @@ class Graph(Validated):
         return str(jl.SomeGraphs.graph_to_json(self.jl_obj))
 
     @property
+    def svg(self) -> str:
+        """
+        Render the graph as a static SVG image, which obeys the ``width`` and ``height`` of the figure configuration.
+        See the Julia
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_image>`__
+        for details.
+        """
+        return self._image("svg").decode("utf-8")
+
+    @property
+    def png(self) -> bytes:
+        """
+        Render the graph as a static PNG image, which obeys the ``width`` and ``height`` of the figure configuration.
+        See the Julia
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_image>`__
+        for details.
+        """
+        return self._image("png")
+
+    def _image(self, image_format: str) -> bytes:
+        # The bytes of the graph rendered as an image in the ``image_format``.
+        return np.asarray(jl.SomeGraphs.graph_to_image(self.jl_obj, image_format), dtype=np.uint8).tobytes()
+
+    @property
     def figure(self) -> Figure:
         """
         Render the graph as a ``plotly`` figure, which can be displayed and further manipulated using the normal
