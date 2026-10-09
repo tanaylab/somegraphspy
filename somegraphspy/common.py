@@ -875,7 +875,7 @@ class Graph(Validated):
         `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_image>`__
         for details.
         """
-        return self._image("svg").decode("utf-8")
+        return str(self._image("svg").data, "utf-8")
 
     @property
     def png(self) -> bytes:
@@ -885,11 +885,12 @@ class Graph(Validated):
         `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_image>`__
         for details.
         """
-        return self._image("png")
+        return self._image("png").tobytes()
 
-    def _image(self, image_format: str) -> bytes:
-        # The bytes of the graph rendered as an image in the ``image_format``.
-        return np.asarray(jl.SomeGraphs.graph_to_image(self.jl_obj, image_format), dtype=np.uint8).tobytes()
+    def _image(self, image_format: str) -> np.ndarray:
+        # The bytes of the graph rendered as an image in the ``image_format``. They share the memory of the Julia vector,
+        # so each property copies them only once.
+        return np.asarray(jl.SomeGraphs.graph_to_image(self.jl_obj, image_format), dtype=np.uint8)
 
     @property
     def figure(self) -> Figure:
