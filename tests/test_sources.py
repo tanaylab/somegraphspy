@@ -291,6 +291,20 @@ def test_puts() -> None:
     assert _given_list(heatmap.data.rows.entities.names) == ["s1", "s2"]
 
 
+def test_gets() -> None:
+    graph = _points_graph()
+    assert sg.get_vector_names_data(graph.points_colors_vector_fields()) is None
+    sg.put_vector_names_data(graph.points_entities(), ["a", "b", "c"])
+    assert _given_list(sg.get_vector_names_data(graph.points_colors_vector_fields())) == ["a", "b", "c"]
+
+    heatmap = sg.heatmap_graph()
+    assert sg.get_matrix_names_data(heatmap.entries_matrix_fields()) == (None, None)
+    sg.put_matrix_names_data(heatmap.entries_matrix_fields(), ["r1", "r2"], ["c1", "c2"])
+    name_per_row, name_per_column = sg.get_matrix_names_data(heatmap.entries_matrix_fields())
+    assert _given_list(name_per_row) == ["r1", "r2"]
+    assert _given_list(name_per_column) == ["c1", "c2"]
+
+
 def test_fill_side() -> None:
     values = np.array([[0.0, 5.0, 1.0, 6.0], [0.0, 5.0, 1.0, 6.0]])
     base = sg.heatmap_graph(entries=sg.MatrixValuesData(matrix=values))

@@ -736,6 +736,24 @@
 </li>
 
 <li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.get_matrix_names_data">
+<code class="docutils literal notranslate">
+<span class="pre">get_matrix_names_data()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.get_vector_names_data">
+<code class="docutils literal notranslate">
+<span class="pre">get_vector_names_data()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
 <a class="reference internal" href="#somegraphspy.sources.put_matrix_data">
 <code class="docutils literal notranslate">
 <span class="pre">put_matrix_data()
@@ -5592,6 +5610,560 @@ for details.
 
 <dd class="field-even">
 <p>None
+</p>
+
+</dd>
+
+</dl>
+
+</dd>
+</dl>
+
+
+<dl class="py function">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.get_matrix_names_data">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">get_matrix_names_data
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">sinks
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#get_matrix_names_data">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.get_matrix_names_data" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The names of the rows and of the columns of the 
+<code class="docutils literal notranslate">
+<span class="pre">sinks
+</span>
+</code>, each 
+<code class="docutils literal notranslate">
+<span class="pre">None
+</span>
+</code> if they have none. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.get_matrix_names_data">documentation
+</a>
+for details.
+</p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<strong>sinks
+</strong> (
+<a class="reference internal" href="#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.MatrixFields" title="somegraphspy.sources.MatrixFields">
+<em>MatrixFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.VectorDataFields" title="somegraphspy.sources.VectorDataFields">
+<em>VectorDataFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.MatrixDataFields" title="somegraphspy.sources.MatrixDataFields">
+<em>MatrixDataFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.HeatmapSide" title="somegraphspy.sources.HeatmapSide">
+<em>HeatmapSide
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.AxisConfigurationFields" title="somegraphspy.sources.AxisConfigurationFields">
+<em>AxisConfigurationFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.ColorsConfigurationFields" title="somegraphspy.sources.ColorsConfigurationFields">
+<em>ColorsConfigurationFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.SizesConfigurationFields" title="somegraphspy.sources.SizesConfigurationFields">
+<em>SizesConfigurationFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<em>AxisConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.ScaleConfiguration" title="somegraphspy.common.ScaleConfiguration">
+<em>ScaleConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
+<em>ColorsConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration" title="somegraphspy.common.SizesConfiguration">
+<em>SizesConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.MatrixValuesData" title="somegraphspy.common.MatrixValuesData">
+<em>MatrixValuesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.MatrixEntitiesData" title="somegraphspy.common.MatrixEntitiesData">
+<em>MatrixEntitiesData
+</em>
+</a>
+<em> | 
+</em>
+<em>Sequence
+</em>
+<em>[
+</em>
+<a class="reference internal" href="#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.MatrixFields" title="somegraphspy.sources.MatrixFields">
+<em>MatrixFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.VectorDataFields" title="somegraphspy.sources.VectorDataFields">
+<em>VectorDataFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.MatrixDataFields" title="somegraphspy.sources.MatrixDataFields">
+<em>MatrixDataFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.HeatmapSide" title="somegraphspy.sources.HeatmapSide">
+<em>HeatmapSide
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.AxisConfigurationFields" title="somegraphspy.sources.AxisConfigurationFields">
+<em>AxisConfigurationFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.ColorsConfigurationFields" title="somegraphspy.sources.ColorsConfigurationFields">
+<em>ColorsConfigurationFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.SizesConfigurationFields" title="somegraphspy.sources.SizesConfigurationFields">
+<em>SizesConfigurationFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<em>VectorEntitiesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.ArrangementData" title="somegraphspy.common.ArrangementData">
+<em>ArrangementData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.MatrixValuesData" title="somegraphspy.common.MatrixValuesData">
+<em>MatrixValuesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.MatrixEntitiesData" title="somegraphspy.common.MatrixEntitiesData">
+<em>MatrixEntitiesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<em>AxisConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.ScaleConfiguration" title="somegraphspy.common.ScaleConfiguration">
+<em>ScaleConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
+<em>ColorsConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration" title="somegraphspy.common.SizesConfiguration">
+<em>SizesConfiguration
+</em>
+</a>
+<em>]
+</em>)
+</p>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<em>Tuple
+</em>[
+<em>ndarray
+</em> | None, 
+<em>ndarray
+</em> | None]
+</p>
+
+</dd>
+
+</dl>
+
+</dd>
+</dl>
+
+
+<dl class="py function">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.get_vector_names_data">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">get_vector_names_data
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="n">
+<span class="pre">sinks
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#get_vector_names_data">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.get_vector_names_data" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The names of the entities of the 
+<code class="docutils literal notranslate">
+<span class="pre">sinks
+</span>
+</code>, or 
+<code class="docutils literal notranslate">
+<span class="pre">None
+</span>
+</code> if they have none. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.get_vector_names_data">documentation
+</a>
+for details.
+</p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<strong>sinks
+</strong> (
+<a class="reference internal" href="#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.MatrixFields" title="somegraphspy.sources.MatrixFields">
+<em>MatrixFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.VectorDataFields" title="somegraphspy.sources.VectorDataFields">
+<em>VectorDataFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.MatrixDataFields" title="somegraphspy.sources.MatrixDataFields">
+<em>MatrixDataFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.HeatmapSide" title="somegraphspy.sources.HeatmapSide">
+<em>HeatmapSide
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.AxisConfigurationFields" title="somegraphspy.sources.AxisConfigurationFields">
+<em>AxisConfigurationFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.ColorsConfigurationFields" title="somegraphspy.sources.ColorsConfigurationFields">
+<em>ColorsConfigurationFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.SizesConfigurationFields" title="somegraphspy.sources.SizesConfigurationFields">
+<em>SizesConfigurationFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<em>AxisConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.ScaleConfiguration" title="somegraphspy.common.ScaleConfiguration">
+<em>ScaleConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
+<em>ColorsConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration" title="somegraphspy.common.SizesConfiguration">
+<em>SizesConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<em>VectorEntitiesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.ArrangementData" title="somegraphspy.common.ArrangementData">
+<em>ArrangementData
+</em>
+</a>
+<em> | 
+</em>
+<em>Sequence
+</em>
+<em>[
+</em>
+<a class="reference internal" href="#somegraphspy.sources.VectorFields" title="somegraphspy.sources.VectorFields">
+<em>VectorFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.MatrixFields" title="somegraphspy.sources.MatrixFields">
+<em>MatrixFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.VectorDataFields" title="somegraphspy.sources.VectorDataFields">
+<em>VectorDataFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.MatrixDataFields" title="somegraphspy.sources.MatrixDataFields">
+<em>MatrixDataFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.HeatmapSide" title="somegraphspy.sources.HeatmapSide">
+<em>HeatmapSide
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.AxisConfigurationFields" title="somegraphspy.sources.AxisConfigurationFields">
+<em>AxisConfigurationFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.ColorsConfigurationFields" title="somegraphspy.sources.ColorsConfigurationFields">
+<em>ColorsConfigurationFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="#somegraphspy.sources.SizesConfigurationFields" title="somegraphspy.sources.SizesConfigurationFields">
+<em>SizesConfigurationFields
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.VectorValuesData" title="somegraphspy.common.VectorValuesData">
+<em>VectorValuesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.VectorEntitiesData" title="somegraphspy.common.VectorEntitiesData">
+<em>VectorEntitiesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.ArrangementData" title="somegraphspy.common.ArrangementData">
+<em>ArrangementData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.MatrixValuesData" title="somegraphspy.common.MatrixValuesData">
+<em>MatrixValuesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.MatrixEntitiesData" title="somegraphspy.common.MatrixEntitiesData">
+<em>MatrixEntitiesData
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.AxisConfiguration" title="somegraphspy.common.AxisConfiguration">
+<em>AxisConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.ScaleConfiguration" title="somegraphspy.common.ScaleConfiguration">
+<em>ScaleConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.ColorsConfiguration" title="somegraphspy.common.ColorsConfiguration">
+<em>ColorsConfiguration
+</em>
+</a>
+<em> | 
+</em>
+<a class="reference internal" href="common.html#somegraphspy.common.SizesConfiguration" title="somegraphspy.common.SizesConfiguration">
+<em>SizesConfiguration
+</em>
+</a>
+<em>]
+</em>)
+</p>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<em>ndarray
+</em> | None
 </p>
 
 </dd>

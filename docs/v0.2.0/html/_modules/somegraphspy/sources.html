@@ -87,7 +87,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.heatmaps</span><span class="w"> </span><span class="kn">import</span> <span class="n">HeatmapSideConfiguration</span>
@@ -152,6 +155,8 @@
     <span class="s2">"fill_entities"</span><span class="p">,</span>
     <span class="s2">"fill_placement"</span><span class="p">,</span>
     <span class="s2">"fill_side"</span><span class="p">,</span>
+    <span class="s2">"get_matrix_names_data"</span><span class="p">,</span>
+    <span class="s2">"get_vector_names_data"</span><span class="p">,</span>
     <span class="s2">"put_matrix_data"</span><span class="p">,</span>
     <span class="s2">"put_matrix_names_data"</span><span class="p">,</span>
     <span class="s2">"put_vector_data"</span><span class="p">,</span>
@@ -574,6 +579,18 @@
 
 
 
+<div class="viewcode-block" id="get_vector_names_data">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.get_vector_names_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_vector_names_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The names of the entities of the ``sinks``, or ``None`` if they have none. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.get_vector_names_data&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">get_vector_names_data</span><span class="p">(</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">)))</span></div>
+
+
+
 <div class="viewcode-block" id="put_vector_mask_data">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.put_vector_mask_data">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">put_vector_mask_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">,</span> <span class="n">is_shown_per_entry</span><span class="p">:</span> <span class="n">BoolsVector</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -622,6 +639,18 @@
 <span class="sd">    for details.</span>
 <span class="sd">    """</span>
     <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">put_matrix_names_data_b</span><span class="p">(</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">name_per_row</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">name_per_column</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="get_matrix_names_data">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.get_matrix_names_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_matrix_names_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">MatrixDataSinks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The names of the rows and of the columns of the ``sinks``, each ``None`` if they have none. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.get_matrix_names_data&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">_from_julia</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">get_matrix_names_data</span><span class="p">(</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">)))</span></div>
 
 
 

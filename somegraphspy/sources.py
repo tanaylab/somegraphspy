@@ -14,7 +14,10 @@ from typing import Any
 from typing import Callable
 from typing import Optional
 from typing import Sequence
+from typing import Tuple
 from typing import Union
+
+import numpy as np
 
 if TYPE_CHECKING:
     from .heatmaps import HeatmapSideConfiguration
@@ -79,6 +82,8 @@ __all__ = [
     "fill_entities",
     "fill_placement",
     "fill_side",
+    "get_matrix_names_data",
+    "get_vector_names_data",
     "put_matrix_data",
     "put_matrix_names_data",
     "put_vector_data",
@@ -447,6 +452,15 @@ def put_vector_names_data(sinks: VectorDataSinks, name_per_entry: StringsVector)
     jl.SomeGraphs.put_vector_names_data_b(_to_julia(sinks), _to_julia(name_per_entry))
 
 
+def get_vector_names_data(sinks: VectorDataSinks) -> Optional[np.ndarray]:
+    """
+    The names of the entities of the ``sinks``, or ``None`` if they have none. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.get_vector_names_data>`__
+    for details.
+    """
+    return _from_julia(jl.SomeGraphs.get_vector_names_data(_to_julia(sinks)))
+
+
 def put_vector_mask_data(sinks: VectorDataSinks, is_shown_per_entry: BoolsVector) -> None:
     """
     Hide the entities of the ``sinks`` which are not shown by the ``is_shown_per_entry`` mask. See the Julia
@@ -484,6 +498,15 @@ def put_matrix_names_data(sinks: MatrixDataSinks, name_per_row: StringsVector, n
     for details.
     """
     jl.SomeGraphs.put_matrix_names_data_b(_to_julia(sinks), _to_julia(name_per_row), _to_julia(name_per_column))
+
+
+def get_matrix_names_data(sinks: MatrixDataSinks) -> Tuple[Optional[np.ndarray], Optional[np.ndarray]]:
+    """
+    The names of the rows and of the columns of the ``sinks``, each ``None`` if they have none. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.get_matrix_names_data>`__
+    for details.
+    """
+    return _from_julia(jl.SomeGraphs.get_matrix_names_data(_to_julia(sinks)))
 
 
 def put_vector_tree_data(sinks: VectorDataSinks, hclust: Optional[LinkageMatrix]) -> None:
