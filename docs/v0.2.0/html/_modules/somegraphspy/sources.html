@@ -85,6 +85,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NewType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
@@ -136,6 +137,7 @@
     <span class="s2">"DataLeaf"</span><span class="p">,</span>
     <span class="s2">"DataSink"</span><span class="p">,</span>
     <span class="s2">"HeatmapSide"</span><span class="p">,</span>
+    <span class="s2">"HoverFormat"</span><span class="p">,</span>
     <span class="s2">"MatrixConfigurationFields"</span><span class="p">,</span>
     <span class="s2">"MatrixDataFields"</span><span class="p">,</span>
     <span class="s2">"MatrixDataLeaf"</span><span class="p">,</span>
@@ -155,8 +157,10 @@
     <span class="s2">"fill_entities"</span><span class="p">,</span>
     <span class="s2">"fill_placement"</span><span class="p">,</span>
     <span class="s2">"fill_side"</span><span class="p">,</span>
+    <span class="s2">"fixed_format"</span><span class="p">,</span>
     <span class="s2">"get_matrix_names_data"</span><span class="p">,</span>
     <span class="s2">"get_vector_names_data"</span><span class="p">,</span>
+    <span class="s2">"percent_format"</span><span class="p">,</span>
     <span class="s2">"put_matrix_data"</span><span class="p">,</span>
     <span class="s2">"put_matrix_names_data"</span><span class="p">,</span>
     <span class="s2">"put_vector_data"</span><span class="p">,</span>
@@ -164,6 +168,8 @@
     <span class="s2">"put_vector_names_data"</span><span class="p">,</span>
     <span class="s2">"put_vector_order_data"</span><span class="p">,</span>
     <span class="s2">"put_vector_tree_data"</span><span class="p">,</span>
+    <span class="s2">"scientific_format"</span><span class="p">,</span>
+    <span class="s2">"significant_format"</span><span class="p">,</span>
     <span class="s2">"visit_configuration_sinks"</span><span class="p">,</span>
     <span class="s2">"visit_data_sinks"</span><span class="p">,</span>
     <span class="s2">"visit_graph_parts"</span><span class="p">,</span>
@@ -508,6 +514,59 @@
 <span class="c1">#: for details.</span>
 <span class="n">MatrixDataSinks</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnyContainer</span><span class="p">,</span> <span class="n">ConfigurationLeaf</span><span class="p">,</span> <span class="n">MatrixDataLeaf</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnySink</span><span class="p">]]</span>
 
+<span class="c1">#: How a put shows each value in a hover line. This is a Julia function, opaque to Python. Make one by</span>
+<span class="c1">#: :py:func:`fixed_format`, :py:func:`significant_format`, :py:func:`scientific_format` or :py:func:`percent_format`.</span>
+<span class="n">HoverFormat</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">"HoverFormat"</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="fixed_format">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.fixed_format">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fixed_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">digits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    A ``hover_format`` showing each value with a fixed number of ``digits`` after the decimal point. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.fixed_format&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">fixed_format</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="significant_format">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.significant_format">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">significant_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">sigdigits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    A ``hover_format`` showing each value with ``sigdigits`` significant digits. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.significant_format&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">significant_format</span><span class="p">(</span><span class="n">sigdigits</span><span class="o">=</span><span class="n">sigdigits</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="scientific_format">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.scientific_format">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">scientific_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">digits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    A ``hover_format`` showing each value in scientific notation, with ``digits`` digits after the decimal point. See</span>
+<span class="sd">    the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.scientific_format&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">scientific_format</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="percent_format">
+<a class="viewcode-back" href="../../sources.html#somegraphspy.sources.percent_format">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">percent_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">sigdigits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    A ``hover_format`` showing each value (a fraction) as a percent, with ``sigdigits`` significant digits. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.percent_format&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">percent_format</span><span class="p">(</span><span class="n">sigdigits</span><span class="o">=</span><span class="n">sigdigits</span><span class="p">))</span></div>
+
+
 
 <div class="viewcode-block" id="visit_graph_parts">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.visit_graph_parts">[docs]</a>
@@ -556,14 +615,17 @@
     <span class="n">value_per_entry</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">StringsVector</span><span class="p">,</span> <span class="n">BoolsVector</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">hover_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HoverFormat</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Put a ``value_per_entry`` into the ``sinks``: as the values of a role, and as a hover line on the entities. See the</span>
-<span class="sd">    Julia</span>
+<span class="sd">    Put a ``value_per_entry`` into the ``sinks``: as the values of a role, and as a hover line on the entities, shown by</span>
+<span class="sd">    the ``hover_format`` (if any). See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_vector_data!&gt;`__</span>
 <span class="sd">    for details.</span>
 <span class="sd">    """</span>
-    <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">put_vector_data_b</span><span class="p">(</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">value_per_entry</span><span class="p">),</span> <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">))</span></div>
+    <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">put_vector_data_b</span><span class="p">(</span>
+        <span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">value_per_entry</span><span class="p">),</span> <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">hover_format</span><span class="o">=</span><span class="n">hover_format</span><span class="p">)</span>
+    <span class="p">)</span></div>
 
 
 
@@ -618,15 +680,21 @@
 <div class="viewcode-block" id="put_matrix_data">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.put_matrix_data">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">put_matrix_data</span><span class="p">(</span>
-    <span class="n">sinks</span><span class="p">:</span> <span class="n">MatrixDataSinks</span><span class="p">,</span> <span class="n">value_per_row_per_column</span><span class="p">:</span> <span class="n">NumbersMatrix</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sinks</span><span class="p">:</span> <span class="n">MatrixDataSinks</span><span class="p">,</span>
+    <span class="n">value_per_row_per_column</span><span class="p">:</span> <span class="n">NumbersMatrix</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">hover_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HoverFormat</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Put a ``value_per_row_per_column`` into the ``sinks``: as the values of the entries, and as a hover line on each</span>
-<span class="sd">    entry. See the Julia</span>
+<span class="sd">    entry, shown by the ``hover_format`` (if any). See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_matrix_data!&gt;`__</span>
 <span class="sd">    for details.</span>
 <span class="sd">    """</span>
-    <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">put_matrix_data_b</span><span class="p">(</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">value_per_row_per_column</span><span class="p">),</span> <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">))</span></div>
+    <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">put_matrix_data_b</span><span class="p">(</span>
+        <span class="n">_to_julia</span><span class="p">(</span><span class="n">sinks</span><span class="p">),</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">value_per_row_per_column</span><span class="p">),</span> <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">hover_format</span><span class="o">=</span><span class="n">hover_format</span><span class="p">)</span>
+    <span class="p">)</span></div>
 
 
 

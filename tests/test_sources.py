@@ -291,6 +291,30 @@ def test_puts() -> None:
     assert _given_list(heatmap.data.rows.entities.names) == ["s1", "s2"]
 
 
+def test_hover_formats() -> None:
+    values = np.array([0.012345, 250000.0])
+    for hover_format, hovers in (
+        (sg.fixed_format(digits=2), ["F: 0.01", "F: 250000.00"]),
+        (sg.significant_format(sigdigits=3), ["F: 0.0123", "F: 2.5e+05"]),
+        (sg.scientific_format(digits=2), ["F: 1.23e-02", "F: 2.50e+05"]),
+        (sg.percent_format(sigdigits=3), ["F: 1.23%", "F: 2.5e+07%"]),
+    ):
+        graph = _points_graph()
+        sg.put_vector_data(graph.x_axis_vector_fields(), values, title="F", hover_format=hover_format)
+        assert _values(graph.data.x) == [0.012345, 250000.0]
+        assert _hovers(graph.data.points.entities) == hovers
+
+    heatmap = sg.heatmap_graph()
+    sg.put_matrix_data(
+        heatmap.entries_matrix_fields(),
+        np.array([[0.25, 1.0], [0.5, 0.0]]),
+        hover_format=sg.percent_format(sigdigits=3),
+    )
+    cells_hovers = heatmap.data.cells.hovers
+    assert cells_hovers is not None
+    assert cells_hovers[0, 1] == "100%"
+
+
 def test_gets() -> None:
     graph = _points_graph()
     assert sg.get_vector_names_data(graph.points_colors_vector_fields()) is None

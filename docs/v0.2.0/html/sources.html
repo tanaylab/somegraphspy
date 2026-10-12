@@ -348,6 +348,15 @@
 </li>
 
 <li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.HoverFormat">
+<code class="docutils literal notranslate">
+<span class="pre">HoverFormat
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
 <a class="reference internal" href="#somegraphspy.sources.MatrixConfigurationFields">
 <code class="docutils literal notranslate">
 <span class="pre">MatrixConfigurationFields
@@ -736,6 +745,15 @@
 </li>
 
 <li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.fixed_format">
+<code class="docutils literal notranslate">
+<span class="pre">fixed_format()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
 <a class="reference internal" href="#somegraphspy.sources.get_matrix_names_data">
 <code class="docutils literal notranslate">
 <span class="pre">get_matrix_names_data()
@@ -748,6 +766,15 @@
 <a class="reference internal" href="#somegraphspy.sources.get_vector_names_data">
 <code class="docutils literal notranslate">
 <span class="pre">get_vector_names_data()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.percent_format">
+<code class="docutils literal notranslate">
+<span class="pre">percent_format()
 </span>
 </code>
 </a>
@@ -811,6 +838,24 @@
 <a class="reference internal" href="#somegraphspy.sources.put_vector_tree_data">
 <code class="docutils literal notranslate">
 <span class="pre">put_vector_tree_data()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.scientific_format">
+<code class="docutils literal notranslate">
+<span class="pre">scientific_format()
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.sources.significant_format">
+<code class="docutils literal notranslate">
+<span class="pre">significant_format()
 </span>
 </code>
 </a>
@@ -2298,6 +2343,70 @@ was needed.
 </dd>
 </dl>
 
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.HoverFormat">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">HoverFormat
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.sources.HoverFormat" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>How a put shows each value in a hover line. This is a Julia function, opaque to Python. Make one by
+
+<a class="reference internal" href="#somegraphspy.sources.fixed_format" title="somegraphspy.sources.fixed_format">
+<code class="xref py py-func docutils literal notranslate">
+<span class="pre">fixed_format()
+</span>
+</code>
+</a>, 
+<a class="reference internal" href="#somegraphspy.sources.significant_format" title="somegraphspy.sources.significant_format">
+<code class="xref py py-func docutils literal notranslate">
+<span class="pre">significant_format()
+</span>
+</code>
+</a>, 
+<a class="reference internal" href="#somegraphspy.sources.scientific_format" title="somegraphspy.sources.scientific_format">
+<code class="xref py py-func docutils literal notranslate">
+<span class="pre">scientific_format()
+</span>
+</code>
+</a> or 
+<a class="reference internal" href="#somegraphspy.sources.percent_format" title="somegraphspy.sources.percent_format">
+<code class="xref py py-func docutils literal notranslate">
+<span class="pre">percent_format()
+</span>
+</code>
+</a>.
+</p>
+
+<p>alias of 
+<code class="xref py py-class docutils literal notranslate">
+<span class="pre">object
+</span>
+</code>
+</p>
 
 </dd>
 </dl>
@@ -5622,6 +5731,100 @@ for details.
 
 <dl class="py function">
 
+<dt class="sig sig-object py" id="somegraphspy.sources.fixed_format">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">fixed_format
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="keyword-only-separator o">
+<abbr title="Keyword-only parameters separator (PEP 3102)">
+<span class="pre">*
+</span>
+</abbr>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">digits
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#fixed_format">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.fixed_format" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A 
+<code class="docutils literal notranslate">
+<span class="pre">hover_format
+</span>
+</code> showing each value with a fixed number of 
+<code class="docutils literal notranslate">
+<span class="pre">digits
+</span>
+</code> after the decimal point. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.fixed_format">documentation
+</a>
+for details.
+</p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<strong>digits
+</strong> (
+<em>int
+</em>)
+</p>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<a class="reference internal" href="#somegraphspy.sources.HoverFormat" title="somegraphspy.sources.HoverFormat">
+<em>HoverFormat
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
+
+</dd>
+</dl>
+
+
+<dl class="py function">
+
 <dt class="sig sig-object py" id="somegraphspy.sources.get_matrix_names_data">
 
 <span class="sig-prename descclassname">
@@ -6176,6 +6379,100 @@ for details.
 
 <dl class="py function">
 
+<dt class="sig sig-object py" id="somegraphspy.sources.percent_format">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">percent_format
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="keyword-only-separator o">
+<abbr title="Keyword-only parameters separator (PEP 3102)">
+<span class="pre">*
+</span>
+</abbr>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">sigdigits
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#percent_format">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.percent_format" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A 
+<code class="docutils literal notranslate">
+<span class="pre">hover_format
+</span>
+</code> showing each value (a fraction) as a percent, with 
+<code class="docutils literal notranslate">
+<span class="pre">sigdigits
+</span>
+</code> significant digits. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.percent_format">documentation
+</a>
+for details.
+</p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<strong>sigdigits
+</strong> (
+<em>int
+</em>)
+</p>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<a class="reference internal" href="#somegraphspy.sources.HoverFormat" title="somegraphspy.sources.HoverFormat">
+<em>HoverFormat
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
+
+</dd>
+</dl>
+
+
+<dl class="py function">
+
 <dt class="sig sig-object py" id="somegraphspy.sources.put_matrix_data">
 
 <span class="sig-prename descclassname">
@@ -6221,6 +6518,20 @@ for details.
 <span class="pre">None
 </span>
 </span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">hover_format
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">None
+</span>
+</span>
 </em>
 <span class="sig-paren">)
 </span>
@@ -6244,7 +6555,11 @@ for details.
 <span class="pre">sinks
 </span>
 </code>: as the values of the entries, and as a hover line on each
-entry. See the Julia
+entry, shown by the 
+<code class="docutils literal notranslate">
+<span class="pre">hover_format
+</span>
+</code> (if any). See the Julia
 
 <a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_matrix_data!">documentation
 </a>
@@ -6473,6 +6788,21 @@ for details.
 </strong> (
 <em>str
 </em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>hover_format
+</strong> (
+<a class="reference internal" href="#somegraphspy.sources.HoverFormat" title="somegraphspy.sources.HoverFormat">
+<em>HoverFormat
+</em>
+</a>
 <em> | 
 </em>
 <em>None
@@ -6878,6 +7208,20 @@ for details.
 <span class="pre">None
 </span>
 </span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">hover_format
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">None
+</span>
+</span>
 </em>
 <span class="sig-paren">)
 </span>
@@ -6900,8 +7244,12 @@ for details.
 <code class="docutils literal notranslate">
 <span class="pre">sinks
 </span>
-</code>: as the values of a role, and as a hover line on the entities. See the
-Julia
+</code>: as the values of a role, and as a hover line on the entities, shown by
+the 
+<code class="docutils literal notranslate">
+<span class="pre">hover_format
+</span>
+</code> (if any). See the Julia
 
 <a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_vector_data!">documentation
 </a>
@@ -7166,6 +7514,21 @@ for details.
 </strong> (
 <em>str
 </em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>hover_format
+</strong> (
+<a class="reference internal" href="#somegraphspy.sources.HoverFormat" title="somegraphspy.sources.HoverFormat">
+<em>HoverFormat
+</em>
+</a>
 <em> | 
 </em>
 <em>None
@@ -8407,6 +8770,195 @@ for details.
 
 <dd class="field-even">
 <p>None
+</p>
+
+</dd>
+
+</dl>
+
+</dd>
+</dl>
+
+
+<dl class="py function">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.scientific_format">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">scientific_format
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="keyword-only-separator o">
+<abbr title="Keyword-only parameters separator (PEP 3102)">
+<span class="pre">*
+</span>
+</abbr>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">digits
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#scientific_format">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.scientific_format" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A 
+<code class="docutils literal notranslate">
+<span class="pre">hover_format
+</span>
+</code> showing each value in scientific notation, with 
+<code class="docutils literal notranslate">
+<span class="pre">digits
+</span>
+</code> digits after the decimal point. See
+the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.scientific_format">documentation
+</a>
+for details.
+</p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<strong>digits
+</strong> (
+<em>int
+</em>)
+</p>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<a class="reference internal" href="#somegraphspy.sources.HoverFormat" title="somegraphspy.sources.HoverFormat">
+<em>HoverFormat
+</em>
+</a>
+</p>
+
+</dd>
+
+</dl>
+
+</dd>
+</dl>
+
+
+<dl class="py function">
+
+<dt class="sig sig-object py" id="somegraphspy.sources.significant_format">
+
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.sources.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">significant_format
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="keyword-only-separator o">
+<abbr title="Keyword-only parameters separator (PEP 3102)">
+<span class="pre">*
+</span>
+</abbr>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">sigdigits
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/sources.html#significant_format">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.sources.significant_format" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>A 
+<code class="docutils literal notranslate">
+<span class="pre">hover_format
+</span>
+</code> showing each value with 
+<code class="docutils literal notranslate">
+<span class="pre">sigdigits
+</span>
+</code> significant digits. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.significant_format">documentation
+</a>
+for details.
+</p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<p>
+<strong>sigdigits
+</strong> (
+<em>int
+</em>)
+</p>
+
+</dd>
+
+<dt class="field-even">Return type
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-even">
+<p>
+<a class="reference internal" href="#somegraphspy.sources.HoverFormat" title="somegraphspy.sources.HoverFormat">
+<em>HoverFormat
+</em>
+</a>
 </p>
 
 </dd>

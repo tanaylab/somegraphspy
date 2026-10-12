@@ -12,6 +12,7 @@ They reference the graph's own objects, so writing into them changes the graph.
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
+from typing import NewType
 from typing import Optional
 from typing import Sequence
 from typing import Tuple
@@ -63,6 +64,7 @@ __all__ = [
     "DataLeaf",
     "DataSink",
     "HeatmapSide",
+    "HoverFormat",
     "MatrixConfigurationFields",
     "MatrixDataFields",
     "MatrixDataLeaf",
@@ -82,8 +84,10 @@ __all__ = [
     "fill_entities",
     "fill_placement",
     "fill_side",
+    "fixed_format",
     "get_matrix_names_data",
     "get_vector_names_data",
+    "percent_format",
     "put_matrix_data",
     "put_matrix_names_data",
     "put_vector_data",
@@ -91,6 +95,8 @@ __all__ = [
     "put_vector_names_data",
     "put_vector_order_data",
     "put_vector_tree_data",
+    "scientific_format",
+    "significant_format",
     "visit_configuration_sinks",
     "visit_data_sinks",
     "visit_graph_parts",
@@ -396,6 +402,47 @@ VectorDataSinks = Union[AnyContainer, ConfigurationLeaf, VectorDataLeaf, Sequenc
 #: for details.
 MatrixDataSinks = Union[AnyContainer, ConfigurationLeaf, MatrixDataLeaf, Sequence[AnySink]]
 
+#: How a put shows each value in a hover line. This is a Julia function, opaque to Python. Make one by
+#: :py:func:`fixed_format`, :py:func:`significant_format`, :py:func:`scientific_format` or :py:func:`percent_format`.
+HoverFormat = NewType("HoverFormat", object)
+
+
+def fixed_format(*, digits: int) -> HoverFormat:
+    """
+    A ``hover_format`` showing each value with a fixed number of ``digits`` after the decimal point. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.fixed_format>`__
+    for details.
+    """
+    return HoverFormat(jl.SomeGraphs.fixed_format(digits=digits))
+
+
+def significant_format(*, sigdigits: int) -> HoverFormat:
+    """
+    A ``hover_format`` showing each value with ``sigdigits`` significant digits. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.significant_format>`__
+    for details.
+    """
+    return HoverFormat(jl.SomeGraphs.significant_format(sigdigits=sigdigits))
+
+
+def scientific_format(*, digits: int) -> HoverFormat:
+    """
+    A ``hover_format`` showing each value in scientific notation, with ``digits`` digits after the decimal point. See
+    the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.scientific_format>`__
+    for details.
+    """
+    return HoverFormat(jl.SomeGraphs.scientific_format(digits=digits))
+
+
+def percent_format(*, sigdigits: int) -> HoverFormat:
+    """
+    A ``hover_format`` showing each value (a fraction) as a percent, with ``sigdigits`` significant digits. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.percent_format>`__
+    for details.
+    """
+    return HoverFormat(jl.SomeGraphs.percent_format(sigdigits=sigdigits))
+
 
 def visit_graph_parts(visitor: Callable[[Any], None], target: Union[Sinks, Graph]) -> None:
     """
@@ -433,14 +480,17 @@ def put_vector_data(
     value_per_entry: Union[NumbersVector, StringsVector, BoolsVector],
     *,
     title: Optional[str] = None,
+    hover_format: Optional[HoverFormat] = None,
 ) -> None:
     """
-    Put a ``value_per_entry`` into the ``sinks``: as the values of a role, and as a hover line on the entities. See the
-    Julia
+    Put a ``value_per_entry`` into the ``sinks``: as the values of a role, and as a hover line on the entities, shown by
+    the ``hover_format`` (if any). See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_vector_data!>`__
     for details.
     """
-    jl.SomeGraphs.put_vector_data_b(_to_julia(sinks), _to_julia(value_per_entry), **_given(title=title))
+    jl.SomeGraphs.put_vector_data_b(
+        _to_julia(sinks), _to_julia(value_per_entry), **_given(title=title, hover_format=hover_format)
+    )
 
 
 def put_vector_names_data(sinks: VectorDataSinks, name_per_entry: StringsVector) -> None:
@@ -480,15 +530,21 @@ def put_vector_order_data(sinks: VectorDataSinks, order: IntegersVector) -> None
 
 
 def put_matrix_data(
-    sinks: MatrixDataSinks, value_per_row_per_column: NumbersMatrix, *, title: Optional[str] = None
+    sinks: MatrixDataSinks,
+    value_per_row_per_column: NumbersMatrix,
+    *,
+    title: Optional[str] = None,
+    hover_format: Optional[HoverFormat] = None,
 ) -> None:
     """
     Put a ``value_per_row_per_column`` into the ``sinks``: as the values of the entries, and as a hover line on each
-    entry. See the Julia
+    entry, shown by the ``hover_format`` (if any). See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.put_matrix_data!>`__
     for details.
     """
-    jl.SomeGraphs.put_matrix_data_b(_to_julia(sinks), _to_julia(value_per_row_per_column), **_given(title=title))
+    jl.SomeGraphs.put_matrix_data_b(
+        _to_julia(sinks), _to_julia(value_per_row_per_column), **_given(title=title, hover_format=hover_format)
+    )
 
 
 def put_matrix_names_data(sinks: MatrixDataSinks, name_per_row: StringsVector, name_per_column: StringsVector) -> None:
