@@ -558,13 +558,14 @@
 
 <div class="viewcode-block" id="percent_format">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.percent_format">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">percent_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">sigdigits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">percent_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">digits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    A ``hover_format`` showing each value (a fraction) as a percent, with ``sigdigits`` significant digits. See the Julia</span>
+<span class="sd">    A ``hover_format`` showing each value (a fraction) as a percent, with a fixed number of ``digits`` after the decimal</span>
+<span class="sd">    point. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.percent_format&gt;`__</span>
 <span class="sd">    for details.</span>
 <span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">percent_format</span><span class="p">(</span><span class="n">sigdigits</span><span class="o">=</span><span class="n">sigdigits</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">percent_format</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
 
 
 

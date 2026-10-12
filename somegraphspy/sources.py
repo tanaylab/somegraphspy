@@ -435,13 +435,14 @@ def scientific_format(*, digits: int) -> HoverFormat:
     return HoverFormat(jl.SomeGraphs.scientific_format(digits=digits))
 
 
-def percent_format(*, sigdigits: int) -> HoverFormat:
+def percent_format(*, digits: int) -> HoverFormat:
     """
-    A ``hover_format`` showing each value (a fraction) as a percent, with ``sigdigits`` significant digits. See the Julia
+    A ``hover_format`` showing each value (a fraction) as a percent, with a fixed number of ``digits`` after the decimal
+    point. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.percent_format>`__
     for details.
     """
-    return HoverFormat(jl.SomeGraphs.percent_format(sigdigits=sigdigits))
+    return HoverFormat(jl.SomeGraphs.percent_format(digits=digits))
 
 
 def visit_graph_parts(visitor: Callable[[Any], None], target: Union[Sinks, Graph]) -> None:
