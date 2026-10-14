@@ -521,51 +521,53 @@
 
 <div class="viewcode-block" id="fixed_format">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.fixed_format">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">fixed_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">digits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fixed_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">digits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">separated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    A ``hover_format`` showing each value with a fixed number of ``digits`` after the decimal point. See the Julia</span>
+<span class="sd">    A ``hover_format`` showing each value with a fixed number of ``digits`` after the decimal point. If ``separated``,</span>
+<span class="sd">    the digits are grouped by 3 with a narrow no-break space. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.fixed_format&gt;`__</span>
 <span class="sd">    for details.</span>
 <span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">fixed_format</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">fixed_format</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">,</span> <span class="n">separated</span><span class="o">=</span><span class="n">separated</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="significant_format">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.significant_format">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">significant_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">sigdigits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">significant_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">sigdigits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">separated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    A ``hover_format`` showing each value with ``sigdigits`` significant digits. See the Julia</span>
+<span class="sd">    A ``hover_format`` showing each value with ``sigdigits`` significant digits. The ``separated`` is as in</span>
+<span class="sd">    :py:func:`fixed_format`. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.significant_format&gt;`__</span>
 <span class="sd">    for details.</span>
 <span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">significant_format</span><span class="p">(</span><span class="n">sigdigits</span><span class="o">=</span><span class="n">sigdigits</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">significant_format</span><span class="p">(</span><span class="n">sigdigits</span><span class="o">=</span><span class="n">sigdigits</span><span class="p">,</span> <span class="n">separated</span><span class="o">=</span><span class="n">separated</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="scientific_format">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.scientific_format">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">scientific_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">digits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">scientific_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">digits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">separated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    A ``hover_format`` showing each value in scientific notation, with ``digits`` digits after the decimal point. See</span>
-<span class="sd">    the Julia</span>
+<span class="sd">    A ``hover_format`` showing each value in scientific notation, with ``digits`` digits after the decimal point. The</span>
+<span class="sd">    ``separated`` is as in :py:func:`fixed_format`. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.scientific_format&gt;`__</span>
 <span class="sd">    for details.</span>
 <span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">scientific_format</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">scientific_format</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">,</span> <span class="n">separated</span><span class="o">=</span><span class="n">separated</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="percent_format">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.percent_format">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">percent_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">digits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">percent_format</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">digits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">separated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HoverFormat</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A ``hover_format`` showing each value (a fraction) as a percent, with a fixed number of ``digits`` after the decimal</span>
-<span class="sd">    point. See the Julia</span>
+<span class="sd">    point. The ``separated`` is as in :py:func:`fixed_format`. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.percent_format&gt;`__</span>
 <span class="sd">    for details.</span>
 <span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">percent_format</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">HoverFormat</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">percent_format</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">,</span> <span class="n">separated</span><span class="o">=</span><span class="n">separated</span><span class="p">))</span></div>
 
 
 

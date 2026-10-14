@@ -5756,6 +5756,20 @@ for details.
 <span class="pre">digits
 </span>
 </span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">separated
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">True
+</span>
+</span>
 </em>
 <span class="sig-paren">)
 </span>
@@ -5778,7 +5792,12 @@ for details.
 <code class="docutils literal notranslate">
 <span class="pre">digits
 </span>
-</code> after the decimal point. See the Julia
+</code> after the decimal point. If 
+<code class="docutils literal notranslate">
+<span class="pre">separated
+</span>
+</code>,
+the digits are grouped by 3 with a narrow no-break space. See the Julia
 
 <a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.fixed_format">documentation
 </a>
@@ -5793,12 +5812,27 @@ for details.
 </dt>
 
 <dd class="field-odd">
+<ul class="simple">
+
+<li>
 <p>
 <strong>digits
 </strong> (
 <em>int
 </em>)
 </p>
+</li>
+
+<li>
+<p>
+<strong>separated
+</strong> (
+<em>bool
+</em>)
+</p>
+</li>
+
+</ul>
 
 </dd>
 
@@ -6404,6 +6438,20 @@ for details.
 <span class="pre">digits
 </span>
 </span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">separated
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">True
+</span>
+</span>
 </em>
 <span class="sig-paren">)
 </span>
@@ -6427,7 +6475,17 @@ for details.
 <span class="pre">digits
 </span>
 </code> after the decimal
-point. See the Julia
+point. The 
+<code class="docutils literal notranslate">
+<span class="pre">separated
+</span>
+</code> is as in 
+<a class="reference internal" href="#somegraphspy.sources.fixed_format" title="somegraphspy.sources.fixed_format">
+<code class="xref py py-func docutils literal notranslate">
+<span class="pre">fixed_format()
+</span>
+</code>
+</a>. See the Julia
 
 <a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.percent_format">documentation
 </a>
@@ -6442,12 +6500,27 @@ for details.
 </dt>
 
 <dd class="field-odd">
+<ul class="simple">
+
+<li>
 <p>
 <strong>digits
 </strong> (
 <em>int
 </em>)
 </p>
+</li>
+
+<li>
+<p>
+<strong>separated
+</strong> (
+<em>bool
+</em>)
+</p>
+</li>
+
+</ul>
 
 </dd>
 
@@ -8808,6 +8881,20 @@ for details.
 <span class="pre">digits
 </span>
 </span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">separated
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">True
+</span>
+</span>
 </em>
 <span class="sig-paren">)
 </span>
@@ -8830,8 +8917,18 @@ for details.
 <code class="docutils literal notranslate">
 <span class="pre">digits
 </span>
-</code> digits after the decimal point. See
-the Julia
+</code> digits after the decimal point. The
+
+<code class="docutils literal notranslate">
+<span class="pre">separated
+</span>
+</code> is as in 
+<a class="reference internal" href="#somegraphspy.sources.fixed_format" title="somegraphspy.sources.fixed_format">
+<code class="xref py py-func docutils literal notranslate">
+<span class="pre">fixed_format()
+</span>
+</code>
+</a>. See the Julia
 
 <a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.scientific_format">documentation
 </a>
@@ -8846,12 +8943,27 @@ for details.
 </dt>
 
 <dd class="field-odd">
+<ul class="simple">
+
+<li>
 <p>
 <strong>digits
 </strong> (
 <em>int
 </em>)
 </p>
+</li>
+
+<li>
+<p>
+<strong>separated
+</strong> (
+<em>bool
+</em>)
+</p>
+</li>
+
+</ul>
 
 </dd>
 
@@ -8903,6 +9015,20 @@ for details.
 <span class="pre">sigdigits
 </span>
 </span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">separated
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">True
+</span>
+</span>
 </em>
 <span class="sig-paren">)
 </span>
@@ -8925,7 +9051,18 @@ for details.
 <code class="docutils literal notranslate">
 <span class="pre">sigdigits
 </span>
-</code> significant digits. See the Julia
+</code> significant digits. The 
+<code class="docutils literal notranslate">
+<span class="pre">separated
+</span>
+</code> is as in
+
+<a class="reference internal" href="#somegraphspy.sources.fixed_format" title="somegraphspy.sources.fixed_format">
+<code class="xref py py-func docutils literal notranslate">
+<span class="pre">fixed_format()
+</span>
+</code>
+</a>. See the Julia
 
 <a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.significant_format">documentation
 </a>
@@ -8940,12 +9077,27 @@ for details.
 </dt>
 
 <dd class="field-odd">
+<ul class="simple">
+
+<li>
 <p>
 <strong>sigdigits
 </strong> (
 <em>int
 </em>)
 </p>
+</li>
+
+<li>
+<p>
+<strong>separated
+</strong> (
+<em>bool
+</em>)
+</p>
+</li>
+
+</ul>
 
 </dd>
 

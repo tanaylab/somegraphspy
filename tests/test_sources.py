@@ -17,6 +17,8 @@ from somegraphspy.julia_import import jl
 
 _IS_SAME = jl.seval("(a, b) -> a === b")
 
+_SEPARATOR = "\N{NARROW NO-BREAK SPACE}"  # NOT F-STRING
+
 
 def _is_same(left: Any, right: Any) -> bool:
     return bool(_IS_SAME(left.jl_obj, right.jl_obj))
@@ -294,10 +296,11 @@ def test_puts() -> None:
 def test_hover_formats() -> None:
     values = np.array([0.012345, 250000.0])
     for hover_format, hovers in (
-        (sg.fixed_format(digits=2), ["F: 0.01", "F: 250000.00"]),
-        (sg.significant_format(sigdigits=3), ["F: 0.0123", "F: 2.5e+05"]),
+        (sg.fixed_format(digits=2), ["F: 0.01", f"F: 250{_SEPARATOR}000.00"]),
+        (sg.fixed_format(digits=2, separated=False), ["F: 0.01", "F: 250000.00"]),
+        (sg.significant_format(sigdigits=3), [f"F: 0.012{_SEPARATOR}3", "F: 2.5e+05"]),
         (sg.scientific_format(digits=2), ["F: 1.23e-02", "F: 2.50e+05"]),
-        (sg.percent_format(digits=1), ["F: 1.2%", "F: 25000000.0%"]),
+        (sg.percent_format(digits=1), ["F: 1.2%", f"F: 25{_SEPARATOR}000{_SEPARATOR}000.0%"]),
     ):
         graph = _points_graph()
         sg.put_vector_data(graph.x_axis_vector_fields(), values, title="F", hover_format=hover_format)

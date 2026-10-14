@@ -407,42 +407,44 @@ MatrixDataSinks = Union[AnyContainer, ConfigurationLeaf, MatrixDataLeaf, Sequenc
 HoverFormat = NewType("HoverFormat", object)
 
 
-def fixed_format(*, digits: int) -> HoverFormat:
+def fixed_format(*, digits: int, separated: bool = True) -> HoverFormat:
     """
-    A ``hover_format`` showing each value with a fixed number of ``digits`` after the decimal point. See the Julia
+    A ``hover_format`` showing each value with a fixed number of ``digits`` after the decimal point. If ``separated``,
+    the digits are grouped by 3 with a narrow no-break space. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.fixed_format>`__
     for details.
     """
-    return HoverFormat(jl.SomeGraphs.fixed_format(digits=digits))
+    return HoverFormat(jl.SomeGraphs.fixed_format(digits=digits, separated=separated))
 
 
-def significant_format(*, sigdigits: int) -> HoverFormat:
+def significant_format(*, sigdigits: int, separated: bool = True) -> HoverFormat:
     """
-    A ``hover_format`` showing each value with ``sigdigits`` significant digits. See the Julia
+    A ``hover_format`` showing each value with ``sigdigits`` significant digits. The ``separated`` is as in
+    :py:func:`fixed_format`. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.significant_format>`__
     for details.
     """
-    return HoverFormat(jl.SomeGraphs.significant_format(sigdigits=sigdigits))
+    return HoverFormat(jl.SomeGraphs.significant_format(sigdigits=sigdigits, separated=separated))
 
 
-def scientific_format(*, digits: int) -> HoverFormat:
+def scientific_format(*, digits: int, separated: bool = True) -> HoverFormat:
     """
-    A ``hover_format`` showing each value in scientific notation, with ``digits`` digits after the decimal point. See
-    the Julia
+    A ``hover_format`` showing each value in scientific notation, with ``digits`` digits after the decimal point. The
+    ``separated`` is as in :py:func:`fixed_format`. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.scientific_format>`__
     for details.
     """
-    return HoverFormat(jl.SomeGraphs.scientific_format(digits=digits))
+    return HoverFormat(jl.SomeGraphs.scientific_format(digits=digits, separated=separated))
 
 
-def percent_format(*, digits: int) -> HoverFormat:
+def percent_format(*, digits: int, separated: bool = True) -> HoverFormat:
     """
     A ``hover_format`` showing each value (a fraction) as a percent, with a fixed number of ``digits`` after the decimal
-    point. See the Julia
+    point. The ``separated`` is as in :py:func:`fixed_format`. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.percent_format>`__
     for details.
     """
-    return HoverFormat(jl.SomeGraphs.percent_format(digits=digits))
+    return HoverFormat(jl.SomeGraphs.percent_format(digits=digits, separated=separated))
 
 
 def visit_graph_parts(visitor: Callable[[Any], None], target: Union[Sinks, Graph]) -> None:
