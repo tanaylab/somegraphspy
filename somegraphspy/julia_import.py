@@ -294,6 +294,8 @@ def _to_julia(value: Any) -> Any:  # pylint: disable=too-many-return-statements
     if isinstance(value, JlEnum):
         return jl.getproperty(jl.SomeGraphs, jl.Symbol(value.value))
 
+    value = _typed_array(value)
+
     # Strings have to go through ``numpy``; a plain Python list of them would arrive as a ``PyList{Any}``, which isn't
     # an ``AbstractVector{<:AbstractString}`` so Julia would reject it.
     if isinstance(value, np.ndarray) and value.dtype.type == np.str_:
@@ -324,6 +326,43 @@ def _to_julia(value: Any) -> Any:  # pylint: disable=too-many-return-statements
         return jl.SomeGraphsPy._typed_vector(jl.Vector([_to_julia(entry) for entry in value]))
 
     return value
+
+
+# Julia cannot type the elements of a ``pandas`` ``Series``, ``Index`` or ``Categorical``, or of a ``numpy`` array of
+# ``object`` or ``bytes``. Each would arrive as a ``PyIterable{Any}`` or a ``PyArray{Py}``, which a typed field rejects.
+# So these are converted to a ``numpy`` array of strings or of numbers. An ``object`` array is converted only if all its
+# elements are strings, or all are numbers. Anything else (e.g., a ``None`` or a ``NaN`` among strings) is an error,
+# rather than silently becoming the string ``"None"`` or ``"nan"``. This does not depend on ``pandas``: if it was never
+# imported, then the value can't be one of its types.
+def _typed_array(value: Any) -> Any:
+    pandas = sys.modules.get("pandas")
+    if pandas is not None and isinstance(value, (pandas.Series, pandas.Index, pandas.Categorical)):
+        value = np.asarray(value)
+
+    if not isinstance(value, np.ndarray):
+        return value
+
+    if value.dtype.type == np.bytes_:
+        return np.char.decode(value, "utf-8")
+
+    if value.dtype != object:
+        return value
+
+    entries = value.ravel()
+    if all(isinstance(entry, str) for entry in entries):
+        return value.astype(str)
+
+    if all(isinstance(entry, (bool, int, float, np.bool_, np.integer, np.floating)) for entry in entries):
+        return np.array(value.tolist())
+
+    first_type = type(entries[0])
+    for index, entry in enumerate(entries):
+        if type(entry) is not first_type:  # pylint: disable=unidiomatic-typecheck
+            raise TypeError(
+                f"can't pass to Julia an array whose entry 0 is a {first_type.__name__} "
+                f"and whose entry {index} is a {type(entry).__name__}"
+            )
+    raise TypeError(f"can't pass to Julia an array of {first_type.__name__}")
 
 
 def _is_pair(value: Any) -> bool:
