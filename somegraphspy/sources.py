@@ -41,6 +41,8 @@ from .common import SizesConfiguration
 from .common import StringsVector
 from .common import VectorEntitiesData
 from .common import VectorValuesData
+from .julia_import import DEFAULT
+from .julia_import import DefaultValue
 from .julia_import import JlObject
 from .julia_import import _from_julia
 from .julia_import import _given
@@ -482,8 +484,8 @@ def put_vector_data(
     sinks: VectorDataSinks,
     value_per_entry: Union[NumbersVector, StringsVector, BoolsVector],
     *,
-    title: Optional[str] = None,
-    hover_format: Optional[HoverFormat] = None,
+    title: Union[Optional[str], DefaultValue] = DEFAULT,
+    hover_format: Union[Optional[HoverFormat], DefaultValue] = DEFAULT,
 ) -> None:
     """
     Put a ``value_per_entry`` into the ``sinks``: as the values of a role, and as a hover line on the entities, shown by
@@ -536,8 +538,8 @@ def put_matrix_data(
     sinks: MatrixDataSinks,
     value_per_row_per_column: NumbersMatrix,
     *,
-    title: Optional[str] = None,
-    hover_format: Optional[HoverFormat] = None,
+    title: Union[Optional[str], DefaultValue] = DEFAULT,
+    hover_format: Union[Optional[HoverFormat], DefaultValue] = DEFAULT,
 ) -> None:
     """
     Put a ``value_per_row_per_column`` into the ``sinks``: as the values of the entries, and as a hover line on each

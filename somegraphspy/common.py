@@ -658,7 +658,7 @@ class VectorEntitiesData(JlObject):
     ) -> None:
         super().__init__(jl.SomeGraphs.VectorEntitiesData(**_given(names=names, hovers=hovers, mask=mask, order=order)))
 
-    def add_hovers(self, hovers: StringsVector, title: Optional[str] = None) -> None:
+    def add_hovers(self, hovers: StringsVector, title: Union[Optional[str], DefaultValue] = DEFAULT) -> None:
         """
         Add a line to the hover of each entity: its entry of ``hovers``, prefixed by the ``title`` (if any) as
         ``title: hover``. See the Julia
@@ -776,7 +776,7 @@ class MatrixEntitiesData(JlObject):
     def __init__(self, *, hovers: Union[Optional[StringsMatrix], DefaultValue] = DEFAULT) -> None:
         super().__init__(jl.SomeGraphs.MatrixEntitiesData(**_given(hovers=hovers)))
 
-    def add_hovers(self, hovers: StringsMatrix, title: Optional[str] = None) -> None:
+    def add_hovers(self, hovers: StringsMatrix, title: Union[Optional[str], DefaultValue] = DEFAULT) -> None:
         """
         Add a line to the hover of each entity: its entry of ``hovers``, prefixed by the ``title`` (if any) as
         ``title: hover``. See the Julia
@@ -789,10 +789,10 @@ class MatrixEntitiesData(JlObject):
 register_jl_type("MatrixEntitiesData", MatrixEntitiesData)
 
 
-def _add_hovers(entities: JlObject, hovers: Any, title: Optional[str]) -> None:
+def _add_hovers(entities: JlObject, hovers: Any, title: Union[Optional[str], DefaultValue]) -> None:
     # The Julia error is re-raised as a plain Python one, for the same reason as in ``JlObject.__setattr__``.
     try:
-        jl.SomeGraphs.add_hovers_b(entities.jl_obj, _to_julia(hovers), title=title)
+        jl.SomeGraphs.add_hovers_b(entities.jl_obj, _to_julia(hovers), **_given(title=title))
     except Exception as exception:  # pylint: disable=broad-exception-caught
         raise RuntimeError(str(exception)) from None
 
