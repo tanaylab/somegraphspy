@@ -278,6 +278,9 @@ class DefaultValue:
     defaults to ``nothing`` (e.g., the ``rows_groups_gap`` of ``HeatmapGraphConfiguration`` defaults to ``1``).
     """
 
+    def __repr__(self) -> str:
+        return "DEFAULT"
+
 
 #: A Python value for a constructor parameter that was not specified, so the Julia default should be used instead.
 DEFAULT = DefaultValue()

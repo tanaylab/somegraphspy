@@ -79,6 +79,10 @@ def test_default_is_not_none() -> None:
     assert _given(figure=DEFAULT, width=None, height=8) == {"width": None, "height": 8}
 
 
+def test_default_repr() -> None:
+    assert repr(DEFAULT) == "DEFAULT"
+
+
 def _is_julia_strings_vector(value: Any) -> bool:
     return bool(jl.seval("value -> value isa AbstractVector{<:AbstractString}")(value))  # NOT F-STRING
 

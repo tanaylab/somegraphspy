@@ -354,7 +354,10 @@
 
 <span class="sd">    We can't use ``None`` for this because ``None`` is how one specifies Julia's ``nothing``, and not every field</span>
 <span class="sd">    defaults to ``nothing`` (e.g., the ``rows_groups_gap`` of ``HeatmapGraphConfiguration`` defaults to ``1``).</span>
-<span class="sd">    """</span></div>
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"DEFAULT"</span></div>
 
 
 
@@ -372,6 +375,8 @@
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">JlEnum</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">jl</span><span class="o">.</span><span class="n">getproperty</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="p">,</span> <span class="n">jl</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+
+    <span class="n">value</span> <span class="o">=</span> <span class="n">_typed_array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="c1"># Strings have to go through ``numpy``; a plain Python list of them would arrive as a ``PyList{Any}``, which isn't</span>
     <span class="c1"># an ``AbstractVector{&lt;:AbstractString}`` so Julia would reject it.</span>
@@ -403,6 +408,43 @@
         <span class="k">return</span> <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphsPy</span><span class="o">.</span><span class="n">_typed_vector</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">Vector</span><span class="p">([</span><span class="n">_to_julia</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">value</span><span class="p">]))</span>
 
     <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="c1"># Julia cannot type the elements of a ``pandas`` ``Series``, ``Index`` or ``Categorical``, or of a ``numpy`` array of</span>
+<span class="c1"># ``object`` or ``bytes``. Each would arrive as a ``PyIterable{Any}`` or a ``PyArray{Py}``, which a typed field rejects.</span>
+<span class="c1"># So these are converted to a ``numpy`` array of strings or of numbers. An ``object`` array is converted only if all its</span>
+<span class="c1"># elements are strings, or all are numbers. Anything else (e.g., a ``None`` or a ``NaN`` among strings) is an error,</span>
+<span class="c1"># rather than silently becoming the string ``"None"`` or ``"nan"``. This does not depend on ``pandas``: if it was never</span>
+<span class="c1"># imported, then the value can't be one of its types.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_typed_array</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="n">pandas</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"pandas"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pandas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Categorical</span><span class="p">)):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">bytes_</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">"utf-8"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="n">entries</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">))</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+    <span class="n">first_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">entries</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">entries</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">first_type</span><span class="p">:</span>  <span class="c1"># pylint: disable=unidiomatic-typecheck</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"can't pass to Julia an array whose entry 0 is a </span><span class="si">{</span><span class="n">first_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="sa">f</span><span class="s2">"and whose entry </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> is a </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"can't pass to Julia an array of </span><span class="si">{</span><span class="n">first_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_is_pair</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
