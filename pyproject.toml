@@ -57,6 +57,6 @@ exclude = ["htmlcov"]
 
 # `juliapkg.json` says which Julia packages this needs. `juliapkg` looks for it inside an importable
 # package, so it lives beside the code rather than at the top of the repository, and is installed
-# along with it.
+# along with it. The same holds for `julia/SomeGraphsPy`, the Julia package holding our Julia code.
 [tool.setuptools.package-data]
-somegraphspy = ["juliapkg.json", "py.typed"]
+somegraphspy = ["juliapkg.json", "py.typed", "julia/SomeGraphsPy/Project.toml", "julia/SomeGraphsPy/src/*.jl"]

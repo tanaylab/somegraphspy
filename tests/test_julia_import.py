@@ -5,11 +5,17 @@ Test the Julia environment set up by ``SomeGraphs``, and the delegation to the w
 # pylint: disable=wildcard-import,unused-wildcard-import,missing-function-docstring
 # flake8: noqa: F403,F405
 
+import json
+import os
+import tomllib
 from typing import Any
+from typing import Collection
 
 import numpy as np
 import pytest
 
+import somegraphspy
+from somegraphspy.julia_import import _GLUE_PROJECT_PATH
 from somegraphspy.julia_import import DEFAULT
 from somegraphspy.julia_import import JlObject
 from somegraphspy.julia_import import _given
@@ -28,6 +34,39 @@ def test_wrapped_package_does_not_leak() -> None:
     assert jl.seval("isdefined(Main, :SomeGraphsPy)")
     for name in EXPORTED_NAMES:
         assert not jl.seval(f"isdefined(Main, :{name})"), f"the exported {name} leaked into Julia's Main"
+
+
+def _glue_project() -> dict[str, Any]:
+    with open(_GLUE_PROJECT_PATH, "rb") as file:
+        return tomllib.load(file)
+
+
+def test_glue_version_is_the_package_version() -> None:
+    assert _glue_project()["version"] == somegraphspy.__version__
+
+
+def _dependencies_of(package: str) -> Collection[str]:
+    # The dependencies a Julia package's own ``Project.toml`` lists, if it is loaded in ``Main``.
+    if not jl.seval(f"isdefined(Main, :{package})"):
+        return ()
+    directory = jl.seval(f"pkgdir({package})")
+    if directory is None:
+        return ()
+    with open(os.path.join(str(directory), "Project.toml"), "rb") as file:
+        return tomllib.load(file).get("deps", {})
+
+
+def test_url_packages_are_glue_dependencies() -> None:
+    # A package comes by URL when it is not registered. It is a dependency of SomeGraphsPy, or of one of SomeGraphsPy's
+    # dependencies.
+    with open(os.path.join(os.path.dirname(somegraphspy.__file__), "juliapkg.json"), encoding="utf8") as file:
+        packages = json.load(file)["packages"]
+    glue_packages = _glue_project()["deps"]
+    for name, package in packages.items():
+        if "url" in package and name != "SomeGraphsPy":
+            assert name in glue_packages or any(
+                name in _dependencies_of(glue_package) for glue_package in glue_packages
+            ), f"the URL package {name} of juliapkg.json is not a dependency of SomeGraphsPy, nor of its dependencies"
 
 
 def test_read_and_write_fields() -> None:

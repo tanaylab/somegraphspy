@@ -34,9 +34,11 @@ This code is based on the code from the ``pysr`` Python package, adapted to our 
 in all our Python packages that invoke Julia.
 """
 
+import builtins
 import os
 import shutil
 import sys
+import tomllib
 import warnings
 from enum import Enum
 from typing import Any
@@ -124,138 +126,38 @@ if "juliacall" not in sys.modules and "PYTHON_JULIACALL_THREADS" not in os.envir
         "signals and the process will die with a segfault."
     )
 
+# If ``METACELLS_TRACE_COMPILE`` is set, Julia is started writing its compile trace (see ``compile_tracing``). The module
+# is imported only then, so ``python -m somegraphspy.compile_tracing`` does not find it imported already.
+if os.environ.get("METACELLS_TRACE_COMPILE"):
+    from .compile_tracing import configure_julia  # pylint: disable=import-outside-toplevel
+
+    configure_julia()
+
 from juliacall import AnyValue  # type: ignore # isort: skip
 from juliacall import Main  # type: ignore # isort: skip
 
-#: The interface to the Julia run-time.
-jl = Main
+# Our Julia code is the Julia package ``SomeGraphsPy``, in ``julia/SomeGraphsPy`` beside this file. It also caches the
+# code our calls compile. Its ``Project.toml`` lists the Julia packages we use.
+_GLUE_PROJECT_PATH = os.path.join(os.path.dirname(__file__), "julia", "SomeGraphsPy", "Project.toml")
 
+# While ``SomeGraphsPy`` itself is precompiled, Julia may not import anything into ``Main``, so ``SomeGraphsPy`` hands
+# itself over instead, and it binds the same names.
+_SOMEGRAPHSPY_GLUE: Any = getattr(builtins, "_somegraphspy_glue", None)
+
+#: The interface to the Julia run-time. This is Julia's ``Main``, except while ``SomeGraphsPy`` itself is precompiled.
+jl = Main if _SOMEGRAPHSPY_GLUE is None else _SOMEGRAPHSPY_GLUE
+
+if _SOMEGRAPHSPY_GLUE is None:
+    with open(_GLUE_PROJECT_PATH, "rb") as glue_project_file:
+        _GLUE_PACKAGES = tomllib.load(glue_project_file)["deps"]
+    # Everything is imported rather than ``using``, so no package's exports leak into Julia's ``Main``. This keeps
+    # ``Main`` clear for other Python packages that wrap Julia packages and are used in the same session.
+    for package in ["SomeGraphsPy"] + sorted(_GLUE_PACKAGES):
+        if package != "PrecompileTools":
+            jl.seval("import " + package)
 
 #: The version of Julia being used.
 jl_version = (jl.VERSION.major, jl.VERSION.minor, jl.VERSION.patch)
-
-# Everything is imported rather than ``using``, so no package's exports leak into Julia's ``Main``. This keeps
-# ``Main`` clear for other Python packages that wrap Julia packages and are used in the same session.
-for package in ("PythonCall", "SomeGraphs"):
-    jl.seval("import " + package)
-
-# Our own Julia code lives in a module of its own, for the same reason.
-jl.seval("""
-    module SomeGraphsPy
-
-    using PythonCall
-
-    import SomeGraphs
-    import SomeGraphs.Common.Hclust
-    import SomeGraphs.Common.OrderedDict
-
-    function pyconvert_rule_jl_object(::Type{T}, x::Py) where {T}
-        return PythonCall.pyconvert_return(pyconvert(T, x.jl_obj))
-    end
-
-    PythonCall.pyconvert_add_rule("somegraphspy.julia_import:JlObject", Any, pyconvert_rule_jl_object)
-
-    # Build a vector of pairs of values, whose element type Julia infers from the (already converted) vectors. A list
-    # of Python tuples would arrive as a ``PyList{Any}``, which Julia can't convert to a vector of tuples.
-    function _tuples_vector(firsts::AbstractVector, seconds::AbstractVector)::AbstractVector
-        return [(first, second) for (first, second) in zip(firsts, seconds)]
-    end
-
-    # Re-infer the element type of a vector whose entries are already Julia values. This turns the ``Vector{Any}`` we
-    # get for a list of arrays or of objects into a properly typed vector.
-    function _typed_vector(items::AbstractVector)::AbstractVector
-        return [item for item in items]
-    end
-
-    # Classify an array by what its entries are, to pick the matching Python representation.
-    function _array_kind(array::AbstractArray)::String
-        element_type = eltype(array)
-        if element_type <: Real
-            return "numbers"
-        elseif element_type <: AbstractString
-            return "strings"
-        else
-            return "other"
-        end
-    end
-
-    # Run a Python visitor over the sinks. A Python callable is not a Julia ``Function``, so it is wrapped in one.
-    function _visit_data_sinks(visitor::Py, sinks::Any)::Nothing
-        return SomeGraphs.visit_data_sinks(sink -> (visitor(sink); nothing), sinks)
-    end
-
-    function _visit_configuration_sinks(visitor::Py, sinks::Any)::Nothing
-        return SomeGraphs.visit_configuration_sinks(sink -> (visitor(sink); nothing), sinks)
-    end
-
-    function _visit_graph_parts(visitor::Py, target::Any)::Nothing
-        return SomeGraphs.visit_graph_parts(part -> (visitor(part); nothing), target)
-    end
-
-    # A tree from a SciPy linkage matrix. Each row of it is a merge, ``[left, right, height, count]``. Its node indices
-    # are 0-based, with the leaves first and each merge numbered after them. The matrix does not say which linkage
-    # built the tree, so that is ``:unknown``.
-    function _hclust_from_linkage(linkage::AbstractMatrix{<:Real})::Hclust
-        n_merges = size(linkage, 1)
-        n_leaves = n_merges + 1
-        merges = Matrix{Int}(undef, n_merges, 2)
-        for merge_index in 1:n_merges
-            for column in 1:2
-                node = Int(linkage[merge_index, column])
-                merges[merge_index, column] = node < n_leaves ? -(node + 1) : node - n_leaves + 1
-            end
-        end
-        return Hclust(merges, Float64.(linkage[:, 3]), _walked_leaves(merges), :unknown)
-    end
-
-    # The leaves of a tree from its root, left subtree first, which is its order. This walks rather than recurses, since
-    # a tree of many leaves may be as deep as it is wide.
-    function _walked_leaves(merges::AbstractMatrix{<:Integer})::Vector{Int}
-        n_merges = size(merges, 1)
-        if n_merges == 0
-            return [1]
-        end
-        order = Int[]
-        pending = [n_merges]
-        while !isempty(pending)
-            node = pop!(pending)
-            if node < 0
-                push!(order, -node)
-            else
-                push!(pending, merges[node, 2])
-                push!(pending, merges[node, 1])
-            end
-        end
-        return order
-    end
-
-    # The SciPy linkage matrix of a tree (see ``_hclust_from_linkage``).
-    function _linkage_from_hclust(clusters::Hclust)::Matrix{Float64}
-        n_merges = size(clusters.merges, 1)
-        n_leaves = n_merges + 1
-        linkage = Matrix{Float64}(undef, n_merges, 4)
-        count_per_merge = Vector{Int}(undef, n_merges)
-        for merge_index in 1:n_merges
-            count = 0
-            for column in 1:2
-                node = clusters.merges[merge_index, column]
-                if node < 0
-                    linkage[merge_index, column] = -node - 1
-                    count += 1
-                else
-                    linkage[merge_index, column] = node - 1 + n_leaves
-                    count += count_per_merge[node]
-                end
-            end
-            count_per_merge[merge_index] = count
-            linkage[merge_index, 3] = clusters.heights[merge_index]
-            linkage[merge_index, 4] = count
-        end
-        return linkage
-    end
-
-    end  # module SomeGraphsPy
-    """)
 
 
 class JlEnum(Enum):

@@ -1,0 +1,15 @@
+name = "SomeGraphsPy"
+uuid = "1b9d24fc-7519-4524-8b65-2a7a0e1ba715"
+version = "0.2.0"
+authors = ["Oren Ben-Kiki <oren@ben-kiki.org>"]
+
+[deps]
+PrecompileTools = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
+PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
+SomeGraphs = "eb091223-14cb-4747-ac22-0b59a9f2afeb"
+
+[compat]
+PrecompileTools = "1"
+PythonCall = "0.9"
+SomeGraphs = "0.2.0"
+julia = "1.12"
