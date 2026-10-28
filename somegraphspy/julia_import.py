@@ -41,6 +41,7 @@ import sys
 import tomllib
 import warnings
 from enum import Enum
+from types import EllipsisType
 from typing import Any
 from typing import Mapping
 from typing import MutableMapping
@@ -171,27 +172,13 @@ class JlEnum(Enum):
         return self.value
 
 
-class DefaultValue:
-    """
-    A Python class for the value of a constructor parameter that was not specified.
+#: The type of :py:obj:`DEFAULT`, the value of a parameter that was not specified.
+DefaultValue = EllipsisType
 
-    We can't use ``None`` for this because ``None`` is how one specifies Julia's ``nothing``, and not every field
-    defaults to ``nothing`` (e.g., the ``rows_groups_gap`` of ``HeatmapGraphConfiguration`` defaults to ``1``).
-    """
-
-    def __repr__(self) -> str:
-        return "DEFAULT"
-
-    # A copy is the same object, so a copied ``DEFAULT`` is still ``DEFAULT``.
-    def __copy__(self) -> "DefaultValue":
-        return self
-
-    def __deepcopy__(self, memo: Any) -> "DefaultValue":
-        return self
-
-
-#: A Python value for a constructor parameter that was not specified, so the Julia default should be used instead.
-DEFAULT = DefaultValue()
+#: A Python value for a parameter that was not specified, so the Julia default should be used instead. We can't use
+#: ``None`` for this because ``None`` is how one specifies Julia's ``nothing``, and not every parameter defaults to
+#: ``nothing``. It is Python's ``...`` (``Ellipsis``), so it is the same object in every package.
+DEFAULT = ...
 
 #: The Python class wrapping each of the Julia types, filled in by ``register_jl_type`` as the modules are imported.
 PYTHON_CLASS_OF_JULIA_TYPE: MutableMapping[str, Union["Type[JlObject]", "Type[JlEnum]"]] = {}
@@ -348,7 +335,7 @@ def _given(**kwargs: Any) -> Mapping[str, Any]:
     """
     Collect the keyword arguments that were actually specified (for internal use).
     """
-    return {name: _to_julia(value) for name, value in kwargs.items() if value is not DEFAULT}
+    return {name: _to_julia(value) for name, value in kwargs.items() if not isinstance(value, DefaultValue)}
 
 
 def _optional_jl_obj(value: Union["JlObject", DefaultValue]) -> Tuple[Any, ...]:

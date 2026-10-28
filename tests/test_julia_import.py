@@ -119,8 +119,9 @@ def test_default_is_not_none() -> None:
     assert _given(figure=DEFAULT, width=None, height=8) == {"width": None, "height": 8}
 
 
-def test_default_repr() -> None:
-    assert repr(DEFAULT) == "DEFAULT"
+def test_default_is_the_ellipsis() -> None:
+    # The same object in every package which uses it, so one package's ``DEFAULT`` is another's.
+    assert DEFAULT is ...
 
 
 def test_copied_default_is_default() -> None:

@@ -114,6 +114,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">tomllib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">EllipsisType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MutableMapping</span>
@@ -247,30 +248,13 @@
 
 
 
-<div class="viewcode-block" id="DefaultValue">
-<a class="viewcode-back" href="../../julia_import.html#somegraphspy.julia_import.DefaultValue">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DefaultValue</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    A Python class for the value of a constructor parameter that was not specified.</span>
+<span class="c1">#: The type of :py:obj:`DEFAULT`, the value of a parameter that was not specified.</span>
+<span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">EllipsisType</span>
 
-<span class="sd">    We can't use ``None`` for this because ``None`` is how one specifies Julia's ``nothing``, and not every field</span>
-<span class="sd">    defaults to ``nothing`` (e.g., the ``rows_groups_gap`` of ``HeatmapGraphConfiguration`` defaults to ``1``).</span>
-<span class="sd">    """</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">"DEFAULT"</span>
-
-    <span class="c1"># A copy is the same object, so a copied ``DEFAULT`` is still ``DEFAULT``.</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"DefaultValue"</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"DefaultValue"</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-
-
-<span class="c1">#: A Python value for a constructor parameter that was not specified, so the Julia default should be used instead.</span>
-<span class="n">DEFAULT</span> <span class="o">=</span> <span class="n">DefaultValue</span><span class="p">()</span>
+<span class="c1">#: A Python value for a parameter that was not specified, so the Julia default should be used instead. We can't use</span>
+<span class="c1">#: ``None`` for this because ``None`` is how one specifies Julia's ``nothing``, and not every parameter defaults to</span>
+<span class="c1">#: ``nothing``. It is Python's ``...`` (``Ellipsis``), so it is the same object in every package.</span>
+<span class="n">DEFAULT</span> <span class="o">=</span> <span class="o">...</span>
 
 <span class="c1">#: The Python class wrapping each of the Julia types, filled in by ``register_jl_type`` as the modules are imported.</span>
 <span class="n">PYTHON_CLASS_OF_JULIA_TYPE</span><span class="p">:</span> <span class="n">MutableMapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="s2">"Type[JlObject]"</span><span class="p">,</span> <span class="s2">"Type[JlEnum]"</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -427,7 +411,7 @@
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Collect the keyword arguments that were actually specified (for internal use).</span>
 <span class="sd">    """</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">DEFAULT</span><span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">)}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_optional_jl_obj</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">"JlObject"</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
