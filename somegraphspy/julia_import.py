@@ -48,7 +48,6 @@ from typing import MutableMapping
 from typing import Sequence
 from typing import Tuple
 from typing import Type
-from typing import Union
 
 import numpy as np
 
@@ -181,7 +180,7 @@ DefaultValue = EllipsisType
 DEFAULT = ...
 
 #: The Python class wrapping each of the Julia types, filled in by ``register_jl_type`` as the modules are imported.
-PYTHON_CLASS_OF_JULIA_TYPE: MutableMapping[str, Union["Type[JlObject]", "Type[JlEnum]"]] = {}
+PYTHON_CLASS_OF_JULIA_TYPE: "MutableMapping[str, Type[JlObject] | Type[JlEnum]]" = {}
 
 
 def _to_julia(value: Any) -> Any:  # pylint: disable=too-many-return-statements
@@ -338,7 +337,7 @@ def _given(**kwargs: Any) -> Mapping[str, Any]:
     return {name: _to_julia(value) for name, value in kwargs.items() if not isinstance(value, DefaultValue)}
 
 
-def _optional_jl_obj(value: Union["JlObject", DefaultValue]) -> Tuple[Any, ...]:
+def _optional_jl_obj(value: "JlObject | DefaultValue") -> Tuple[Any, ...]:
     """
     The positional arguments to pass for an optional Julia struct: none when it is ``DEFAULT``, so that Julia uses its
     default (for internal use).
@@ -408,7 +407,7 @@ class JlObject:
         return instance
 
 
-def register_jl_type(julia_type_name: str, python_class: Union[Type[JlObject], Type[JlEnum]]) -> None:
+def register_jl_type(julia_type_name: str, python_class: Type[JlObject] | Type[JlEnum]) -> None:
     """
     Associate a Julia type with the Python class that wraps it (for internal use).
 

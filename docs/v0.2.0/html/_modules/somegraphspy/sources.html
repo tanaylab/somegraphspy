@@ -86,10 +86,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NewType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
@@ -319,7 +317,7 @@
     <span class="c1">#: The values of the role and the entities they belong to.</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">VectorDataFields</span>
     <span class="c1">#: How the values are shown.</span>
-    <span class="n">configuration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AxisConfigurationFields</span><span class="p">,</span> <span class="n">ColorsConfigurationFields</span><span class="p">,</span> <span class="n">SizesConfigurationFields</span><span class="p">]</span></div>
+    <span class="n">configuration</span><span class="p">:</span> <span class="n">AxisConfigurationFields</span> <span class="o">|</span> <span class="n">ColorsConfigurationFields</span> <span class="o">|</span> <span class="n">SizesConfigurationFields</span></div>
 
 
 
@@ -445,76 +443,76 @@
 <span class="c1">#: A struct holding graph data with a value per entity. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.VectorDataLeaf&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">VectorDataLeaf</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorValuesData</span><span class="p">,</span> <span class="n">VectorEntitiesData</span><span class="p">,</span> <span class="n">ArrangementData</span><span class="p">]</span>
+<span class="n">VectorDataLeaf</span> <span class="o">=</span> <span class="n">VectorValuesData</span> <span class="o">|</span> <span class="n">VectorEntitiesData</span> <span class="o">|</span> <span class="n">ArrangementData</span>
 
 <span class="c1">#: A struct holding graph data with a value per row per column. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixDataLeaf&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">MatrixDataLeaf</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">MatrixValuesData</span><span class="p">,</span> <span class="n">MatrixEntitiesData</span><span class="p">]</span>
+<span class="n">MatrixDataLeaf</span> <span class="o">=</span> <span class="n">MatrixValuesData</span> <span class="o">|</span> <span class="n">MatrixEntitiesData</span>
 
 <span class="c1">#: A struct holding graph data. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.DataLeaf&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">DataLeaf</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorDataLeaf</span><span class="p">,</span> <span class="n">MatrixDataLeaf</span><span class="p">]</span>
+<span class="n">DataLeaf</span> <span class="o">=</span> <span class="n">VectorDataLeaf</span> <span class="o">|</span> <span class="n">MatrixDataLeaf</span>
 
 <span class="c1">#: A struct holding graph configuration. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ConfigurationLeaf&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">ConfigurationLeaf</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">AxisConfiguration</span><span class="p">,</span> <span class="n">ScaleConfiguration</span><span class="p">,</span> <span class="n">ColorsConfiguration</span><span class="p">,</span> <span class="n">SizesConfiguration</span><span class="p">]</span>
+<span class="n">ConfigurationLeaf</span> <span class="o">=</span> <span class="n">AxisConfiguration</span> <span class="o">|</span> <span class="n">ScaleConfiguration</span> <span class="o">|</span> <span class="n">ColorsConfiguration</span> <span class="o">|</span> <span class="n">SizesConfiguration</span>
 
 <span class="c1">#: A :py:obj:`DataLeaf` or a :py:obj:`ConfigurationLeaf`. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.AnyLeaf&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">AnyLeaf</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">DataLeaf</span><span class="p">,</span> <span class="n">ConfigurationLeaf</span><span class="p">]</span>
+<span class="n">AnyLeaf</span> <span class="o">=</span> <span class="n">DataLeaf</span> <span class="o">|</span> <span class="n">ConfigurationLeaf</span>
 
 <span class="c1">#: Anything that may contain graph data: a view, the data half of one, or a side of a heatmap. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.DataContainer&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">DataContainer</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorFields</span><span class="p">,</span> <span class="n">MatrixFields</span><span class="p">,</span> <span class="n">VectorDataFields</span><span class="p">,</span> <span class="n">MatrixDataFields</span><span class="p">,</span> <span class="n">HeatmapSide</span><span class="p">]</span>
+<span class="n">DataContainer</span> <span class="o">=</span> <span class="n">VectorFields</span> <span class="o">|</span> <span class="n">MatrixFields</span> <span class="o">|</span> <span class="n">VectorDataFields</span> <span class="o">|</span> <span class="n">MatrixDataFields</span> <span class="o">|</span> <span class="n">HeatmapSide</span>
 
 <span class="c1">#: Anything that may contain graph configuration: a view, or the configuration half of one. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ConfigurationContainer&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">ConfigurationContainer</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
-    <span class="n">VectorFields</span><span class="p">,</span> <span class="n">MatrixFields</span><span class="p">,</span> <span class="n">AxisConfigurationFields</span><span class="p">,</span> <span class="n">ColorsConfigurationFields</span><span class="p">,</span> <span class="n">SizesConfigurationFields</span>
-<span class="p">]</span>
+<span class="n">ConfigurationContainer</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">VectorFields</span> <span class="o">|</span> <span class="n">MatrixFields</span> <span class="o">|</span> <span class="n">AxisConfigurationFields</span> <span class="o">|</span> <span class="n">ColorsConfigurationFields</span> <span class="o">|</span> <span class="n">SizesConfigurationFields</span>
+<span class="p">)</span>
 
 <span class="c1">#: A :py:obj:`DataContainer` or a :py:obj:`ConfigurationContainer`. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.AnyContainer&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">AnyContainer</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">DataContainer</span><span class="p">,</span> <span class="n">ConfigurationContainer</span><span class="p">]</span>
+<span class="n">AnyContainer</span> <span class="o">=</span> <span class="n">DataContainer</span> <span class="o">|</span> <span class="n">ConfigurationContainer</span>
 
 <span class="c1">#: One struct a data source writes data into. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.DataSink&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">DataSink</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">DataContainer</span><span class="p">,</span> <span class="n">DataLeaf</span><span class="p">]</span>
+<span class="n">DataSink</span> <span class="o">=</span> <span class="n">DataContainer</span> <span class="o">|</span> <span class="n">DataLeaf</span>
 
 <span class="c1">#: One struct a data source writes configuration into. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ConfigurationSink&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">ConfigurationSink</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigurationContainer</span><span class="p">,</span> <span class="n">ConfigurationLeaf</span><span class="p">]</span>
+<span class="n">ConfigurationSink</span> <span class="o">=</span> <span class="n">ConfigurationContainer</span> <span class="o">|</span> <span class="n">ConfigurationLeaf</span>
 
 <span class="c1">#: Any one struct a data source writes into. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.AnySink&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">AnySink</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnyContainer</span><span class="p">,</span> <span class="n">AnyLeaf</span><span class="p">]</span>
+<span class="n">AnySink</span> <span class="o">=</span> <span class="n">AnyContainer</span> <span class="o">|</span> <span class="n">AnyLeaf</span>
 
 <span class="c1">#: What a data source accepts: one :py:obj:`AnySink`, or a sequence of them. See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.Sinks&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">Sinks</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnySink</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnySink</span><span class="p">]]</span>
+<span class="n">Sinks</span> <span class="o">=</span> <span class="n">AnySink</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnySink</span><span class="p">]</span>
 
 <span class="c1">#: What a data source writing a value per entity accepts: every :py:obj:`Sinks` but a :py:obj:`MatrixDataLeaf`. See the</span>
 <span class="c1">#: Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.VectorDataSinks&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">VectorDataSinks</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnyContainer</span><span class="p">,</span> <span class="n">ConfigurationLeaf</span><span class="p">,</span> <span class="n">VectorDataLeaf</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnySink</span><span class="p">]]</span>
+<span class="n">VectorDataSinks</span> <span class="o">=</span> <span class="n">AnyContainer</span> <span class="o">|</span> <span class="n">ConfigurationLeaf</span> <span class="o">|</span> <span class="n">VectorDataLeaf</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnySink</span><span class="p">]</span>
 
 <span class="c1">#: What a data source writing a value per row per column accepts: every :py:obj:`Sinks` but a :py:obj:`VectorDataLeaf`.</span>
 <span class="c1">#: See the Julia</span>
 <span class="c1">#: `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixDataSinks&gt;`__</span>
 <span class="c1">#: for details.</span>
-<span class="n">MatrixDataSinks</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnyContainer</span><span class="p">,</span> <span class="n">ConfigurationLeaf</span><span class="p">,</span> <span class="n">MatrixDataLeaf</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnySink</span><span class="p">]]</span>
+<span class="n">MatrixDataSinks</span> <span class="o">=</span> <span class="n">AnyContainer</span> <span class="o">|</span> <span class="n">ConfigurationLeaf</span> <span class="o">|</span> <span class="n">MatrixDataLeaf</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">AnySink</span><span class="p">]</span>
 
 <span class="c1">#: How a put shows each value in a hover line. This is a Julia function, opaque to Python. Make one by</span>
 <span class="c1">#: :py:func:`fixed_format`, :py:func:`significant_format`, :py:func:`scientific_format` or :py:func:`percent_format`.</span>
@@ -575,7 +573,7 @@
 
 <div class="viewcode-block" id="visit_graph_parts">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.visit_graph_parts">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">visit_graph_parts</span><span class="p">(</span><span class="n">visitor</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span> <span class="n">target</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sinks</span><span class="p">,</span> <span class="n">Graph</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">visit_graph_parts</span><span class="p">(</span><span class="n">visitor</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span> <span class="n">target</span><span class="p">:</span> <span class="n">Sinks</span> <span class="o">|</span> <span class="n">Graph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Call the ``visitor`` on every struct the ``target`` reaches: a whole graph, or some sinks, once each. The walk doesn't</span>
 <span class="sd">    go into a leaf, the struct of a role (such as an ``AxisConfiguration``), which the ``visitor`` handles whole. See the</span>
@@ -617,10 +615,10 @@
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.put_vector_data">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">put_vector_data</span><span class="p">(</span>
     <span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">,</span>
-    <span class="n">value_per_entry</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NumbersVector</span><span class="p">,</span> <span class="n">StringsVector</span><span class="p">,</span> <span class="n">BoolsVector</span><span class="p">],</span>
+    <span class="n">value_per_entry</span><span class="p">:</span> <span class="n">NumbersVector</span> <span class="o">|</span> <span class="n">StringsVector</span> <span class="o">|</span> <span class="n">BoolsVector</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">hover_format</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">HoverFormat</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">hover_format</span><span class="p">:</span> <span class="n">HoverFormat</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Put a ``value_per_entry`` into the ``sinks``: as the values of a role, and as a hover line on the entities, shown by</span>
@@ -648,7 +646,7 @@
 
 <div class="viewcode-block" id="get_vector_names_data">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.get_vector_names_data">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_vector_names_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_vector_names_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The names of the entities of the ``sinks``, or ``None`` if they have none. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.get_vector_names_data&gt;`__</span>
@@ -688,8 +686,8 @@
     <span class="n">sinks</span><span class="p">:</span> <span class="n">MatrixDataSinks</span><span class="p">,</span>
     <span class="n">value_per_row_per_column</span><span class="p">:</span> <span class="n">NumbersMatrix</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-    <span class="n">hover_format</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">HoverFormat</span><span class="p">],</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="n">hover_format</span><span class="p">:</span> <span class="n">HoverFormat</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Put a ``value_per_row_per_column`` into the ``sinks``: as the values of the entries, and as a hover line on each</span>
@@ -717,7 +715,7 @@
 
 <div class="viewcode-block" id="get_matrix_names_data">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.get_matrix_names_data">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_matrix_names_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">MatrixDataSinks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_matrix_names_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">MatrixDataSinks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The names of the rows and of the columns of the ``sinks``, each ``None`` if they have none. See the Julia</span>
 <span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.get_matrix_names_data&gt;`__</span>
@@ -729,7 +727,7 @@
 
 <div class="viewcode-block" id="put_vector_tree_data">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.put_vector_tree_data">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">put_vector_tree_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">,</span> <span class="n">hclust</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinkageMatrix</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">put_vector_tree_data</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">,</span> <span class="n">hclust</span><span class="p">:</span> <span class="n">LinkageMatrix</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Give the arrangement of the ``sinks`` (that is, of the heatmap sides among them) the ``hclust`` tree of its</span>
 <span class="sd">    entries. See the Julia</span>
@@ -742,7 +740,7 @@
 
 <div class="viewcode-block" id="fill_entities">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.fill_entities">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">fill_entities</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapSide</span><span class="p">,</span> <span class="n">VectorEntitiesData</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fill_entities</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">HeatmapSide</span> <span class="o">|</span> <span class="n">VectorEntitiesData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Fill the entities of the ``sinks`` with a copy of the names, hovers, mask and order of the entities of the</span>
 <span class="sd">    ``source``. See the Julia</span>
@@ -755,7 +753,7 @@
 
 <div class="viewcode-block" id="fill_arrangement">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.fill_arrangement">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">fill_arrangement</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapSide</span><span class="p">,</span> <span class="n">ArrangementData</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fill_arrangement</span><span class="p">(</span><span class="n">sinks</span><span class="p">:</span> <span class="n">VectorDataSinks</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">HeatmapSide</span> <span class="o">|</span> <span class="n">ArrangementData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Fill the arrangement of the ``sinks`` with a copy of the tree, groups, subgroups and ``arrange_by`` matrix of the</span>
 <span class="sd">    arrangement of the ``source``. See the Julia</span>
@@ -792,7 +790,7 @@
 
 <div class="viewcode-block" id="fill_placement">
 <a class="viewcode-back" href="../../sources.html#somegraphspy.sources.fill_placement">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">fill_placement</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="n">HeatmapSide</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeatmapSide</span><span class="p">,</span> <span class="n">SidePlacement</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fill_placement</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="n">HeatmapSide</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">HeatmapSide</span> <span class="o">|</span> <span class="n">SidePlacement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Fill the ``target`` side with the computed placement of the ``source``: its final order and its tree (if any). The</span>
 <span class="sd">    ``target`` is then placed exactly as the ``source`` was. See the Julia</span>

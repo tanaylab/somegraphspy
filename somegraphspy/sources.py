@@ -13,10 +13,8 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
 from typing import NewType
-from typing import Optional
 from typing import Sequence
 from typing import Tuple
-from typing import Union
 
 import numpy as np
 
@@ -226,7 +224,7 @@ class VectorFields(JlObject):
     #: The values of the role and the entities they belong to.
     data: VectorDataFields
     #: How the values are shown.
-    configuration: Union[AxisConfigurationFields, ColorsConfigurationFields, SizesConfigurationFields]
+    configuration: AxisConfigurationFields | ColorsConfigurationFields | SizesConfigurationFields
 
 
 register_jl_type("VectorFields", VectorFields)
@@ -333,76 +331,76 @@ register_jl_type("HeatmapSide", HeatmapSide)
 #: A struct holding graph data with a value per entity. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.VectorDataLeaf>`__
 #: for details.
-VectorDataLeaf = Union[VectorValuesData, VectorEntitiesData, ArrangementData]
+VectorDataLeaf = VectorValuesData | VectorEntitiesData | ArrangementData
 
 #: A struct holding graph data with a value per row per column. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixDataLeaf>`__
 #: for details.
-MatrixDataLeaf = Union[MatrixValuesData, MatrixEntitiesData]
+MatrixDataLeaf = MatrixValuesData | MatrixEntitiesData
 
 #: A struct holding graph data. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.DataLeaf>`__
 #: for details.
-DataLeaf = Union[VectorDataLeaf, MatrixDataLeaf]
+DataLeaf = VectorDataLeaf | MatrixDataLeaf
 
 #: A struct holding graph configuration. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ConfigurationLeaf>`__
 #: for details.
-ConfigurationLeaf = Union[AxisConfiguration, ScaleConfiguration, ColorsConfiguration, SizesConfiguration]
+ConfigurationLeaf = AxisConfiguration | ScaleConfiguration | ColorsConfiguration | SizesConfiguration
 
 #: A :py:obj:`DataLeaf` or a :py:obj:`ConfigurationLeaf`. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.AnyLeaf>`__
 #: for details.
-AnyLeaf = Union[DataLeaf, ConfigurationLeaf]
+AnyLeaf = DataLeaf | ConfigurationLeaf
 
 #: Anything that may contain graph data: a view, the data half of one, or a side of a heatmap. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.DataContainer>`__
 #: for details.
-DataContainer = Union[VectorFields, MatrixFields, VectorDataFields, MatrixDataFields, HeatmapSide]
+DataContainer = VectorFields | MatrixFields | VectorDataFields | MatrixDataFields | HeatmapSide
 
 #: Anything that may contain graph configuration: a view, or the configuration half of one. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ConfigurationContainer>`__
 #: for details.
-ConfigurationContainer = Union[
-    VectorFields, MatrixFields, AxisConfigurationFields, ColorsConfigurationFields, SizesConfigurationFields
-]
+ConfigurationContainer = (
+    VectorFields | MatrixFields | AxisConfigurationFields | ColorsConfigurationFields | SizesConfigurationFields
+)
 
 #: A :py:obj:`DataContainer` or a :py:obj:`ConfigurationContainer`. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.AnyContainer>`__
 #: for details.
-AnyContainer = Union[DataContainer, ConfigurationContainer]
+AnyContainer = DataContainer | ConfigurationContainer
 
 #: One struct a data source writes data into. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.DataSink>`__
 #: for details.
-DataSink = Union[DataContainer, DataLeaf]
+DataSink = DataContainer | DataLeaf
 
 #: One struct a data source writes configuration into. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.ConfigurationSink>`__
 #: for details.
-ConfigurationSink = Union[ConfigurationContainer, ConfigurationLeaf]
+ConfigurationSink = ConfigurationContainer | ConfigurationLeaf
 
 #: Any one struct a data source writes into. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.AnySink>`__
 #: for details.
-AnySink = Union[AnyContainer, AnyLeaf]
+AnySink = AnyContainer | AnyLeaf
 
 #: What a data source accepts: one :py:obj:`AnySink`, or a sequence of them. See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.Sinks>`__
 #: for details.
-Sinks = Union[AnySink, Sequence[AnySink]]
+Sinks = AnySink | Sequence[AnySink]
 
 #: What a data source writing a value per entity accepts: every :py:obj:`Sinks` but a :py:obj:`MatrixDataLeaf`. See the
 #: Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.VectorDataSinks>`__
 #: for details.
-VectorDataSinks = Union[AnyContainer, ConfigurationLeaf, VectorDataLeaf, Sequence[AnySink]]
+VectorDataSinks = AnyContainer | ConfigurationLeaf | VectorDataLeaf | Sequence[AnySink]
 
 #: What a data source writing a value per row per column accepts: every :py:obj:`Sinks` but a :py:obj:`VectorDataLeaf`.
 #: See the Julia
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.MatrixDataSinks>`__
 #: for details.
-MatrixDataSinks = Union[AnyContainer, ConfigurationLeaf, MatrixDataLeaf, Sequence[AnySink]]
+MatrixDataSinks = AnyContainer | ConfigurationLeaf | MatrixDataLeaf | Sequence[AnySink]
 
 #: How a put shows each value in a hover line. This is a Julia function, opaque to Python. Make one by
 #: :py:func:`fixed_format`, :py:func:`significant_format`, :py:func:`scientific_format` or :py:func:`percent_format`.
@@ -449,7 +447,7 @@ def percent_format(*, digits: int, separated: bool = True) -> HoverFormat:
     return HoverFormat(jl.SomeGraphs.percent_format(digits=digits, separated=separated))
 
 
-def visit_graph_parts(visitor: Callable[[Any], None], target: Union[Sinks, Graph]) -> None:
+def visit_graph_parts(visitor: Callable[[Any], None], target: Sinks | Graph) -> None:
     """
     Call the ``visitor`` on every struct the ``target`` reaches: a whole graph, or some sinks, once each. The walk doesn't
     go into a leaf, the struct of a role (such as an ``AxisConfiguration``), which the ``visitor`` handles whole. See the
@@ -482,10 +480,10 @@ def visit_configuration_sinks(visitor: Callable[[Any], None], sinks: Sinks) -> N
 
 def put_vector_data(
     sinks: VectorDataSinks,
-    value_per_entry: Union[NumbersVector, StringsVector, BoolsVector],
+    value_per_entry: NumbersVector | StringsVector | BoolsVector,
     *,
-    title: Union[Optional[str], DefaultValue] = DEFAULT,
-    hover_format: Union[Optional[HoverFormat], DefaultValue] = DEFAULT,
+    title: str | None | DefaultValue = DEFAULT,
+    hover_format: HoverFormat | None | DefaultValue = DEFAULT,
 ) -> None:
     """
     Put a ``value_per_entry`` into the ``sinks``: as the values of a role, and as a hover line on the entities, shown by
@@ -507,7 +505,7 @@ def put_vector_names_data(sinks: VectorDataSinks, name_per_entry: StringsVector)
     jl.SomeGraphs.put_vector_names_data_b(_to_julia(sinks), _to_julia(name_per_entry))
 
 
-def get_vector_names_data(sinks: VectorDataSinks) -> Optional[np.ndarray]:
+def get_vector_names_data(sinks: VectorDataSinks) -> np.ndarray | None:
     """
     The names of the entities of the ``sinks``, or ``None`` if they have none. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.get_vector_names_data>`__
@@ -538,8 +536,8 @@ def put_matrix_data(
     sinks: MatrixDataSinks,
     value_per_row_per_column: NumbersMatrix,
     *,
-    title: Union[Optional[str], DefaultValue] = DEFAULT,
-    hover_format: Union[Optional[HoverFormat], DefaultValue] = DEFAULT,
+    title: str | None | DefaultValue = DEFAULT,
+    hover_format: HoverFormat | None | DefaultValue = DEFAULT,
 ) -> None:
     """
     Put a ``value_per_row_per_column`` into the ``sinks``: as the values of the entries, and as a hover line on each
@@ -561,7 +559,7 @@ def put_matrix_names_data(sinks: MatrixDataSinks, name_per_row: StringsVector, n
     jl.SomeGraphs.put_matrix_names_data_b(_to_julia(sinks), _to_julia(name_per_row), _to_julia(name_per_column))
 
 
-def get_matrix_names_data(sinks: MatrixDataSinks) -> Tuple[Optional[np.ndarray], Optional[np.ndarray]]:
+def get_matrix_names_data(sinks: MatrixDataSinks) -> Tuple[np.ndarray | None, np.ndarray | None]:
     """
     The names of the rows and of the columns of the ``sinks``, each ``None`` if they have none. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/sources.html#SomeGraphs.Sources.get_matrix_names_data>`__
@@ -570,7 +568,7 @@ def get_matrix_names_data(sinks: MatrixDataSinks) -> Tuple[Optional[np.ndarray],
     return _from_julia(jl.SomeGraphs.get_matrix_names_data(_to_julia(sinks)))
 
 
-def put_vector_tree_data(sinks: VectorDataSinks, hclust: Optional[LinkageMatrix]) -> None:
+def put_vector_tree_data(sinks: VectorDataSinks, hclust: LinkageMatrix | None) -> None:
     """
     Give the arrangement of the ``sinks`` (that is, of the heatmap sides among them) the ``hclust`` tree of its
     entries. See the Julia
@@ -580,7 +578,7 @@ def put_vector_tree_data(sinks: VectorDataSinks, hclust: Optional[LinkageMatrix]
     jl.SomeGraphs.put_vector_tree_data_b(_to_julia(sinks), _tree_to_julia(hclust))
 
 
-def fill_entities(sinks: VectorDataSinks, source: Union[HeatmapSide, VectorEntitiesData]) -> None:
+def fill_entities(sinks: VectorDataSinks, source: HeatmapSide | VectorEntitiesData) -> None:
     """
     Fill the entities of the ``sinks`` with a copy of the names, hovers, mask and order of the entities of the
     ``source``. See the Julia
@@ -590,7 +588,7 @@ def fill_entities(sinks: VectorDataSinks, source: Union[HeatmapSide, VectorEntit
     jl.SomeGraphs.fill_entities_b(_to_julia(sinks), _to_julia(source))
 
 
-def fill_arrangement(sinks: VectorDataSinks, source: Union[HeatmapSide, ArrangementData]) -> None:
+def fill_arrangement(sinks: VectorDataSinks, source: HeatmapSide | ArrangementData) -> None:
     """
     Fill the arrangement of the ``sinks`` with a copy of the tree, groups, subgroups and ``arrange_by`` matrix of the
     arrangement of the ``source``. See the Julia
@@ -618,7 +616,7 @@ def fill_configuration(target: HeatmapSide, source: HeatmapSide) -> None:
     jl.SomeGraphs.fill_configuration_b(target.jl_obj, source.jl_obj)
 
 
-def fill_placement(target: HeatmapSide, source: Union[HeatmapSide, SidePlacement]) -> None:
+def fill_placement(target: HeatmapSide, source: HeatmapSide | SidePlacement) -> None:
     """
     Fill the ``target`` side with the computed placement of the ``source``: its final order and its tree (if any). The
     ``target`` is then placed exactly as the ``source`` was. See the Julia

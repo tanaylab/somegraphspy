@@ -28,7 +28,6 @@ from typing import Any
 from typing import Callable
 from typing import Dict
 from typing import List
-from typing import Optional
 from typing import Tuple
 
 __all__ = ["configure_julia", "wrap_package", "report"]
@@ -67,7 +66,7 @@ STATE = threading.local()
 COMPILE_SECONDS: List[Any] = []
 
 
-def trace_directory() -> Optional[str]:
+def trace_directory() -> str | None:
     """
     The directory to write to, if tracing is enabled (for internal use).
     """
@@ -350,7 +349,7 @@ def julia_report(calls: Dict[str, List[Dict[str, Any]]]) -> List[str]:
     return lines
 
 
-def julia_statement(statement: str) -> Optional[str]:
+def julia_statement(statement: str) -> str | None:
     """
     A compiled method as a Julia user would need it, with Python types as Julia ones, or ``None`` if only Python needs
     it (for internal use).
@@ -362,7 +361,7 @@ def julia_statement(statement: str) -> Optional[str]:
     return statement
 
 
-def julia_package(statement: str) -> Optional[str]:
+def julia_package(statement: str) -> str | None:
     """
     The first of our Julia packages a compiled method names, if any (for internal use).
     """

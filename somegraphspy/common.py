@@ -8,10 +8,8 @@ Common data types for specifying graphs. See the Julia
 
 from typing import Any
 from typing import Mapping
-from typing import Optional
 from typing import Sequence
 from typing import Tuple
-from typing import Union
 
 import numpy as np
 from plotly.graph_objects import Figure  # type: ignore
@@ -70,16 +68,16 @@ __all__ = [
 ]
 
 #: A vector of numbers.
-NumbersVector = Union[np.ndarray, Sequence[float]]
+NumbersVector = np.ndarray | Sequence[float]
 
 #: A vector of integers.
-IntegersVector = Union[np.ndarray, Sequence[int]]
+IntegersVector = np.ndarray | Sequence[int]
 
 #: A vector of strings.
-StringsVector = Union[np.ndarray, Sequence[str]]
+StringsVector = np.ndarray | Sequence[str]
 
 #: A vector of booleans, used as a mask.
-BoolsVector = Union[np.ndarray, Sequence[bool]]
+BoolsVector = np.ndarray | Sequence[bool]
 
 #: A matrix of numbers. Entry ``matrix[row, column]`` is the same entry in Python and in Julia, whatever the memory
 #: layout of the array is.
@@ -212,7 +210,7 @@ register_jl_type("AutomaticColors", AutomaticColors)
 
 #: The ways to specify how to color data: a named Plotly color scale, an explicit continuous or categorical palette, or
 #: :py:obj:`AutomaticColors`.
-Palette = Union[str, ContinuousColors, CategoricalColors, AutomaticColors]
+Palette = str | ContinuousColors | CategoricalColors | AutomaticColors
 
 
 class MarginsConfiguration(Validated):
@@ -234,10 +232,10 @@ class MarginsConfiguration(Validated):
     def __init__(
         self,
         *,
-        left: Union[int, DefaultValue] = DEFAULT,
-        bottom: Union[int, DefaultValue] = DEFAULT,
-        right: Union[int, DefaultValue] = DEFAULT,
-        top: Union[int, DefaultValue] = DEFAULT,
+        left: int | DefaultValue = DEFAULT,
+        bottom: int | DefaultValue = DEFAULT,
+        right: int | DefaultValue = DEFAULT,
+        top: int | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(jl.SomeGraphs.MarginsConfiguration(**_given(left=left, bottom=bottom, right=right, top=top)))
 
@@ -255,9 +253,9 @@ class FigureConfiguration(Validated):
     #: The margins around the graph.
     margins: MarginsConfiguration
     #: The width of the figure in pixels.
-    width: Optional[int]
+    width: int | None
     #: The height of the figure in pixels.
-    height: Optional[int]
+    height: int | None
     #: The color of the area behind the graph itself.
     background_color: str
     #: The color of the area around the graph.
@@ -268,12 +266,12 @@ class FigureConfiguration(Validated):
     def __init__(
         self,
         *,
-        margins: Union[MarginsConfiguration, DefaultValue] = DEFAULT,
-        width: Union[Optional[int], DefaultValue] = DEFAULT,
-        height: Union[Optional[int], DefaultValue] = DEFAULT,
-        background_color: Union[str, DefaultValue] = DEFAULT,
-        paper_color: Union[str, DefaultValue] = DEFAULT,
-        colors_scale_offsets: Union[NumbersVector, DefaultValue] = DEFAULT,
+        margins: MarginsConfiguration | DefaultValue = DEFAULT,
+        width: int | None | DefaultValue = DEFAULT,
+        height: int | None | DefaultValue = DEFAULT,
+        background_color: str | DefaultValue = DEFAULT,
+        paper_color: str | DefaultValue = DEFAULT,
+        colors_scale_offsets: NumbersVector | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.FigureConfiguration(
@@ -300,13 +298,13 @@ class ScaleConfiguration(Validated):
     """
 
     #: The minimal value shown.
-    minimum: Optional[float]
+    minimum: float | None
     #: The maximal value shown.
-    maximum: Optional[float]
+    maximum: float | None
     #: Whether entities hidden by a mask still take part in the automatic range.
     include_hidden: bool
     #: Scale the values by a logarithm of this base.
-    log_base: Optional[LogBase]
+    log_base: LogBase | None
     #: Added to the values before taking their logarithm.
     log_regularization: float
     #: Show the values as percents.
@@ -315,12 +313,12 @@ class ScaleConfiguration(Validated):
     def __init__(
         self,
         *,
-        minimum: Union[Optional[float], DefaultValue] = DEFAULT,
-        maximum: Union[Optional[float], DefaultValue] = DEFAULT,
-        include_hidden: Union[bool, DefaultValue] = DEFAULT,
-        log_base: Union[Optional[LogBase], DefaultValue] = DEFAULT,
-        log_regularization: Union[float, DefaultValue] = DEFAULT,
-        percent: Union[bool, DefaultValue] = DEFAULT,
+        minimum: float | None | DefaultValue = DEFAULT,
+        maximum: float | None | DefaultValue = DEFAULT,
+        include_hidden: bool | DefaultValue = DEFAULT,
+        log_base: LogBase | None | DefaultValue = DEFAULT,
+        log_regularization: float | DefaultValue = DEFAULT,
+        percent: bool | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.ScaleConfiguration(
@@ -347,7 +345,7 @@ class SizesConfiguration(Validated):
     """
 
     #: Use this fixed size for everything, instead of scaling the data.
-    fixed: Optional[float]
+    fixed: float | None
     #: How to scale the data values.
     scale: ScaleConfiguration
     #: The size of the smallest data value.
@@ -357,17 +355,17 @@ class SizesConfiguration(Validated):
     #: Show a legend for the sizes.
     show_legend: bool
     #: The title to use when showing the legend.
-    title: Optional[str]
+    title: str | None
 
     def __init__(
         self,
         *,
-        fixed: Union[Optional[float], DefaultValue] = DEFAULT,
-        scale: Union[ScaleConfiguration, DefaultValue] = DEFAULT,
-        smallest: Union[float, DefaultValue] = DEFAULT,
-        span: Union[float, DefaultValue] = DEFAULT,
-        show_legend: Union[bool, DefaultValue] = DEFAULT,
-        title: Union[Optional[str], DefaultValue] = DEFAULT,
+        fixed: float | None | DefaultValue = DEFAULT,
+        scale: ScaleConfiguration | DefaultValue = DEFAULT,
+        smallest: float | DefaultValue = DEFAULT,
+        span: float | DefaultValue = DEFAULT,
+        show_legend: bool | DefaultValue = DEFAULT,
+        title: str | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.SizesConfiguration(
@@ -393,24 +391,24 @@ class AxisConfiguration(Validated):
     #: Show the tick labels.
     show_ticks: bool
     #: Rotate the tick labels by this angle, in degrees.
-    ticks_angle: Optional[float]
+    ticks_angle: float | None
     #: Show the grid lines.
     show_grid: bool
     #: The color of the grid lines.
     grid_color: str
     #: The title of the axis.
-    title: Optional[str]
+    title: str | None
 
     def __init__(
         self,
         *,
-        scale: Union[ScaleConfiguration, DefaultValue] = DEFAULT,
-        expand_fraction: Union[float, DefaultValue] = DEFAULT,
-        show_ticks: Union[bool, DefaultValue] = DEFAULT,
-        ticks_angle: Union[Optional[float], DefaultValue] = DEFAULT,
-        show_grid: Union[bool, DefaultValue] = DEFAULT,
-        grid_color: Union[str, DefaultValue] = DEFAULT,
-        title: Union[Optional[str], DefaultValue] = DEFAULT,
+        scale: ScaleConfiguration | DefaultValue = DEFAULT,
+        expand_fraction: float | DefaultValue = DEFAULT,
+        show_ticks: bool | DefaultValue = DEFAULT,
+        ticks_angle: float | None | DefaultValue = DEFAULT,
+        show_grid: bool | DefaultValue = DEFAULT,
+        grid_color: str | DefaultValue = DEFAULT,
+        title: str | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.AxisConfiguration(
@@ -438,21 +436,21 @@ class LineConfiguration(Validated):
     """
 
     #: The width of the line in pixels.
-    width: Optional[float]
+    width: float | None
     #: The style of the line, or ``None`` not to show it at all.
-    style: Optional[LineStyle]
+    style: LineStyle | None
     #: Fill the area below (or to the left of) the line.
     is_filled: bool
     #: The color of the line.
-    color: Optional[str]
+    color: str | None
 
     def __init__(
         self,
         *,
-        width: Union[Optional[float], DefaultValue] = DEFAULT,
-        style: Union[Optional[LineStyle], DefaultValue] = DEFAULT,
-        is_filled: Union[bool, DefaultValue] = DEFAULT,
-        color: Union[Optional[str], DefaultValue] = DEFAULT,
+        width: float | None | DefaultValue = DEFAULT,
+        style: LineStyle | None | DefaultValue = DEFAULT,
+        is_filled: bool | DefaultValue = DEFAULT,
+        color: str | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.LineConfiguration(**_given(width=width, style=style, is_filled=is_filled, color=color))
@@ -470,15 +468,15 @@ class BandConfiguration(Validated):
     """
 
     #: The offset of the band, or ``None`` not to show it at all.
-    offset: Optional[float]
+    offset: float | None
     #: How to draw the boundary line of the band.
     line: LineConfiguration
 
     def __init__(
         self,
         *,
-        offset: Union[Optional[float], DefaultValue] = DEFAULT,
-        line: Union[LineConfiguration, DefaultValue] = DEFAULT,
+        offset: float | None | DefaultValue = DEFAULT,
+        line: LineConfiguration | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(jl.SomeGraphs.BandConfiguration(**_given(offset=offset, line=line)))
 
@@ -503,9 +501,9 @@ class BandsConfiguration(Validated):
     def __init__(
         self,
         *,
-        low: Union[BandConfiguration, DefaultValue] = DEFAULT,
-        middle: Union[BandConfiguration, DefaultValue] = DEFAULT,
-        high: Union[BandConfiguration, DefaultValue] = DEFAULT,
+        low: BandConfiguration | DefaultValue = DEFAULT,
+        middle: BandConfiguration | DefaultValue = DEFAULT,
+        high: BandConfiguration | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(jl.SomeGraphs.BandsConfiguration(**_given(low=low, middle=middle, high=high)))
 
@@ -521,18 +519,18 @@ class BandsData(JlObject):
     """
 
     #: The offset of the band separating the low region.
-    low_offset: Optional[float]
+    low_offset: float | None
     #: The offset of the band in the middle region.
-    middle_offset: Optional[float]
+    middle_offset: float | None
     #: The offset of the band separating the high region.
-    high_offset: Optional[float]
+    high_offset: float | None
 
     def __init__(
         self,
         *,
-        low_offset: Union[Optional[float], DefaultValue] = DEFAULT,
-        middle_offset: Union[Optional[float], DefaultValue] = DEFAULT,
-        high_offset: Union[Optional[float], DefaultValue] = DEFAULT,
+        low_offset: float | None | DefaultValue = DEFAULT,
+        middle_offset: float | None | DefaultValue = DEFAULT,
+        high_offset: float | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.BandsData(
@@ -552,24 +550,24 @@ class ColorsConfiguration(Validated):
     """
 
     #: How to map the colors data to actual colors.
-    palette: Optional[Palette]
+    palette: Palette | None
     #: Give all the entities this same color.
-    fixed: Optional[str]
+    fixed: str | None
     #: How to scale the (numeric) colors data.
     scale: ScaleConfiguration
     #: Show a legend (or a color scale) for the colors.
     show_legend: bool
     #: The title to use when showing the legend.
-    title: Optional[str]
+    title: str | None
 
     def __init__(
         self,
         *,
-        palette: Union[Optional[Palette], DefaultValue] = DEFAULT,
-        fixed: Union[Optional[str], DefaultValue] = DEFAULT,
-        scale: Union[ScaleConfiguration, DefaultValue] = DEFAULT,
-        show_legend: Union[bool, DefaultValue] = DEFAULT,
-        title: Union[Optional[str], DefaultValue] = DEFAULT,
+        palette: Palette | None | DefaultValue = DEFAULT,
+        fixed: str | None | DefaultValue = DEFAULT,
+        scale: ScaleConfiguration | DefaultValue = DEFAULT,
+        show_legend: bool | DefaultValue = DEFAULT,
+        title: str | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.ColorsConfiguration(
@@ -596,8 +594,8 @@ class AnnotationSize(Validated):
     def __init__(
         self,
         *,
-        size: Union[float, DefaultValue] = DEFAULT,
-        gap: Union[float, DefaultValue] = DEFAULT,
+        size: float | DefaultValue = DEFAULT,
+        gap: float | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(jl.SomeGraphs.AnnotationSize(**_given(size=size, gap=gap)))
 
@@ -614,15 +612,15 @@ class VectorValuesData(JlObject):
     """
 
     #: The values, one per entity; either numbers or strings, depending on the role.
-    vector: Optional[Union[NumbersVector, StringsVector]]
+    vector: NumbersVector | StringsVector | None
     #: The title of the values.
-    title: Optional[str]
+    title: str | None
 
     def __init__(
         self,
         *,
-        vector: Union[Optional[Union[NumbersVector, StringsVector]], DefaultValue] = DEFAULT,
-        title: Union[Optional[str], DefaultValue] = DEFAULT,
+        vector: NumbersVector | StringsVector | None | DefaultValue = DEFAULT,
+        title: str | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(jl.SomeGraphs.VectorValuesData(**_given(vector=vector, title=title)))
 
@@ -639,26 +637,26 @@ class VectorEntitiesData(JlObject):
     """
 
     #: The name of each entity.
-    names: Optional[StringsVector]
+    names: StringsVector | None
     #: The hover text of each entity.
-    hovers: Optional[StringsVector]
+    hovers: StringsVector | None
     #: Which entities to show.
-    mask: Optional[BoolsVector]
+    mask: BoolsVector | None
     #: The (1-based) order of the entities. What it means depends on the graph: the draw order of points and edges,
     #: the order of bars along the bar axis, the layout of a heatmap axis. It is rejected where it has no meaning.
-    order: Optional[IntegersVector]
+    order: IntegersVector | None
 
     def __init__(
         self,
         *,
-        names: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        hovers: Union[Optional[StringsVector], DefaultValue] = DEFAULT,
-        mask: Union[Optional[BoolsVector], DefaultValue] = DEFAULT,
-        order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
+        names: StringsVector | None | DefaultValue = DEFAULT,
+        hovers: StringsVector | None | DefaultValue = DEFAULT,
+        mask: BoolsVector | None | DefaultValue = DEFAULT,
+        order: IntegersVector | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(jl.SomeGraphs.VectorEntitiesData(**_given(names=names, hovers=hovers, mask=mask, order=order)))
 
-    def add_hovers(self, hovers: StringsVector, title: Union[Optional[str], DefaultValue] = DEFAULT) -> None:
+    def add_hovers(self, hovers: StringsVector, title: str | None | DefaultValue = DEFAULT) -> None:
         """
         Add a line to the hover of each entity: its entry of ``hovers``, prefixed by the ``title`` (if any) as
         ``title: hover``. See the Julia
@@ -681,22 +679,22 @@ class ArrangementData(JlObject):
 
     #: A clustering tree of the entries (for example, from the ``SidePlacement`` of a previously generated graph, or
     #: made by SciPy).
-    hclust: Optional[LinkageMatrix]
+    hclust: LinkageMatrix | None
     #: The group of each entry, either numbers or names. The groups have no title.
     groups: VectorValuesData
     #: The subgroup of each entry, nested in its group. A subgroup of one group is unrelated to the same subgroup of
     #: another group, so the subgroups need not be unique. The subgroups have no title.
     subgroups: VectorValuesData
     #: The features to cluster the entries by, instead of the entries values.
-    arrange_by: Optional[NumbersMatrix]
+    arrange_by: NumbersMatrix | None
 
     def __init__(
         self,
         *,
-        hclust: Union[Optional[LinkageMatrix], DefaultValue] = DEFAULT,
-        groups: Union[VectorValuesData, DefaultValue] = DEFAULT,
-        subgroups: Union[VectorValuesData, DefaultValue] = DEFAULT,
-        arrange_by: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
+        hclust: LinkageMatrix | None | DefaultValue = DEFAULT,
+        groups: VectorValuesData | DefaultValue = DEFAULT,
+        subgroups: VectorValuesData | DefaultValue = DEFAULT,
+        arrange_by: NumbersMatrix | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.ArrangementData(
@@ -733,7 +731,7 @@ class SidePlacement(JlObject):
     #: The final (1-based) order of the entries; the identity if they weren't reordered at all.
     order: IntegersVector
     #: The tree of the entries, if one was needed.
-    hclust: Optional[LinkageMatrix]
+    hclust: LinkageMatrix | None
 
 
 register_jl_type("SidePlacement", SidePlacement)
@@ -747,15 +745,15 @@ class MatrixValuesData(JlObject):
     """
 
     #: The values, a row per row and a column per column.
-    matrix: Optional[NumbersMatrix]
+    matrix: NumbersMatrix | None
     #: The title of the values.
-    title: Optional[str]
+    title: str | None
 
     def __init__(
         self,
         *,
-        matrix: Union[Optional[NumbersMatrix], DefaultValue] = DEFAULT,
-        title: Union[Optional[str], DefaultValue] = DEFAULT,
+        matrix: NumbersMatrix | None | DefaultValue = DEFAULT,
+        title: str | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(jl.SomeGraphs.MatrixValuesData(**_given(matrix=matrix, title=title)))
 
@@ -771,12 +769,12 @@ class MatrixEntitiesData(JlObject):
     """
 
     #: The hover text of each entity.
-    hovers: Optional[StringsMatrix]
+    hovers: StringsMatrix | None
 
-    def __init__(self, *, hovers: Union[Optional[StringsMatrix], DefaultValue] = DEFAULT) -> None:
+    def __init__(self, *, hovers: StringsMatrix | None | DefaultValue = DEFAULT) -> None:
         super().__init__(jl.SomeGraphs.MatrixEntitiesData(**_given(hovers=hovers)))
 
-    def add_hovers(self, hovers: StringsMatrix, title: Union[Optional[str], DefaultValue] = DEFAULT) -> None:
+    def add_hovers(self, hovers: StringsMatrix, title: str | None | DefaultValue = DEFAULT) -> None:
         """
         Add a line to the hover of each entity: its entry of ``hovers``, prefixed by the ``title`` (if any) as
         ``title: hover``. See the Julia
@@ -789,7 +787,7 @@ class MatrixEntitiesData(JlObject):
 register_jl_type("MatrixEntitiesData", MatrixEntitiesData)
 
 
-def _add_hovers(entities: JlObject, hovers: Any, title: Union[Optional[str], DefaultValue]) -> None:
+def _add_hovers(entities: JlObject, hovers: Any, title: str | None | DefaultValue) -> None:
     # The Julia error is re-raised as a plain Python one, for the same reason as in ``JlObject.__setattr__``.
     try:
         jl.SomeGraphs.add_hovers_b(entities.jl_obj, _to_julia(hovers), **_given(title=title))
@@ -814,9 +812,9 @@ class AnnotationData(Validated):
     def __init__(
         self,
         *,
-        values: Union[VectorValuesData, DefaultValue] = DEFAULT,
-        colors: Union[ColorsConfiguration, DefaultValue] = DEFAULT,
-        is_shown: Union[bool, DefaultValue] = DEFAULT,
+        values: VectorValuesData | DefaultValue = DEFAULT,
+        colors: ColorsConfiguration | DefaultValue = DEFAULT,
+        is_shown: bool | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(jl.SomeGraphs.AnnotationData(**_given(values=values, colors=colors, is_shown=is_shown)))
 
@@ -843,7 +841,7 @@ class AbstractGraphData(Validated):
     """
 
     #: The title of the whole figure, which every graph has.
-    figure_title: Optional[str]
+    figure_title: str | None
 
 
 class Graph(Validated):
@@ -953,9 +951,7 @@ class Graph(Validated):
         super().validate(name)
 
 
-def categorical_palette(
-    values: Union[StringsVector, Any], palette: Union[str, DefaultValue] = DEFAULT
-) -> CategoricalColors:
+def categorical_palette(values: StringsVector | Any, palette: str | DefaultValue = DEFAULT) -> CategoricalColors:
     """
     Create a categorical colors palette assigning a distinct color to each of the ``values``. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.categorical_palette>`__

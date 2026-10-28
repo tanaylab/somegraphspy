@@ -7,9 +7,7 @@ Graphs showing a matrix of values as a heatmap. See the Julia
 # pylint: disable=invalid-name
 
 from typing import Any
-from typing import Optional
 from typing import Sequence
-from typing import Union
 
 from .common import AbstractGraphConfiguration
 from .common import AbstractGraphData
@@ -174,7 +172,7 @@ class EntriesConfiguration(Validated):
     #: How to color the entries (only continuous palettes are supported).
     colors: ColorsConfiguration
 
-    def __init__(self, *, colors: Union[ColorsConfiguration, DefaultValue] = DEFAULT) -> None:
+    def __init__(self, *, colors: ColorsConfiguration | DefaultValue = DEFAULT) -> None:
         super().__init__(jl.SomeGraphs.EntriesConfiguration(**_given(colors=colors)))
 
 
@@ -194,51 +192,51 @@ class HeatmapSideConfiguration(Validated):
     """
 
     #: The title of the axis.
-    title: Optional[str]
+    title: str | None
     #: Show the tick labels (the names of the entries).
     show_ticks: bool
     #: Rotate the tick labels by this angle, in degrees.
-    ticks_angle: Optional[float]
+    ticks_angle: float | None
     #: The size of the annotations shown next to the entries.
     annotations: AnnotationSize
     #: Where the tree of the entries comes from, if one is needed; by default, inferred from what is given.
-    tree_source: Optional[TreeSource]
+    tree_source: TreeSource | None
     #: Where the order of the entries comes from; by default, inferred from what is given.
-    order_source: Optional[OrderSource]
+    order_source: OrderSource | None
     #: The linkage used when clustering the entries.
-    linkage: Optional[HeatmapLinkage]
+    linkage: HeatmapLinkage | None
     #: The distance metric used when clustering the entries, a Julia ``Distances.PreMetric``.
-    metric: Optional[Any]
+    metric: Any | None
     #: Whether entries hidden by the mask take part in a computed clustering.
     include_hidden: bool
     #: The gap between groups of entries, in entries.
-    groups_gap: Optional[int]
+    groups_gap: int | None
     #: The gap between subgroups of entries, in entries.
-    subgroups_gap: Optional[int]
+    subgroups_gap: int | None
     #: Cap the total size of all the gaps to this fraction of the axis.
-    total_gaps_fraction: Optional[float]
+    total_gaps_fraction: float | None
     #: The size of the dendogram, as a fraction of the graph size.
-    dendogram_size: Optional[float]
+    dendogram_size: float | None
     #: How to draw the dendogram.
     dendogram_line: LineConfiguration
 
     def __init__(
         self,
         *,
-        title: Union[Optional[str], DefaultValue] = DEFAULT,
-        show_ticks: Union[bool, DefaultValue] = DEFAULT,
-        ticks_angle: Union[Optional[float], DefaultValue] = DEFAULT,
-        annotations: Union[AnnotationSize, DefaultValue] = DEFAULT,
-        tree_source: Union[Optional[TreeSource], DefaultValue] = DEFAULT,
-        order_source: Union[Optional[OrderSource], DefaultValue] = DEFAULT,
-        linkage: Union[Optional[HeatmapLinkage], DefaultValue] = DEFAULT,
-        metric: Union[Optional[Any], DefaultValue] = DEFAULT,
-        include_hidden: Union[bool, DefaultValue] = DEFAULT,
-        groups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
-        subgroups_gap: Union[Optional[int], DefaultValue] = DEFAULT,
-        total_gaps_fraction: Union[Optional[float], DefaultValue] = DEFAULT,
-        dendogram_size: Union[Optional[float], DefaultValue] = DEFAULT,
-        dendogram_line: Union[LineConfiguration, DefaultValue] = DEFAULT,
+        title: str | None | DefaultValue = DEFAULT,
+        show_ticks: bool | DefaultValue = DEFAULT,
+        ticks_angle: float | None | DefaultValue = DEFAULT,
+        annotations: AnnotationSize | DefaultValue = DEFAULT,
+        tree_source: TreeSource | None | DefaultValue = DEFAULT,
+        order_source: OrderSource | None | DefaultValue = DEFAULT,
+        linkage: HeatmapLinkage | None | DefaultValue = DEFAULT,
+        metric: Any | None | DefaultValue = DEFAULT,
+        include_hidden: bool | DefaultValue = DEFAULT,
+        groups_gap: int | None | DefaultValue = DEFAULT,
+        subgroups_gap: int | None | DefaultValue = DEFAULT,
+        total_gaps_fraction: float | None | DefaultValue = DEFAULT,
+        dendogram_size: float | None | DefaultValue = DEFAULT,
+        dendogram_line: LineConfiguration | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.HeatmapSideConfiguration(
@@ -284,17 +282,17 @@ class HeatmapGraphConfiguration(AbstractGraphConfiguration):
     origin: HeatmapOrigin
     #: Caches the computed placement of the rows and the columns; access it through the graph's ``placement``, and
     #: reset it with the graph's ``reset_placement`` if anything it was computed from is changed after it was computed.
-    final_placement: Optional[HeatmapGraphPlacement]
+    final_placement: HeatmapGraphPlacement | None
 
     def __init__(
         self,
         *,
-        figure: Union[FigureConfiguration, DefaultValue] = DEFAULT,
-        entries: Union[EntriesConfiguration, DefaultValue] = DEFAULT,
-        rows: Union[HeatmapSideConfiguration, DefaultValue] = DEFAULT,
-        columns: Union[HeatmapSideConfiguration, DefaultValue] = DEFAULT,
-        origin: Union[HeatmapOrigin, DefaultValue] = DEFAULT,
-        final_placement: Union[Optional[HeatmapGraphPlacement], DefaultValue] = DEFAULT,
+        figure: FigureConfiguration | DefaultValue = DEFAULT,
+        entries: EntriesConfiguration | DefaultValue = DEFAULT,
+        rows: HeatmapSideConfiguration | DefaultValue = DEFAULT,
+        columns: HeatmapSideConfiguration | DefaultValue = DEFAULT,
+        origin: HeatmapOrigin | DefaultValue = DEFAULT,
+        final_placement: HeatmapGraphPlacement | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.HeatmapGraphConfiguration(
@@ -327,15 +325,15 @@ class HeatmapSideData(JlObject):
     #: Annotations shown next to the entries.
     annotations: Sequence[AnnotationData]
     #: The (1-based) order to show the annotations in.
-    annotations_order: Optional[IntegersVector]
+    annotations_order: IntegersVector | None
 
     def __init__(
         self,
         *,
-        entities: Union[VectorEntitiesData, DefaultValue] = DEFAULT,
-        arrangement: Union[ArrangementData, DefaultValue] = DEFAULT,
-        annotations: Union[Sequence[AnnotationData], DefaultValue] = DEFAULT,
-        annotations_order: Union[Optional[IntegersVector], DefaultValue] = DEFAULT,
+        entities: VectorEntitiesData | DefaultValue = DEFAULT,
+        arrangement: ArrangementData | DefaultValue = DEFAULT,
+        annotations: Sequence[AnnotationData] | DefaultValue = DEFAULT,
+        annotations_order: IntegersVector | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.HeatmapSideData(
@@ -360,7 +358,7 @@ class HeatmapGraphData(AbstractGraphData):
     """
 
     #: The title of the figure.
-    figure_title: Optional[str]
+    figure_title: str | None
     #: The value of each entry, a row per row and a column per column; their title is the colors legend title.
     entries: MatrixValuesData
     #: The hovers of the entries.
@@ -373,11 +371,11 @@ class HeatmapGraphData(AbstractGraphData):
     def __init__(
         self,
         *,
-        figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-        entries: Union[MatrixValuesData, DefaultValue] = DEFAULT,
-        cells: Union[MatrixEntitiesData, DefaultValue] = DEFAULT,
-        rows: Union[HeatmapSideData, DefaultValue] = DEFAULT,
-        columns: Union[HeatmapSideData, DefaultValue] = DEFAULT,
+        figure_title: str | None | DefaultValue = DEFAULT,
+        entries: MatrixValuesData | DefaultValue = DEFAULT,
+        cells: MatrixEntitiesData | DefaultValue = DEFAULT,
+        rows: HeatmapSideData | DefaultValue = DEFAULT,
+        columns: HeatmapSideData | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.HeatmapGraphData(
@@ -404,8 +402,8 @@ class HeatmapGraph(Graph):
     def __init__(
         self,
         *,
-        data: Union[HeatmapGraphData, DefaultValue] = DEFAULT,
-        configuration: Union[HeatmapGraphConfiguration, DefaultValue] = DEFAULT,
+        data: HeatmapGraphData | DefaultValue = DEFAULT,
+        configuration: HeatmapGraphConfiguration | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(jl.SomeGraphs.HeatmapGraph(**_given(data=data, configuration=configuration)))
 
@@ -521,14 +519,14 @@ class HeatmapGraph(Graph):
         """
         return _from_julia(jl.SomeGraphs.columns_side(self.jl_obj))
 
-    def add_rows_annotation(self, annotation: Union[AnnotationData, DefaultValue] = DEFAULT) -> int:
+    def add_rows_annotation(self, annotation: AnnotationData | DefaultValue = DEFAULT) -> int:
         """
         Append an ``annotation`` of the rows (by default, an empty one) and return its (1-based) index, for
         :py:obj:`rows_annotations_colors_vector_fields`.
         """
         return int(jl.SomeGraphs.add_rows_annotation_b(self.jl_obj, *_optional_jl_obj(annotation)))
 
-    def add_columns_annotation(self, annotation: Union[AnnotationData, DefaultValue] = DEFAULT) -> int:
+    def add_columns_annotation(self, annotation: AnnotationData | DefaultValue = DEFAULT) -> int:
         """
         Append an ``annotation`` of the columns (by default, an empty one) and return its (1-based) index, for
         :py:obj:`columns_annotations_colors_vector_fields`.
@@ -541,12 +539,12 @@ register_jl_type(_graph_type_name("HeatmapGraphData"), HeatmapGraph)
 
 def heatmap_graph(
     *,
-    figure_title: Union[Optional[str], DefaultValue] = DEFAULT,
-    entries: Union[MatrixValuesData, DefaultValue] = DEFAULT,
-    cells: Union[MatrixEntitiesData, DefaultValue] = DEFAULT,
-    rows: Union[HeatmapSideData, DefaultValue] = DEFAULT,
-    columns: Union[HeatmapSideData, DefaultValue] = DEFAULT,
-    configuration: Union[HeatmapGraphConfiguration, DefaultValue] = DEFAULT,
+    figure_title: str | None | DefaultValue = DEFAULT,
+    entries: MatrixValuesData | DefaultValue = DEFAULT,
+    cells: MatrixEntitiesData | DefaultValue = DEFAULT,
+    rows: HeatmapSideData | DefaultValue = DEFAULT,
+    columns: HeatmapSideData | DefaultValue = DEFAULT,
+    configuration: HeatmapGraphConfiguration | DefaultValue = DEFAULT,
 ) -> HeatmapGraph:
     """
     Create a :py:obj:`HeatmapGraph` by specifying only the :py:obj:`HeatmapGraphData` fields (with an optional

@@ -121,7 +121,6 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Type</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
@@ -257,7 +256,7 @@
 <span class="n">DEFAULT</span> <span class="o">=</span> <span class="o">...</span>
 
 <span class="c1">#: The Python class wrapping each of the Julia types, filled in by ``register_jl_type`` as the modules are imported.</span>
-<span class="n">PYTHON_CLASS_OF_JULIA_TYPE</span><span class="p">:</span> <span class="n">MutableMapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="s2">"Type[JlObject]"</span><span class="p">,</span> <span class="s2">"Type[JlEnum]"</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">PYTHON_CLASS_OF_JULIA_TYPE</span><span class="p">:</span> <span class="s2">"MutableMapping[str, Type[JlObject] | Type[JlEnum]]"</span> <span class="o">=</span> <span class="p">{}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_to_julia</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-return-statements</span>
@@ -414,7 +413,7 @@
     <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">_to_julia</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">)}</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_optional_jl_obj</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">"JlObject"</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_optional_jl_obj</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="s2">"JlObject | DefaultValue"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The positional arguments to pass for an optional Julia struct: none when it is ``DEFAULT``, so that Julia uses its</span>
 <span class="sd">    default (for internal use).</span>
@@ -493,7 +492,7 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">register_jl_type</span><span class="p">(</span><span class="n">julia_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">python_class</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">JlObject</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">JlEnum</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">register_jl_type</span><span class="p">(</span><span class="n">julia_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">python_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">JlObject</span><span class="p">]</span> <span class="o">|</span> <span class="n">Type</span><span class="p">[</span><span class="n">JlEnum</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Associate a Julia type with the Python class that wraps it (for internal use).</span>
 
