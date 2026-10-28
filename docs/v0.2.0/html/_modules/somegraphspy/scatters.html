@@ -1040,7 +1040,7 @@
 
 <div class="viewcode-block" id="LinesGraph.add_line">
 <a class="viewcode-back" href="../../scatters.html#somegraphspy.scatters.LinesGraph.add_line">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LineData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartFields</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">LineData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartFields</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append a ``line`` (by default, an empty one) and return its view. Whatever the line leaves at its defaults can</span>
 <span class="sd">        be set later, through the view or directly.</span>

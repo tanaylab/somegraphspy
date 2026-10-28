@@ -870,7 +870,7 @@ class LinesGraph(Graph):
         """
         return _from_julia(jl.SomeGraphs.line_part_fields(self.jl_obj, index))
 
-    def add_line(self, line: Optional[LineData] = None) -> PartFields:
+    def add_line(self, line: Union[LineData, DefaultValue] = DEFAULT) -> PartFields:
         """
         Append a ``line`` (by default, an empty one) and return its view. Whatever the line leaves at its defaults can
         be set later, through the view or directly.

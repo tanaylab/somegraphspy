@@ -670,7 +670,7 @@
 
 <div class="viewcode-block" id="HeatmapGraph.add_rows_annotation">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.add_rows_annotation">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_rows_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_rows_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append an ``annotation`` of the rows (by default, an empty one) and return its (1-based) index, for</span>
 <span class="sd">        :py:obj:`rows_annotations_colors_vector_fields`.</span>
@@ -680,7 +680,7 @@
 
 <div class="viewcode-block" id="HeatmapGraph.add_columns_annotation">
 <a class="viewcode-back" href="../../heatmaps.html#somegraphspy.enums.HeatmapGraph.add_columns_annotation">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_columns_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_columns_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append an ``annotation`` of the columns (by default, an empty one) and return its (1-based) index, for</span>
 <span class="sd">        :py:obj:`columns_annotations_colors_vector_fields`.</span>

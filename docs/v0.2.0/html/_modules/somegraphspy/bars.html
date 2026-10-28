@@ -315,7 +315,7 @@
 
 <div class="viewcode-block" id="BarsGraph.add_annotation">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.BarsGraph.add_annotation">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append an ``annotation`` of the bars (by default, an empty one) and return its (1-based) index, for</span>
 <span class="sd">        :py:obj:`annotations_colors_vector_fields`.</span>
@@ -571,7 +571,7 @@
 
 <div class="viewcode-block" id="SeriesBarsGraph.add_series">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph.add_series">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">series</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SeriesData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartFields</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">series</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SeriesData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartFields</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append a ``series`` of bars (by default, an empty one) and return its view. Whatever the series leaves at its</span>
 <span class="sd">        defaults can be set later, through the view or directly.</span>
@@ -581,7 +581,7 @@
 
 <div class="viewcode-block" id="SeriesBarsGraph.add_annotation">
 <a class="viewcode-back" href="../../bars.html#somegraphspy.bars.SeriesBarsGraph.add_annotation">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_annotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnnotationData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append an ``annotation`` of the bars (by default, an empty one) and return its (1-based) index, for</span>
 <span class="sd">        :py:obj:`annotations_colors_vector_fields`.</span>

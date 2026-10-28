@@ -521,14 +521,14 @@ class HeatmapGraph(Graph):
         """
         return _from_julia(jl.SomeGraphs.columns_side(self.jl_obj))
 
-    def add_rows_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
+    def add_rows_annotation(self, annotation: Union[AnnotationData, DefaultValue] = DEFAULT) -> int:
         """
         Append an ``annotation`` of the rows (by default, an empty one) and return its (1-based) index, for
         :py:obj:`rows_annotations_colors_vector_fields`.
         """
         return int(jl.SomeGraphs.add_rows_annotation_b(self.jl_obj, *_optional_jl_obj(annotation)))
 
-    def add_columns_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
+    def add_columns_annotation(self, annotation: Union[AnnotationData, DefaultValue] = DEFAULT) -> int:
         """
         Append an ``annotation`` of the columns (by default, an empty one) and return its (1-based) index, for
         :py:obj:`columns_annotations_colors_vector_fields`.

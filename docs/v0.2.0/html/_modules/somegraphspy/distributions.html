@@ -548,7 +548,7 @@
 
 <div class="viewcode-block" id="DistributionsGraph.add_distribution">
 <a class="viewcode-back" href="../../distributions.html#somegraphspy.distributions.DistributionsGraph.add_distribution">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DistributionData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartFields</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DistributionData</span><span class="p">,</span> <span class="n">DefaultValue</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartFields</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append a ``distribution`` (by default, an empty one) and return its view. Whatever the distribution leaves at</span>
 <span class="sd">        its defaults can be set later, through the view or directly.</span>

@@ -953,14 +953,16 @@ class Graph(Validated):
         super().validate(name)
 
 
-def categorical_palette(values: Union[StringsVector, Any], palette: Optional[str] = None) -> CategoricalColors:
+def categorical_palette(
+    values: Union[StringsVector, Any], palette: Union[str, DefaultValue] = DEFAULT
+) -> CategoricalColors:
     """
     Create a categorical colors palette assigning a distinct color to each of the ``values``. See the Julia
     `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.categorical_palette>`__
     for details.
     """
     jl_values = jl.Vector(np.array([str(value) for value in values], dtype=str))
-    if palette is None:
+    if isinstance(palette, DefaultValue):
         jl_palette = jl.SomeGraphs.categorical_palette(jl_values)
     else:
         jl_palette = jl.SomeGraphs.categorical_palette(jl_values, palette)

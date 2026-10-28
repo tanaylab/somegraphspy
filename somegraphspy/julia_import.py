@@ -44,7 +44,6 @@ from enum import Enum
 from typing import Any
 from typing import Mapping
 from typing import MutableMapping
-from typing import Optional
 from typing import Sequence
 from typing import Tuple
 from typing import Type
@@ -182,6 +181,13 @@ class DefaultValue:
 
     def __repr__(self) -> str:
         return "DEFAULT"
+
+    # A copy is the same object, so a copied ``DEFAULT`` is still ``DEFAULT``.
+    def __copy__(self) -> "DefaultValue":
+        return self
+
+    def __deepcopy__(self, memo: Any) -> "DefaultValue":
+        return self
 
 
 #: A Python value for a constructor parameter that was not specified, so the Julia default should be used instead.
@@ -345,12 +351,12 @@ def _given(**kwargs: Any) -> Mapping[str, Any]:
     return {name: _to_julia(value) for name, value in kwargs.items() if value is not DEFAULT}
 
 
-def _optional_jl_obj(value: Optional["JlObject"]) -> Tuple[Any, ...]:
+def _optional_jl_obj(value: Union["JlObject", DefaultValue]) -> Tuple[Any, ...]:
     """
-    The positional arguments to pass for an optional Julia struct: none when it is ``None``, so that Julia uses its
+    The positional arguments to pass for an optional Julia struct: none when it is ``DEFAULT``, so that Julia uses its
     default (for internal use).
     """
-    return () if value is None else (value.jl_obj,)
+    return () if isinstance(value, DefaultValue) else (value.jl_obj,)
 
 
 class JlObject:

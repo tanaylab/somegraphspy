@@ -217,7 +217,7 @@ class BarsGraph(Graph):
         """
         return _from_julia(jl.SomeGraphs.bars_entities(self.jl_obj))
 
-    def add_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
+    def add_annotation(self, annotation: Union[AnnotationData, DefaultValue] = DEFAULT) -> int:
         """
         Append an ``annotation`` of the bars (by default, an empty one) and return its (1-based) index, for
         :py:obj:`annotations_colors_vector_fields`.
@@ -446,14 +446,14 @@ class SeriesBarsGraph(Graph):
         """
         return _from_julia(jl.SomeGraphs.bars_entities(self.jl_obj))
 
-    def add_series(self, series: Optional[SeriesData] = None) -> PartFields:
+    def add_series(self, series: Union[SeriesData, DefaultValue] = DEFAULT) -> PartFields:
         """
         Append a ``series`` of bars (by default, an empty one) and return its view. Whatever the series leaves at its
         defaults can be set later, through the view or directly.
         """
         return _from_julia(jl.SomeGraphs.add_series_b(self.jl_obj, *_optional_jl_obj(series)))
 
-    def add_annotation(self, annotation: Optional[AnnotationData] = None) -> int:
+    def add_annotation(self, annotation: Union[AnnotationData, DefaultValue] = DEFAULT) -> int:
         """
         Append an ``annotation`` of the bars (by default, an empty one) and return its (1-based) index, for
         :py:obj:`annotations_colors_vector_fields`.

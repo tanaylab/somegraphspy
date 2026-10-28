@@ -435,7 +435,7 @@ class DistributionsGraph(Graph):
         """
         return _from_julia(jl.SomeGraphs.distribution_part_fields(self.jl_obj, index))
 
-    def add_distribution(self, distribution: Optional[DistributionData] = None) -> PartFields:
+    def add_distribution(self, distribution: Union[DistributionData, DefaultValue] = DEFAULT) -> PartFields:
         """
         Append a ``distribution`` (by default, an empty one) and return its view. Whatever the distribution leaves at
         its defaults can be set later, through the view or directly.

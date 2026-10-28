@@ -5,6 +5,7 @@ Test the Julia environment set up by ``SomeGraphs``, and the delegation to the w
 # pylint: disable=wildcard-import,unused-wildcard-import,missing-function-docstring
 # flake8: noqa: F403,F405
 
+import copy
 import json
 import os
 import tomllib
@@ -120,6 +121,11 @@ def test_default_is_not_none() -> None:
 
 def test_default_repr() -> None:
     assert repr(DEFAULT) == "DEFAULT"
+
+
+def test_copied_default_is_default() -> None:
+    assert copy.copy(DEFAULT) is DEFAULT
+    assert copy.deepcopy({"palette": DEFAULT})["palette"] is DEFAULT
 
 
 def _is_julia_strings_vector(value: Any) -> bool:
