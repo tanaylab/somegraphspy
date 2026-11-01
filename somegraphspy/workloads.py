@@ -59,4 +59,5 @@ def run_workload() -> None:
     for graph in graphs:
         graph.validate()
         _ = graph.json
-        _ = graph.figure
+        _ = graph.fig
+        _ = graph.html

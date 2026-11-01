@@ -343,25 +343,43 @@ never the results.
 </li>
 
 <li>
-<p>Accessing 
+<p>A graph is rendered by naming a format, as in Julia: 
 <code class="docutils literal notranslate">
-<span class="pre">graph.figure
+<span class="pre">graph.fig
 </span>
 </code> returns a 
 <code class="docutils literal notranslate">
 <span class="pre">plotly.graph_objects.Figure
 </span>
-</code>, which Jupyter notebook knows how to display.
-Simply evaluating the graph in a cell will display it. Outside a notebook, call 
+</code>,
+
+<code class="docutils literal notranslate">
+<span class="pre">graph.html
+</span>
+</code> a standalone HTML page, 
+<code class="docutils literal notranslate">
+<span class="pre">graph.svg
+</span>
+</code> and 
+<code class="docutils literal notranslate">
+<span class="pre">graph.png
+</span>
+</code> static images, and 
+<code class="docutils literal notranslate">
+<span class="pre">graph.json
+</span>
+</code> the Plotly
+JSON text. A Jupyter notebook shows the figure, page or image when it is the value of a cell. A bare graph shows only
+its type. Outside a notebook, call 
 <code class="docutils literal notranslate">
 <span class="pre">graph.show()
 </span>
-</code> to open the graph in
-a browser, or 
+</code> to open the graph in a browser, or 
 <code class="docutils literal notranslate">
 <span class="pre">graph.save(path)
 </span>
-</code> to write it to a file.
+</code> to write
+it to a file.
 </p>
 </li>
 
@@ -1068,9 +1086,18 @@ Julia
 </li>
 
 <li class="toctree-l3">
-<a class="reference internal" href="common.html#somegraphspy.common.Graph.figure">
+<a class="reference internal" href="common.html#somegraphspy.common.Graph.html">
 <code class="docutils literal notranslate">
-<span class="pre">Graph.figure
+<span class="pre">Graph.html
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="common.html#somegraphspy.common.Graph.fig">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.fig
 </span>
 </code>
 </a>
@@ -1123,6 +1150,15 @@ Julia
 
 </ul>
 
+</li>
+
+<li class="toctree-l2">
+<a class="reference internal" href="common.html#somegraphspy.common.HtmlText">
+<code class="docutils literal notranslate">
+<span class="pre">HtmlText
+</span>
+</code>
+</a>
 </li>
 
 <li class="toctree-l2">

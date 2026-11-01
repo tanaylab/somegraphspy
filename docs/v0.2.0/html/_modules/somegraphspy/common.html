@@ -115,6 +115,7 @@
     <span class="s2">"ContinuousColors"</span><span class="p">,</span>
     <span class="s2">"FigureConfiguration"</span><span class="p">,</span>
     <span class="s2">"Graph"</span><span class="p">,</span>
+    <span class="s2">"HtmlText"</span><span class="p">,</span>
     <span class="s2">"IntegersVector"</span><span class="p">,</span>
     <span class="s2">"LineConfiguration"</span><span class="p">,</span>
     <span class="s2">"LineStyle"</span><span class="p">,</span>
@@ -1032,6 +1033,19 @@
 
 
 
+<div class="viewcode-block" id="HtmlText">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.HtmlText">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HtmlText</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The text of a standalone HTML page. It is a plain ``str``, so it can be written to a file as is. A Jupyter notebook</span>
+<span class="sd">    shows it as the page when it is the value of a cell.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_repr_html_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="Graph">
 <a class="viewcode-back" href="../../common.html#somegraphspy.common.Graph">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Graph</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
@@ -1081,13 +1095,20 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">graph_to_image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">,</span> <span class="n">image_format</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">figure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HtmlText</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Render the graph as a standalone HTML page, which shows the interactive Plotly figure. This is what</span>
+<span class="sd">        :py:obj:`save` writes to an ``html`` file. See the Julia</span>
+<span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_html&gt;`__</span>
+<span class="sd">        for details.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">HtmlText</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">graph_to_html</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fig</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Render the graph as a ``plotly`` figure, which can be displayed and further manipulated using the normal</span>
-<span class="sd">        ``plotly`` API.</span>
-
-<span class="sd">        Simply evaluating the graph in a Jupyter notebook cell displays it, so this is only needed if you want the</span>
-<span class="sd">        figure itself.</span>
+<span class="sd">        ``plotly`` API. A Jupyter notebook shows it as the interactive figure when it is the value of a cell.</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">from_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>
 
@@ -1097,14 +1118,8 @@
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Display the graph, opening it in a browser when not running in a notebook.</span>
 <span class="sd">        """</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_repr_mimebundle_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="c1"># This is how Jupyter notebook displays the graph when it is the value of a cell. Deliberately delegated to</span>
-        <span class="c1"># ``plotly`` rather than implemented here, and deliberately not importing ``IPython``, so that nothing about</span>
-        <span class="c1"># this costs anything (or even runs) outside a notebook.</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">_repr_mimebundle_</span><span class="p">(</span><span class="n">include</span><span class="p">,</span> <span class="n">exclude</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Graph.save">
 <a class="viewcode-back" href="../../common.html#somegraphspy.common.Graph.save">[docs]</a>

@@ -348,8 +348,8 @@ def test_images() -> None:
     assert graph.png[:8] == b"\x89PNG\r\n\x1a\n"
 
 
-def test_images_show_in_a_notebook() -> None:
-    # Each image is the plain value, which a notebook shows as the image it is.
+def test_formats_show_in_a_notebook() -> None:
+    # Each format is the plain value, which a notebook shows as the image or page it is.
     graph = sg.points_graph(x=sg.VectorValuesData(vector=[1.0, 2.0]), y=sg.VectorValuesData(vector=[1.0, 2.0]))
     svg = graph.svg
     assert isinstance(svg, sg.SvgImage) and isinstance(svg, str)
@@ -357,6 +357,10 @@ def test_images_show_in_a_notebook() -> None:
     png = graph.png
     assert isinstance(png, sg.PngImage) and isinstance(png, bytes)
     assert png._repr_png_() == png  # pylint: disable=protected-access
+    html = graph.html
+    assert isinstance(html, sg.HtmlText) and isinstance(html, str)
+    assert "<html" in html
+    assert html._repr_html_() == html  # pylint: disable=protected-access
 
 
 def test_figure_is_a_plotly_figure() -> None:
@@ -368,7 +372,7 @@ def test_figure_is_a_plotly_figure() -> None:
         configuration=configuration,
     )
 
-    figure = graph.figure
+    figure = graph.fig
     assert isinstance(figure, go.Figure)
     assert len(figure.data) == 1
     assert len(figure.data[0].x) == 3
@@ -386,13 +390,13 @@ def test_palette_order_is_legend_order() -> None:
         points=sg.PointsData(colors=sg.VectorValuesData(vector=["a", "b", "c"])),
         configuration=configuration,
     )
-    assert [trace.name for trace in graph.figure.data if trace.name in ("a", "b", "c")] == ["c", "a", "b"]
+    assert [trace.name for trace in graph.fig.data if trace.name in ("a", "b", "c")] == ["c", "a", "b"]
 
 
-def test_repr_mimebundle() -> None:
+def test_bare_graph_shows_its_type() -> None:
     graph = sg.points_graph(x=sg.VectorValuesData(vector=[1.0, 2.0]), y=sg.VectorValuesData(vector=[1.0, 2.0]))
-    # Outside a notebook ``plotly`` has no renderer set up, so this is empty rather than absent.
-    assert graph._repr_mimebundle_() is not None
+    assert repr(graph).endswith(" (use .fig to show the graph)")
+    assert not hasattr(graph, "_repr_mimebundle_")
 
 
 def test_missing_attributes_raise_attribute_error() -> None:

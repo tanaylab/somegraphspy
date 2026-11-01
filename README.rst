@@ -35,8 +35,9 @@ The Python package provides the same API as the Julia package, with the followin
 - Matrices are passed as ``numpy`` arrays and need no transposing: ``matrix[row, column]`` in Python is the same entry
   as ``matrix[row, column]`` in Julia, whatever the memory layout of the array is.
 
-- Accessing ``graph.figure`` returns a ``plotly.graph_objects.Figure``. Simply evaluating the graph in a Jupyter
-  notebook cell will display it. Outside a notebook, call ``graph.show()`` to open it in a browser.
+- A graph is rendered by naming a format: ``graph.fig`` (a ``plotly.graph_objects.Figure``), ``graph.html``,
+  ``graph.svg``, ``graph.png`` or ``graph.json``. A Jupyter notebook shows the figure, page or image when it is the
+  value of a cell. Outside a notebook, call ``graph.show()`` to open the graph in a browser.
 
 - The data source views are graph methods (Julia's ``x_axis_vector_fields(graph)`` is Python's
   ``graph.x_axis_vector_fields()``), and Julia's ``add_hovers!(entities, hovers; title)`` is Python's

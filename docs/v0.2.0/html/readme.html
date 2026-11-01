@@ -304,20 +304,37 @@ as
 </li>
 
 <li>
-<p>Accessing 
+<p>A graph is rendered by naming a format: 
 <code class="docutils literal notranslate">
-<span class="pre">graph.figure
+<span class="pre">graph.fig
 </span>
-</code> returns a 
+</code> (a 
 <code class="docutils literal notranslate">
 <span class="pre">plotly.graph_objects.Figure
 </span>
-</code>. Simply evaluating the graph in a Jupyter
-notebook cell will display it. Outside a notebook, call 
+</code>), 
+<code class="docutils literal notranslate">
+<span class="pre">graph.html
+</span>
+</code>,
+
+<code class="docutils literal notranslate">
+<span class="pre">graph.svg
+</span>
+</code>, 
+<code class="docutils literal notranslate">
+<span class="pre">graph.png
+</span>
+</code> or 
+<code class="docutils literal notranslate">
+<span class="pre">graph.json
+</span>
+</code>. A Jupyter notebook shows the figure, page or image when it is the
+value of a cell. Outside a notebook, call 
 <code class="docutils literal notranslate">
 <span class="pre">graph.show()
 </span>
-</code> to open it in a browser.
+</code> to open the graph in a browser.
 </p>
 </li>
 

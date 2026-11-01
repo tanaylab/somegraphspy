@@ -25,9 +25,11 @@ This is a thin wrapper for the ``SomeGraphs.jl`` Julia package, with the followi
   as ``matrix[row, column]`` in Julia, whatever the memory layout of the array is. The layout only affects efficiency,
   never the results.
 
-* Accessing ``graph.figure`` returns a ``plotly.graph_objects.Figure``, which Jupyter notebook knows how to display.
-  Simply evaluating the graph in a cell will display it. Outside a notebook, call ``graph.show()`` to open the graph in
-  a browser, or ``graph.save(path)`` to write it to a file.
+* A graph is rendered by naming a format, as in Julia: ``graph.fig`` returns a ``plotly.graph_objects.Figure``,
+  ``graph.html`` a standalone HTML page, ``graph.svg`` and ``graph.png`` static images, and ``graph.json`` the Plotly
+  JSON text. A Jupyter notebook shows the figure, page or image when it is the value of a cell. A bare graph shows only
+  its type. Outside a notebook, call ``graph.show()`` to open the graph in a browser, or ``graph.save(path)`` to write
+  it to a file.
 
 * The data source views of the Julia ``Sources`` module are graph methods (Julia's ``x_axis_vector_fields(graph)``
   becomes Python's ``graph.x_axis_vector_fields()``), and Julia's ``add_hovers!(entities, hovers; title)`` becomes

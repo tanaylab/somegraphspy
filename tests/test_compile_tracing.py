@@ -19,8 +19,8 @@ SESSION = dedent("""
     import somegraphspy as sg
 
     values = np.array([1, 2, 3], dtype="int8")
-    sg.points_graph(x=sg.VectorValuesData(vector=values), y=sg.VectorValuesData(vector=values)).figure
-    sg.points_graph(x=sg.VectorValuesData(vector=values), y=sg.VectorValuesData(vector=values)).figure
+    sg.points_graph(x=sg.VectorValuesData(vector=values), y=sg.VectorValuesData(vector=values)).fig
+    sg.points_graph(x=sg.VectorValuesData(vector=values), y=sg.VectorValuesData(vector=values)).fig
     """)
 
 

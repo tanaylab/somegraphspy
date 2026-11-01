@@ -42,6 +42,7 @@ __all__ = [
     "ContinuousColors",
     "FigureConfiguration",
     "Graph",
+    "HtmlText",
     "IntegersVector",
     "LineConfiguration",
     "LineStyle",
@@ -866,6 +867,16 @@ class PngImage(bytes):
         return bytes(self)
 
 
+class HtmlText(str):
+    """
+    The text of a standalone HTML page. It is a plain ``str``, so it can be written to a file as is. A Jupyter notebook
+    shows it as the page when it is the value of a cell.
+    """
+
+    def _repr_html_(self) -> str:
+        return str(self)
+
+
 class Graph(Validated):
     """
     A combination of some :py:obj:`AbstractGraphData` and some :py:obj:`AbstractGraphConfiguration`. See the Julia
@@ -913,13 +924,20 @@ class Graph(Validated):
         return np.asarray(jl.SomeGraphs.graph_to_image(self.jl_obj, image_format), dtype=np.uint8)
 
     @property
-    def figure(self) -> Figure:
+    def html(self) -> HtmlText:
+        """
+        Render the graph as a standalone HTML page, which shows the interactive Plotly figure. This is what
+        :py:obj:`save` writes to an ``html`` file. See the Julia
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_html>`__
+        for details.
+        """
+        return HtmlText(jl.SomeGraphs.graph_to_html(self.jl_obj))
+
+    @property
+    def fig(self) -> Figure:
         """
         Render the graph as a ``plotly`` figure, which can be displayed and further manipulated using the normal
-        ``plotly`` API.
-
-        Simply evaluating the graph in a Jupyter notebook cell displays it, so this is only needed if you want the
-        figure itself.
+        ``plotly`` API. A Jupyter notebook shows it as the interactive figure when it is the value of a cell.
         """
         return from_json(self.json)
 
@@ -927,13 +945,7 @@ class Graph(Validated):
         """
         Display the graph, opening it in a browser when not running in a notebook.
         """
-        self.figure.show()
-
-    def _repr_mimebundle_(self, include: Any = None, exclude: Any = None) -> Any:
-        # This is how Jupyter notebook displays the graph when it is the value of a cell. Deliberately delegated to
-        # ``plotly`` rather than implemented here, and deliberately not importing ``IPython``, so that nothing about
-        # this costs anything (or even runs) outside a notebook.
-        return self.figure._repr_mimebundle_(include, exclude)
+        self.fig.show()
 
     def save(self, output_file: str) -> None:
         """
