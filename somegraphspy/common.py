@@ -54,12 +54,14 @@ __all__ = [
     "NumbersMatrix",
     "NumbersVector",
     "Palette",
+    "PngImage",
     "ScaleConfiguration",
     "SidePlacement",
     "SizesConfiguration",
     "Stacking",
     "StringsMatrix",
     "StringsVector",
+    "SvgImage",
     "Validated",
     "ValuesOrientation",
     "VectorEntitiesData",
@@ -844,6 +846,26 @@ class AbstractGraphData(Validated):
     figure_title: str | None
 
 
+class SvgImage(str):
+    """
+    The text of an SVG image. It is a plain ``str``, so it can be written to a file as is. A Jupyter notebook shows it
+    as the image when it is the value of a cell.
+    """
+
+    def _repr_svg_(self) -> str:
+        return str(self)
+
+
+class PngImage(bytes):
+    """
+    The bytes of a PNG image. It is a plain ``bytes``, so it can be written to a file as is. A Jupyter notebook shows it
+    as the image when it is the value of a cell.
+    """
+
+    def _repr_png_(self) -> bytes:
+        return bytes(self)
+
+
 class Graph(Validated):
     """
     A combination of some :py:obj:`AbstractGraphData` and some :py:obj:`AbstractGraphConfiguration`. See the Julia
@@ -866,24 +888,24 @@ class Graph(Validated):
         return str(jl.SomeGraphs.graph_to_json(self.jl_obj))
 
     @property
-    def svg(self) -> str:
+    def svg(self) -> SvgImage:
         """
         Render the graph as a static SVG image, which obeys the ``width`` and ``height`` of the figure configuration.
         See the Julia
         `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_image>`__
         for details.
         """
-        return str(self._image("svg").data, "utf-8")
+        return SvgImage(str(self._image("svg").data, "utf-8"))
 
     @property
-    def png(self) -> bytes:
+    def png(self) -> PngImage:
         """
         Render the graph as a static PNG image, which obeys the ``width`` and ``height`` of the figure configuration.
         See the Julia
         `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_image>`__
         for details.
         """
-        return self._image("png").tobytes()
+        return PngImage(self._image("png").tobytes())
 
     def _image(self, image_format: str) -> np.ndarray:
         # The bytes of the graph rendered as an image in the ``image_format``. They share the memory of the Julia vector,

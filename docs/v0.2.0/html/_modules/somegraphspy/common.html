@@ -127,12 +127,14 @@
     <span class="s2">"NumbersMatrix"</span><span class="p">,</span>
     <span class="s2">"NumbersVector"</span><span class="p">,</span>
     <span class="s2">"Palette"</span><span class="p">,</span>
+    <span class="s2">"PngImage"</span><span class="p">,</span>
     <span class="s2">"ScaleConfiguration"</span><span class="p">,</span>
     <span class="s2">"SidePlacement"</span><span class="p">,</span>
     <span class="s2">"SizesConfiguration"</span><span class="p">,</span>
     <span class="s2">"Stacking"</span><span class="p">,</span>
     <span class="s2">"StringsMatrix"</span><span class="p">,</span>
     <span class="s2">"StringsVector"</span><span class="p">,</span>
+    <span class="s2">"SvgImage"</span><span class="p">,</span>
     <span class="s2">"Validated"</span><span class="p">,</span>
     <span class="s2">"ValuesOrientation"</span><span class="p">,</span>
     <span class="s2">"VectorEntitiesData"</span><span class="p">,</span>
@@ -1004,6 +1006,32 @@
 
 
 
+<div class="viewcode-block" id="SvgImage">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.SvgImage">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SvgImage</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The text of an SVG image. It is a plain ``str``, so it can be written to a file as is. A Jupyter notebook shows it</span>
+<span class="sd">    as the image when it is the value of a cell.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_repr_svg_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="PngImage">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.PngImage">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PngImage</span><span class="p">(</span><span class="nb">bytes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The bytes of a PNG image. It is a plain ``bytes``, so it can be written to a file as is. A Jupyter notebook shows it</span>
+<span class="sd">    as the image when it is the value of a cell.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_repr_png_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="Graph">
 <a class="viewcode-back" href="../../common.html#somegraphspy.common.Graph">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Graph</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
@@ -1028,24 +1056,24 @@
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">graph_to_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jl_obj</span><span class="p">))</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">svg</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">svg</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SvgImage</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Render the graph as a static SVG image, which obeys the ``width`` and ``height`` of the figure configuration.</span>
 <span class="sd">        See the Julia</span>
 <span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_image&gt;`__</span>
 <span class="sd">        for details.</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_image</span><span class="p">(</span><span class="s2">"svg"</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">"utf-8"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SvgImage</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_image</span><span class="p">(</span><span class="s2">"svg"</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">"utf-8"</span><span class="p">))</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">png</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">png</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PngImage</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Render the graph as a static PNG image, which obeys the ``width`` and ``height`` of the figure configuration.</span>
 <span class="sd">        See the Julia</span>
 <span class="sd">        `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_image&gt;`__</span>
 <span class="sd">        for details.</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_image</span><span class="p">(</span><span class="s2">"png"</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">PngImage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_image</span><span class="p">(</span><span class="s2">"png"</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_format</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="c1"># The bytes of the graph rendered as an image in the ``image_format``. They share the memory of the Julia vector,</span>

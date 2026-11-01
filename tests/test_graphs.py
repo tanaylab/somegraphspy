@@ -348,6 +348,17 @@ def test_images() -> None:
     assert graph.png[:8] == b"\x89PNG\r\n\x1a\n"
 
 
+def test_images_show_in_a_notebook() -> None:
+    # Each image is the plain value, which a notebook shows as the image it is.
+    graph = sg.points_graph(x=sg.VectorValuesData(vector=[1.0, 2.0]), y=sg.VectorValuesData(vector=[1.0, 2.0]))
+    svg = graph.svg
+    assert isinstance(svg, sg.SvgImage) and isinstance(svg, str)
+    assert svg._repr_svg_() == svg  # pylint: disable=protected-access
+    png = graph.png
+    assert isinstance(png, sg.PngImage) and isinstance(png, bytes)
+    assert png._repr_png_() == png  # pylint: disable=protected-access
+
+
 def test_figure_is_a_plotly_figure() -> None:
     configuration = sg.PointsGraphConfiguration(figure=sg.FigureConfiguration(width=800))
     graph = sg.points_graph(
