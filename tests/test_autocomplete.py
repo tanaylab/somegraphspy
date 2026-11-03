@@ -37,7 +37,20 @@ def test_complete_through_nested_fields() -> None:
 
 def test_complete_the_fields_of_a_graph() -> None:
     names = _completions("sg.points_graph().")
-    for name in ("data", "configuration", "fig", "html", "json", "svg", "png", "save", "show", "validate", "flip_axes"):
+    for name in (
+        "data",
+        "configuration",
+        "fig",
+        "html",
+        "standalone_html",
+        "json",
+        "svg",
+        "png",
+        "save",
+        "show",
+        "validate",
+        "flip_axes",
+    ):
         assert name in names
 
     names = _completions("sg.points_graph().data.")

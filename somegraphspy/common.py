@@ -6,14 +6,20 @@ Common data types for specifying graphs. See the Julia
 # The enum values are named exactly as they are in Julia, so they are not UPPER_CASE.
 # pylint: disable=invalid-name
 
+# This mirrors the Julia ``Common`` module, so it is one module.
+# pylint: disable=too-many-lines
+
+import re
 from typing import Any
 from typing import Mapping
 from typing import Sequence
 from typing import Tuple
 
 import numpy as np
+import plotly  # type: ignore
 from plotly.graph_objects import Figure  # type: ignore
 from plotly.io import from_json  # type: ignore
+from plotly.offline import get_plotlyjs_version  # type: ignore
 
 from .julia_import import DEFAULT
 from .julia_import import DefaultValue
@@ -111,6 +117,23 @@ CategoricalColors = Mapping[str, str]
 #: `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.NAMED_COLOR_SCALES>`__
 #: for details.
 NAMED_COLOR_SCALES = sorted(str(name) for name in jl.keys(jl.SomeGraphs.NAMED_COLOR_SCALES))
+
+# The oldest plotly.js which shows SomeGraphs' figures correctly. A notebook shows a figure with the plotly.js which
+# plotly.py bundles.
+_MIN_PLOTLY_JS_VERSION = (3, 1, 0)
+
+
+# Raise an error if the ``plotly_js_version`` bundled by plotly.py is older than ``_MIN_PLOTLY_JS_VERSION``.
+def _check_plotly_js_version(plotly_js_version: str) -> None:
+    if tuple(int(number) for number in re.findall(r"\d+", plotly_js_version)[:3]) < _MIN_PLOTLY_JS_VERSION:
+        minimal_version = ".".join(str(number) for number in _MIN_PLOTLY_JS_VERSION)
+        raise ImportError(
+            f"plotly {plotly.__version__} bundles plotly.js {plotly_js_version}, "
+            f"but somegraphspy needs at least {minimal_version}; upgrade plotly"
+        )
+
+
+_check_plotly_js_version(get_plotlyjs_version())
 
 
 class Validated(JlObject):
@@ -869,8 +892,8 @@ class PngImage(bytes):
 
 class HtmlText(str):
     """
-    The text of a standalone HTML page. It is a plain ``str``, so it can be written to a file as is. A Jupyter notebook
-    shows it as the page when it is the value of a cell.
+    The text of an HTML page. It is a plain ``str``, so it can be written to a file as is. A Jupyter notebook shows it
+    as the page when it is the value of a cell.
     """
 
     def _repr_html_(self) -> str:
@@ -893,7 +916,7 @@ class Graph(Validated):
     def json(self) -> str:
         """
         Render the graph as a JSON string describing the Plotly figure. See the Julia
-        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_json>`__
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Common.graph_to_json>`__
         for details.
         """
         return str(jl.SomeGraphs.graph_to_json(self.jl_obj))
@@ -903,7 +926,7 @@ class Graph(Validated):
         """
         Render the graph as a static SVG image, which obeys the ``width`` and ``height`` of the figure configuration.
         See the Julia
-        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_image>`__
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Common.graph_to_image>`__
         for details.
         """
         return SvgImage(str(self._image("svg").data, "utf-8"))
@@ -913,7 +936,7 @@ class Graph(Validated):
         """
         Render the graph as a static PNG image, which obeys the ``width`` and ``height`` of the figure configuration.
         See the Julia
-        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_image>`__
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Common.graph_to_image>`__
         for details.
         """
         return PngImage(self._image("png").tobytes())
@@ -926,12 +949,23 @@ class Graph(Validated):
     @property
     def html(self) -> HtmlText:
         """
-        Render the graph as a standalone HTML page, which shows the interactive Plotly figure. This is what
-        :py:obj:`save` writes to an ``html`` file. See the Julia
-        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_html>`__
+        Render the graph as an HTML page, which shows the interactive Plotly figure. The page loads plotly.js from the
+        internet. This is what :py:obj:`save` writes to an ``html`` file. See the Julia
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Common.graph_to_html>`__
         for details.
         """
         return HtmlText(jl.SomeGraphs.graph_to_html(self.jl_obj))
+
+    @property
+    def standalone_html(self) -> HtmlText:
+        """
+        Render the graph as a standalone HTML page, which shows the interactive Plotly figure. The page includes
+        plotly.js (a few megabytes), so it works offline. This is what :py:obj:`save` writes to an ``html`` file if
+        ``standalone``. See the Julia
+        `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Common.graph_to_html>`__
+        for details.
+        """
+        return HtmlText(jl.SomeGraphs.graph_to_html(self.jl_obj, standalone=True))
 
     @property
     def fig(self) -> Figure:
@@ -947,16 +981,17 @@ class Graph(Validated):
         """
         self.fig.show()
 
-    def save(self, output_file: str) -> None:
+    def save(self, output_file: str, *, standalone: bool | DefaultValue = DEFAULT) -> None:
         """
-        Save the graph to a file. The format is deduced from the suffix of the file name. See the Julia
+        Save the graph to a file. The format is deduced from the suffix of the file name. An ``html`` file is the
+        :py:obj:`html` page, or the :py:obj:`standalone_html` page if ``standalone``. See the Julia
         `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.save_graph>`__
         for details.
 
         Unlike the Plotly ``savefig`` function, this obeys the ``width`` and ``height`` of the figure configuration.
         Writing anything other than an ``html`` file starts a Kaleido process, which is slow the first time.
         """
-        jl.SomeGraphs.save_graph(self.jl_obj, output_file)
+        jl.SomeGraphs.save_graph(self.jl_obj, output_file, **_given(standalone=standalone))
 
     def flip_axes(self) -> "Graph":
         """

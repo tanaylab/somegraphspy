@@ -688,6 +688,15 @@
 </li>
 
 <li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.Graph.standalone_html">
+<code class="docutils literal notranslate">
+<span class="pre">Graph.standalone_html
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
 <a class="reference internal" href="#somegraphspy.common.Graph.fig">
 <code class="docutils literal notranslate">
 <span class="pre">Graph.fig
@@ -4996,7 +5005,7 @@ for details.
 <dd>
 <p>Render the graph as a JSON string describing the Plotly figure. See the Julia
 
-<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_json">documentation
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Common.graph_to_json">documentation
 </a>
 for details.
 </p>
@@ -5049,7 +5058,7 @@ for details.
 </code> of the figure configuration.
 See the Julia
 
-<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_image">documentation
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Common.graph_to_image">documentation
 </a>
 for details.
 </p>
@@ -5102,7 +5111,7 @@ for details.
 </code> of the figure configuration.
 See the Julia
 
-<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_image">documentation
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Common.graph_to_image">documentation
 </a>
 for details.
 </p>
@@ -5144,8 +5153,8 @@ for details.
 </dt>
 
 <dd>
-<p>Render the graph as a standalone HTML page, which shows the interactive Plotly figure. This is what
-
+<p>Render the graph as an HTML page, which shows the interactive Plotly figure. The page loads plotly.js from the
+internet. This is what 
 <a class="reference internal" href="#somegraphspy.common.Graph.save" title="somegraphspy.common.Graph.save">
 <code class="xref py py-obj docutils literal notranslate">
 <span class="pre">save
@@ -5157,7 +5166,67 @@ for details.
 </span>
 </code> file. See the Julia
 
-<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Utilities.graph_to_html">documentation
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Common.graph_to_html">documentation
+</a>
+for details.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py property">
+
+<dt class="sig sig-object py" id="somegraphspy.common.Graph.standalone_html">
+
+<span class="property">
+<span class="k">
+<span class="pre">property
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">standalone_html
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<a class="reference internal" href="#somegraphspy.common.HtmlText" title="somegraphspy.common.HtmlText">
+<span class="pre">HtmlText
+</span>
+</a>
+</span>
+<a class="headerlink" href="#somegraphspy.common.Graph.standalone_html" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>Render the graph as a standalone HTML page, which shows the interactive Plotly figure. The page includes
+plotly.js (a few megabytes), so it works offline. This is what 
+<a class="reference internal" href="#somegraphspy.common.Graph.save" title="somegraphspy.common.Graph.save">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">save
+</span>
+</code>
+</a> writes to an 
+<code class="docutils literal notranslate">
+<span class="pre">html
+</span>
+</code> file if
+
+<code class="docutils literal notranslate">
+<span class="pre">standalone
+</span>
+</code>. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/utilities.html#SomeGraphs.Common.graph_to_html">documentation
 </a>
 for details.
 </p>
@@ -5273,6 +5342,28 @@ for details.
 <span class="pre">output_file
 </span>
 </span>
+</em>, 
+<em class="sig-param">
+<span class="keyword-only-separator o">
+<abbr title="Keyword-only parameters separator (PEP 3102)">
+<span class="pre">*
+</span>
+</abbr>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">standalone
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">Ellipsis
+</span>
+</span>
 </em>
 <span class="sig-paren">)
 </span>
@@ -5287,7 +5378,28 @@ for details.
 </dt>
 
 <dd>
-<p>Save the graph to a file. The format is deduced from the suffix of the file name. See the Julia
+<p>Save the graph to a file. The format is deduced from the suffix of the file name. An 
+<code class="docutils literal notranslate">
+<span class="pre">html
+</span>
+</code> file is the
+
+<a class="reference internal" href="#somegraphspy.common.Graph.html" title="somegraphspy.common.Graph.html">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">html
+</span>
+</code>
+</a> page, or the 
+<a class="reference internal" href="#somegraphspy.common.Graph.standalone_html" title="somegraphspy.common.Graph.standalone_html">
+<code class="xref py py-obj docutils literal notranslate">
+<span class="pre">standalone_html
+</span>
+</code>
+</a> page if 
+<code class="docutils literal notranslate">
+<span class="pre">standalone
+</span>
+</code>. See the Julia
 
 <a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.save_graph">documentation
 </a>
@@ -5322,12 +5434,31 @@ Writing anything other than an
 </dt>
 
 <dd class="field-odd">
+<ul class="simple">
+
+<li>
 <p>
 <strong>output_file
 </strong> (
 <em>str
 </em>)
 </p>
+</li>
+
+<li>
+<p>
+<strong>standalone
+</strong> (
+<em>bool
+</em>
+<em> | 
+</em>
+<em>EllipsisType
+</em>)
+</p>
+</li>
+
+</ul>
 
 </dd>
 
@@ -5573,12 +5704,12 @@ for details.
 </dt>
 
 <dd>
-<p>The text of a standalone HTML page. It is a plain 
+<p>The text of an HTML page. It is a plain 
 <code class="docutils literal notranslate">
 <span class="pre">str
 </span>
-</code>, so it can be written to a file as is. A Jupyter notebook
-shows it as the page when it is the value of a cell.
+</code>, so it can be written to a file as is. A Jupyter notebook shows it
+as the page when it is the value of a cell.
 </p>
 
 </dd>

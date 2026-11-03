@@ -26,8 +26,8 @@ This is a thin wrapper for the ``SomeGraphs.jl`` Julia package, with the followi
   never the results.
 
 * A graph is rendered by naming a format, as in Julia: ``graph.fig`` returns a ``plotly.graph_objects.Figure``,
-  ``graph.html`` a standalone HTML page, ``graph.svg`` and ``graph.png`` static images, and ``graph.json`` the Plotly
-  JSON text. A Jupyter notebook shows the figure, page or image when it is the value of a cell. A bare graph shows only
+  ``graph.html`` an HTML page which loads plotly.js from the internet, ``graph.standalone_html`` an HTML page which
+  includes it, ``graph.svg`` and ``graph.png`` static images, and ``graph.json`` the Plotly JSON text. A Jupyter notebook shows the figure, page or image when it is the value of a cell. A bare graph shows only
   its type. Outside a notebook, call ``graph.show()`` to open the graph in a browser, or ``graph.save(path)`` to write
   it to a file.
 

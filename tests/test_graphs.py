@@ -326,7 +326,36 @@ def test_save_html(tmp_path: object) -> None:
     path = str(tmp_path) + "/graph.html"  # type: ignore
     graph.save(path)
     with open(path, "r", encoding="utf8") as file:
-        assert "plotly" in file.read()
+        assert '<script src="https://cdn.plot.ly/plotly-4.1.1.min.js"></script>' in file.read()
+
+
+def test_save_standalone_html(tmp_path: object) -> None:
+    graph = sg.points_graph(x=sg.VectorValuesData(vector=[1.0, 2.0]), y=sg.VectorValuesData(vector=[1.0, 2.0]))
+    path = str(tmp_path) + "/graph.standalone.html"  # type: ignore
+    graph.save(path, standalone=True)
+    with open(path, "r", encoding="utf8") as file:
+        text = file.read()
+    assert "plotly.js v4.1.1" in text
+    assert '<script src="https://cdn.plot.ly' not in text
+
+
+def test_standalone_html() -> None:
+    graph = sg.points_graph(x=sg.VectorValuesData(vector=[1.0, 2.0]), y=sg.VectorValuesData(vector=[1.0, 2.0]))
+    html = graph.standalone_html
+    assert isinstance(html, sg.HtmlText)
+    assert "plotly.js v4.1.1" in html
+    assert '<script src="https://cdn.plot.ly' not in html
+
+
+def test_old_plotly_js_is_rejected() -> None:
+    sg.common._check_plotly_js_version("4.1.1")  # pylint: disable=protected-access
+    sg.common._check_plotly_js_version("3.1.0")  # pylint: disable=protected-access
+    try:
+        sg.common._check_plotly_js_version("3.0.2")  # pylint: disable=protected-access
+        raise AssertionError("an old plotly.js was accepted")
+    except ImportError as exception:
+        assert "plotly.js 3.0.2" in str(exception)
+        assert "at least 3.1.0" in str(exception)
 
 
 def test_save_png(tmp_path: object) -> None:
