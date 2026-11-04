@@ -251,16 +251,16 @@ def test_visit_graph_parts() -> None:
     assert not any(isinstance(part, sg.ScaleConfiguration) for part in visited)
 
     def show_legend(part: Any) -> None:
-        if hasattr(part, "show_legend"):
-            part.show_legend = True
+        if hasattr(part, "legend"):
+            part.legend.show = True
 
     sg.visit_graph_parts(show_legend, graph)
-    assert graph.configuration.points.colors.show_legend
-    assert graph.configuration.edges.sizes.show_legend
+    assert graph.configuration.points.colors.legend.show
+    assert graph.configuration.edges.sizes.legend.show
 
     lines = sg.lines_graph()
     sg.visit_graph_parts(show_legend, lines)
-    assert lines.configuration.show_legend
+    assert lines.configuration.legend.show
 
 
 def _given_list(values: Any) -> List[Any]:

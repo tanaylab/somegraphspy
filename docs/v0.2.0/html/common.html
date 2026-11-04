@@ -527,9 +527,9 @@
 </li>
 
 <li class="toctree-l4">
-<a class="reference internal" href="#somegraphspy.common.ColorsConfiguration.show_legend">
+<a class="reference internal" href="#somegraphspy.common.ColorsConfiguration.legend">
 <code class="docutils literal notranslate">
-<span class="pre">ColorsConfiguration.show_legend
+<span class="pre">ColorsConfiguration.legend
 </span>
 </code>
 </a>
@@ -612,9 +612,9 @@
 </li>
 
 <li class="toctree-l4">
-<a class="reference internal" href="#somegraphspy.common.FigureConfiguration.colors_scale_offsets">
+<a class="reference internal" href="#somegraphspy.common.FigureConfiguration.legends_gap">
 <code class="docutils literal notranslate">
-<span class="pre">FigureConfiguration.colors_scale_offsets
+<span class="pre">FigureConfiguration.legends_gap
 </span>
 </code>
 </a>
@@ -770,6 +770,64 @@
 </span>
 </code>
 </a>
+</li>
+
+<li class="toctree-l3">
+<a class="reference internal" href="#somegraphspy.common.LegendConfiguration">
+<code class="docutils literal notranslate">
+<span class="pre">LegendConfiguration
+</span>
+</code>
+</a>
+<ul>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LegendConfiguration.show">
+<code class="docutils literal notranslate">
+<span class="pre">LegendConfiguration.show
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LegendConfiguration.width">
+<code class="docutils literal notranslate">
+<span class="pre">LegendConfiguration.width
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LegendConfiguration.height">
+<code class="docutils literal notranslate">
+<span class="pre">LegendConfiguration.height
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LegendConfiguration.column">
+<code class="docutils literal notranslate">
+<span class="pre">LegendConfiguration.column
+</span>
+</code>
+</a>
+</li>
+
+<li class="toctree-l4">
+<a class="reference internal" href="#somegraphspy.common.LegendConfiguration.order">
+<code class="docutils literal notranslate">
+<span class="pre">LegendConfiguration.order
+</span>
+</code>
+</a>
+</li>
+
+</ul>
+
 </li>
 
 <li class="toctree-l3">
@@ -1210,9 +1268,9 @@
 </li>
 
 <li class="toctree-l4">
-<a class="reference internal" href="#somegraphspy.common.SizesConfiguration.show_legend">
+<a class="reference internal" href="#somegraphspy.common.SizesConfiguration.legend">
 <code class="docutils literal notranslate">
-<span class="pre">SizesConfiguration.show_legend
+<span class="pre">SizesConfiguration.legend
 </span>
 </code>
 </a>
@@ -3907,7 +3965,7 @@ for details.
 </em>, 
 <em class="sig-param">
 <span class="n">
-<span class="pre">show_legend
+<span class="pre">legend
 </span>
 </span>
 <span class="o">
@@ -4042,10 +4100,12 @@ for the (many) supported combinations of configuration and data.
 
 <li>
 <p>
-<strong>show_legend
+<strong>legend
 </strong> (
-<em>bool
-</em>)
+<a class="reference internal" href="#somegraphspy.common.LegendConfiguration" title="somegraphspy.common.LegendConfiguration">
+<em>LegendConfiguration
+</em>
+</a>)
 </p>
 </li>
 
@@ -4260,10 +4320,10 @@ for the (many) supported combinations of configuration and data.
 
 <dl class="py attribute">
 
-<dt class="sig sig-object py" id="somegraphspy.common.ColorsConfiguration.show_legend">
+<dt class="sig sig-object py" id="somegraphspy.common.ColorsConfiguration.legend">
 
 <span class="sig-name descname">
-<span class="pre">show_legend
+<span class="pre">legend
 </span>
 </span>
 <span class="property">
@@ -4273,15 +4333,17 @@ for the (many) supported combinations of configuration and data.
 </span>
 <span class="w"> 
 </span>
-<span class="pre">bool
+<a class="reference internal" href="#somegraphspy.common.LegendConfiguration" title="somegraphspy.common.LegendConfiguration">
+<span class="pre">LegendConfiguration
 </span>
+</a>
 </span>
-<a class="headerlink" href="#somegraphspy.common.ColorsConfiguration.show_legend" title="Link to this definition">
+<a class="headerlink" href="#somegraphspy.common.ColorsConfiguration.legend" title="Link to this definition">
 </a>
 </dt>
 
 <dd>
-<p>Show a legend (or a color scale) for the colors.
+<p>The legend (or color scale) of the colors.
 </p>
 
 </dd>
@@ -4481,7 +4543,7 @@ for details.
 </em>, 
 <em class="sig-param">
 <span class="n">
-<span class="pre">colors_scale_offsets
+<span class="pre">legends_gap
 </span>
 </span>
 <span class="o">
@@ -4580,19 +4642,9 @@ for details.
 
 <li>
 <p>
-<strong>colors_scale_offsets
+<strong>legends_gap
 </strong> (
-<em>ndarray
-</em>
-<em> | 
-</em>
-<em>Sequence
-</em>
-<em>[
-</em>
-<em>float
-</em>
-<em>]
+<em>int
 </em>)
 </p>
 </li>
@@ -4777,10 +4829,10 @@ for details.
 
 <dl class="py attribute">
 
-<dt class="sig sig-object py" id="somegraphspy.common.FigureConfiguration.colors_scale_offsets">
+<dt class="sig sig-object py" id="somegraphspy.common.FigureConfiguration.legends_gap">
 
 <span class="sig-name descname">
-<span class="pre">colors_scale_offsets
+<span class="pre">legends_gap
 </span>
 </span>
 <span class="property">
@@ -4790,35 +4842,16 @@ for details.
 </span>
 <span class="w"> 
 </span>
-<span class="pre">ndarray
-</span>
-<span class="w"> 
-</span>
-<span class="p">
-<span class="pre">|
+<span class="pre">int
 </span>
 </span>
-<span class="w"> 
-</span>
-<span class="pre">Sequence
-</span>
-<span class="p">
-<span class="pre">[
-</span>
-</span>
-<span class="pre">float
-</span>
-<span class="p">
-<span class="pre">]
-</span>
-</span>
-</span>
-<a class="headerlink" href="#somegraphspy.common.FigureConfiguration.colors_scale_offsets" title="Link to this definition">
+<a class="headerlink" href="#somegraphspy.common.FigureConfiguration.legends_gap" title="Link to this definition">
 </a>
 </dt>
 
 <dd>
-<p>The horizontal offsets of the legend, the color scales and the legends of sizes, as fractions of the graph width.
+<p>The gap in pixels between the graph and the side panel of legends, between its columns, and between the legends
+of a column.
 </p>
 
 </dd>
@@ -5750,6 +5783,397 @@ as the page when it is the value of a cell.
 </span>
 </code>]
 </p>
+
+</dd>
+</dl>
+
+
+<dl class="py class">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LegendConfiguration">
+
+<span class="property">
+<span class="k">
+<span class="pre">class
+</span>
+</span>
+<span class="w"> 
+</span>
+</span>
+<span class="sig-prename descclassname">
+<span class="pre">somegraphspy.common.
+</span>
+</span>
+<span class="sig-name descname">
+<span class="pre">LegendConfiguration
+</span>
+</span>
+<span class="sig-paren">(
+</span>
+<em class="sig-param">
+<span class="keyword-only-separator o">
+<abbr title="Keyword-only parameters separator (PEP 3102)">
+<span class="pre">*
+</span>
+</abbr>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">show
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">Ellipsis
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">width
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">Ellipsis
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">height
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">Ellipsis
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">column
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">Ellipsis
+</span>
+</span>
+</em>, 
+<em class="sig-param">
+<span class="n">
+<span class="pre">order
+</span>
+</span>
+<span class="o">
+<span class="pre">=
+</span>
+</span>
+<span class="default_value">
+<span class="pre">Ellipsis
+</span>
+</span>
+</em>
+<span class="sig-paren">)
+</span>
+<a class="reference internal" href="_modules/somegraphspy/common.html#LegendConfiguration">
+<span class="viewcode-link">
+<span class="pre">[source]
+</span>
+</span>
+</a>
+<a class="headerlink" href="#somegraphspy.common.LegendConfiguration" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>Configure the legend (or color scale) of something shown in a graph, and its place in the side panel. See the Julia
+
+<a class="reference external" href="https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.LegendConfiguration">documentation
+</a>
+for details.
+</p>
+
+<dl class="field-list simple">
+
+<dt class="field-odd">Parameters
+<span class="colon">:
+</span>
+</dt>
+
+<dd class="field-odd">
+<ul class="simple">
+
+<li>
+<p>
+<strong>show
+</strong> (
+<em>bool
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>width
+</strong> (
+<em>int
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>height
+</strong> (
+<em>float
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>column
+</strong> (
+<em>int
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+<li>
+<p>
+<strong>order
+</strong> (
+<em>float
+</em>
+<em> | 
+</em>
+<em>None
+</em>)
+</p>
+</li>
+
+</ul>
+
+</dd>
+
+</dl>
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LegendConfiguration.show">
+
+<span class="sig-name descname">
+<span class="pre">show
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">bool
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LegendConfiguration.show" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>Show the legend.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LegendConfiguration.width">
+
+<span class="sig-name descname">
+<span class="pre">width
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LegendConfiguration.width" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The width of the legend in pixels (computed from its content by default).
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LegendConfiguration.height">
+
+<span class="sig-name descname">
+<span class="pre">height
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LegendConfiguration.height" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The height of the legend as a fraction of the plot’s height.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LegendConfiguration.column">
+
+<span class="sig-name descname">
+<span class="pre">column
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">int
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LegendConfiguration.column" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The (1-based) column of the side panel the legend is in.
+</p>
+
+</dd>
+</dl>
+
+
+<dl class="py attribute">
+
+<dt class="sig sig-object py" id="somegraphspy.common.LegendConfiguration.order">
+
+<span class="sig-name descname">
+<span class="pre">order
+</span>
+</span>
+<span class="property">
+<span class="p">
+<span class="pre">:
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">float
+</span>
+<span class="w"> 
+</span>
+<span class="p">
+<span class="pre">|
+</span>
+</span>
+<span class="w"> 
+</span>
+<span class="pre">None
+</span>
+</span>
+<a class="headerlink" href="#somegraphspy.common.LegendConfiguration.order" title="Link to this definition">
+</a>
+</dt>
+
+<dd>
+<p>The order of the legend in its column.
+</p>
+
+</dd>
+</dl>
+
 
 </dd>
 </dl>
@@ -8180,7 +8604,7 @@ hidden entries is up to whoever shows the graph.
 </em>, 
 <em class="sig-param">
 <span class="n">
-<span class="pre">show_legend
+<span class="pre">legend
 </span>
 </span>
 <span class="o">
@@ -8280,10 +8704,12 @@ for details.
 
 <li>
 <p>
-<strong>show_legend
+<strong>legend
 </strong> (
-<em>bool
-</em>)
+<a class="reference internal" href="#somegraphspy.common.LegendConfiguration" title="somegraphspy.common.LegendConfiguration">
+<em>LegendConfiguration
+</em>
+</a>)
 </p>
 </li>
 
@@ -8444,10 +8870,10 @@ for details.
 
 <dl class="py attribute">
 
-<dt class="sig sig-object py" id="somegraphspy.common.SizesConfiguration.show_legend">
+<dt class="sig sig-object py" id="somegraphspy.common.SizesConfiguration.legend">
 
 <span class="sig-name descname">
-<span class="pre">show_legend
+<span class="pre">legend
 </span>
 </span>
 <span class="property">
@@ -8457,15 +8883,17 @@ for details.
 </span>
 <span class="w"> 
 </span>
-<span class="pre">bool
+<a class="reference internal" href="#somegraphspy.common.LegendConfiguration" title="somegraphspy.common.LegendConfiguration">
+<span class="pre">LegendConfiguration
 </span>
+</a>
 </span>
-<a class="headerlink" href="#somegraphspy.common.SizesConfiguration.show_legend" title="Link to this definition">
+<a class="headerlink" href="#somegraphspy.common.SizesConfiguration.legend" title="Link to this definition">
 </a>
 </dt>
 
 <dd>
-<p>Show a legend for the sizes.
+<p>The legend of the sizes.
 </p>
 
 </dd>

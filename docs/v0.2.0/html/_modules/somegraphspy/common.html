@@ -123,6 +123,7 @@
     <span class="s2">"Graph"</span><span class="p">,</span>
     <span class="s2">"HtmlText"</span><span class="p">,</span>
     <span class="s2">"IntegersVector"</span><span class="p">,</span>
+    <span class="s2">"LegendConfiguration"</span><span class="p">,</span>
     <span class="s2">"LineConfiguration"</span><span class="p">,</span>
     <span class="s2">"LineStyle"</span><span class="p">,</span>
     <span class="s2">"LinkageMatrix"</span><span class="p">,</span>
@@ -385,8 +386,9 @@
     <span class="n">background_color</span><span class="p">:</span> <span class="nb">str</span>
     <span class="c1">#: The color of the area around the graph.</span>
     <span class="n">paper_color</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="c1">#: The horizontal offsets of the legend, the color scales and the legends of sizes, as fractions of the graph width.</span>
-    <span class="n">colors_scale_offsets</span><span class="p">:</span> <span class="n">NumbersVector</span>
+    <span class="c1">#: The gap in pixels between the graph and the side panel of legends, between its columns, and between the legends</span>
+    <span class="c1">#: of a column.</span>
+    <span class="n">legends_gap</span><span class="p">:</span> <span class="nb">int</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -396,7 +398,7 @@
         <span class="n">height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">background_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">paper_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">colors_scale_offsets</span><span class="p">:</span> <span class="n">NumbersVector</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">legends_gap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">FigureConfiguration</span><span class="p">(</span>
@@ -406,7 +408,7 @@
                     <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
                     <span class="n">background_color</span><span class="o">=</span><span class="n">background_color</span><span class="p">,</span>
                     <span class="n">paper_color</span><span class="o">=</span><span class="n">paper_color</span><span class="p">,</span>
-                    <span class="n">colors_scale_offsets</span><span class="o">=</span><span class="n">colors_scale_offsets</span><span class="p">,</span>
+                    <span class="n">legends_gap</span><span class="o">=</span><span class="n">legends_gap</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
@@ -466,6 +468,46 @@
 <span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"ScaleConfiguration"</span><span class="p">,</span> <span class="n">ScaleConfiguration</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="LegendConfiguration">
+<a class="viewcode-back" href="../../common.html#somegraphspy.common.LegendConfiguration">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LegendConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Configure the legend (or color scale) of something shown in a graph, and its place in the side panel. See the Julia</span>
+<span class="sd">    `documentation &lt;https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.LegendConfiguration&gt;`__</span>
+<span class="sd">    for details.</span>
+<span class="sd">    """</span>
+
+    <span class="c1">#: Show the legend.</span>
+    <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="c1">#: The width of the legend in pixels (computed from its content by default).</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="c1">#: The height of the legend as a fraction of the plot's height.</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="c1">#: The (1-based) column of the side panel the legend is in.</span>
+    <span class="n">column</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="c1">#: The order of the legend in its column.</span>
+    <span class="n">order</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">column</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">order</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">LegendConfiguration</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="n">column</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">register_jl_type</span><span class="p">(</span><span class="s2">"LegendConfiguration"</span><span class="p">,</span> <span class="n">LegendConfiguration</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="SizesConfiguration">
 <a class="viewcode-back" href="../../common.html#somegraphspy.common.SizesConfiguration">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SizesConfiguration</span><span class="p">(</span><span class="n">Validated</span><span class="p">):</span>
@@ -483,8 +525,8 @@
     <span class="n">smallest</span><span class="p">:</span> <span class="nb">float</span>
     <span class="c1">#: Added to the ``smallest`` size for the largest data value.</span>
     <span class="n">span</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="c1">#: Show a legend for the sizes.</span>
-    <span class="n">show_legend</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="c1">#: The legend of the sizes.</span>
+    <span class="n">legend</span><span class="p">:</span> <span class="n">LegendConfiguration</span>
     <span class="c1">#: The title to use when showing the legend.</span>
     <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
 
@@ -495,12 +537,12 @@
         <span class="n">scale</span><span class="p">:</span> <span class="n">ScaleConfiguration</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">smallest</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">span</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">show_legend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">legend</span><span class="p">:</span> <span class="n">LegendConfiguration</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">SizesConfiguration</span><span class="p">(</span>
-                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">fixed</span><span class="o">=</span><span class="n">fixed</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">smallest</span><span class="o">=</span><span class="n">smallest</span><span class="p">,</span> <span class="n">span</span><span class="o">=</span><span class="n">span</span><span class="p">,</span> <span class="n">show_legend</span><span class="o">=</span><span class="n">show_legend</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">fixed</span><span class="o">=</span><span class="n">fixed</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">smallest</span><span class="o">=</span><span class="n">smallest</span><span class="p">,</span> <span class="n">span</span><span class="o">=</span><span class="n">span</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
 
@@ -704,8 +746,8 @@
     <span class="n">fixed</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="c1">#: How to scale the (numeric) colors data.</span>
     <span class="n">scale</span><span class="p">:</span> <span class="n">ScaleConfiguration</span>
-    <span class="c1">#: Show a legend (or a color scale) for the colors.</span>
-    <span class="n">show_legend</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="c1">#: The legend (or color scale) of the colors.</span>
+    <span class="n">legend</span><span class="p">:</span> <span class="n">LegendConfiguration</span>
     <span class="c1">#: The title to use when showing the legend.</span>
     <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
 
@@ -715,12 +757,12 @@
         <span class="n">palette</span><span class="p">:</span> <span class="n">Palette</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">fixed</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">scale</span><span class="p">:</span> <span class="n">ScaleConfiguration</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">show_legend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">legend</span><span class="p">:</span> <span class="n">LegendConfiguration</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">ColorsConfiguration</span><span class="p">(</span>
-                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span> <span class="n">fixed</span><span class="o">=</span><span class="n">fixed</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">show_legend</span><span class="o">=</span><span class="n">show_legend</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+                <span class="o">**</span><span class="n">_given</span><span class="p">(</span><span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span> <span class="n">fixed</span><span class="o">=</span><span class="n">fixed</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
 

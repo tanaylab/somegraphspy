@@ -16,6 +16,7 @@ from .common import ColorsConfiguration
 from .common import FigureConfiguration
 from .common import Graph
 from .common import IntegersVector
+from .common import LegendConfiguration
 from .common import LineConfiguration
 from .common import LineStyle
 from .common import NumbersVector
@@ -683,8 +684,8 @@ class LinesGraphConfiguration(AbstractGraphConfiguration):
     horizontal_bands: BandsConfiguration
     #: Bands partitioning the graph parallel to the X = Y line.
     diagonal_bands: BandsConfiguration
-    #: Show a legend of the lines.
-    show_legend: bool
+    #: The legend of the lines.
+    legend: LegendConfiguration
     #: Stack the lines on top of each other.
     stacking: Stacking | None
 
@@ -701,7 +702,7 @@ class LinesGraphConfiguration(AbstractGraphConfiguration):
         vertical_bands: BandsConfiguration | DefaultValue = DEFAULT,
         horizontal_bands: BandsConfiguration | DefaultValue = DEFAULT,
         diagonal_bands: BandsConfiguration | DefaultValue = DEFAULT,
-        show_legend: bool | DefaultValue = DEFAULT,
+        legend: LegendConfiguration | DefaultValue = DEFAULT,
         stacking: Stacking | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
@@ -717,7 +718,7 @@ class LinesGraphConfiguration(AbstractGraphConfiguration):
                     vertical_bands=vertical_bands,
                     horizontal_bands=horizontal_bands,
                     diagonal_bands=diagonal_bands,
-                    show_legend=show_legend,
+                    legend=legend,
                     stacking=stacking,
                 )
             )

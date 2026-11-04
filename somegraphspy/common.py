@@ -50,6 +50,7 @@ __all__ = [
     "Graph",
     "HtmlText",
     "IntegersVector",
+    "LegendConfiguration",
     "LineConfiguration",
     "LineStyle",
     "LinkageMatrix",
@@ -286,8 +287,9 @@ class FigureConfiguration(Validated):
     background_color: str
     #: The color of the area around the graph.
     paper_color: str
-    #: The horizontal offsets of the legend, the color scales and the legends of sizes, as fractions of the graph width.
-    colors_scale_offsets: NumbersVector
+    #: The gap in pixels between the graph and the side panel of legends, between its columns, and between the legends
+    #: of a column.
+    legends_gap: int
 
     def __init__(
         self,
@@ -297,7 +299,7 @@ class FigureConfiguration(Validated):
         height: int | None | DefaultValue = DEFAULT,
         background_color: str | DefaultValue = DEFAULT,
         paper_color: str | DefaultValue = DEFAULT,
-        colors_scale_offsets: NumbersVector | DefaultValue = DEFAULT,
+        legends_gap: int | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.FigureConfiguration(
@@ -307,7 +309,7 @@ class FigureConfiguration(Validated):
                     height=height,
                     background_color=background_color,
                     paper_color=paper_color,
-                    colors_scale_offsets=colors_scale_offsets,
+                    legends_gap=legends_gap,
                 )
             )
         )
@@ -363,6 +365,43 @@ class ScaleConfiguration(Validated):
 register_jl_type("ScaleConfiguration", ScaleConfiguration)
 
 
+class LegendConfiguration(Validated):
+    """
+    Configure the legend (or color scale) of something shown in a graph, and its place in the side panel. See the Julia
+    `documentation <https://tanaylab.github.io/SomeGraphs.jl/v0.2.0/common.html#SomeGraphs.Common.LegendConfiguration>`__
+    for details.
+    """
+
+    #: Show the legend.
+    show: bool
+    #: The width of the legend in pixels (computed from its content by default).
+    width: int | None
+    #: The height of the legend as a fraction of the plot's height.
+    height: float | None
+    #: The (1-based) column of the side panel the legend is in.
+    column: int | None
+    #: The order of the legend in its column.
+    order: float | None
+
+    def __init__(
+        self,
+        *,
+        show: bool | DefaultValue = DEFAULT,
+        width: int | None | DefaultValue = DEFAULT,
+        height: float | None | DefaultValue = DEFAULT,
+        column: int | None | DefaultValue = DEFAULT,
+        order: float | None | DefaultValue = DEFAULT,
+    ) -> None:
+        super().__init__(
+            jl.SomeGraphs.LegendConfiguration(
+                **_given(show=show, width=width, height=height, column=column, order=order)
+            )
+        )
+
+
+register_jl_type("LegendConfiguration", LegendConfiguration)
+
+
 class SizesConfiguration(Validated):
     """
     Configure how to scale data values into sizes (in pixels). See the Julia
@@ -378,8 +417,8 @@ class SizesConfiguration(Validated):
     smallest: float
     #: Added to the ``smallest`` size for the largest data value.
     span: float
-    #: Show a legend for the sizes.
-    show_legend: bool
+    #: The legend of the sizes.
+    legend: LegendConfiguration
     #: The title to use when showing the legend.
     title: str | None
 
@@ -390,12 +429,12 @@ class SizesConfiguration(Validated):
         scale: ScaleConfiguration | DefaultValue = DEFAULT,
         smallest: float | DefaultValue = DEFAULT,
         span: float | DefaultValue = DEFAULT,
-        show_legend: bool | DefaultValue = DEFAULT,
+        legend: LegendConfiguration | DefaultValue = DEFAULT,
         title: str | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.SizesConfiguration(
-                **_given(fixed=fixed, scale=scale, smallest=smallest, span=span, show_legend=show_legend, title=title)
+                **_given(fixed=fixed, scale=scale, smallest=smallest, span=span, legend=legend, title=title)
             )
         )
 
@@ -581,8 +620,8 @@ class ColorsConfiguration(Validated):
     fixed: str | None
     #: How to scale the (numeric) colors data.
     scale: ScaleConfiguration
-    #: Show a legend (or a color scale) for the colors.
-    show_legend: bool
+    #: The legend (or color scale) of the colors.
+    legend: LegendConfiguration
     #: The title to use when showing the legend.
     title: str | None
 
@@ -592,12 +631,12 @@ class ColorsConfiguration(Validated):
         palette: Palette | None | DefaultValue = DEFAULT,
         fixed: str | None | DefaultValue = DEFAULT,
         scale: ScaleConfiguration | DefaultValue = DEFAULT,
-        show_legend: bool | DefaultValue = DEFAULT,
+        legend: LegendConfiguration | DefaultValue = DEFAULT,
         title: str | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.ColorsConfiguration(
-                **_given(palette=palette, fixed=fixed, scale=scale, show_legend=show_legend, title=title)
+                **_given(palette=palette, fixed=fixed, scale=scale, legend=legend, title=title)
             )
         )
 

@@ -164,6 +164,15 @@ def test_configuration_is_shared_with_the_graph() -> None:
     assert graph.configuration.figure.width == 700
 
 
+def test_legend_configuration() -> None:
+    legend = sg.LegendConfiguration(show=True, width=100, height=0.5, column=2, order=0.5)
+    assert (legend.show, legend.width, legend.height, legend.column, legend.order) == (True, 100, 0.5, 2, 0.5)
+    configuration = sg.PointsGraphConfiguration(figure=sg.FigureConfiguration(legends_gap=20))
+    configuration.points.colors.legend = legend
+    assert configuration.points.colors.legend.column == 2
+    assert configuration.figure.legends_gap == 20
+
+
 def test_flip_axes() -> None:
     graph = sg.points_graph(
         x=sg.VectorValuesData(vector=[1.0, 2.0, 3.0]), y=sg.VectorValuesData(vector=[4.0, 5.0, 6.0])
@@ -412,7 +421,7 @@ def test_figure_is_a_plotly_figure() -> None:
 def test_palette_order_is_legend_order() -> None:
     configuration = sg.PointsGraphConfiguration()
     configuration.points.colors.palette = {"c": "red", "a": "green", "b": "blue"}
-    configuration.points.colors.show_legend = True
+    configuration.points.colors.legend.show = True
     graph = sg.points_graph(
         x=sg.VectorValuesData(vector=[1.0, 2.0, 3.0]),
         y=sg.VectorValuesData(vector=[1.0, 4.0, 9.0]),
