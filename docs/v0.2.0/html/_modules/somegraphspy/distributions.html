@@ -429,8 +429,8 @@
     <span class="n">density_axis</span><span class="p">:</span> <span class="n">AxisConfiguration</span>
     <span class="c1">#: The axis listing the distributions.</span>
     <span class="n">series_axis</span><span class="p">:</span> <span class="n">AxisConfiguration</span>
-    <span class="c1">#: The gap between the distributions, as a fraction of their size.</span>
-    <span class="n">distributions_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="c1">#: The gap between the distributions, in pixels.</span>
+    <span class="n">distributions_gap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -441,7 +441,7 @@
         <span class="n">value_bands</span><span class="p">:</span> <span class="n">BandsConfiguration</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">density_axis</span><span class="p">:</span> <span class="n">AxisConfiguration</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">series_axis</span><span class="p">:</span> <span class="n">AxisConfiguration</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">distributions_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">distributions_gap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">jl</span><span class="o">.</span><span class="n">SomeGraphs</span><span class="o">.</span><span class="n">DistributionsGraphConfiguration</span><span class="p">(</span>

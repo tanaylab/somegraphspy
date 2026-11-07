@@ -381,8 +381,8 @@
     <span class="n">bars</span><span class="p">:</span> <span class="n">BarsConfiguration</span>
     <span class="c1">#: The size of the annotations shown next to the bars.</span>
     <span class="n">annotations</span><span class="p">:</span> <span class="n">AnnotationSize</span>
-    <span class="c1">#: The gap between the series of each bar, as a fraction of the bar size.</span>
-    <span class="n">series_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="c1">#: The gap between the sub-graphs of the series, in pixels (if any, each series has a sub-graph of its own).</span>
+    <span class="n">series_gap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="c1">#: Stack the series on top of each other.</span>
     <span class="n">stacking</span><span class="p">:</span> <span class="n">Stacking</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="c1">#: Show the series in pairs, the 1st of each pair growing away from the bar axis in the opposite direction.</span>
@@ -397,7 +397,7 @@
         <span class="n">values_orientation</span><span class="p">:</span> <span class="n">ValuesOrientation</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">bars</span><span class="p">:</span> <span class="n">BarsConfiguration</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">annotations</span><span class="p">:</span> <span class="n">AnnotationSize</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
-        <span class="n">series_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">series_gap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">stacking</span><span class="p">:</span> <span class="n">Stacking</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
         <span class="n">mirrored</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="n">DefaultValue</span> <span class="o">=</span> <span class="n">DEFAULT</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

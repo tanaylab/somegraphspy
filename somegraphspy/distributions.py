@@ -327,8 +327,8 @@ class DistributionsGraphConfiguration(AbstractGraphConfiguration):
     density_axis: AxisConfiguration
     #: The axis listing the distributions.
     series_axis: AxisConfiguration
-    #: The gap between the distributions, as a fraction of their size.
-    distributions_gap: float | None
+    #: The gap between the distributions, in pixels.
+    distributions_gap: int | None
 
     def __init__(
         self,
@@ -339,7 +339,7 @@ class DistributionsGraphConfiguration(AbstractGraphConfiguration):
         value_bands: BandsConfiguration | DefaultValue = DEFAULT,
         density_axis: AxisConfiguration | DefaultValue = DEFAULT,
         series_axis: AxisConfiguration | DefaultValue = DEFAULT,
-        distributions_gap: float | None | DefaultValue = DEFAULT,
+        distributions_gap: int | None | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(
             jl.SomeGraphs.DistributionsGraphConfiguration(

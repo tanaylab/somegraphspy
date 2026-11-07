@@ -651,16 +651,16 @@ class AnnotationSize(Validated):
     for details.
     """
 
-    #: The size of each annotation, as a fraction of the graph size.
-    size: float
-    #: The gap between annotations, as a fraction of the graph size.
-    gap: float
+    #: The size of each annotation, in pixels.
+    size: int
+    #: The gap between annotations, in pixels.
+    gap: int
 
     def __init__(
         self,
         *,
-        size: float | DefaultValue = DEFAULT,
-        gap: float | DefaultValue = DEFAULT,
+        size: int | DefaultValue = DEFAULT,
+        gap: int | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(jl.SomeGraphs.AnnotationSize(**_given(size=size, gap=gap)))
 

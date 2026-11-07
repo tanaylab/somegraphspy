@@ -215,8 +215,8 @@ class HeatmapSideConfiguration(Validated):
     subgroups_gap: int | None
     #: Cap the total size of all the gaps to this fraction of the axis.
     total_gaps_fraction: float | None
-    #: The size of the dendogram, as a fraction of the graph size.
-    dendogram_size: float | None
+    #: The size of the dendogram, in pixels.
+    dendogram_size: int | None
     #: How to draw the dendogram.
     dendogram_line: LineConfiguration
 
@@ -235,7 +235,7 @@ class HeatmapSideConfiguration(Validated):
         groups_gap: int | None | DefaultValue = DEFAULT,
         subgroups_gap: int | None | DefaultValue = DEFAULT,
         total_gaps_fraction: float | None | DefaultValue = DEFAULT,
-        dendogram_size: float | None | DefaultValue = DEFAULT,
+        dendogram_size: int | None | DefaultValue = DEFAULT,
         dendogram_line: LineConfiguration | DefaultValue = DEFAULT,
     ) -> None:
         super().__init__(

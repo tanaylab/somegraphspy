@@ -276,8 +276,8 @@ class SeriesBarsGraphConfiguration(AbstractGraphConfiguration):
     bars: BarsConfiguration
     #: The size of the annotations shown next to the bars.
     annotations: AnnotationSize
-    #: The gap between the series of each bar, as a fraction of the bar size.
-    series_gap: float | None
+    #: The gap between the sub-graphs of the series, in pixels (if any, each series has a sub-graph of its own).
+    series_gap: int | None
     #: Stack the series on top of each other.
     stacking: Stacking | None
     #: Show the series in pairs, the 1st of each pair growing away from the bar axis in the opposite direction.
@@ -292,7 +292,7 @@ class SeriesBarsGraphConfiguration(AbstractGraphConfiguration):
         values_orientation: ValuesOrientation | DefaultValue = DEFAULT,
         bars: BarsConfiguration | DefaultValue = DEFAULT,
         annotations: AnnotationSize | DefaultValue = DEFAULT,
-        series_gap: float | None | DefaultValue = DEFAULT,
+        series_gap: int | None | DefaultValue = DEFAULT,
         stacking: Stacking | None | DefaultValue = DEFAULT,
         mirrored: bool | DefaultValue = DEFAULT,
     ) -> None:

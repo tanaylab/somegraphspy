@@ -339,7 +339,7 @@ def test_fill_side() -> None:
     base.data.columns.arrangement.subgroups.vector = ["P", "Q", "R", "S"]
     base.data.columns.arrangement.groups.vector = [1, 1, 2, 2]
     base.configuration.columns.order_source = sg.OrderSource.OptimalTreeReorder
-    base.configuration.columns.dendogram_size = 0.1
+    base.configuration.columns.dendogram_size = 40
 
     other = sg.heatmap_graph(entries=sg.MatrixValuesData(matrix=np.array([[9.0, 8.0, 7.0, 6.0], [5.0, 4.0, 3.0, 2.0]])))
     sg.fill_side(other.columns_side(), base.columns_side())
@@ -349,7 +349,7 @@ def test_fill_side() -> None:
     assert _given_list(other.data.columns.arrangement.groups.vector) == [1, 1, 2, 2]
     assert other.data.columns.arrangement.subgroups.vector is None
     assert other.configuration.columns.order_source is None
-    assert other.configuration.columns.dendogram_size == 0.1
+    assert other.configuration.columns.dendogram_size == 40
 
     another = sg.heatmap_graph(entries=sg.MatrixValuesData(matrix=values))
     sg.fill_placement(another.columns_side(), base.placement.columns)
